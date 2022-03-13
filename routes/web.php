@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Usuarios\Inicio; //controlador al cual se apunta "administracion"
+use App\Http\Controllers\Usuarios\Perfil; //controlador al cual se apunta "administracion"
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,5 +29,8 @@ Route::get('/dashboard', function () {
     return view('usuario.principa_usul');
 })->middleware(['auth'])->name('dashboard');
 
+Route::get('/inicio', [Inicio::class, 'index'])->name('inicio');
+
+Route::get('/perfil', [Perfil::class, 'index'])->name('perfil');
 
 require __DIR__.'/auth.php';

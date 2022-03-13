@@ -207,7 +207,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="{{url('/dashboard')}}" class="nav-link active">
+            <a href="{{route('inicio')}}" class="nav-link active">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Inicio
@@ -224,7 +224,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="{{route('perfil')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ver Perfil</p>
                 </a>
@@ -381,17 +381,7 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
+        @yield('content')
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->

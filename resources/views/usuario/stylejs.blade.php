@@ -26,6 +26,11 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset('dist/js/demo.js')}}"></script>
+<!--<script src="{{ asset('dist/js/demo.js')}}"></script>-->
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('dist/js/pages/dashboard.js')}}"></script>
+
+<!--mensajes infor-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!--Instanciar jquery ajax-->
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>

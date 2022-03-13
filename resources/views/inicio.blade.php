@@ -26,9 +26,9 @@
         <li class="one_third first">
           <figure><a class="imgover" href="#"><img src="images/demo/348x400.png" alt=""></a>
             <figcaption>
-              <h6 class="heading">Mollis suscipit</h6>
+              <h6 class="heading">Puntos</h6>
               <div>
-                <p>Eu adipiscing sit amet ante donec vulputate magna duis posuere tellus vel fringilla auctor nisi arcu.</p>
+                <p>Descripción sobre ¿como ganar puntos?</p>
               </div>
             </figcaption>
           </figure>
@@ -36,9 +36,9 @@
         <li class="one_third">
           <figure><a class="imgover" href="#"><img src="images/demo/348x400.png" alt=""></a>
             <figcaption>
-              <h6 class="heading">Vestibulum maecenas</h6>
+              <h6 class="heading">Insignias</h6>
               <div>
-                <p>Urna at congue lectus nisi ac neque suspendisse vitae sapien eu mi placerat tincidunt sed eget elit in.</p>
+                <p>Descripción sobre ¿como ganar insignias?</p>
               </div>
             </figcaption>
           </figure>
@@ -46,9 +46,9 @@
         <li class="one_third">
           <figure><a class="imgover" href="#"><img src="images/demo/348x400.png" alt=""></a>
             <figcaption>
-              <h6 class="heading">Pellentesque enim</h6>
+              <h6 class="heading">Recompensas</h6>
               <div>
-                <p>Imperdiet pede sit amet elit aenean sollicitudin eros quis cursus feugiat lacus diam tempor tortor vel.</p>
+                <p>Descripción sobre ¿Como obtener recompensas?</p>
               </div>
             </figcaption>
           </figure>
@@ -64,7 +64,7 @@
         <ul class="nospace group inspace-15">
           <li class="one_half first btmspace-50">
             <article>
-              <h6 class="heading"><a href="#">Posuere ultricies</a></h6>
+              <h6 class="heading"><a href="#">hola</a></h6>
               <p class="nospace">Sed tellus fusce velit orci aliquet et condimentum sit amet dapibus eget odio vivamus urna pellentesque felis&hellip;</p>
             </article>
           </li>
@@ -97,10 +97,10 @@
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<div class="bgded overlay" style="background-image:url('images/demo/backgrounds/01.png');">
-  <figure class="hoc container clear imgroup"> 
+<!--<div class="bgded overlay" style="background-image:url('images/demo/backgrounds/01.png');">
+  <figure class="hoc container clear imgroup"> -->
     <!-- ################################################################################################ -->
-    <figcaption class="sectiontitle">
+  <!--  <figcaption class="sectiontitle">
       <p class="nospace font-xs">Pulvinar sem eu tincidunt magna</p>
       <p class="heading underline font-x2">Nulla eu turpis curabitur</p>
     </figcaption>
@@ -111,9 +111,9 @@
       <li class="one_third"><a class="imgover" href="#"><img src="images/demo/348x261.png" alt=""></a></li>
       <li class="one_third"><a class="imgover" href="#"><img src="images/demo/348x261.png" alt=""></a></li>
       <li class="one_third"><a class="imgover" href="#"><img src="images/demo/348x261.png" alt=""></a></li>
-    </ul>
+    </ul>-->
     <!-- ################################################################################################ -->
-  </figure>
+ <!-- </figure>-->
   <!-- ################################################################################################ -->
   </section>
 </div>
@@ -124,8 +124,7 @@
   <div class="hoc container clear"> 
     <!-- ################################################################################################ -->
     <div class="sectiontitle">
-      <p class="nospace font-xs">Vel lorem quis arcu euismod faucibus</p>
-      <p class="heading underline font-x2">Quisque luctus nullam eget</p>
+      <p class="heading underline font-x2">¡Dentro de nuestra plataforma podras encontrar!</p>
     </div>
     <ul class="nospace group team">
       <li class="one_quarter first">
@@ -155,24 +154,5 @@
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<div class="wrapper row3">
-  <figure class="hoc container clear clients"> 
-    <!-- ################################################################################################ -->
-    <figcaption class="sectiontitle">
-      <p class="nospace font-xs">Nisl donec eu neque nisi molestie</p>
-      <p class="heading underline font-x2">Pellentesque donec ut dolor</p>
-    </figcaption>
-    <ul class="nospace group">
-      <li class="one_quarter first"><a class="imgover" href="#"><img src="images/demo/249x100.png" alt=""></a></li>
-      <li class="one_quarter"><a class="imgover" href="#"><img src="images/demo/249x100.png" alt=""></a></li>
-      <li class="one_quarter"><a class="imgover" href="#"><img src="images/demo/249x100.png" alt=""></a></li>
-      <li class="one_quarter"><a class="imgover" href="#"><img src="images/demo/249x100.png" alt=""></a></li>
-      <li class="one_quarter first"><a class="imgover" href="#"><img src="images/demo/249x100.png" alt=""></a></li>
-      <li class="one_quarter"><a class="imgover" href="#"><img src="images/demo/249x100.png" alt=""></a></li>
-      <li class="one_quarter"><a class="imgover" href="#"><img src="images/demo/249x100.png" alt=""></a></li>
-      <li class="one_quarter"><a class="imgover" href="#"><img src="images/demo/249x100.png" alt=""></a></li>
-    </ul>
-    <!-- ################################################################################################ -->
-  </figure>
-</div>
+
 @endsection
