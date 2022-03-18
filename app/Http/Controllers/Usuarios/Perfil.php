@@ -16,6 +16,7 @@ class Perfil extends Controller
         $users = DB::table('users')
             ->join('roles', 'users.id_rol', '=', 'roles.id')
             ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
+            ->join('estado', 'users.id_estado', '=', 'estado.id')
             ->where('users.id', '=', $usu)
             ->get();
 
@@ -31,8 +32,6 @@ class Perfil extends Controller
        //$q= $array->toArray();
        $d=$users->filter()->all();
        
-      
-
         return view('usuario.perfil')->with('dat', $users);
     }
    

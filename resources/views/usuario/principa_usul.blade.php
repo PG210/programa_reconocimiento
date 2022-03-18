@@ -247,15 +247,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
+                <a href="{{route('enviar')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>ChartJS</p>
+                  <p>Enviar</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="pages/charts/flot.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
+                  <p>Reconocimientos</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -281,22 +281,28 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/UI/general.html" class="nav-link">
+            <li class="nav-item">
+                <a href="{{route('insignia')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>General</p>
+                  <p>Registrar Insignia</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/UI/timeline.html" class="nav-link">
+                <a href="{{route('reg_insignia')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Timeline</p>
+                  <p>Categoria</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/UI/ribbons.html" class="nav-link">
+                <a href="{{route('reg_categ')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Ribbons</p>
+                  <p>Comportamiento</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('premios_vis')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Premios</p>
                 </a>
               </li>
             </ul>

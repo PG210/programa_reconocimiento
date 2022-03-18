@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('descripcion');
             $table->unsignedBigInteger('id_comportamiento');//atributo para referenciar a tabla comportamiento_categ
             $table->foreign('id_comportamiento')->references('id')->on('comportamiento_categ');//llave foranea para referenciar a la tabla comportamiento_categ
-            $table->unsignedBigInteger('id_imagen');//atributo para referenciar a tabla imagen
-            $table->foreign('id_imagen')->references('id')->on('imagen');//llave foranea para referenciar a la tabla imagen
+            //$table->unsignedBigInteger('id_imagen');//atributo para referenciar a tabla imagen
+            //$table->foreign('id_imagen')->references('id')->on('imagen');//llave foranea para referenciar a la tabla imagen
+            $table->string('rutaimagen');
             $table->timestamps();
         });
     }

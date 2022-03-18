@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('imagen', function (Blueprint $table) {
+        Schema::create('tipo_imagen', function (Blueprint $table) {
             $table->id();
-            $table->string('ruta');
-            $table->unsignedBigInteger('id_tipoimagen');//atributo para referenciar a area
-            $table->foreign('id_tipoimagen')->references('id')->on('tipo_imagen');//llave foranea para referenciar a la tabla area
+            $table->string('tipodes');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('imagen');
+        Schema::dropIfExists('tipo_imagen');
     }
 };

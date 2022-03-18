@@ -6,8 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;//interacciones con las consultas
 
-
-class estadoSeeder extends Seeder
+class ComportamientoCateg extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,14 +16,11 @@ class estadoSeeder extends Seeder
     public function run()
     {
         $datos = [//array de datos 
-            [
-            'descrip' => 'habilitado'
-            ],
-            [
-            'descrip' => 'deshabilitado'
+          
+            ['descripcion' => 'Default',
+            'puntos' => 0
             ]
-
         ];
-        DB::table('estado')->insert($datos);//inserta los datos a la tabla roles
+        DB::table('comportamiento_categ')->insert($datos);//inserta los datos a la tabla cargo
     }
 }
