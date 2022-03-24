@@ -18,8 +18,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('descripcion');
             $table->integer('puntos');
-            $table->unsignedBigInteger('id_imagen');//atributo para referenciar a tabla imagen
-            $table->foreign('id_imagen')->references('id')->on('imagen');//llave foranea para referenciar a la tabla imagen
+            $table->string('rutaimagen');
+            //$table->unsignedBigInteger('id_imagen');//atributo para referenciar a tabla imagen
+            //$table->foreign('id_imagen')->references('id')->on('imagen');//llave foranea para referenciar a la tabla imagen
+            
             $table->timestamps();
         });
     }

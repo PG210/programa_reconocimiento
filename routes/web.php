@@ -6,7 +6,7 @@ use App\Http\Controllers\Usuarios\Perfil; //controlador al cual se apunta "admin
 use App\Http\Controllers\Inisignias\InsigniasController;
 use App\Http\Controllers\Inisignias\CategoriasController;
 use App\Http\Controllers\Reconocimientos\ReconocimientosController;
-
+use App\Http\Controllers\ImagenesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,7 +28,7 @@ Route::get('/for', function () {
     return view('formulario');
 });
 Route::get('/dashboard', function () {
-    return view('usuario.principa_usul');
+    return view('usuario.inicio');
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/inicio', [Inicio::class, 'index'])->name('inicio');
@@ -47,8 +47,15 @@ Route::get('/premios/reg', [InsigniasController::class, 'premios'])->name('premi
 
 Route::get('/registro/insignias', [InsigniasController::class, 'insignia'])->name('insignia');
 
-
 Route::post('/insignia/registro', [InsigniasController::class, 'reginsig'])->name('reginsignias');
+
+Route::get('/registro/imagenes', [ImagenesController::class, 'registro'])->name('imagenes');
+
+Route::post('/registro/imagenes', [ImagenesController::class, 'regimagen'])->name('ingresardat');
+
+Route::post('/registro/premio', [ImagenesController::class, 'regpre'])->name('regpremio');
+
+Route::post('/insignia/registro/admin', [InsigniasController::class, 'registroinsignia'])->name('registroinsignias');
 
 
 

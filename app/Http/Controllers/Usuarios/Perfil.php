@@ -20,19 +20,9 @@ class Perfil extends Controller
             ->where('users.id', '=', $usu)
             ->get();
 
-       // return var_dump($users);
-
-        //$lines=file($users);
-       // $results = $users->pluck('name');
-        //$results = $users->pluck('descripcion');
-        //$array=array_map('str_getcsv', $users);
-       // return $results;
+           $d=$users->filter()->all();
        
-       //$array= $users->all();
-       //$q= $array->toArray();
-       $d=$users->filter()->all();
-       
-        return view('usuario.perfil')->with('dat', $users);
+           return view('usuario.perfil')->with('dat', $users);
     }
    
     public function datos(){

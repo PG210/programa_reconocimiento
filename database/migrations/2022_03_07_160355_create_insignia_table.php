@@ -20,8 +20,9 @@ return new class extends Migration
             $table->integer('puntos');
             $table->unsignedBigInteger('id_premio');//atributo para referenciar a premios
             $table->foreign('id_premio')->references('id')->on('premios');//llave foranea para referenciar a la tabla categorias
-            $table->unsignedBigInteger('id_imagen');//atributo para referenciar a premios
-            $table->foreign('id_imagen')->references('id')->on('imagen');//llave foranea para referenciar a la tabla categorias
+            $table->string('rutaimagen');
+            // $table->unsignedBigInteger('id_imagen');//atributo para referenciar a premios
+           // $table->foreign('id_imagen')->references('id')->on('imagen');//llave foranea para referenciar a la tabla categorias
             $table->timestamps();
         });
     }

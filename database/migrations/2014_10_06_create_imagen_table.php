@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('imagen', function (Blueprint $table) {
             $table->id();
             $table->string('ruta');
+            $table->string('nombre');
             $table->unsignedBigInteger('id_tipoimagen');//atributo para referenciar a area
             $table->foreign('id_tipoimagen')->references('id')->on('tipo_imagen');//llave foranea para referenciar a la tabla area
             $table->timestamps();

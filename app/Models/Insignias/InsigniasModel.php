@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class InsigniasModel extends Model
 {
-    protected $table = 'insignias';
+    protected $table = 'insignia';
     protected $primaryKey = 'id';//tiene que hacer referencia a la llave primaria  
 }

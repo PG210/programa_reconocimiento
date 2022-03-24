@@ -13,28 +13,57 @@ class InsigniasController extends Controller
 {
     public function registrar(){
         $comportamiento = Comportamiento::all();//debe haber una categoria por defecto 
-        return view('insignias.insignias')->with('dat', $comportamiento);
+        $categ = DB::table('Categoria_reconoc')->get();
+        return view('insignias.insignias')->with('dat', $comportamiento)->with('categ', $categ);
     }
 
     public function premios(){
-        //$comportamiento = Comportamiento::all();//debe haber una categoria por defecto 
-        return view('insignias.premios');
+        $img=DB::table('premios')
+        ->get();
+        return view('insignias.premios')->with('dat', $img);
     }
 
     public function insignia(){ 
-        return view('insignias.reginsignia');
+        $pre=DB::table('premios')
+        ->get();
+        return view('insignias.reginsignia')->with('pre', $pre);
     }
 
     public function reginsig(Request $request){
-
         $category = new Categoria_reco();
-        $category->nombre = $request->input('nombre');
-        $category->descripcion = $request->input('descripcion');
-        $category->id_comportamiento = $request->input('id');
-        $category->rutaimagen = $request->input('imagen');
-       
-        $category->save();
-        return back();
+        if($request->hasFile('imagen')){                 
+            $file = $request->file('imagen');
+            $val = "caterec".time().".".$file->guessExtension();
+            $ruta = public_path("imgpremios/".$val);
+           // if($file->guessExtension()=="pdf"){
+            copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
+            $category->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
+            $category->nombre = $request->input('nombre');
+            $category->descripcion = $request->input('des');
+            $category->id_comportamiento = $request->input('scompor');     
+            $category->save();
+            return back();
+           }
+    }
+
+    public function registroinsignia(Request $request){
+        //return $request;
+        $category = new InsigniasModel();
+        if($request->hasFile('img')){                 
+            $file = $request->file('img');
+            $val = "insignia".time().".".$file->guessExtension();
+            $ruta = public_path("imgpremios/".$val);
+           // if($file->guessExtension()=="pdf"){
+            copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
+            $category->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
+            $category->name = $request->input('nombre');
+            $category->descripcion = $request->input('descripcion');
+            $category->id_premio = $request->input('premio');     
+            $category->puntos = $request->input('puntos'); 
+            $category->save();
+            return back();
+           }
+
     }
 
 
