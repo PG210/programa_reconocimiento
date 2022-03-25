@@ -7,6 +7,7 @@ use App\Http\Controllers\Inisignias\InsigniasController;
 use App\Http\Controllers\Inisignias\CategoriasController;
 use App\Http\Controllers\Reconocimientos\ReconocimientosController;
 use App\Http\Controllers\ImagenesController;
+use App\Http\Controllers\PostController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,28 +36,31 @@ Route::get('/inicio', [Inicio::class, 'index'])->name('inicio');
 
 Route::get('/perfil', [Perfil::class, 'index'])->name('perfil');
 
-Route::get('/insignia/registro', [InsigniasController::class, 'registrar'])->name('reg_insignia');
-
-Route::get('/Categorias/registro', [CategoriasController::class, 'registrar'])->name('reg_categ');
-
-Route::post('/Categorias/registro', [CategoriasController::class, 'regis_cat'])->name('regcategorias');
-
 Route::get('/reconocimientos/enviar', [ReconocimientosController::class, 'enviar'])->name('enviar');
 
-Route::get('/premios/reg', [InsigniasController::class, 'premios'])->name('premios_vis');
+Route::get('/insignia/registro', [InsigniasController::class, 'registrar'])->middleware(['auth', 'admin'])->name('reg_insignia');
 
-Route::get('/registro/insignias', [InsigniasController::class, 'insignia'])->name('insignia');
+Route::get('/Categorias/registro', [CategoriasController::class, 'registrar'])->middleware(['auth', 'admin'])->name('reg_categ');
 
-Route::post('/insignia/registro', [InsigniasController::class, 'reginsig'])->name('reginsignias');
+Route::post('/Categorias/registro', [CategoriasController::class, 'regis_cat'])->middleware(['auth', 'admin'])->name('regcategorias');
 
-Route::get('/registro/imagenes', [ImagenesController::class, 'registro'])->name('imagenes');
+Route::get('/premios/reg', [InsigniasController::class, 'premios'])->middleware(['auth', 'admin'])->name('premios_vis');
 
-Route::post('/registro/imagenes', [ImagenesController::class, 'regimagen'])->name('ingresardat');
+Route::get('/registro/insignias', [InsigniasController::class, 'insignia'])->middleware(['auth', 'admin'])->name('insignia');
 
-Route::post('/registro/premio', [ImagenesController::class, 'regpre'])->name('regpremio');
+Route::post('/insignia/registro', [InsigniasController::class, 'reginsig'])->middleware(['auth', 'admin'])->name('reginsignias');
 
-Route::post('/insignia/registro/admin', [InsigniasController::class, 'registroinsignia'])->name('registroinsignias');
+Route::get('/registro/imagenes', [ImagenesController::class, 'registro'])->middleware(['auth', 'admin'])->name('imagenes');
 
+Route::post('/registro/imagenes', [ImagenesController::class, 'regimagen'])->middleware(['auth', 'admin'])->name('ingresardat');
 
+Route::post('/registro/premio', [ImagenesController::class, 'regpre'])->middleware(['auth', 'admin'])->name('regpremio');
+
+Route::post('/insignia/registro/admin', [InsigniasController::class, 'registroinsignia'])->middleware(['auth', 'admin'])->name('registroinsignias');
+
+//buscar
+//Route::get('posts',[PostController::class, 'index'])->name('posts.index');
+Route::get('posts/search',[PostController::class, 'search'])->name('posts.search');
+Route::get('posts/show',[PostController::class, 'show'])->name('posts.show');
 
 require __DIR__.'/auth.php';

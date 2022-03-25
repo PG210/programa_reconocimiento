@@ -26,7 +26,20 @@ class InsigniasController extends Controller
     public function insignia(){ 
         $pre=DB::table('premios')
         ->get();
-        return view('insignias.reginsignia')->with('pre', $pre);
+        $res=DB::table('insignia')->count();
+        if($res!=0){
+            $b=1;
+            $insignia=DB::table('insignia')
+            ->join('premios', 'id_premio', '=', 'premios.id')
+            ->select('insignia.name', 'insignia.descripcion', 'insignia.puntos', 'insignia.rutaimagen', 'premios.name as prenom')
+            ->get();
+        }
+        else{
+            $b=0;
+            $r=array('name' => 'Sin datos', 'descripcion' => 'Sin datos', 'puntos' => '0', 'id_premio' => '0', 'rutaimagen' => 'sin datos');
+            $insignia=$r;
+        }
+        return view('insignias.reginsignia')->with('pre', $pre)->with('insignia', $insignia)->with('b', $b);
     }
 
     public function reginsig(Request $request){
