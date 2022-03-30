@@ -13,8 +13,19 @@ class InsigniasController extends Controller
 {
     public function registrar(){
         $comportamiento = Comportamiento::all();//debe haber una categoria por defecto 
-        $categ = DB::table('Categoria_reconoc')->get();
-        return view('insignias.insignias')->with('dat', $comportamiento)->with('categ', $categ);
+        $con = DB::table('categoria_reconoc')->count();
+        if($con!=0){
+            $b=1;
+            $categ = DB::table('categoria_reconoc')
+            ->join('comportamiento_categ', 'id_comportamiento', 'comportamiento_categ.id')
+            ->select('categoria_reconoc.id', 'categoria_reconoc.nombre', 'categoria_reconoc.descripcion', 'categoria_reconoc.rutaimagen', 'comportamiento_categ.descripcion as compor')
+            ->get();
+        }
+        else{
+            $b=0;
+            $categ = 'sin datos';
+        }
+        return view('insignias.insignias')->with('dat', $comportamiento)->with('categ', $categ)->with('b', $b);
     }
 
     public function premios(){

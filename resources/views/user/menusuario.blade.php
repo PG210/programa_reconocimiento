@@ -79,7 +79,7 @@
             <ul class="nav nav-treeview">
            
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('reporteinsignias')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Insignias</p>
                 </a>

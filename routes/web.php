@@ -58,9 +58,18 @@ Route::post('/registro/premio', [ImagenesController::class, 'regpre'])->middlewa
 
 Route::post('/insignia/registro/admin', [InsigniasController::class, 'registroinsignia'])->middleware(['auth', 'admin'])->name('registroinsignias');
 
+//actualizar categoria insignias
+Route::get('/actualizar/categorias/{id}', [CategoriasController::class, 'buscaractu'])->middleware(['auth', 'admin'])->name('formactucat');
+Route::post('/actualizar/cambios/{id}', [CategoriasController::class, 'actucat'])->middleware(['auth', 'admin'])->name('actualizarcat');
+
+
 //buscar
 //Route::get('posts',[PostController::class, 'index'])->name('posts.index');
 Route::get('posts/search',[PostController::class, 'search'])->name('posts.search');
 Route::get('posts/show',[PostController::class, 'show'])->name('posts.show');
+
+//reporte insignias enviadas usuario 
+Route::get('/reporte/insignias',[ReconocimientosController::class, 'reporteinsig'])->name('reporteinsignias');
+
 
 require __DIR__.'/auth.php';

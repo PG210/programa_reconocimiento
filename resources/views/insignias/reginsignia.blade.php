@@ -9,16 +9,16 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="nombre">Nombre</label>
-      <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
+      <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
     </div>
     <div class="form-group col-md-6">
       <label for="descripcion">Descripción</label>
-      <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripción">
+      <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripción" required>
     </div>
   </div>
   <div class="form-group">
     <label for="puntos">Puntos</label>
-    <input type="text" class="form-control" id="puntos" name="puntos" placeholder="Ejm: 100">
+    <input type="text" class="form-control" id="puntos" name="puntos" placeholder="Ejm: 100" required>
   </div>
 
   <div class="form-group">
@@ -66,7 +66,7 @@
                 <td>
                 <div>
                   <input type="radio" id="contactChoice1"
-                  name="premio" value="{{$c->id}}">
+                  name="premio" value="{{$c->id}}" required>
                   <label for="contactChoice1"> </label>
                 </div>
                 </td>
@@ -91,7 +91,7 @@
   
   <div class="form-group">
     <label for="img">Seleccionar Imagen</label>
-    <input type="file" class="form-control form-control-file" name="img" id="img">
+    <input type="file" class="form-control form-control-file" name="img" id="img" required>
   </div>
 
   <br>
@@ -101,10 +101,10 @@
 </button>
 </form>
 <div class="modal fade" id="visualizar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Premios Registrados</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Insignias Registradas</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

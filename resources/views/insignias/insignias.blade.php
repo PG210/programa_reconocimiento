@@ -9,18 +9,18 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="nombre">Nombre</label>
-      <input type="text" class="form-control" id="nombre" name="nombre">
+      <input type="text" class="form-control" id="nombre" name="nombre" required>
     </div>
     <div class="form-group col-md-6">
       <label for="des">Descripción</label>
-      <input type="text" class="form-control" id="des" name="des"> 
+      <input type="text" class="form-control" id="des" name="des" required> 
     </div>
   </div>
   
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="scompor">Comportamiento</label>
-      <select id="scompor" name="scompor" class="form-control">
+      <select id="scompor" name="scompor" class="form-control" required>
         <!--<option selected>Elegir opción</option>-->
         @foreach($dat as $c)
         <option value="{{$c->id}}">{{$c->descripcion}}</option>
@@ -29,12 +29,12 @@
     </div>
     <div class="form-group col-md-6">
       <label for="imagen">Imagen</label>
-      <input type="file" class="form-control" id="imagen" name="imagen">
+      <input type="file" class="form-control" id="imagen" name="imagen" required>
     </div>
   </div>
  <button type="submit" class="btn btn-primary">Guardar</button>
  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#visualizarmodal">
-  Ver insignias
+  Ver Categorias
 </button>
 </form>
 <!--instanciar el ajax para quitar el error no definido-->
@@ -42,7 +42,7 @@
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Premios Registrados</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Categorias Registradas</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -57,9 +57,11 @@
                 <th scope="col">Descripción</th>
                 <th scope="col">Comportamiento</th>
                 <th scope="col">Imagen</th>
+                <th scope="col">Acciones</th>
               </tr>
             </thead>
             <tbody>
+          @if($b == 1)
             @php
               $con = 1;
             @endphp
@@ -68,17 +70,23 @@
                   <th scope="row">{{$con++}}</th>
                   <td>{{$c->nombre}}</td>
                   <td>{{$c->descripcion}}</td>
-                  <td>{{$c->id_comportamiento}}</td>
+                  <td>{{$c->compor}}</td>
                   <td>
                     <div class="text-center">
                     <img src="{{asset('imgpremios/'.$c->rutaimagen)}}" class="rounded" alt="..."  width= "50px" height="50px" >
                   </div>
                 </td>
-                <!--  <td><button type="button" class="btn btn-success">Actualizar</button></td>
-                  <td><button type="button" class="btn btn-danger">Eliminar</button></td>
-                 -->
+                <td><a href="{{route('formactucat', $c->id)}}" type="button" class="btn btn-success">Actualizar</a>
+                    <a href="#" type="button" class="btn btn-danger">Eliminar</a>
+                </td>
                 </tr>
+
              @endforeach
+              @else
+                  <div class="alert alert-warning text-center" role="alert">
+                    No Hay Registros
+                  </div>
+              @endif
            
             </tbody>
           </table>
