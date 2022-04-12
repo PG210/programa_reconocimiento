@@ -28,6 +28,19 @@ Route::get('/reg', function () {
 Route::get('/for', function () {
     return view('formulario');
 });
+
+//rutas de pagina princpal inicio
+Route::get('/pro', function () {
+    return view('qep');
+});
+Route::get('/reconocimientos', function () {
+    return view('reconocimientos');
+});
+Route::get('/contacto', function () {
+    return view('contacto');
+});
+//end rutas principal
+
 Route::get('/dashboard', function () {
     return view('usuario.inicio');
 })->middleware(['auth'])->name('dashboard');
@@ -70,6 +83,9 @@ Route::get('posts/show',[PostController::class, 'show'])->name('posts.show');
 
 //reporte insignias enviadas usuario 
 Route::get('/reporte/insignias',[ReconocimientosController::class, 'reporteinsig'])->name('reporteinsignias');
+
+//ruta reconocimiento
+Route::get('/reconocimientos/listar', [ReconocimientosController::class, 'reporte_reconocimiento'])->name('reporte_re');
 
 
 require __DIR__.'/auth.php';

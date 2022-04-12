@@ -1,59 +1,69 @@
+<!--que es un programa de reconocimiento-->
 @extends('principal')
 @section('content')
-<div class="overlay">
-    <div id="pageintro" class="hoc clear"> 
-      <!-- ################################################################################################ -->
+<!--PRIMERA SECCION -->
+<div class="wrapper row2">
+  <div class="hoc container clear"> 
+    <!-- ################################################################################################ -->
+    <div class="sectiontitle">
+      <p class="heading underline font-x2">¿Que es un programa de reconocimiento?</p>
+      <p>Un programa de reconocimiento es una aplicacion?</p>
+    </div>
+    <div class="one_half first">
+      <p>Un programa de reconocimiento es una aplicacion?</p>
+    </div>
+    <div class="one_half "><img class="inspace-15 borderedbox" src="images/demo/474x356.png" alt=""></div>
+  </div>
+</div>
+<!--FIN DE LA PRIMERA SECCION-->
+<!--<div class="overlay">
+    <div id="pageintro" class="sectiontitle"> 
       <article>
-        <h3 class="heading">Programa Reconocimiento</h3>
-        <p>Lema</p>
-        <footer><a class="btn" href="#">Iniciar</a></footer>
+      <div class="one_half first">
+      <p>Un programa de reconocimiento es una aplicacion?</p>
+    </div>
+    <div class="one_half "><img class="inspace-15 borderedbox" src="images/demo/474x356.png" alt=""></div>
+  </div>
       </article>
-      <!-- ################################################################################################ -->
     </div>
   </div>
-  <!-- ################################################################################################ -->
-</div>
-<!-- End Top Background Image Wrapper -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
+</div>-->
 <div class="wrapper row3">
   <main class="hoc container clear"> 
-    <!-- main body -->
-    <!-- ################################################################################################ -->
-    <section id="introblocks">
-      <ul class="nospace group btmspace-80">
-        <li class="one_third first">
-          <figure><a class="imgover" href="#"><img src="images/demo/348x400.png" alt=""></a>
-            <figcaption>
-              <h6 class="heading">Puntos</h6>
-              <div>
-                <p>Descripción sobre ¿como ganar puntos?</p>
-              </div>
-            </figcaption>
-          </figure>
-        </li>
-        <li class="one_third">
-          <figure><a class="imgover" href="#"><img src="images/demo/348x400.png" alt=""></a>
-            <figcaption>
-              <h6 class="heading">Insignias</h6>
-              <div>
-                <p>Descripción sobre ¿como ganar insignias?</p>
-              </div>
-            </figcaption>
-          </figure>
-        </li>
-        <li class="one_third">
-          <figure><a class="imgover" href="#"><img src="images/demo/348x400.png" alt=""></a>
-            <figcaption>
-              <h6 class="heading">Recompensas</h6>
-              <div>
-                <p>Descripción sobre ¿Como obtener recompensas?</p>
-              </div>
-            </figcaption>
-          </figure>
-        </li>
-      </ul>
+   <!--<section>
+      <section class="group">
+      <div class="one_half first">
+        <ul class="nospace group inspace-15">
+          <li class="one_half first btmspace-50">
+            <article>
+              <h6 class="heading"><a href="#">hola</a></h6>
+              <p class="nospace">HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&hellip;</p>
+            </article>
+          </li>
+          <li class="one_half btmspace-50">
+            <article>
+              <h6 class="heading"><a href="#">HOLA X2</a></h6>
+              <p class="nospace">HOLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAX2222222&hellip;</p>
+            </article>
+          </li>
+          <li class="one_half first">
+            <article>
+              <h6 class="heading"><a href="#">Risus auctor vel</a></h6>
+              <p class="nospace">Accumsan curabitur cursus porta lectus nam posuere orci in elementum molestie purus erat volutpat ullamcorper&hellip;</p>
+            </article>
+          </li>
+          <li class="one_half">
+            <article>
+              <h6 class="heading"><a href="#">Volutpat vitae</a></h6>
+              <p class="nospace">Elit purus non odio etiam dictum euismod lectus vestibulum tincidunt erat vel molestie gravida ligula lacus&hellip;</p>
+            </article>
+          </li>
+        </ul>
+        
+      </div>
+      <div class="one_half "><img class="inspace-15 borderedbox" src="images/demo/474x356.png" alt=""></div>
+
+    </section>-->
     </section>
     <!-- ################################################################################################ -->
     <hr class="btmspace-80">
