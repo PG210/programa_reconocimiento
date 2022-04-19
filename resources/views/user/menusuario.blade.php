@@ -81,7 +81,7 @@
             <li class="nav-item">
                 <a href="{{route('reporteinsignias')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Insignias</p>
+                  <p>Reconocimientos</p>
                 </a>
               </li>           
             </ul>

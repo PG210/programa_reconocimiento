@@ -7,7 +7,7 @@
                 <th scope="col">Apellido</th>
                 <th scope="col">Dirección</th>
                 <th scope="col">Imagen</th>
-                <th scope="col">Reconocer</th>
+                <th scope="col">Acción</th>
               </tr>
             </thead>
             <tbody>
@@ -17,12 +17,18 @@
                   <td>{{ $post->apellido }}</td>
                   <td>{{ $post->direccion }}</td>
                   <td>
-                    <div class="text-center">
+                    
                    <!--imagen-->
+                   <div class="user-panel mt-0 pb-0 mb-0 d-flex">
+                    <div class="image">
+                      <img src="{{ asset('dist/img/avatar.png')}}" class="img-circle elevation-2" alt="User Image">
+                    </div>
                   </div>
+                    <!---end imagen-->
+                  
                 </td>
                 <td>
-                <a style="text-decoration:none" type="button" class="btn btn-warning">Reconocer</a>
+                <a href="{{route('listareconocer',$post->id)}}" style="text-decoration:none; background-color:#e6a809; color:white;" type="button" class="btn">Reconocer</a>
                 </td>
                 <!--  <td><button type="button" class="btn btn-success">Actualizar</button></td>
                   <td><button type="button" class="btn btn-danger">Eliminar</button></td>

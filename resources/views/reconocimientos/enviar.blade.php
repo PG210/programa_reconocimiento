@@ -1,7 +1,7 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert alert-success text-center" role="alert">
- Enviar Reconocimientos
+<div class="alert text-center" role="alert" style="background-color:#1bf9cd;">
+  <h3>Enviar Reconocimientos</h3>
 </div>
 <br>
 

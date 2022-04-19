@@ -86,6 +86,11 @@ Route::get('/reporte/insignias',[ReconocimientosController::class, 'reporteinsig
 
 //ruta reconocimiento
 Route::get('/reconocimientos/listar', [ReconocimientosController::class, 'reporte_reconocimiento'])->name('reporte_re');
+Route::get('/reconocimientos/usuario/{id}', [ReconocimientosController::class, 'listarrec'])->name('listareconocer');
+
+
+//envia reconocimiento de categoria
+Route::post('/enviar/recono/categoria', [ReconocimientosController::class, 'recocatguardar'])->middleware(['auth'])->name('envrecat');
 
 
 require __DIR__.'/auth.php';

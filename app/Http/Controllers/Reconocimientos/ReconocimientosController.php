@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Reconocimientos\ReconocimientosModal;
+use App\Models\RecibeCatMoldel\RecibirCat;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ReconocimientosController extends Controller
 {
@@ -15,7 +17,15 @@ class ReconocimientosController extends Controller
     }
 
    public function reporteinsig(){
-        return view('user.reporteinsignias');
+        //consultar reconocimientos recibidos
+        $idlog=auth()->id();
+        $recibidos = DB::table('catrecibida')->where('catrecibida.id_user_recibe', '=', $idlog)
+                    ->join('users', 'catrecibida.id_user_envia', '=', 'users.id')
+                    ->join('categoria_reconoc', 'catrecibida.id_categoria_rec', '=', 'categoria_reconoc.id')
+                    ->select('users.name as nombre', 'users.apellido', 'users.imagen', 'categoria_reconoc.nombre as nomcat',
+                     'categoria_reconoc.descripcion as descat', 'catrecibida.puntos', 'catrecibida.fecha', 'categoria_reconoc.rutaimagen as img')
+                    ->get();
+        return view('user.reporteinsignias')->with('recibido', $recibidos);
    }
 
    public function reporte_reconocimiento(){
@@ -55,5 +65,30 @@ class ReconocimientosController extends Controller
     ->get();
     return view('reconocimientos.listar')->with('rec',$rec);
 }
-   
+  public function listarrec($id){
+      $usu =DB::table('users')->where('users.id', '=', $id)->get();
+      $cat =DB::table('categoria_reconoc')->get();
+      return view('reconocimientos.listrec')->with('cat', $cat)->with('usu', $usu);
+  }   
+
+    public function recocatguardar(Request $request){
+    $idc=$request->idcat;
+    $date = Carbon::now();
+    //consultar id en la base de datos
+     $cat=DB::table('categoria_reconoc')->where('categoria_reconoc.id', '=', $idc)
+          ->join('comportamiento_categ', 'id_comportamiento', '=', 'comportamiento_categ.id')
+          ->select('comportamiento_categ.puntos')
+          ->first();
+    //####################
+    $idlogeado=auth()->id();
+    $category = new RecibirCat();
+    $category->id_user_recibe = $request->input('idusu');
+    $category->id_user_envia = $idlogeado;
+    $category->id_categoria_rec = $idc;
+    $category->puntos = $cat->puntos;
+    $category->fecha = $date;
+    $category->save();
+    return back();
+    }
+
 }
