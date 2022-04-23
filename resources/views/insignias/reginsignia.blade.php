@@ -23,7 +23,7 @@
 
   <div class="form-group">
   <!---Colapso-->
-  <label for="inputState">Elegir premio</label>
+  <label for="inputState">Elegir Recompensa</label>
   <div class="accordion" id="accordionExample">
   <div class="card">
     <div class="card-header" id="headingTwo">
@@ -43,7 +43,6 @@
                 <th scope="col">No</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Descripción</th>
-                <th scope="col">Puntos</th>
                 <th scope="col">Imagen</th>
                 <th scope="col">Seleccionar</th>
               </tr>
@@ -57,7 +56,6 @@
                   <th scope="row">{{$con++}}</th>
                   <td>{{$c->name}}</td>
                   <td>{{$c->descripcion}}</td>
-                  <td>{{$c->puntos}}</td>
                   <td>
                     <div class="text-center">
                     <img src="{{asset('imgpremios/'.$c->rutaimagen)}}" class="rounded" alt="..."  width= "50px" height="50px" >
@@ -119,7 +117,7 @@
                 <th scope="col">Descripción</th>
                 <th scope="col">Puntos</th>
                 <th scope="col">Imagen</th>
-                <th scope="col">Premio</th>
+                <th scope="col">Recompensa</th>
               </tr>
             </thead>
             <tbody>

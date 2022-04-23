@@ -1,7 +1,7 @@
 @extends('usuario.principa_usul')
 @section('content')
 <div class="alert alert-primary text-center" role="alert">
- Registro De Premios
+ Registro De Recompensas
 </div>
 <br>
 <form action="{{route('regpremio')}}" method="POST"  enctype="multipart/form-data">
@@ -15,10 +15,6 @@
       <label for="des">Descripción</label>
       <input type="text" class="form-control" id="des" name="des" placeholder="Detalle" required>
     </div>
-  </div>
-  <div class="form-group">
-    <label for="punto">Puntos</label>
-    <input type="text" class="form-control" id="punto" name="punto" placeholder="Ingrese puntos" required>
   </div>
   <div class="form-group">
      <label for="exampleFormControlFile1">Seleccionar Imagen</label>
@@ -37,7 +33,7 @@
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Premios Registrados</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Listado De Recompensas</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -50,7 +46,6 @@
                 <th scope="col">No</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Descripción</th>
-                <th scope="col">Puntos</th>
                 <th scope="col">Imagen</th>
               </tr>
             </thead>
@@ -60,7 +55,6 @@
                   <th scope="row">{{$c->id}}</th>
                   <td>{{$c->name}}</td>
                   <td>{{$c->descripcion}}</td>
-                  <td>{{$c->puntos}}</td>
                   <td>
                     <div class="text-center">
                     <img src="{{asset('imgpremios/'.$c->rutaimagen)}}" class="rounded" alt="..."  width= "50px" height="50px" >

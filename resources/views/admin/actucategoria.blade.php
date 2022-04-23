@@ -2,7 +2,7 @@
 @section('content')
 <!--formulario de actualizacion-->
 <div class="alert alert-success text-center" role="alert">
-Actualizar Categorias
+Actualizar Comportamiento
 </div>
 <form  method="POST" action ="{{route('actualizarcat', $cat[0]->idcat)}}" enctype="multipart/form-data">
     @csrf

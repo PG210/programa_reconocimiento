@@ -1,7 +1,7 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert alert-success text-center" role="alert">
- Registro De Categorias
+<div class="alert text-center" role="alert" style="background-color:#1ED5F4;">
+ <h3>Registro De Comportamiento</h3>
 </div>
 <br>
 <form action="{{route('reginsignias')}}" method="POST"  enctype="multipart/form-data">
@@ -19,7 +19,7 @@
   
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label for="scompor">Comportamiento</label>
+      <label for="scompor">Categoria</label>
       <select id="scompor" name="scompor" class="form-control" required>
         <!--<option selected>Elegir opción</option>-->
         @foreach($dat as $c)
@@ -33,9 +33,9 @@
     </div>
   </div>
  <button type="submit" class="btn btn-primary">Guardar</button>
- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#visualizarmodal">
-  Ver Categorias
-</button>
+ <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#visualizarmodal">
+  Ver Registros
+</button> 
 </form>
 <!--instanciar el ajax para quitar el error no definido-->
 <div class="modal fade" id="visualizarmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -76,8 +76,8 @@
                     <img src="{{asset('imgpremios/'.$c->rutaimagen)}}" class="rounded" alt="..."  width= "50px" height="50px" >
                   </div>
                 </td>
-                <td><a href="{{route('formactucat', $c->id)}}" type="button" class="btn btn-success">Actualizar</a>
-                    <a href="#" type="button" class="btn btn-danger">Eliminar</a>
+                <td><a href="{{route('formactucat', $c->id)}}" type="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                    <a href="#" type="button" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                 </td>
                 </tr>
 

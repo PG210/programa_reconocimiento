@@ -28,8 +28,8 @@
                   
                 </td>
                 <td>
-                <a href="{{route('listareconocer',$post->id)}}" style="text-decoration:none; background-color:#e6a809; color:white;" type="button" class="btn">Reconocer</a>
-                </td>
+                <a href="{{route('listareconocer',$post->id)}}" type="button" class="btn" style="color:#ffbd03;" data-toggle="tooltip" title="Enviar Reconocimiento"><i class="fas fa-award  fa-2x"></i></a>
+              </td>
                 <!--  <td><button type="button" class="btn btn-success">Actualizar</button></td>
                   <td><button type="button" class="btn btn-danger">Eliminar</button></td>
                  -->

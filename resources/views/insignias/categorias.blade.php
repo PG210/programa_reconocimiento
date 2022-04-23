@@ -1,9 +1,25 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert alert-success text-center" role="alert">
- Registro De Categorias De Comportamiento
+<div class="alert text-center" role="alert" style="background-color:#1ED5F4;">
+ <h3>Registro De Categorias</h3>
 </div>
 <br>
+
+@if(Session::has('mensaje'))
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>{{Session::get('mensaje')}}</strong> 
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+@endif
+<div class="row">
+    <div class="col-md-10">
+    </div>
+    <div class="col-md-2">
+    <a href="{{route('reg_insignia')}}" type="button" class="btn" style="background-color:#5959D1; color:white;"><i class="fas fa-edit"></i>&nbsp;Comportamiento</a>
+    </div>
+</div>
 <form id="formulario_categorias" name="formulario_categorias">
   @csrf
   <div class="form-row">
@@ -18,7 +34,7 @@
   </div>
   
  <button type="submit" class="btn btn-primary">Guardar</button>
- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+ <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#staticBackdrop">
   Ver Categorias
 </button>
 </form>
@@ -54,8 +70,8 @@
       <th scope="row">{{$c->id}}</th>
       <td>{{$c->descripcion}}</td>
       <td>{{$c->puntos}}</td>
-      <td><button type="button" class="btn btn-success">Actualizar</button></td>
-      <td><button type="button" class="btn btn-danger">Eliminar</button></td>
+      <td><a href="{{route('actualizarcate',$c->id)}}" type="button" class="btn btn-success">Actualizar</a></td>
+      <td><a href="{{route('eliminarcat',$c->id)}}" type="button" class="btn btn-danger">Eliminar</button></td>
     </tr>
     @endforeach
   </tbody>
@@ -92,9 +108,17 @@
         if(response){
           $('#formulario_categorias')[0].reset();
           toastr.success('El registro se ingreso correctamente.', 'Nuevo Registro', {timeOut:3000});
+          setTimeout(refrescar, 1000);
         }
       }
     });
   });
  </script> 
+ <script>
+ function refrescar(){
+    //Actualiza la el div con los datos de imagenes.php
+    //$("#dat").load("/Categorias/registro");
+    window.location.reload(1);
+  }
+  </script>
 @endsection

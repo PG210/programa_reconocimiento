@@ -49,8 +49,7 @@ class ImagenesController extends Controller
             copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
             $category->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
             $category->name = $request->input('nombre');
-            $category->descripcion = $request->input('des');
-            $category->puntos = $request->input('punto');  
+            $category->descripcion = $request->input('des'); 
             $category->save();
             return back();
            }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Categorias\Comportamiento;
 use App\Models\Categorias\Categoria_reco;
+use Session;
 
 class CategoriasController extends Controller
 {
@@ -60,6 +61,34 @@ class CategoriasController extends Controller
         }
          //redirect()->route('lista_productos');
         
- }
-    
+        }
+
+        public function eliminar($id){
+         $val=DB::table('categoria_reconoc')->where('categoria_reconoc.id_comportamiento','=',$id)->count();
+            if($val!=0){
+                Session::flash('mensaje', 'No se puede eliminar! Categoria se encuentra vinculada');
+                return back();
+            }else{
+                Session::flash('mensaje', 'Eliminado con éxito!');
+                DB::table('comportamiento_categ')->where('comportamiento_categ.id','=',$id)->delete();
+                return back();
+            }
+         
+        }
+        
+        public function busactualizar($id){
+            $cat=DB::table('comportamiento_categ')->where('comportamiento_categ.id', '=', $id)
+                 ->get();
+            return view('admin.actualizacategor')->with('cat', $cat);
+        }
+        
+        public function actualizar(Request $request, $id){
+
+            $categoria = Comportamiento::findOrfail($id);//buscar el id del producto para actualizar                 
+            $categoria->descripcion = $request->input('des');
+            $categoria->puntos = $request->input('puntos');
+            $categoria->save();
+            Session::flash('actualizado', 'Categoria Actualizada Correctamente!');
+            return back();
+        }
 }

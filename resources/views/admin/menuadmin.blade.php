@@ -80,32 +80,20 @@
            
             <li class="nav-item">
                 <a href="{{route('insignia')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Registrar Insignia</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('reg_insignia')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Categoria</p>
+                 &nbsp; <i class="far fa-circle nav-icon"></i>
+                 &nbsp;<p>Registrar Insignia</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{route('reg_categ')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Comportamiento</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('premios_vis')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Premios</p>
+                &nbsp;  <i class="far fa-circle nav-icon"></i>
+                &nbsp;  <p>Categoria</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Listado</p>
+                &nbsp;  <i class="far fa-circle nav-icon"></i>
+                &nbsp;  <p>Listado</p>
                 </a>
               </li>
            
@@ -120,28 +108,16 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/forms/general.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>General Elements</p>
+            <li class="nav-item">
+                <a href="{{route('premios_vis')}}" class="nav-link">
+                &nbsp;  <i class="far fa-circle nav-icon"></i>
+                &nbsp;  <p>Registrar</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="pages/forms/advanced.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Advanced Elements</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/forms/editors.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Editors</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/forms/validation.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Validation</p>
+                &nbsp; <i class="far fa-circle nav-icon"></i>
+                &nbsp; <p>Advanced Elements</p>
                 </a>
               </li>
             </ul>
@@ -193,6 +169,16 @@
               </li>           
             </ul>
           </li>
+          <li class="nav-item">
+            <a href="{{route('areas')}}" class="nav-link">
+            &nbsp;<i class="fas fa-store"></i>
+              <p>
+                &nbsp;&nbsp;Empresa
+              </p>
+            </a>
+          </li>
+
+
         <!-- <li class="nav-header">EXAMPLES</li>
     
           <li class="nav-header">MISCELLANEOUS</li>-->

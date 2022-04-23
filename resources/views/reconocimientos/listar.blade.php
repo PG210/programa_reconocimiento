@@ -1,7 +1,7 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert alert-success text-center" role="alert">
- Lista Reconocimientos
+<div class="alert text-center" role="alert" style="background-color:#1bf9cd;">
+  <h3>Insignias Obtenidas</h3>
 </div>
 <br>
 
@@ -13,7 +13,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">Premio</th>
+            <th scope="col">Recompensa</th>
             <th scope="col">Insignia</th>
             <th scope="col">Puntos Acu.</th>
             <th scope="col">Fecha</th>
@@ -26,7 +26,7 @@
             <th scope="row">{{$r->idre}}</th>
             <td>{{$r->nompre}}</td>
             <td>{{$r->insignia}}</td>
-            <td> {{$r->pun_insig + $r->punpre + $r->puncom }}</td>
+            <td> {{$r->pun_insig + $r->puncom }}</td>
             <td>{{$r->fecha}}</td>
             <td>
               <!-- Button trigger modal -->
@@ -72,7 +72,7 @@
                               <div class="card-body">
                                 <h4>Reconocimiento</h4>
                                 <p class="card-text">Comportamiento: {{$r->descom}} </p>
-                                <p class="card-text">Puntos acumulados: {{$r->pun_insig + $r->punpre + $r->puncom }}</p>
+                                <p class="card-text">Puntos acumulados: {{$r->pun_insig + $r->puncom }}</p>
                                 <p class="card-text">Fecha: {{$r->fecha}} </p>
                               </div>
                             </div>

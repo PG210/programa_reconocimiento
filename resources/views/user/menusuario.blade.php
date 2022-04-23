@@ -49,12 +49,6 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('reporte_re')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Reconocimientos</p>
-                </a>
-              </li>
-              <li class="nav-item">
                 <a href="pages/charts/inline.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Inline</p>
@@ -70,24 +64,6 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-medal"></i>
-              <p>
-                Reportes
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-           
-            <li class="nav-item">
-                <a href="{{route('reporteinsignias')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Reconocimientos</p>
-                </a>
-              </li>           
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-trophy"></i>
               <p>
                 Recompensas
@@ -95,28 +71,16 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/forms/general.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>General Elements</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Advanced Elements</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/forms/editors.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Editors</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/forms/validation.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Validation</p>
+           <li class="nav-item">
+               <a href="{{route('reporteinsignias')}}" class="nav-link">
+                 &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                 &nbsp;<p>Reconocimiento</p>
+               </a>
+             </li>           
+             <li class="nav-item">
+                <a href="{{route('reporte_re')}}" class="nav-link">
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                &nbsp;<p>Insignias</p>
                 </a>
               </li>
             </ul>

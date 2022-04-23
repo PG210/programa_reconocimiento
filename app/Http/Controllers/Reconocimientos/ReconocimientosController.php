@@ -13,7 +13,8 @@ use Carbon\Carbon;
 class ReconocimientosController extends Controller
 {
     public function enviar(){
-        return view('reconocimientos.enviar');
+        $usu=DB::table('users')->get();
+        return view('reconocimientos.enviar')->with('usu', $usu);
     }
 
    public function reporteinsig(){
@@ -42,7 +43,6 @@ class ReconocimientosController extends Controller
      'premios.id as idpre',
      'premios.name as nompre',
      'premios.descripcion as despre',
-     'premios.puntos as punpre',
      'premios.rutaimagen as rutapre',
      'categoria_reconoc.id as idcat',
      'categoria_reconoc.nombre as nomcat',
@@ -66,29 +66,61 @@ class ReconocimientosController extends Controller
     return view('reconocimientos.listar')->with('rec',$rec);
 }
   public function listarrec($id){
+      $v=DB::table('comportamiento_categ')->count();
+      if($v>1){
+        $b=1;
+        $categoria=DB::table('comportamiento_categ')->where('comportamiento_categ.descripcion', '!=', 'Default')->get();
+      }else{
+        $b=0;
+        $categoria=DB::table('comportamiento_categ')->get();
+      }
       $usu =DB::table('users')->where('users.id', '=', $id)->get();
       $cat =DB::table('categoria_reconoc')->get();
-      return view('reconocimientos.listrec')->with('cat', $cat)->with('usu', $usu);
+      /////################################################
+      $contarusu=DB::table('users')->MAX('users.id');
+      $numberid = mt_Rand(1, $contarusu);
+      $val=DB::table('users')->where('users.id', '=', $numberid)->count();
+      if($val!=0){
+        $c=1;
+        $usuazar=DB::table('users')->where('users.id', '=', $numberid)->get();
+      }else{
+        $c=0;
+        $usuazar="sin datos";
+      }
+      /////##############################################
+      return view('reconocimientos.listrec')->with('cat', $cat)->with('usu', $usu)->with('categoria', $categoria)->with('b', $b)->with('usuazar',$usuazar)->with('c',$c);
   }   
 
     public function recocatguardar(Request $request){
-    $idc=$request->idcat;
-    $date = Carbon::now();
-    //consultar id en la base de datos
-     $cat=DB::table('categoria_reconoc')->where('categoria_reconoc.id', '=', $idc)
-          ->join('comportamiento_categ', 'id_comportamiento', '=', 'comportamiento_categ.id')
-          ->select('comportamiento_categ.puntos')
-          ->first();
-    //####################
-    $idlogeado=auth()->id();
-    $category = new RecibirCat();
-    $category->id_user_recibe = $request->input('idusu');
-    $category->id_user_envia = $idlogeado;
-    $category->id_categoria_rec = $idc;
-    $category->puntos = $cat->puntos;
-    $category->fecha = $date;
-    $category->save();
-    return back();
+          $idc=$request->idcat;
+          $date = Carbon::now();
+          //consultar id en la base de datos
+          $cat=DB::table('categoria_reconoc')->where('categoria_reconoc.id', '=', $idc)
+                ->join('comportamiento_categ', 'id_comportamiento', '=', 'comportamiento_categ.id')
+                ->select('comportamiento_categ.puntos')
+                ->first();
+          //####################
+          $idlogeado=auth()->id();
+          $category = new RecibirCat();
+          $category->id_user_recibe = $request->input('idusu');
+          $category->id_user_envia = $idlogeado;
+          $category->id_categoria_rec = $idc;
+          $category->puntos = $cat->puntos;
+          $category->fecha = $date;
+          $category->save();
+          ///###################################################
+          $contarusu=DB::table('users')->MAX('users.id');
+          $numberid = mt_Rand(1, $contarusu);
+          $val=DB::table('users')->where('users.id', '=', $numberid)->count();
+          if($val!=0){
+            $c=1;
+            $usuazar=DB::table('users')->where('users.id', '=', $numberid)->get();
+          }else{
+            $c=0;
+            $usuazar="sin datos";
+          }
+          /////////#################################################
+         return back()->with('usuazar',$usuazar)->with('c',$c);
     }
 
 }

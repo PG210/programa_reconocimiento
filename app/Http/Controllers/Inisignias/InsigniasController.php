@@ -12,7 +12,7 @@ use App\Models\Categorias\Categoria_reco;
 class InsigniasController extends Controller
 {
     public function registrar(){
-        $comportamiento = Comportamiento::all();//debe haber una categoria por defecto 
+        $comportamiento = Comportamiento::where('descripcion', '!=', 'Default')->get();//debe haber una categoria por defecto 
         $con = DB::table('categoria_reconoc')->count();
         if($con!=0){
             $b=1;

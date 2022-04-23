@@ -8,6 +8,8 @@ use App\Http\Controllers\Inisignias\CategoriasController;
 use App\Http\Controllers\Reconocimientos\ReconocimientosController;
 use App\Http\Controllers\ImagenesController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\EmpresaController\AreasController;
+use App\Http\Controllers\FiltrarCatController\FiltrarCat;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -92,5 +94,26 @@ Route::get('/reconocimientos/usuario/{id}', [ReconocimientosController::class, '
 //envia reconocimiento de categoria
 Route::post('/enviar/recono/categoria', [ReconocimientosController::class, 'recocatguardar'])->middleware(['auth'])->name('envrecat');
 
+//filtrar categoria
+Route::post('/filtrar/categoria/comportamiento', [FiltrarCat::class, 'filtrar'])->middleware(['auth'])->name('filtrarcat');
+//filtrar comportamiento
+Route::post('/filtrar/comportamiento', [FiltrarCat::class, 'comportamiento'])->middleware(['auth'])->name('filtrarcomport');
+
+//eliminar categoria
+Route::get('/eliminar/categoria/{id}', [CategoriasController::class, 'eliminar'])->middleware(['auth', 'admin'])->name('eliminarcat');
+
+
+//actualizar categoria
+Route::get('/actualizar/categoria/{id}', [CategoriasController::class, 'busactualizar'])->middleware(['auth', 'admin'])->name('actualizarcate');
+Route::post('/actualizar/categoria/{id}', [CategoriasController::class, 'actualizar'])->middleware(['auth', 'admin'])->name('guarcategoria');
+//areas de la empresa
+Route::get('/areas/empresa', [AreasController::class, 'index'])->middleware(['auth', 'admin'])->name('areas');
+Route::post('/areas/empresa', [AreasController::class, 'registrar'])->middleware(['auth', 'admin'])->name('guardararea');
+Route::get('/eliminar/area/{id}', [AreasController::class, 'eliminar'])->middleware(['auth', 'admin']);
+Route::post('/consultar/area', [AreasController::class, 'consultar'])->middleware(['auth', 'admin'])->name('consultararea');
+//cargos
+Route::get('/cargo/view', [AreasController::class, 'vistacar'])->middleware(['auth', 'admin'])->name('vistacargo');
+Route::post('/registrar/cargo', [AreasController::class, 'regcargo'])->middleware(['auth', 'admin'])->name('guardarcargo');
+Route::get('/cargo/eliminar/{id}', [AreasController::class, 'elimcargo'])->middleware(['auth', 'admin'])->name('eliminarcargo');
 
 require __DIR__.'/auth.php';
