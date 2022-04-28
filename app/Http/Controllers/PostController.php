@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Usuarios\Usuarios;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
     public function search(Request $request){
-        $results = Usuarios::where('name', 'LIKE', "%{$request->search}%")->get();
+        $uselogeado=auth()->id();
+        $results = Usuarios::where('name', 'LIKE', "%{$request->search}%")->where('id', '!=', $uselogeado)->get();
         return view('reconocimientos.results', compact('results'))->with(['search' => $request->search])->render();
     }
         

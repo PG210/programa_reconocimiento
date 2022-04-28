@@ -21,7 +21,7 @@
                    <!--imagen-->
                    <div class="user-panel mt-0 pb-0 mb-0 d-flex">
                     <div class="image">
-                      <img src="{{ asset('dist/img/avatar.png')}}" class="img-circle elevation-2" alt="User Image">
+                      <img src="{{asset('dist/imgperfil/'.$post->imagen)}}" class="img-circle elevation-2" alt="User Image">
                     </div>
                   </div>
                     <!---end imagen-->

@@ -33,26 +33,6 @@
 
                 <x-input id="telf" class="block mt-1 w-full" type="text" name="telf" :value="old('telf')" required autofocus />
             </div>
-            <div>
-                <x-label for="rol" :value="__('roles')" />
-
-                <x-input id="rol" class="block mt-1 w-full" type="text" name="rol" :value="old('rol')" required autofocus />
-            </div>
-            <div>
-                <x-label for="cargo" :value="__('cargo')" />
-
-                <x-input id="cargo" class="block mt-1 w-full" type="text" name="cargo" :value="old('cargo')" required autofocus />
-            </div>
-            <div>
-                <x-label for="estado" :value="__('estado')" />
-
-                <x-input id="estado" class="block mt-1 w-full" type="text" name="estado" :value="old('estado')" required autofocus />
-            </div>
-            <div>
-                <x-label for="imagen" :value="__('imagen')" />
-
-                <x-input id="imagen" class="block mt-1 w-full" type="text" name="imagen" :value="old('imagen')" required autofocus />
-            </div>
             <!-- Email Address -->
             <div class="mt-4">
                 <x-label for="email" :value="__('Email')" />

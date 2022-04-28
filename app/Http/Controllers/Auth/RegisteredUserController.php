@@ -48,10 +48,10 @@ class RegisteredUserController extends Controller
             'apellido' => $request->apellido,
             'direccion' => $request->dir,
             'telefono' => $request->telf,
-            'id_rol' => $request->rol,
-            'id_cargo' =>$request->cargo,
-            'id_estado'=>$request->estado,
-            'imagen' =>$request->imagen,
+            'id_rol' => 2,
+            'id_cargo' => 1,
+            'id_estado'=> 1,
+            //'imagen' =>$request->imagen,
         ]);
 
         event(new Registered($user));

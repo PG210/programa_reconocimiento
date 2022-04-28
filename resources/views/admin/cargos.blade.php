@@ -74,8 +74,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
-        @endif
-        
+        @endif 
     <div class="row">
     <div class="col-md-12"> 
         <br>
@@ -98,8 +97,57 @@
                        <td>{{$conta++}}</td>
                        <td>{{$f->cargonom}}</td>
                        <td>{{$f->areanom}}</td>
-                       <td><a href="{{route('eliminarcargo',$f->idcar)}}" type="submit" class="btn btn-danger"> <i class="fas fa-trash-alt"></i></a></td>
-                       </tr>
+                       <td>
+                           <a href="{{route('eliminarcargo',$f->idcar)}}" type="submit" class="btn btn-danger"> <i class="fas fa-trash-alt"></i></a>
+                           <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{$f->idcar}}">
+                           <i class="nav-icon fas fa-edit" style="color:white;" ></i>
+                          </a>
+                          <!-- Modal -->
+                          <form id="for" action="{{route('actualizarcargo')}}" method="POST">
+                            @csrf
+                                <div class="modal fade" id="exampleModal{{$f->idcar}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Actualizar Cargo</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                         <!--##############-->
+                                            <!---##########-->
+                                        
+                                            <div class="form-group">
+                                                <label for="exampleFormControlInput1">Nombre Cargo</label>
+                                                <input type="text" class="form-control" id="car" name="car" value="{{$f->cargonom}}">
+                                                <input type="text" class="form-control" id="idcargo" name="idcargo" value="{{$f->idcar}}" hidden>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">Seleccionar Area</label>
+                                                <select class="form-control" id="idar" name="idar">
+                                                <option value="{{$f->idarea}}s">{{$f->areanom}}</option>
+                                                @foreach($area as $a)
+                                                <option value="{{$a->id}}">{{$a->nombre}}</option>
+                                                @endforeach
+                                                </select>
+                                            </div>
+                                        
+                                        <!--###########-->
+                                        <!----############--->
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                                <!--modal editar-->
+                            </form>
+                        </td>
+                       
+                    </tr>
                     @endforeach
                     @endif
                     @if($b==0)
@@ -115,6 +163,9 @@
     </div>
 </div>
 <!--###########################--->
+<!---Modal editar-->
+<!-- Button trigger modal -->
+
 <!--instanciar el ajax para quitar el error no definido-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 

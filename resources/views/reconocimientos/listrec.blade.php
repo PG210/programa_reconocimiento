@@ -123,6 +123,7 @@
                 </div>
                 <div class="col-4">
                   <input type="text" class="form-control" id="idusu" name="idusu" value="{{$usu[0]->id}}" hidden>
+                  <a href="/reconocimientos/enviar" type="button" class="btn" style="background-color:blue; color:white;">Volver</a>
                  <!-- <input type="text" class="form-control idcompor" id="idcompor" name="idcompor" value>-->
                  <select id="stl-compor" class="form-control" hidden></select>
                  <button type="submit" class="btn" style="background-color:#08FFD5; float:right;">Enviar</button>
@@ -175,10 +176,15 @@
         if(response){
           $('#formudatos')[0].reset();
           toastr.success('El envió de reconocimiento fue exitosó', 'Nuevo Reconocimiento', {timeOut:3000});
+          setTimeout(refrescar, 2000);
         }
       }
     });
   });
+  function refrescar(){
+    //Actualiza la página
+    location.reload();
+  }
  </script> 
  <script>
    function resetform() {

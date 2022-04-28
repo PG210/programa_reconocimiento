@@ -21,14 +21,8 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{route('perfil')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ver Perfil</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Actualizar</p>
+                &nbsp; &nbsp;<i class="far fa-circle nav-icon"></i>
+                &nbsp;<p>Ver Perfil</p>
                 </a>
               </li>
             </ul>
@@ -44,28 +38,16 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{route('enviar')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Enviar</p>
+                &nbsp; &nbsp;<i class="far fa-circle nav-icon"></i>
+                &nbsp;<p>Enviar</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Reconocimientos</p>
+                <a href="{{route('reporteinsignias')}}" class="nav-link">
+                &nbsp; &nbsp;<i class="far fa-circle nav-icon"></i>
+                &nbsp;<p>Reconocimientos</p>
                 </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/charts/inline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inline</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/charts/uplot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>uPlot</p>
-                </a>
-              </li>
+              </li> 
             </ul>
           </li>
           <li class="nav-item">
@@ -80,23 +62,16 @@
            
             <li class="nav-item">
                 <a href="{{route('insignia')}}" class="nav-link">
-                 &nbsp; <i class="far fa-circle nav-icon"></i>
+                 &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
                  &nbsp;<p>Registrar Insignia</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{route('reg_categ')}}" class="nav-link">
-                &nbsp;  <i class="far fa-circle nav-icon"></i>
-                &nbsp;  <p>Categoria</p>
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                &nbsp;<p>Categoria</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                &nbsp;  <i class="far fa-circle nav-icon"></i>
-                &nbsp;  <p>Listado</p>
-                </a>
-              </li>
-           
             </ul>
           </li>
           <li class="nav-item">
@@ -110,13 +85,13 @@
             <ul class="nav nav-treeview">
             <li class="nav-item">
                 <a href="{{route('premios_vis')}}" class="nav-link">
-                &nbsp;  <i class="far fa-circle nav-icon"></i>
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
                 &nbsp;  <p>Registrar</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="pages/forms/advanced.html" class="nav-link">
-                &nbsp; <i class="far fa-circle nav-icon"></i>
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
                 &nbsp; <p>Advanced Elements</p>
                 </a>
               </li>
@@ -133,20 +108,14 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="pages/tables/simple.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
                   <p>Simple Tables</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="pages/tables/data.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
                   <p>DataTables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/tables/jsgrid.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>jsGrid</p>
                 </a>
               </li>
             </ul>
@@ -159,19 +128,18 @@
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-           
-            <li class="nav-item">
-                <a href="{{route('reporteinsignias')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Reconocimientos</p>
+            <ul class="nav nav-treeview">  
+              <li class="nav-item">
+                <a href="{{route('reporteusuarios')}}" class="nav-link">
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                &nbsp;<p>Usuarios</p>
                 </a>
-              </li>           
+              </li>        
             </ul>
           </li>
           <li class="nav-item">
             <a href="{{route('areas')}}" class="nav-link">
-            &nbsp;<i class="fas fa-store"></i>
+            &nbsp;<i class="fas fa-industry"></i>
               <p>
                 &nbsp;&nbsp;Empresa
               </p>

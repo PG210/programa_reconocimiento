@@ -4,6 +4,7 @@
  Registro De Recompensas
 </div>
 <br>
+
 <form action="{{route('regpremio')}}" method="POST"  enctype="multipart/form-data">
   @csrf
   <div class="form-row">

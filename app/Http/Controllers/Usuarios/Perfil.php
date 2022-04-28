@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Usuarios\Usuarios;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Session;
 
 class Perfil extends Controller
 {
@@ -38,5 +41,55 @@ class Perfil extends Controller
     
         
     }
+    public function editar(){
+      $usu= auth()->user()->id;
+      $dat = DB::table('users')
+      ->join('roles', 'users.id_rol', '=', 'roles.id')
+      ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
+      ->join('area', 'cargo.id_area', '=', 'area.id')
+      ->join('estado', 'users.id_estado', '=', 'estado.id')
+      ->where('users.id', '=', $usu)
+      ->select('users.id as idusu', 'users.id_cargo as idcar', 'users.id_rol as idrol', 'users.name', 'users.apellido', 'users.direccion', 'users.telefono', 'users.email', 'cargo.nombre',
+        'roles.descripcion', 'estado.descrip', 'area.nombre as nomarea', 'area.id as idar')
+      ->get();
+       return view('usuario.editarperfil')->with('dat', $dat);
+    }
 
+    public function guardar(Request $request){
+       //#################################
+      $idusu = auth()->user()->id;
+      $esval = DB::table('users')->where('users.id', '=', $idusu)->count();
+       if($esval!=0){
+            $es = Usuarios::find($idusu);
+            $es->name = $request->nombre;
+            $es->apellido = $request->apellido;
+            $es->direccion = $request->direccion;
+            $es->telefono = $request->telf;
+            $es->email = $request->correo;
+            if($request->pass!=null){
+               $es->password= Hash::make($request->pass);
+            }
+            else{
+               $es->password=$es->password;
+            }
+            $es->id_rol = $es->id_rol;
+            $es->id_cargo = $es->id_cargo;
+            $es->id_estado = $es->id_estado;
+            //#######imagen
+            if($request->hasFile('img')){                 
+               $file = $request->file('img');
+               $val = "perfil".time().".".$file->guessExtension();
+               $ruta = public_path("dist/imgperfil/".$val);
+              // if($file->guessExtension()=="pdf"){
+               copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
+               $es->imagen= $val;//ingresa el nombre de la ruta a la base de datos
+              }
+            //#######end imagen
+            $es->save(); 
+            Session::flash('mensaje', 'El usuario ha sido actualizado!'); 
+           
+          }   
+          return back();
+       //##################################
+    }
 }

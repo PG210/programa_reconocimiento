@@ -50,8 +50,11 @@ Route::get('/dashboard', function () {
 Route::get('/inicio', [Inicio::class, 'index'])->name('inicio');
 
 Route::get('/perfil', [Perfil::class, 'index'])->name('perfil');
+Route::get('/perfil/actualizar', [Perfil::class, 'editar'])->name('usuarioeditar');
+Route::post('/perfil/actualizar', [Perfil::class, 'guardar'])->name('datosper');
 
-Route::get('/reconocimientos/enviar', [ReconocimientosController::class, 'enviar'])->name('enviar');
+
+Route::get('/reconocimientos/enviar', [ReconocimientosController::class, 'enviar'])->middleware(['auth'])->name('enviar');
 
 Route::get('/insignia/registro', [InsigniasController::class, 'registrar'])->middleware(['auth', 'admin'])->name('reg_insignia');
 
@@ -115,5 +118,13 @@ Route::post('/consultar/area', [AreasController::class, 'consultar'])->middlewar
 Route::get('/cargo/view', [AreasController::class, 'vistacar'])->middleware(['auth', 'admin'])->name('vistacargo');
 Route::post('/registrar/cargo', [AreasController::class, 'regcargo'])->middleware(['auth', 'admin'])->name('guardarcargo');
 Route::get('/cargo/eliminar/{id}', [AreasController::class, 'elimcargo'])->middleware(['auth', 'admin'])->name('eliminarcargo');
+Route::post('/actualizar/cargo', [AreasController::class, 'cargoactu'])->middleware(['auth', 'admin'])->name('actualizarcargo');
 
+//
+
+Route::get('/reporte/usuarios', [Inicio::class, 'visualizar'])->middleware(['auth', 'admin'])->name('reporteusuarios');
+Route::get('/users/estado/{id}', [Inicio::class, 'estado'])->middleware(['auth', 'admin'])->name('cambiarestado');
+Route::get('/users/actualizar/{id}', [Inicio::class, 'actualizar'])->middleware(['auth', 'admin'])->name('actualizaruser');
+Route::post('/users/actualizar', [Inicio::class, 'regdatos'])->middleware(['auth', 'admin'])->name('actudatos');
+//
 require __DIR__.'/auth.php';

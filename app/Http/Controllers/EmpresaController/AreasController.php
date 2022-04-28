@@ -9,6 +9,7 @@ use App\Models\Area\CargoModel;
 use DB;
 use Session;
 
+
 class AreasController extends Controller
 {
     public function index(){
@@ -64,7 +65,7 @@ class AreasController extends Controller
         if($val!=0){
             $b=1;
             $info=DB::table('cargo')->join('area', 'cargo.id_area', '=', 'area.id')
-            ->select('cargo.id as idcar', 'cargo.nombre as cargonom', 'area.nombre as areanom')->get();
+            ->select('cargo.id as idcar', 'cargo.id_area as idarea', 'cargo.nombre as cargonom', 'area.nombre as areanom')->get();
         }else{
             $b=0;
             $info="sin datos";
@@ -106,6 +107,15 @@ class AreasController extends Controller
             return back();
         }
         
+    }
+
+    public function cargoactu(Request $request){
+        $car = CargoModel::find($request->idcargo);
+        $car->id_area = $request->idar;
+        $car->nombre= $request->car;
+        $car->save();
+        return back();
+
     }
    
 }

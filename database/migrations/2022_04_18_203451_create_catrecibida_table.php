@@ -19,9 +19,16 @@ return new class extends Migration
             $table->foreign('id_user_recibe')->references('id')->on('users');//llave foranea para referenciar a la tabla categorias
             $table->unsignedBigInteger('id_user_envia');//atributo para referenciar a categoria
             $table->foreign('id_user_envia')->references('id')->on('users');//llave foranea para referenciar a la tabla categorias
-            $table->unsignedBigInteger('id_categoria_rec');
-            $table->foreign('id_categoria_rec')->references('id')->on('categoria_reconoc');//llave foranea para referenciar a la tabla categorias
+            $table->unsignedBigInteger('id_categoria');//apunta al comportamiento
+            $table->foreign('id_categoria')->references('id')->on('comportamiento_categ');//llave foranea para referenciar a la tabla categorias
+            $table->unsignedBigInteger('id_comportamiento');//apunta al comportamiento
+            $table->foreign('id_comportamiento')->references('id')->on('categoria_reconoc');
             $table->integer('puntos');
+            $table->integer('cat1')->default(0);
+            $table->integer('cat2')->default(0);
+            $table->integer('cat3')->default(0);
+            $table->integer('cat4')->default(0);
+            $table->integer('cat5')->default(0);
             $table->string('fecha');
             $table->timestamps();
         });

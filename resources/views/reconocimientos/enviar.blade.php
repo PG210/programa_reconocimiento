@@ -4,7 +4,18 @@
   <h3>Enviar Reconocimientos</h3>
 </div>
 <br>
+
+@if(Session::has('messajeinfo'))
+        <br>
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>{{Session::get('messajeinfo')}}</strong> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+@endif
 <!---Modal-para buscar-->
+
     <!-- Button trigger modal -->
     <div class="container">
     <div class="row">
@@ -88,7 +99,7 @@
                 <!--imagen-->
                 <div class="user-panel mt-0 pb-0 mb-0 d-flex">
                         <div class="image">
-                        <img src="{{ asset('dist/img/avatar.png')}}" class="img-circle elevation-2" alt="User Image">
+                        <img src="{{asset('dist/imgperfil/'.$u->imagen)}}" class="img-circle elevation-2" alt="User Image">
                         </div>
                 </div>
                 <!---end imagen-->

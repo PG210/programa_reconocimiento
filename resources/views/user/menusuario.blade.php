@@ -21,14 +21,8 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{route('perfil')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ver Perfil</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Actualizar</p>
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                &nbsp;<p>Ver Perfil</p>
                 </a>
               </li>
             </ul>
@@ -44,22 +38,16 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{route('enviar')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Enviar</p>
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                &nbsp;<p>Enviar</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/inline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inline</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/charts/uplot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>uPlot</p>
-                </a>
-              </li>
+               <a href="{{route('reporteinsignias')}}" class="nav-link">
+                 &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                 &nbsp;<p>Reconocimiento</p>
+               </a>
+             </li>  
             </ul>
           </li>
           <li class="nav-item">
@@ -70,13 +58,7 @@
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-           <li class="nav-item">
-               <a href="{{route('reporteinsignias')}}" class="nav-link">
-                 &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                 &nbsp;<p>Reconocimiento</p>
-               </a>
-             </li>           
+            <ul class="nav nav-treeview">         
              <li class="nav-item">
                 <a href="{{route('reporte_re')}}" class="nav-link">
                 &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
@@ -96,20 +78,20 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="pages/tables/simple.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Simple Tables</p>
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                &nbsp;<p>Simple Tables</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="pages/tables/data.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>DataTables</p>
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                &nbsp;<p>DataTables</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="pages/tables/jsgrid.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>jsGrid</p>
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                &nbsp;<p>jsGrid</p>
                 </a>
               </li>
             </ul>
