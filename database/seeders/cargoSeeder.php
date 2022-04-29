@@ -17,7 +17,7 @@ class cargoSeeder extends Seeder
     {
         $datos = [//array de datos 
           
-            ['nombre' => 'default',
+            ['nombre' => 'Evolucion',
             'id_area' => 1
             ]
         ];

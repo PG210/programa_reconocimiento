@@ -26,7 +26,7 @@ class CategoriasController extends Controller
 
     public function buscaractu($id){
         $cat=DB::table('categoria_reconoc')->where('categoria_reconoc.id', '=', $id)->join('comportamiento_categ', 'id_comportamiento', 'comportamiento_categ.id')
-             ->select('categoria_reconoc.id as idcat','categoria_reconoc.nombre', 'categoria_reconoc.descripcion','categoria_reconoc.id_comportamiento', 'categoria_reconoc.rutaimagen', 'comportamiento_categ.descripcion as des', 'comportamiento_categ.id')
+             ->select('categoria_reconoc.id as idcat','categoria_reconoc.nombre', 'categoria_reconoc.id_comportamiento', 'categoria_reconoc.rutaimagen', 'comportamiento_categ.descripcion as des', 'comportamiento_categ.id')
              ->get();
         $com = DB::table('comportamiento_categ')->get();
         return view('admin.actucategoria')->with('cat', $cat)->with('com', $com);
@@ -43,7 +43,6 @@ class CategoriasController extends Controller
             copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
             $categoria->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
             $categoria->nombre = $request->input('nombre');
-            $categoria->descripcion = $request->input('des');
             $categoria->id_comportamiento = $request->input('com');
             $categoria->save();
             return redirect()->route('reg_insignia');
@@ -53,7 +52,6 @@ class CategoriasController extends Controller
             $img = $res->rutaimagen;
             $res->rutaimagen = $img;//ingresa el nombre de la ruta a la base de datos
             $res->nombre = $request->input('nombre');
-            $res->descripcion = $request->input('des');
             $res->id_comportamiento = $request->input('com');
             $res->save();
             return redirect()->route('reg_insignia');

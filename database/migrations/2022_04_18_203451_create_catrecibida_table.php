@@ -29,7 +29,8 @@ return new class extends Migration
             $table->integer('cat3')->default(0);
             $table->integer('cat4')->default(0);
             $table->integer('cat5')->default(0);
-            $table->string('fecha');
+            $table->DateTime('fecha');
+            $table->string('detalle');
             $table->timestamps();
         });
     }

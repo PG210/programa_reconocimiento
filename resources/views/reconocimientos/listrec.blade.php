@@ -71,6 +71,20 @@
       @endif
      </div>
     </div>
+    <!-----#######################---->
+    <div class="row">
+      <div class="col-md-12">
+      @if($c==0)
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong><i class="fas fa-laugh-beam fa-2x" style="color:#FCFF24;"></i> &nbsp;No hay sugerencias!
+            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      @endif
+     </div>
+    </div>
     <!----End mensajes de recomendacion--->
    </div>
     
@@ -104,9 +118,11 @@
             <h4 class="compor" style="background-color:#1ED5F4">  <h4>
             <hr>
             <h3><em>Detalle:</em></h3>
-            <p class="card-text">
-            <h4 class="detalle" style="background-color:#1ED5F4">  <h4>
-            </p>
+            <!---############--->
+            <div class="mb-3 was-validated">
+              <textarea class="form-control is-invalid" id="detexto" name="detexto" placeholder="Ingrese un detalle de reconocimiento" required></textarea>
+            </div>
+            <!--##########  -->
             <hr>
         </div>
         <ul class="list-group list-group-flush">
@@ -161,6 +177,7 @@
     e.preventDefault();
     var idusu=$('#idusu').val();
     var idcat=$('#stl-compor').val();
+    var detexto = $('#detexto').val();
     console.log(idcat);
     var _token = $('input[name=_token]').val(); //token de seguridad
     $.ajax({
@@ -170,6 +187,7 @@
       data:{
         idusu:idusu,
         idcat:idcat,
+        detexto:detexto,
         _token:_token
       }, 
       success:function(response){
@@ -247,7 +265,6 @@
             for(var x=0; x<arreglo.length; x++){
               $('.nomcate').html(arreglo[x].descripcion);
               $('.compor').html(arreglo[x].nomcat);
-              $('.detalle').html(arreglo[x].descom);
               $('.punto').html('<label> Puntos: ' + arreglo[x].puntos  + '</label>');
              
              // console.log(arreglo[x].rutaimagen);

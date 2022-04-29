@@ -7,13 +7,9 @@
 <form action="{{route('reginsignias')}}" method="POST"  enctype="multipart/form-data">
   @csrf
   <div class="form-row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-12">
       <label for="nombre">Nombre</label>
       <input type="text" class="form-control" id="nombre" name="nombre" required>
-    </div>
-    <div class="form-group col-md-6">
-      <label for="des">Descripción</label>
-      <input type="text" class="form-control" id="des" name="des" required> 
     </div>
   </div>
   
@@ -54,7 +50,6 @@
               <tr>
                 <th scope="col">No</th>
                 <th scope="col">Comportamiento</th>
-                <th scope="col">Descripción</th>
                 <th scope="col">Categoria</th>
                 <th scope="col">Imagen</th>
                 <th scope="col">Acciones</th>
@@ -69,7 +64,6 @@
                 <tr>
                   <th scope="row">{{$con++}}</th>
                   <td>{{$c->nombre}}</td>
-                  <td>{{$c->descripcion}}</td>
                   <td>{{$c->compor}}</td>
                   <td>
                     <div class="text-center">

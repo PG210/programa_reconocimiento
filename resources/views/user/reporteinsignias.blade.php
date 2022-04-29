@@ -84,6 +84,7 @@
                                           <th scope="col">Envia</th>
                                           <th scope="col">Categoria</th>
                                           <th scope="col">Comportamiento</th>
+                                          <th scope="col">Detalle</th>
                                           <th scope="col">Puntos</th>
                                           <th scope="col">Fecha</th>
                                         </tr>
@@ -99,6 +100,7 @@
                                           <td>{{$det->nomenvia}} {{$det->apenvia}}</td>
                                           <td>{{$det->descat}}</td>
                                           <td>{{$det->comportamiento}}</td>
+                                          <td>{{$det->det}}</td>
                                           <td>{{$det->puntos}}</td>
                                           <td>{{$det->fecha}}</td>
                                         </tr>

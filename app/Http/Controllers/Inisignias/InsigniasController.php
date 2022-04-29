@@ -18,7 +18,7 @@ class InsigniasController extends Controller
             $b=1;
             $categ = DB::table('categoria_reconoc')
             ->join('comportamiento_categ', 'id_comportamiento', 'comportamiento_categ.id')
-            ->select('categoria_reconoc.id', 'categoria_reconoc.nombre', 'categoria_reconoc.descripcion', 'categoria_reconoc.rutaimagen', 'comportamiento_categ.descripcion as compor')
+            ->select('categoria_reconoc.id', 'categoria_reconoc.nombre', 'categoria_reconoc.rutaimagen', 'comportamiento_categ.descripcion as compor')
             ->get();
         }
         else{
@@ -63,7 +63,6 @@ class InsigniasController extends Controller
             copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
             $category->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
             $category->nombre = $request->input('nombre');
-            $category->descripcion = $request->input('des');
             $category->id_comportamiento = $request->input('scompor');     
             $category->save();
             return back();

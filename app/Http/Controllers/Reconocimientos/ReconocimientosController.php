@@ -41,7 +41,7 @@ class ReconocimientosController extends Controller
                       ->join('users as usu', 'catrecibida.id_user_envia', '=', 'usu.id')
                       ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
                       ->join('categoria_reconoc', 'catrecibida.id_comportamiento', '=', 'categoria_reconoc.id')
-                      ->select('catrecibida.id_user_recibe', 'users.name as nomrecibe', 'usu.name as nomenvia', 'usu.apellido as apenvia', 'comportamiento_categ.descripcion as descat',
+                      ->select('catrecibida.id_user_recibe', 'catrecibida.detalle as det', 'users.name as nomrecibe', 'usu.name as nomenvia', 'usu.apellido as apenvia', 'comportamiento_categ.descripcion as descat',
                                 'categoria_reconoc.nombre as comportamiento', 'catrecibida.puntos', 'catrecibida.fecha')
                       ->get();
                     $puntos =DB::table('catrecibida')
@@ -119,18 +119,13 @@ class ReconocimientosController extends Controller
             $contarusu=DB::table('users')->MAX('users.id');
             $uselogeado=auth()->id();
             $numberid = mt_Rand(1, $contarusu);
-            if($numberid!= $uselogeado){
             $val=DB::table('users')->where('users.id', '=', $numberid)->count();
-            if($val!=0){
-              $c=1;
-              $usuazar=DB::table('users')->where('users.id', '=', $numberid)->get();
-            }else{
+            if($numberid!=$uselogeado && $val!=0){
+                  $c=1;
+                  $usuazar=DB::table('users')->where('users.id', '=', $numberid)->get();
+              }else{
               $c=0;
               $usuazar="sin datos";
-            }
-            }else{
-              $c=1;
-              $usuazar=DB::table('users')->where('users.id', '=', $c)->get();
           }
           return view('reconocimientos.listrec')->with('cat', $cat)->with('usu', $usu)->with('categoria', $categoria)->with('b', $b)->with('usuazar',$usuazar)->with('c',$c);
             /////##############################################
@@ -145,6 +140,7 @@ class ReconocimientosController extends Controller
     public function recocatguardar(Request $request){
           $idc=$request->idcat;
           $date = Carbon::now();
+         
           //consultar id en la base de datos
 
           $cat=DB::table('categoria_reconoc')->where('categoria_reconoc.id', '=', $idc)
@@ -164,6 +160,7 @@ class ReconocimientosController extends Controller
           $category->id_comportamiento = $idc;
           $category->puntos = $cat->puntos;
           $category->fecha = $date;
+          $category->detalle = $request->input('detexto'); //ingresa el detalle de categoria
           if($rescate[0]->id== $cat->idcom){ //compara las categorias para saber donde guardar
             if($category->cat1 == null){
               $category->cat1 = 1;
@@ -205,25 +202,8 @@ class ReconocimientosController extends Controller
             }
           }
           $category->save();
-          ///###################################################
-          $contarusu=DB::table('users')->MAX('users.id');
-          $numberid = mt_Rand(1, $contarusu);
-          $uselogeado=auth()->id();
-          if($numberid!= $uselogeado){
-            $val=DB::table('users')->where('users.id', '=', $numberid)->count();
-            if($val!=0){
-              $c=1;
-              $usuazar=DB::table('users')->where('users.id', '=', $numberid)->get();
-            }else{
-              $c=0;
-              $usuazar="sin datos";
-            }
-          }else{
-            $c=1;
-            $usuazar=DB::table('users')->where('users.id', '=', $c)->get();
-          }
           /////////#################################################
-         return back()->with('usuazar',$usuazar)->with('c',$c);
+         return back();
     }
 
 }

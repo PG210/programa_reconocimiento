@@ -11,10 +11,6 @@ Actualizar Comportamiento
     <input type="text" class="form-control" id="nombre" name="nombre" value="{{$cat[0]->nombre}}">
   </div>
   <div class="form-group">
-    <label for="des">Descripción</label>
-    <input type="text" class="form-control" id="des" name="des" value="{{$cat[0]->descripcion}}">
-  </div>
-  <div class="form-group">
     <label for="com">Comportamiento</label>
     <select class="form-control" id="com" name="com">
     <option selected value="{{$cat[0]->id_comportamiento}}">{{$cat[0]->des}}</option>

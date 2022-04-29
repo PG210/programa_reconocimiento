@@ -18,7 +18,7 @@ class areaSeeder extends Seeder
     {
         $datos = [//array de datos 
             [
-            'nombre' => 'default'
+            'nombre' => 'Evolucion'
             ]
 
         ];
