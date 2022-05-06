@@ -51,7 +51,7 @@ class ReconocimientosController extends Controller
                     ->selectRaw('comportamiento_categ.descripcion as nom, SUM(catrecibida.puntos) as p')
                     ->groupBy('id_categoria')
                     ->get();
-            
+            //return 
         }//llave cierre del div
         else{
           $esta=0;
@@ -67,40 +67,39 @@ class ReconocimientosController extends Controller
 
 
    public function reporte_reconocimiento(){
-    $rec = DB::table('reconocimiento')
-    ->select(
-     'reconocimiento.id as idre',
-     'reconocimiento.id_user_logeado',
-     'reconocimiento.fecha',
-     'reconocimiento.puntos_acumulados',
-     'insignia.id as idinsig',
-     'insignia.name as insignia',
-     'insignia.descripcion as desinsig',
-     'insignia.puntos as pun_insig',
-     'premios.id as idpre',
-     'premios.name as nompre',
-     'premios.descripcion as despre',
-     'premios.rutaimagen as rutapre',
-     'categoria_reconoc.id as idcat',
-     'categoria_reconoc.nombre as nomcat',
-     'categoria_reconoc.descripcion as descat',
-     'categoria_reconoc.id_comportamiento',
-     'categoria_reconoc.rutaimagen as rutca',
-     'comportamiento_categ.id as idcom',
-     'comportamiento_categ.descripcion as descom',
-     'comportamiento_categ.puntos as puncom',
-     'users.id as idus',
-     'users.name as nomus',
-     'users.apellido as apeus',
-     'users.direccion as dirus'
-    )
-    ->join('categoria_reconoc','id_categoria','=','categoria_reconoc.id')
-    ->join('comportamiento_categ','id_comportamiento','=','comportamiento_categ.id')
-    ->join('insignia','id_insignia','=','insignia.id')
-    ->join('premios','id_premio','=','premios.id')
-    ->join('users','id_user_logeado','=','users.id')
-    ->get();
-    return view('reconocimientos.listar')->with('rec',$rec);
+        $idlog=auth()->id();
+        //validar si una persona tiene insignias 
+        $validar=DB::table('insignia_obtenida')->where('insignia_obtenida.id_usuario', '=', $idlog)->count();
+       if($validar!=0){
+              $b=1;
+              $rec = DB::table('insignia_obtenida')->where('insignia_obtenida.id_usuario', '=', $idlog)
+              ->join('insignia','insignia_obtenida.id_insignia','=','insignia.id')
+              ->join('comportamiento_categ','insignia.id_categoria','=','comportamiento_categ.id')
+              //se debe cambiar la categoria_reconoc por comportamiento_categ en la tabla de la base de datos
+              ->join('users','insignia_obtenida.id_usuario','=','users.id')
+              ->join('premios', 'insignia.id_premio', '=', 'premios.id')
+              ->select('insignia.puntos as puntosin', 'insignia_obtenida.id as idinsig',
+              'insignia.name as nominsig', 'insignia_obtenida.fecha', 'insignia_obtenida.puntos_acumulados', 
+              'insignia.descripcion as catinsign', 'insignia.rutaimagen as imginsig',
+                'premios.descripcion as nompremio', 'premios.rutaimagen as imgpremio', 'premios.name as despremio', 
+                'users.name as nomusu', 'users.apellido as apeusu')
+              ->get();
+          //consultar las insignias para colocar la estrella
+                  $insign = DB::table('insignia_obtenida')->where('insignia_obtenida.id_usuario', '=', $idlog)
+                  ->join('users', 'insignia_obtenida.id_usuario', '=', 'users.id')
+                  ->join('insignia','insignia_obtenida.id_insignia','=','insignia.id')
+                  ->selectRaw('insignia.name as nom, insignia.descripcion as des')
+                  ->get();
+                  //return $insign;
+
+       }else{
+       
+          $rec="Sin datos";
+          $insign="sin datos";
+          $b=0;
+       }
+
+    return view('reconocimientos.listar')->with('rec',$rec)->with('insign',$insign)->with('b',$b);
 }
   public function listarrec($id){
       $valcateg=DB::table('comportamiento_categ')->count();
@@ -139,6 +138,7 @@ class ReconocimientosController extends Controller
 
     public function recocatguardar(Request $request){
           $idc=$request->idcat;
+          $usurecibe = $request->idusu; //id del usuario quien recibe el reconocimiento
           $date = Carbon::now();
          
           //consultar id en la base de datos
@@ -203,7 +203,45 @@ class ReconocimientosController extends Controller
           }
           $category->save();
           /////////#################################################
-         return back();
+
+
+          ///aqui se debe verificar si gano una insignia
+
+     $puntosreco =DB::table('catrecibida')
+                    ->where('catrecibida.id_user_recibe', '=', $usurecibe)
+                    ->where('catrecibida.id_categoria', '=', $cat->idcom)
+                    ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+                    ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
+                    ->selectRaw('comportamiento_categ.descripcion as nom, SUM(catrecibida.puntos) as p')
+                    ->groupBy('id_categoria')
+                    ->get();
+          
+       $puntosinsig = DB::table('insignia')->where('insignia.id_categoria', '=', $cat->idcom)->get();
+
+        for($i = 0, $size = count($puntosinsig); $i < $size; ++$i) {
+          if($puntosinsig[$i]->puntos == $puntosreco[0]->p){
+                $idinsignia = DB::table('insignia')->where('insignia.puntos', '=', $puntosreco[0]->p)->select('insignia.id as id')->first();
+                //guardar la insignia
+                //faltaria validar que haya un numero asociado a la o multiplo de la suma 
+                //en las insignias con el numero de puntaje de las categorias es decir 
+                // ejemplo 1200 puntaje de la insignia y la categoria de reconocimiento tiene 
+                // 400 entonces recibiria una insignia cuando se obtenga 3 reconocimientos 
+                // en la misma categoria
+                //tambien se ve la nececsidad de asociar las insignias a una categoria determinada 
+                //hasta el momento estan sueltas las insignias se puede ganar cualquier
+                //insignia cuando se alcance le puntaje lo que no es recomendable
+                $inobtenida = new ReconocimientosModal();
+                $inobtenida->id_insignia = $idinsignia->id;
+               // $inobtenida->id_categoria = $cat->idcom;
+                $inobtenida->id_usuario = $usurecibe;
+                $inobtenida->fecha =$date;
+                $inobtenida->puntos_acumulados = $puntosreco[0]->p;
+                $inobtenida->save();
+          }
+            
+        }
+        
+          return back();
     }
 
 }

@@ -35,8 +35,8 @@ class InsigniasController extends Controller
     }
 
     public function insignia(){ 
-        $pre=DB::table('premios')
-        ->get();
+        $pre=DB::table('premios')->get();
+        $categ=DB::table('comportamiento_categ')->get();
         $res=DB::table('insignia')->count();
         if($res!=0){
             $b=1;
@@ -50,7 +50,7 @@ class InsigniasController extends Controller
             $r=array('name' => 'Sin datos', 'descripcion' => 'Sin datos', 'puntos' => '0', 'id_premio' => '0', 'rutaimagen' => 'sin datos');
             $insignia=$r;
         }
-        return view('insignias.reginsignia')->with('pre', $pre)->with('insignia', $insignia)->with('b', $b);
+        return view('insignias.reginsignia')->with('pre', $pre)->with('insignia', $insignia)->with('b', $b)->with('categ', $categ);;
     }
 
     public function reginsig(Request $request){
@@ -81,13 +81,20 @@ class InsigniasController extends Controller
             $category->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
             $category->name = $request->input('nombre');
             $category->descripcion = $request->input('descripcion');
-            $category->id_premio = $request->input('premio');     
+            $category->id_premio = $request->input('premio'); 
+            $category->id_categoria = $request->input('categoria');     
             $category->puntos = $request->input('puntos'); 
             $category->save();
             return back();
            }
 
     }
+
+    //aqui se obtinene una insignia cada vez que obtenga cierto numero de reconocimientos
+
+    
+
+
 
 
 }

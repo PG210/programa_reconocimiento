@@ -12,13 +12,32 @@
       <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required>
     </div>
     <div class="form-group col-md-6">
-      <label for="descripcion">Descripción</label>
-      <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Descripción" required>
+      <!---Seleccion-->
+      <label for="descripcion">Nivel</label>
+        <select class="form-control" id="descripcion" name="descripcion" required>
+          <option value="Oro" selected>Oro</option>
+          <option value="Plata">Plata</option>
+          <option value="Bronce">Bronce</option>
+        </select>
+      <!--end Seleccion-->
     </div>
   </div>
-  <div class="form-group">
+  <div class="form-row">
+  <div class="form-group col-md-6">
+      <!---Seleccion-->
+      <label for="categoria">Categoria</label>
+        <select class="form-control" id="categoria" name="categoria" required>
+        @foreach($categ as $ca)
+          <option value="{{$ca->id}}">{{$ca->descripcion}}</option>
+        @endforeach
+        </select>
+      <!--end Seleccion-->
+    </div>
+   <div class="form-group col-md-6">
     <label for="puntos">Puntos</label>
     <input type="text" class="form-control" id="puntos" name="puntos" placeholder="Ejm: 100" required>
+   </div>
+   
   </div>
 
   <div class="form-group">

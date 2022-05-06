@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReconocimientosModal extends Model
 {
-    protected $table = 'reconocimiento';
+    protected $table = 'insignia_obtenida';
     protected $primaryKey = 'id';
 }

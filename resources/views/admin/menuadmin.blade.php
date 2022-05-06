@@ -72,6 +72,12 @@
                 &nbsp;<p>Categoria</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{route('reporte_re')}}" class="nav-link">
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                &nbsp;<p>Insignias</p>
+                </a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">
@@ -89,12 +95,7 @@
                 &nbsp;  <p>Registrar</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
-                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp; <p>Advanced Elements</p>
-                </a>
-              </li>
+                      
             </ul>
           </li>
           <li class="nav-item">
