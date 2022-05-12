@@ -15,7 +15,7 @@ use Session;
 class Inicio extends Controller
 {
     public function index(){
-        return view('usuario.inicio');
+       return view('usuario.inicio');
     }
     public function visualizar(){
         $lista=DB::table('users')->join('roles', 'users.id_rol', '=', 'roles.id')

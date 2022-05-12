@@ -10,6 +10,8 @@ use App\Http\Controllers\ImagenesController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\EmpresaController\AreasController;
 use App\Http\Controllers\FiltrarCatController\FiltrarCat;
+use App\Http\Controllers\NotificacionController\Notificar;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -127,4 +129,7 @@ Route::get('/users/estado/{id}', [Inicio::class, 'estado'])->middleware(['auth',
 Route::get('/users/actualizar/{id}', [Inicio::class, 'actualizar'])->middleware(['auth', 'admin'])->name('actualizaruser');
 Route::post('/users/actualizar', [Inicio::class, 'regdatos'])->middleware(['auth', 'admin'])->name('actudatos');
 //
+//notificaciones cambiar estado
+Route::get('notificacion/estado/{id}', [Notificar::class, 'estado'])->name('notificaciones');
+
 require __DIR__.'/auth.php';

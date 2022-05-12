@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Reconocimientos\ReconocimientosModal;
 use App\Models\RecibeCatMoldel\RecibirCat;
+use App\Models\ModelNotify\Notificacion;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -203,6 +204,18 @@ class ReconocimientosController extends Controller
           }
           $category->save();
           /////////#################################################
+          //guardar notificacion si ganó una recompennsa
+
+          $noti = new Notificacion();
+          $noti->notinom = "Reconocimiento";
+          $noti->notides = $request->input('detexto');
+          $noti->fecha = $date;
+          $noti->estado = "1";
+          $noti->idnotifi = $cat->idcom;
+          $noti->id_user = $request->input('idusu');
+          $noti->save();
+          
+          //finalizar guardar notificacion
 
 
           ///aqui se debe verificar si gano una insignia
@@ -243,5 +256,6 @@ class ReconocimientosController extends Controller
         
           return back();
     }
+
 
 }
