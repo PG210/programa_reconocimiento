@@ -205,14 +205,13 @@ class ReconocimientosController extends Controller
           $category->save();
           /////////#################################################
           //guardar notificacion si ganó una recompennsa
-
+          //$consul = DB::table('catrecibida')->where('id_user_recibe', $usurecibe)->
           $noti = new Notificacion();
           $noti->notinom = "Reconocimiento";
           $noti->notides = $request->input('detexto');
           $noti->fecha = $date;
           $noti->estado = "1";
-          $noti->idnotifi = $cat->idcom;
-          $noti->id_user = $request->input('idusu');
+          $noti->idnotifi = $category->id;//recupera la id guardada
           $noti->save();
           
           //finalizar guardar notificacion

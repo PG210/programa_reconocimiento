@@ -131,5 +131,6 @@ Route::post('/users/actualizar', [Inicio::class, 'regdatos'])->middleware(['auth
 //
 //notificaciones cambiar estado
 Route::get('notificacion/estado/{id}', [Notificar::class, 'estado'])->name('notificaciones');
-
+//eliminar notificacion
+Route::get('notificacion/eliminar/{id}', [Notificar::class, 'eliminar'])->name('notificaciones');
 require __DIR__.'/auth.php';
