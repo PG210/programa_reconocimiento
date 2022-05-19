@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Reconocimientos\ReconocimientosModal;
 use App\Models\RecibeCatMoldel\RecibirCat;
 use App\Models\ModelNotify\Notificacion;
+use App\Models\ModelNotify\InsigniaNoti;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -233,15 +234,6 @@ class ReconocimientosController extends Controller
         for($i = 0, $size = count($puntosinsig); $i < $size; ++$i) {
           if($puntosinsig[$i]->puntos == $puntosreco[0]->p){
                 $idinsignia = DB::table('insignia')->where('insignia.puntos', '=', $puntosreco[0]->p)->select('insignia.id as id')->first();
-                //guardar la insignia
-                //faltaria validar que haya un numero asociado a la o multiplo de la suma 
-                //en las insignias con el numero de puntaje de las categorias es decir 
-                // ejemplo 1200 puntaje de la insignia y la categoria de reconocimiento tiene 
-                // 400 entonces recibiria una insignia cuando se obtenga 3 reconocimientos 
-                // en la misma categoria
-                //tambien se ve la nececsidad de asociar las insignias a una categoria determinada 
-                //hasta el momento estan sueltas las insignias se puede ganar cualquier
-                //insignia cuando se alcance le puntaje lo que no es recomendable
                 $inobtenida = new ReconocimientosModal();
                 $inobtenida->id_insignia = $idinsignia->id;
                // $inobtenida->id_categoria = $cat->idcom;
@@ -249,6 +241,13 @@ class ReconocimientosController extends Controller
                 $inobtenida->fecha =$date;
                 $inobtenida->puntos_acumulados = $puntosreco[0]->p;
                 $inobtenida->save();
+
+                //guardar la notificacion de insignia obtenida
+                $Gnoty= new InsigniaNoti();
+                $Gnoty->id_insignoti = $inobtenida->id;
+                $Gnoty->estado = "1";
+                $Gnoty->save();
+
           }
             
         }
