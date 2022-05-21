@@ -137,5 +137,6 @@ Route::get('notificacion/eliminar/{id}', [Notificar::class, 'eliminar']);
 Route::get('notificacion/insignia/estado/{id}', [Notificar::class, 'leer']);
 Route::get('notificacion/eliminar/insignia/{id}', [Notificar::class, 'elimarinsig']);
 
+Route::get('notificacion/vista/correo', [Notificar::class, 'correo']);
 
 require __DIR__.'/auth.php';

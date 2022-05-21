@@ -12,6 +12,10 @@ use App\Models\ModelNotify\InsigniaNoti;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Mail\Reconocimiento;//esta varia dependiendo el nombre del archivo 
+use App\Mail\InsigniaEmail;
+use Illuminate\Support\Facades\Mail;
+use App\Models\Usuarios\Usuarios;
 use  Session;
 
 class ReconocimientosController extends Controller
@@ -216,8 +220,19 @@ class ReconocimientosController extends Controller
           $noti->save();
           
           //finalizar guardar notificacion
-
-
+          //enviar correo 
+          $idbus =$category->id;
+          $datosrec =DB::table('catrecibida')->where('catrecibida.id', $idbus)
+          ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+          ->join('categoria_reconoc', 'catrecibida.id_comportamiento', '=', 'categoria_reconoc.id')
+          ->join('users as recibe', 'catrecibida.id_user_recibe', '=', 'recibe.id')
+          ->join('users as envia', 'catrecibida.id_user_envia', '=', 'envia.id')
+          ->select('catrecibida.fecha', 'catrecibida.detalle', 'comportamiento_categ.descripcion as categoria', 
+           'catrecibida.puntos', 'categoria_reconoc.nombre as comportamiento', 'categoria_reconoc.rutaimagen', 
+           'envia.name as nomenvia', 'envia.apellido as apenvia', 'recibe.name as nomrecibe', 'recibe.apellido as aperecibe', 'recibe.email as correocibe')
+          ->first();
+          Mail::to($datosrec->correocibe)->send(new Reconocimiento($datosrec)); //envia mensajes
+         
           ///aqui se debe verificar si gano una insignia
 
      $puntosreco =DB::table('catrecibida')
@@ -248,11 +263,38 @@ class ReconocimientosController extends Controller
                 $Gnoty->estado = "1";
                 $Gnoty->save();
 
+                //enviar correo si gano una insignia
+                $datosin =  DB::table('insignia_obtenida')
+                ->join('insignia', 'insignia_obtenida.id_insignia', '=', 'insignia.id')
+                ->join('premios', 'insignia.id_premio', '=', 'premios.id')
+                ->join('users', 'insignia_obtenida.id_usuario', '=', 'users.id')
+                ->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
+                ->where('insignia_obtenida.id', $inobtenida->id)
+                ->select('insignia.name', 'insignia.descripcion as nivel',
+                        'insignia.puntos as insigpuntos', 'insignia.rutaimagen as imginsig', 'premios.name as premionom', 'premios.descripcion as predes',
+                        'premios.rutaimagen as preimagen', 'insignia_obtenida.fecha', 'users.name as nomrecibe', 'users.apellido as aperecibe', 'users.email as correocibe',
+                        'comportamiento_categ.descripcion as catinsig')
+                ->first();
+    
+               Mail::to($datosin->correocibe)->send(new InsigniaEmail($datosin)); //envia mensajes
+               
+                
+
           }
             
         }
-        
-          return back();
+
+        //sacar un aleatorio para sugerencia
+        $contarusu=DB::table('users')->MAX('users.id');
+        $us=auth()->id();
+        $numberid = mt_Rand(1, $contarusu);
+        $val=DB::table('users')->where('users.id', '=', $numberid)->count();
+        if($numberid!=$us && $val!=0){
+              $c=1;
+              $usuazar=DB::table('users')->where('users.id', '=', $numberid)->get();
+            
+          }
+       return response(json_decode($usuazar),200)->header('Content-type', 'text/plain');
     }
 
 

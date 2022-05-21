@@ -18,7 +18,7 @@
      <form id="categoria" method="post">
         @csrf
         <div class="row">
-           <div class="col-md-9">
+           <div class="col-md-12">
               <i class="fas fa-list-alt" style="color:#468DF9;"></i>&nbsp;<label for="inputState">Categoria</label>
                 <select id="categor" class="form-control" name="categor">
                   <option selected>Elegir...</option>
@@ -33,10 +33,6 @@
                 </select>
               </div>
               <!--end seleccionar--->
-              <div class="col-md-3">
-                <label>Confirmar</label>
-                <button type="submit" class="btn" style="color:#Ffbd03;"><i class="fas fa-check-circle fa-2x"></i></button>
-             </div>
         </div>
       </form>
       <br>
@@ -45,14 +41,12 @@
         <form id="comportamiento" method="post">
         @csrf
         <div class="row">
-           <div class="col-md-9">
+           <div class="col-md-12">
               <label>Comportamiento</label>
-              <select id="slt-cursos" class="form-control"></select>
-           </div>
-           <div class="col-md-3">
-                <label>Confirmar</label>
-                <button type="submit" class="btn" style="color:#Ffbd03;"><i class="fas fa-check-circle fa-2x"></i></button>
-          </div>
+              <select id="slt-cursos" class="form-control">
+              <option selected>Elegir ...</option>
+              </select>
+            </div>
           </div>
         </form>
       </div>
@@ -60,29 +54,13 @@
       <br><br>
     <div class="row">
       <div class="col-md-12">
-      @if($c==1)
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
-          <strong><i class="fas fa-laugh-beam fa-2x" style="color:#FCFF24;"></i> &nbsp;Sugerencia! Reconoce a :
-            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong> {{$usuazar[0]->name}} {{$usuazar[0]->apellido}}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      @endif
+      <div id="sugerir"></div>
      </div>
     </div>
     <!-----#######################---->
     <div class="row">
       <div class="col-md-12">
-      @if($c==0)
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-          <strong><i class="fas fa-laugh-beam fa-2x" style="color:#FCFF24;"></i> &nbsp;No hay sugerencias!
-            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      @endif
+      <div id="sinsugerir"></div>
      </div>
     </div>
     <!----End mensajes de recomendacion--->
@@ -131,15 +109,12 @@
         </ul>
         <div class="card-body">
             <div class="row">
-                <div class="col-4">
-                
-                </div>
-                <div class="col-4">
+                <div class="col-8">
                 
                 </div>
                 <div class="col-4">
                   <input type="text" class="form-control" id="idusu" name="idusu" value="{{$usu[0]->id}}" hidden>
-                  <a href="/reconocimientos/enviar" type="button" class="btn" style="background-color:blue; color:white;">Volver</a>
+                  <a href="/reconocimientos/enviar" type="button" class="btn float-left" style="background-color:blue; color:white;">Volver</a>&nbsp;&nbsp;
                  <!-- <input type="text" class="form-control idcompor" id="idcompor" name="idcompor" value>-->
                  <select id="stl-compor" class="form-control" hidden></select>
                  <button type="submit" class="btn" style="background-color:#08FFD5; float:right;">Enviar</button>
@@ -191,13 +166,55 @@
         _token:_token
       }, 
       success:function(response){
-        if(response){
+        
+          var dat = JSON.parse(response);
+          console.log(dat);
+          $("#sugerir").empty();
+          if(dat.length!=0){
           $('#formudatos')[0].reset();
           toastr.success('El envió de reconocimiento fue exitosó', 'Nuevo Reconocimiento', {timeOut:3000});
-          setTimeout(refrescar, 2000);
-        }
+          //setTimeout(refrescar, 2000);
+          for(var i=0; i<dat.length; i++){
+            var resul= '<div class="alert alert-info alert-dismissible fade show" role="alert">'+
+                '<strong><i class="fas fa-laugh-beam fa-2x" style="color:#FCFF24;"></i> &nbsp;Sugerencia! Reconoce a :'+
+                  '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/reconocimientos/usuario/'+ dat[i].id +'">' + dat[i].name + '&nbsp;' + dat[i].apellido + '</a></strong>'+
+                   '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                  '<span aria-hidden="true">&times;</span>'+
+                '</button>'+
+              '</div>';
+              $('#sugerir').append(resul);
+            }
+          }else{
+           
+              $("#sugerir").empty();
+              $('#formudatos')[0].reset();
+              toastr.success('El envió de reconocimiento fue exitosó', 'Nuevo Reconocimiento', {timeOut:3000});
+
+              var er = '<div class="alert alert-warning alert-dismissible fade show" role="alert">'+
+                        '<strong><i class="fas fa-laugh-beam fa-2x" style="color:#FCFF24;"></i> &nbsp;No hay sugerencias!'+
+                          '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>'+
+                          '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                          '<span aria-hidden="true">&times;</span>'+
+                        '</button>'+
+                      '</div>';
+                      $('#sugerir').append(er);
+
+          }
       }
-    });
+    }).fail(function(jqXHR, response){
+          $("#sugerir").empty();
+          $('#formudatos')[0].reset();
+          toastr.success('El envió de reconocimiento fue exitosó', 'Nuevo Reconocimiento', {timeOut:3000});
+
+	        var er = '<div class="alert alert-warning alert-dismissible fade show" role="alert">'+
+                    '<strong><i class="fas fa-laugh-beam fa-2x" style="color:#FCFF24;"></i> &nbsp;No hay sugerencias!'+
+                      '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>'+
+                      '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                      '<span aria-hidden="true">&times;</span>'+
+                    '</button>'+
+                  '</div>';
+          $('#sugerir').append(er);
+        });
   });
   function refrescar(){
     //Actualiza la página
@@ -214,8 +231,8 @@
 
 <script>
   /*tomamos la información del formulario y la enviamos a la ruta y de la ruta al controlador*/
-  $('#categoria').submit(function(e){
-    e.preventDefault();
+  
+  $('#categoria').on('change', function(){
     var idcate=$('#categor').val();
     var _token = $('input[name=_token]').val(); //token de seguridad
     var cursos = $("#slt-cursos");
@@ -233,7 +250,7 @@
       for(var x=0; x<arreglo.length; x++){
         // var todo='<tr><td>' + arreglo[x].id+'</td>';
          //todo+='<td>'+arreglo[x].nombre+'</td>';
-         cursos.append('<option value="' + arreglo[x].id + '">' + arreglo[x].nombre  + '</option>');
+         cursos.append('<option value="0" selected>Elegir ...</option>'+  '<option value="' + arreglo[x].id + '">' + arreglo[x].nombre  + '</option>');
       }
     });
   });
@@ -242,12 +259,12 @@
 <!---script para consultar comportamiento--->
       <script>
         /*tomamos la información del formulario y la enviamos a la ruta y de la ruta al controlador*/
-        $('#comportamiento').submit(function(e){
-          e.preventDefault();
-          var compor= $("#stl-compor");
-          var imagen = $('#imagen');
+        $('#slt-cursos').on('change', function(){
+          var compor= $("#stl-compor");//sirve para almacenar y limpiar el select
+          var imagen = $('#imagen');//sirve para que las imagenes no se junten o dupliquen
           var idcom=$('#slt-cursos').val();
           var _token = $('input[name=_token]').val(); //token de seguridad
+          console.log(idcom);
           $.ajax({
             type: "POST",
             url:"{{route('filtrarcomport')}}",

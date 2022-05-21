@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\ModelNotify\Notificacion;
 use App\Models\ModelNotify\InsigniaNoti;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Usuarios\Usuarios;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Reconocimiento;//esta varia dependiendo el nombre del archivo 
+use App\Mail\InsigniaEmail;
+use App\Models\RecibeCatMoldel\RecibirCat;
 use DB;
 
 class Notificar extends Controller
@@ -100,5 +105,21 @@ class Notificar extends Controller
         return response(json_decode($inleida),200)->header('Content-type', 'text/plain');
    }
 
+  public function correo(){
+          
+            $datosin =  DB::table('insignia_obtenida')
+            ->join('insignia', 'insignia_obtenida.id_insignia', '=', 'insignia.id')
+            ->join('premios', 'insignia.id_premio', '=', 'premios.id')
+            ->join('users', 'insignia_obtenida.id_usuario', '=', 'users.id')
+            ->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
+            ->where('insignia_obtenida.id', 5)
+            ->select('insignia.name', 'insignia.descripcion as nivel',
+                    'insignia.puntos as insigpuntos', 'insignia.rutaimagen as imginsig', 'premios.name as premionom', 'premios.descripcion as predes',
+                    'premios.rutaimagen as preimagen', 'insignia_obtenida.fecha', 'users.name as nomrecibe', 'users.apellido as aperecibe', 'users.email as correocibe',
+                    'comportamiento_categ.descripcion as catinsig')
+            ->first();
 
+           Mail::to($datosin->correocibe)->send(new InsigniaEmail($datosin)); //envia mensajes
+           return new InsigniaEmail($datosin);
+  }
 }
