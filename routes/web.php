@@ -11,7 +11,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\EmpresaController\AreasController;
 use App\Http\Controllers\FiltrarCatController\FiltrarCat;
 use App\Http\Controllers\NotificacionController\Notificar;
-
+use App\Http\Controllers\Reportes;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -138,5 +138,10 @@ Route::get('notificacion/insignia/estado/{id}', [Notificar::class, 'leer']);
 Route::get('notificacion/eliminar/insignia/{id}', [Notificar::class, 'elimarinsig']);
 
 Route::get('notificacion/vista/correo', [Notificar::class, 'correo']);
+
+//vista reporte para jefes
+Route::get('/reporte/recompensas', [Reportes::class, 'index'])->middleware(['jefe'])->name('recompensas_obtenidas');
+Route::get('/entregar/{id}', [Reportes::class, 'cambiar_estado'])->middleware(['jefe'])->name('entregar');
+Route::get('/listado/entregados', [Reportes::class, 'consultar_entregados'])->middleware(['jefe'])->name('entregados');
 
 require __DIR__.'/auth.php';

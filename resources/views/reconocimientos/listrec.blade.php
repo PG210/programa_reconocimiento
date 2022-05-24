@@ -44,7 +44,6 @@
            <div class="col-md-12">
               <label>Comportamiento</label>
               <select id="slt-cursos" class="form-control">
-              <option selected>Elegir ...</option>
               </select>
             </div>
           </div>
@@ -231,7 +230,6 @@
 
 <script>
   /*tomamos la información del formulario y la enviamos a la ruta y de la ruta al controlador*/
-  
   $('#categoria').on('change', function(){
     var idcate=$('#categor').val();
     var _token = $('input[name=_token]').val(); //token de seguridad
@@ -248,10 +246,12 @@
       cursos.find('option').remove();
       var arreglo = JSON.parse(res);
       for(var x=0; x<arreglo.length; x++){
-        // var todo='<tr><td>' + arreglo[x].id+'</td>';
+        var t= '<option value="' + arreglo[x].id + '">' + arreglo[x].nombre  + '</option>';
          //todo+='<td>'+arreglo[x].nombre+'</td>';
-         cursos.append('<option value="0" selected>Elegir ...</option>'+  '<option value="' + arreglo[x].id + '">' + arreglo[x].nombre  + '</option>');
+         cursos.append(t);
+         
       }
+     
     });
   });
  </script> 

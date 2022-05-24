@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\Administrador::class, //esta parte sirve para la autenticacion en las
         //rutas usando admin restringe el acceso
         'jefe' => \App\Http\Middleware\Jefe::class,
+        'usuario' => \App\Http\Middleware\Usuario::class,
     ];
 }

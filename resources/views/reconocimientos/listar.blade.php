@@ -4,14 +4,14 @@
   <h3><b>Insignias Obtenidas</b></h3>
 </div>
 <br>
-@if($b==0)
-  <div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>No tienes insignias!</strong> Espera, pronto obtendras una.
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-@endif
+      @if($b==0)
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>No tienes insignias!</strong> Espera, pronto obtendras una.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      @endif
     <!--aqui va la tabla de estrelllas--->   
         <div class="accordion" id="accordionExample">
         <div class="card">

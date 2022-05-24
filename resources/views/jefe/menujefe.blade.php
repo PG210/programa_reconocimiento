@@ -27,58 +27,14 @@
               </li>
             </ul>
           </li>
+   
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-award"></i>
-              <p>
-                Reconocer
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('enviar')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Enviar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Reconocimientos</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/charts/inline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inline</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/charts/uplot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>uPlot</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('recompensas_obtenidas')}}" class="nav-link">
             <i class="nav-icon fas fa-medal"></i>
               <p>
                 Reportes
-                <i class="fas fa-angle-left right"></i>
               </p>
-            </a>
-            <ul class="nav nav-treeview">
-           
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Insignias</p>
-                </a>
-              </li>           
-            </ul>
+             </a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -88,32 +44,6 @@
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/forms/general.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>General Elements</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/forms/advanced.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Advanced Elements</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/forms/editors.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Editors</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/forms/validation.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Validation</p>
-                </a>
-              </li>
-            </ul>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreign('id_usuario')->references('id')->on('users');//llave foranea para referenciar a la tabla categorias
             $table->string('fecha');
             $table->integer('puntos_acumulados');
+            $table->string('entregado', 10)->nullable();
+            $table->string('fec_entregado', 50)->nullable();
             $table->timestamps();
         });
     }

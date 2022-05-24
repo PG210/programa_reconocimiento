@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class Jefe
+class Usuario
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class Jefe
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->check() && Auth::user()->id_rol==3){//si el usuario logeado es jefe
+        if (auth()->check() && Auth::user()->id_rol==2){//si el usuario logeado es jefe
             return $next($request);
             }
             return redirect('dashboard');

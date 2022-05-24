@@ -251,10 +251,10 @@ class ReconocimientosController extends Controller
                 $idinsignia = DB::table('insignia')->where('insignia.puntos', '=', $puntosreco[0]->p)->select('insignia.id as id')->first();
                 $inobtenida = new ReconocimientosModal();
                 $inobtenida->id_insignia = $idinsignia->id;
-               // $inobtenida->id_categoria = $cat->idcom;
                 $inobtenida->id_usuario = $usurecibe;
                 $inobtenida->fecha =$date;
                 $inobtenida->puntos_acumulados = $puntosreco[0]->p;
+                $inobtenida->entregado =1;
                 $inobtenida->save();
 
                 //guardar la notificacion de insignia obtenida
