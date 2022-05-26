@@ -4,13 +4,16 @@
  <h3>Gestion De Areas y Cargos </h3>
 </div>
 <div class="row">
-   <div class="col-md-10">
+   <div class="col-md-5">
      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
         <i class="fas fa-pen-alt"></i>&nbsp;Registrar Areas
     </button>
     </div>
-    <div class="col-md-2">
-      <a type="button" href="{{route('vistacargo')}}" class="btn btn-success"> Cargos</a>
+    <div class="col-md-3">
+      <a type="button" href="{{route('vistacargo')}}" class="btn btn-success float-none"> <i class="fas fa-pen-alt"></i>&nbsp;Registrar Cargos</a>
+    </div>
+    <div class="col-md-4">
+      <a type="button" href="{{route('vincular_jefes')}}" class="btn float-right" style="background-color:#EC4857; color:white;"><i class="fas fa-users"></i>&nbsp;Vincular Jefes</a>
     </div>
 </div>
 <div class="row">

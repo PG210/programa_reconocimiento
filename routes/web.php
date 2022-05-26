@@ -12,6 +12,7 @@ use App\Http\Controllers\EmpresaController\AreasController;
 use App\Http\Controllers\FiltrarCatController\FiltrarCat;
 use App\Http\Controllers\NotificacionController\Notificar;
 use App\Http\Controllers\Reportes;
+use App\Http\Controllers\JefesController\Jefescon;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -143,5 +144,13 @@ Route::get('notificacion/vista/correo', [Notificar::class, 'correo']);
 Route::get('/reporte/recompensas', [Reportes::class, 'index'])->middleware(['jefe'])->name('recompensas_obtenidas');
 Route::get('/entregar/{id}', [Reportes::class, 'cambiar_estado'])->middleware(['jefe'])->name('entregar');
 Route::get('/listado/entregados', [Reportes::class, 'consultar_entregados'])->middleware(['jefe'])->name('entregados');
+
+//aqui reporte de insignias_con recompensas
+Route::get('/reporte/insignias/excel/{id}', [Reportes::class, 'reporte_recompensas'])->middleware(['jefe']);
+
+//vincular jefes para reportes
+Route::get('/admin/vincular/jefes', [Jefescon::class, 'index'])->middleware(['admin'])->name('vincular_jefes');
+Route::post('/admin/vincular/jefes', [Jefescon::class, 'registrar'])->middleware(['admin'])->name('vinjefes');
+Route::get('/eliminar/jefes/{id}', [Jefescon::class, 'eliminar'])->middleware(['admin']);
 
 require __DIR__.'/auth.php';

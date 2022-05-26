@@ -8,11 +8,11 @@
                 <div class="row">
                     <div class="col-3">
                         <a href="/reporte/recompensas" class="btn btn-link btn-block text-left" type="button">
-                        <i class="fas fa-tasks"></i>&nbsp;Recompensas
+                        <i class="fas fa-tasks"></i>&nbsp;Listado sin entregar
                         </a>
                     </div>
                     <div class="col-3">
-                        <a href="#" class="btn btn-link btn-block text-left" type="button">
+                        <a href="/reporte/insignias/excel/1" class="btn btn-link btn-block text-left" type="button">
                         <i class="fas fa-file-excel"></i>&nbsp;Reporte
                         </a>
                     </div>
@@ -22,7 +22,7 @@
                         </a>
                     </div>
                     <div class="col-3">
-                       <a href="#" class="btn btn-link btn-block text-right" type="button" >
+                       <a href="/reporte/insignias/excel/2" class="btn btn-link btn-block text-right" type="button" >
                          <i class="fas fa-file-excel"></i>&nbsp;Reporte
                         </a>
                     </div>
@@ -48,6 +48,7 @@
                 <?php
                 $conta=1;
                 ?>
+                @if($b==0)
                 @foreach($datos as $dat)
                <!--idinsig  nominsig insigdes puntos imginsig
                 imgpre categoria -->
@@ -95,6 +96,29 @@
                 </td>
                 </tr>
                 @endforeach
+                @endif
+                @if($b==1)
+                <?php
+                $con=1;
+                for($i=0;$i<count($res);$i++) {
+
+                    for($j=0;$j<count($res[$i]);$j++) {
+
+
+                    echo '<tr>
+                            <td>'.$con++.'</td>
+                            <td>'.$res[$i][$j]->nombre." ".$res[$i][$j]->apellido.'</td>
+                            <td>'.$res[$i][$j]->cargonom.'</td>
+                            <td>'.$res[$i][$j]->areanom.'</td>
+                            <td>'.$res[$i][$j]->despremio.'</td>
+                            <td>'."Entregado".'</td>
+                        </tr>';
+
+                  }
+
+                }
+                ?>
+                @endif
             </tbody>
             </table>
            <!---end table-->

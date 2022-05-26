@@ -29,29 +29,6 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-award"></i>
-              <p>
-                Reconocer
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('enviar')}}" class="nav-link">
-                &nbsp; &nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp;<p>Enviar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('reporteinsignias')}}" class="nav-link">
-                &nbsp; &nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp;<p>Reconocimientos</p>
-                </a>
-              </li> 
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
             <i class="nav-icon fas fa-medal"></i>
               <p>
                 Insignias
@@ -70,12 +47,6 @@
                 <a href="{{route('reg_categ')}}" class="nav-link">
                 &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
                 &nbsp;<p>Categoria</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('reporte_re')}}" class="nav-link">
-                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp;<p>Insignias</p>
                 </a>
               </li>
             </ul>

@@ -21,39 +21,16 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-    @if(Auth::user()->id_rol==1) <!--Logeado como administrador-->
+     @if(Auth::user()->id_rol==1) <!--Logeado como administrador-->
       <li class="nav-item d-none d-sm-inline-block">
         <a href="index3.html" class="nav-link">Administrador</a>
       </li>
-      @endif
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
+     @endif
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
-          <form class="form-inline">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-                <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                  <i class="fas fa-times"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </li>
 
       <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
@@ -65,7 +42,7 @@
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="{{ asset('dist/img/user1-128x128.jpg')}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+              <img src="#" alt="User Avatar" class="img-size-50 mr-3 img-circle">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   Brad Diesel
@@ -81,7 +58,7 @@
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="{{ asset('dist/img/user8-128x128.jpg')}}" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <img src="#" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   John Pierce
@@ -97,7 +74,7 @@
           <a href="#" class="dropdown-item">
             <!-- Message Start -->
             <div class="media">
-              <img src="{{ asset('dist/img/user3-128x128.jpg')}}" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              <img src="#" alt="User Avatar" class="img-size-50 img-circle mr-3">
               <div class="media-body">
                 <h3 class="dropdown-item-title">
                   Nora Silvester
@@ -121,25 +98,33 @@
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
-      </li>
       <!--cerrar sesion-->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
-        <i class="fas fa-user-circle fa-lg"></i>&nbsp;  {{ Auth::user()->name }}
+        <i class="fas fa-user-circle fa-lg"></i>
         <!--pantallas pequeñas <span class="d-none d-lg-block"> --> 
-      </a>
+       </a>
+        
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-         <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <div class="dropdown-divider"></div>
-            <a href="route('logout')" class="dropdown-item"  onclick="event.preventDefault(); this.closest('form').submit();">
-              <i class="fas fa-sign-out-alt fa-lg"></i> Cerrar sesión
-            </a>
-          </form>
+        <!---item--2-->
+          <div class="row"> 
+            <div class="col-12"> 
+            <span  style="font-size: medium; padding-left:15px;">{{ Auth::user()->name }} {{ Auth::user()->apellido }}</span>
+            </div>
+          </div>
+        <!---end item--2-->
+        <div class="row"> 
+          <div class="col-12"> 
+            <form method="POST" action="{{ route('logout') }}">
+              @csrf
+              <div class="dropdown-divider"></div>
+              <a href="route('logout')" class="dropdown-item"  onclick="event.preventDefault(); this.closest('form').submit();">
+                <i class="fas fa-sign-out-alt fa-lg"></i> Cerrar sesión
+              </a>
+            </form>
+          </div>
+        </div>  
+        </div>
       </li>
 
       <!----->
@@ -163,7 +148,7 @@
           <img src="{{asset('dist/imgperfil/'.Auth::user()->imagen)}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="/perfil" class="d-block">{{Auth::user()->name}}</a>
+          <a href="/perfil" class="d-block">{{Auth::user()->name}} {{ Auth::user()->apellido }}</a>
         </div>
       </div>
 

@@ -10,7 +10,8 @@ class PostController extends Controller
 {
     public function search(Request $request){
         $uselogeado=auth()->id();
-        $results = Usuarios::where('name', 'LIKE', "%{$request->search}%")->where('id', '!=', $uselogeado)->get();
+        $results = Usuarios::where('name', 'LIKE', "%{$request->search}%")->where('id', '!=', $uselogeado)
+                   ->where('id_rol', '=', 2)->get();
         return view('reconocimientos.results', compact('results'))->with(['search' => $request->search])->render();
     }
         

@@ -14,7 +14,8 @@
         </div>
         <br>
     @endif
-   <table class="table">
+    <div class="table-responsive">
+    <table class="table">
               <thead class="table-warning">
               <tr>
                 <th scope="col">No</th>
@@ -94,7 +95,7 @@
                     @endforeach
             </tbody>
           </table>
-
+      </div>
         <!--end tabla-->
 
 @endsection
