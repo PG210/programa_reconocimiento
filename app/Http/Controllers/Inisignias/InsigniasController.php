@@ -90,11 +90,27 @@ class InsigniasController extends Controller
 
     }
 
-    //aqui se obtinene una insignia cada vez que obtenga cierto numero de reconocimientos
+    //aqui se obtinene reporte para jefes y usuario de las insignias que puede ganar
+    public function reporte(){
+     $val= DB::table('insignia')->count();
+     if($val!=0){
+            $b=1;
+            $coninsig = DB::table('insignia')
+            ->join('premios', 'insignia.id_premio', '=', 'premios.id')
+            ->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
+            ->select('insignia.id as idinsig', 'insignia.name', 'insignia.descripcion', 'insignia.puntos', 
+                    'premios.descripcion as despremio', 'insignia.rutaimagen as imginsig',
+                    'premios.rutaimagen as imgpre', 'comportamiento_categ.descripcion as catdescrip')
+            ->get();
 
+        }else{
+            $b=0;
+            $coninsig=0;
+        }
+      
+            
+     return view('jefe.insigreporte')->with('coninsig', $coninsig)->with('b', $b); 
+    }
     
-
-
-
 
 }

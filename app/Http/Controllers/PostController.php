@@ -19,6 +19,16 @@ class PostController extends Controller
         $post = Usuarios::findOrFail($request->id);
         return view('reconocimientos.post', compact('post'))->render();
     }
+
+    public function buscar(Request $request){
+        $uselogeado=auth()->id();
+        if($request->dato!=null){
+            $info = Usuarios::where('name', 'LIKE', "%{$request->dato}%")->where('id', '!=', $uselogeado)
+            ->where('id_rol', '!=', 1)->get();
+        }
+       
+        return response(json_decode($info),200)->header('Content-type', 'text/plain');
+    }
 }
 
 

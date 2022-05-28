@@ -153,4 +153,14 @@ Route::get('/admin/vincular/jefes', [Jefescon::class, 'index'])->middleware(['ad
 Route::post('/admin/vincular/jefes', [Jefescon::class, 'registrar'])->middleware(['admin'])->name('vinjefes');
 Route::get('/eliminar/jefes/{id}', [Jefescon::class, 'eliminar'])->middleware(['admin']);
 
+//informe gerente
+Route::get('/gerente/informe/{id}', [Jefescon::class, 'vista_gen'])->middleware(['gerente'])->name('informe_gerente');
+Route::get('/gerente/insignias/excel/{id}', [Jefescon::class, 'gerente_excel'])->middleware(['gerente']);
+
+//visualizar insignias que pueden ganar
+Route::get('/reporte/visualizar/recompensas', [InsigniasController::class, 'reporte'])->middleware(['auth'])->name('visinsignias');
+
+//buscar un usuario
+
+Route::post('/buscar/usuario', [PostController::class, 'buscar'])->middleware(['auth'])->name('buscar_usuario');
 require __DIR__.'/auth.php';

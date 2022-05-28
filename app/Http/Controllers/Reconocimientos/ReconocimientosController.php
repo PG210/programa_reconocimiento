@@ -22,7 +22,7 @@ class ReconocimientosController extends Controller
 {
     public function enviar(){
         $idusu=auth()->id();
-        $usu=DB::table('users')->where('users.id', '!=', $idusu)->where('users.id_rol', '=', 2)->get();
+        $usu=DB::table('users')->where('users.id', '!=', $idusu)->where('users.id_rol', '!=', 1)->paginate(5);
         return view('reconocimientos.enviar')->with('usu', $usu);
     }
 

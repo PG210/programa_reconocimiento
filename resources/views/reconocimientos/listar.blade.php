@@ -17,9 +17,16 @@
         <div class="card">
           <div class="card-header" id="headingOne">
             <h2 class="mb-0">
-              <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              <h5><i class="fas fa-gift" style="color:#5959D1 ;"></i>&nbsp;Insignias</h5>
-              </button>
+              <div class="row">
+               <div class="col-6">
+                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <h5><i class="fas fa-gift" style="color:#5959D1 ;"></i>&nbsp;Insignias</h5>
+                </button>
+              </div>
+              <div class="col-6">
+                <a href="{{route('visinsignias')}}" type="button" class="btn float-right"><i class="fas fa-list-alt" style="color:#5959D1; font-size: 20px;"></i></a>
+               </div>
+             </div>
             </h2>
           </div>
 

@@ -172,7 +172,9 @@
       @if(Auth::user()->id_rol==3) <!--Logeado como jefe-->
           @include('jefe.menujefe')
       @endif
-     
+      @if(Auth::user()->id_rol==4) <!--Logeado como jefe-->
+          @include('gerente.menugerente')
+      @endif
 
       <!-- Sidebar Menu -->
       
