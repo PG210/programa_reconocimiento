@@ -71,29 +71,6 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-vote-yea"></i>
-              <p>
-                Votación
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/tables/simple.html" class="nav-link">
-                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                  <p>Simple Tables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/tables/data.html" class="nav-link">
-                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                  <p>DataTables</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
             <i class="nav-icon fas fa-medal"></i>
               <p>
                 Reportes
@@ -108,6 +85,14 @@
                 </a>
               </li>        
             </ul>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('habilitar_votacion')}}" class="nav-link">
+            <i class="nav-icon fas fa-vote-yea"></i>
+              <p>
+                Votación
+              </p>
+            </a>
           </li>
           <li class="nav-item">
             <a href="{{route('areas')}}" class="nav-link">

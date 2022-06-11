@@ -15,17 +15,15 @@ return new class extends Migration
     {
         Schema::create('postulado', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion');
-            $table->unsignedBigInteger('id_postulado');//atributo para referenciar a usuarios
-            $table->foreign('id_postulado')->references('id')->on('users');//llave foranea para referenciar a la tabla usuarios
-            $table->integer('votos_post'); //numero de votos con lo que se postula
-            $table->unsignedBigInteger('id_votante');//atributo para referenciar a usuarios
-            //se guara el id del usuario que vota
-            $table->foreign('id_votante')->references('id')->on('users');//llave foranea para referenciar a la tabla usuarios
+            $table->unsignedBigInteger('id_postulado');
+            $table->foreign('id_postulado')->references('id')->on('users');
+            $table->unsignedBigInteger('id_votocat');
+            $table->foreign('id_votocat')->references('id')->on('comportamiento_categ');
+            $table->unsignedBigInteger('id_votante');
+            $table->foreign('id_votante')->references('id')->on('users');
+            $table->string('periodo', 20);
+            $table->string('anio', 20);
             $table->dateTime('fecha_voto');
-
-            $table->unsignedBigInteger('id_estado');//atributo para referenciar a estado
-            $table->foreign('id_estado')->references('id')->on('estado');//llave foranea para referenciar a la tabla estado
             $table->timestamps();
         });
     }

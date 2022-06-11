@@ -13,6 +13,7 @@ use App\Http\Controllers\FiltrarCatController\FiltrarCat;
 use App\Http\Controllers\NotificacionController\Notificar;
 use App\Http\Controllers\Reportes;
 use App\Http\Controllers\JefesController\Jefescon;
+use App\Http\Controllers\VotacionController\VotacionControl;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -163,4 +164,12 @@ Route::get('/reporte/visualizar/recompensas', [InsigniasController::class, 'repo
 //buscar un usuario
 
 Route::post('/buscar/usuario', [PostController::class, 'buscar'])->middleware(['auth'])->name('buscar_usuario');
+
+//votacion habilitar
+Route::get('/admin/votacion', [VotacionControl::class, 'habilitar'])->middleware(['admin'])->name('habilitar_votacion');
+Route::get('/admin/hab/votacion/{estado}/{id}', [VotacionControl::class, 'hab_votacion'])->middleware(['admin']);
+Route::get('/vista/votacion', [VotacionControl::class, 'vista_user'])->middleware(['auth'])->name('votacion_user');
+Route::post('/votacion/buscar/usuario', [VotacionControl::class, 'buscar'])->middleware(['auth'])->name('buscar_votante');
+Route::post('/votacion/registrar', [VotacionControl::class, 'registrar'])->middleware(['auth'])->name('regvoto');
+
 require __DIR__.'/auth.php';

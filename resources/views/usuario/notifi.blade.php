@@ -291,10 +291,10 @@
                          <div class="row">
                                  <div class="col-3">
                                    <div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">
-                                   @if($le->imagen!=null)
+                                   @if($le->imagen!="ruta")
                                     <img src="{{asset('dist/imgperfil/'.$le->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
                                    @endif
-                                   @if($le->imagen==null)
+                                   @if($le->imagen=="ruta")
                                    <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
                                    @endif
                                    <br>
@@ -518,7 +518,7 @@ function eliminar(id){
           if(arreglo.length!=0){
             for(var x=0; x<arreglo.length; x++){
             
-            if(arreglo[x].imagen!=null){
+            if(arreglo[x].imagen=="ruta"){
 
               var valor =  '<div class="accordion" id="accordionExample">'+
                   '<div class="card">'+

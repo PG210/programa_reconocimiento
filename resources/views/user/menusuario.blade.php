@@ -1,3 +1,9 @@
+<?php
+  use Illuminate\Support\Facades\DB;
+
+  $es = DB::table('estavotacion')->select('estado')->get();
+
+?>
 <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
@@ -67,35 +73,16 @@
               </li>
             </ul>
           </li>
+          @if($es[0]->estado==1)
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('votacion_user')}}" class="nav-link">
             <i class="nav-icon fas fa-vote-yea"></i>
               <p>
                 Votación
-                <i class="fas fa-angle-left right"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/tables/simple.html" class="nav-link">
-                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp;<p>Simple Tables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/tables/data.html" class="nav-link">
-                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp;<p>DataTables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/tables/jsgrid.html" class="nav-link">
-                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp;<p>jsGrid</p>
-                </a>
-              </li>
-            </ul>
           </li>
+          @endif
         <!-- <li class="nav-header">EXAMPLES</li>
     
           <li class="nav-header">MISCELLANEOUS</li>-->
