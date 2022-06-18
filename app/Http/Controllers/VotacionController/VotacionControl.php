@@ -14,38 +14,22 @@ use Session;
 class VotacionControl extends Controller
 {
     public function habilitar(){
-        $es = DB::table('estavotacion')->select('estado', 'estavotacion.id as ides')->get();
+        $es = DB::table('estavotacion')->select('estado', 'estavotacion.id as ides', 'periodo', 'anio')->where('estado', '=', 1)->get();
+        $esfil = DB::table('estavotacion')->select('anio')->distinct()->get();
+        $total = DB::table('estavotacion')->where('estado', '=', 1)->count();
         //verificar si hay votos 
-        $val = DB::table('postulado')->count();
-        if($val!=0){
-            $votos = DB::table('postulado')
-                     ->join('users','postulado.id_postulado', '=', 'users.id')
-                     ->join('comportamiento_categ','postulado.id_votocat', '=', 'comportamiento_categ.id')
-                     ->join('roles','users.id_rol', '=', 'roles.id')
-                     ->join('cargo','users.id_cargo', '=', 'cargo.id')
-                     ->join('area','cargo.id_area', '=', 'area.id')
-                     ->selectRaw('users.id as idusu, users.name, users.apellido, users.imagen, roles.descripcion as rol,
-                                  cargo.nombre as cargos, area.nombre as areas, count(postulado.id_votocat) as total')
-                     ->groupBy('users.name')
-                     ->get();
-
-        }
-        $cat = RegVotoModel:://se debe validar el periodo de votacion 
-                 join('users','postulado.id_postulado', '=', 'users.id')
-                ->join('comportamiento_categ','postulado.id_votocat', '=', 'comportamiento_categ.id')
-                ->join('roles','users.id_rol', '=', 'roles.id')
-                ->join('cargo','users.id_cargo', '=', 'cargo.id')
-                ->join('area','cargo.id_area', '=', 'area.id')
-                ->select('id_postulado', 'id_votocat', 'comportamiento_categ.descripcion as categoria', 'users.name', 
-                          DB::raw( 'COUNT(postulado.id_votocat) as total'))
-                ->groupBy('id_postulado')
-                ->groupBy('id_votocat')
-                ->get();
-        return view('admin.votaciones')->with('es', $es)->with('votos', $votos)->with('cat', $cat);
+        //$val = DB::table('postulado')->count();
+        //obtner las fechas (anio)
+        $date = Carbon::now();
+        $anio = $date->format('Y');
+        return view('admin.votaciones')->with('es', $es)->with('anio', $anio)->with('total', $total)->with('esfil', $esfil);
     }
 
     public function vista_user(){
         $idlog= auth()->user()->id;
+        //consultar a la tabla votaciones
+        $vot = DB::table('estavotacion')->where('estado', '=', 1)->select('estavotacion.id as idvot', 'periodo', 'anio')->first();
+        //end votaciones
         $usu=DB::table('users')->where('id_rol', '!=', 1)->where('users.id', '!=', $idlog)
              ->join('roles', 'users.id_rol', '=', 'roles.id')
              ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
@@ -56,12 +40,12 @@ class VotacionControl extends Controller
           //aqui se debe colocar la validacion
                $v = DB::table('postulado')
                     ->where('id_votante', '=', $idlog)
-                    ->where('periodo', '=', 'A')->where('anio', '=', '2022')->count();
+                    ->where('id_estado', '=', $vot->idvot)->count();
             if($v!=0){
                     $b=1;
                     $voto =DB::table('postulado')
                           ->where('id_votante', '=', $idlog)
-                          ->where('periodo', '=', 'A')->where('anio', '=', '2022')->select('postulado.id_votocat as idcat')->get();
+                          ->where('id_estado', '=', $vot->idvot)->select('postulado.id_votocat as idcat')->get();
                     //cat 
                     $categ = DB::table('comportamiento_categ')
                             ->select('comportamiento_categ.id as idcat')
@@ -90,15 +74,31 @@ class VotacionControl extends Controller
                 }
 
               //aqui finaliza la validacion  
-              return view('user.vistavot')->with('usu', $usu)->with('cat', $cat)->with('b', $b);
+              return view('user.vistavot')->with('usu', $usu)->with('cat', $cat)->with('b', $b)->with('vot', $vot);
     }
 
-    public function hab_votacion($id, $estado){
-        $cam = EstavotModel::findOrFail($id);
-        $cam->estado=$estado;
-        $cam->save();
+    public function hab_votacion(Request $request){
+        $p = DB::table('estavotacion')->where('anio',$request->anio)->where('periodo', $request->per)->count();
+        if($p==0){
+            $reg = new EstavotModel();
+            $reg->anio = $request->input('anio');;
+            $reg->periodo = $request->input('per');
+            $reg->estado =$request->input('val'); //1 es habilitado
+            $reg->save();
+        }else{
+            Session::flash('errorhab', 'Seleccione un año y periodo diferente');
+        }
         return back();
     }
+
+    public function desvot($id, $val){
+        $actu = EstavotModel::findOrfail($id);
+        $actu->estado = $val;
+        $actu->save();
+        return back();
+    }
+
+
 
     public function buscar(Request $request){
         $idlog= auth()->user()->id;
@@ -111,14 +111,16 @@ class VotacionControl extends Controller
                      'roles.descripcion as rol', 'cargo.nombre as cargos', 'area.nombre as areas')
             ->get();
           //aqui se debe colocar la validacion
+          $vot = DB::table('estavotacion')->where('estado', '=', 1)->select('estavotacion.id as idvot', 'periodo', 'anio')->first();
+          //end buscar estado
           $v = DB::table('postulado')
                 ->where('id_votante', '=', $idlog)
-                ->where('periodo', '=', 'A')->where('anio', '=', '2022')->count();
+                ->where('id_estado', '=', $vot->idvot)->count();
             if($v!=0){
                     $b=1;
                     $voto =DB::table('postulado')
                             ->where('id_votante', '=', $idlog)
-                            ->where('periodo', '=', 'A')->where('anio', '=', '2022')->select('postulado.id_votocat as idcat')->get();
+                            ->where('id_estado', '=', $vot->idvot)->select('postulado.id_votocat as idcat')->get();
                     //cat 
                     $categ = DB::table('comportamiento_categ')
                             ->select('comportamiento_categ.id as idcat')
@@ -147,7 +149,7 @@ class VotacionControl extends Controller
                 }
 
                 //aqui finaliza la validacion 
-        return view('user.vistavot')->with('usu', $usu)->with('cat', $cat)->with('b', $b);
+        return view('user.vistavot')->with('usu', $usu)->with('cat', $cat)->with('b', $b)->with('vot', $vot);
     }
 
     //funcion para votar 
@@ -160,12 +162,11 @@ class VotacionControl extends Controller
             //validar votos
                 for ($i = 0; $i < $tam; ++$i){
                     $reg = new RegVotoModel();
-                    $reg->id_postulado = 1;
+                    $reg->id_postulado = $request->idpos;
                     $reg->id_votante = $idlog;
                     $reg->id_votocat = $dato[$i];
-                    $reg->periodo = 'A';
-                    $reg->anio = 2022;
                     $reg->fecha_voto = $date;
+                    $reg->id_estado = $request->idvot;
                     $reg->save();
                     // print $dato[$i];
                 }
@@ -174,5 +175,74 @@ class VotacionControl extends Controller
         }
         
         return back();
+    }
+
+    //filtrar votos
+    public function filtrar(Request $request){
+        $con = DB::table('estavotacion')->where('anio', $request->aniofil)->where('periodo', $request->peri)->select('estavotacion.id as idestado')->count();
+        if($con!=0){
+            $filtrarval = DB::table('estavotacion')->where('anio', $request->aniofil)->where('periodo', $request->peri)->select('estavotacion.id as idestado')->get();
+             $votoscon = DB::table('postulado')->where('postulado.id_estado', $filtrarval[0]->idestado)->count();
+            if($votoscon!=0){
+                $es = DB::table('estavotacion')->select('estado', 'estavotacion.id as ides', 'periodo', 'anio')->where('estado', '=', 1)->get();
+                $esfil = DB::table('estavotacion')->select('anio')->distinct()->get();
+                $total = DB::table('estavotacion')->where('estado', '=', 1)->count();
+                //verificar si hay votos 
+                //$val = DB::table('postulado')->count();
+                $votos = DB::table('postulado')
+                                ->where('postulado.id_estado', $filtrarval[0]->idestado)
+                                ->join('users','postulado.id_postulado', '=', 'users.id')
+                                ->join('comportamiento_categ','postulado.id_votocat', '=', 'comportamiento_categ.id')
+                                ->join('roles','users.id_rol', '=', 'roles.id')
+                                ->join('cargo','users.id_cargo', '=', 'cargo.id')
+                                ->join('area','cargo.id_area', '=', 'area.id')
+                                ->join('estavotacion', 'postulado.id_estado', '=', 'estavotacion.id')
+                                ->selectRaw('users.id as idusu, users.name, estavotacion.anio,  estavotacion.periodo, users.apellido, users.imagen, roles.descripcion as rol,
+                                            cargo.nombre as cargos, area.nombre as areas, count(postulado.id_votocat) as total')
+                                ->groupBy('users.name')
+                                ->orderBy('total','desc')
+                                ->get();
+                    $cat = RegVotoModel::where('postulado.id_estado', $filtrarval[0]->idestado)//se debe validar el periodo de votacion 
+                            ->join('users','postulado.id_postulado', '=', 'users.id')
+                        ->join('comportamiento_categ','postulado.id_votocat', '=', 'comportamiento_categ.id')
+                        ->join('roles','users.id_rol', '=', 'roles.id')
+                        ->join('cargo','users.id_cargo', '=', 'cargo.id')
+                        ->join('area','cargo.id_area', '=', 'area.id')
+                        ->select('id_postulado', 'id_votocat', 'comportamiento_categ.descripcion as categoria', 'users.name', 
+                                    DB::raw( 'COUNT(postulado.id_votocat) as total'))
+                        ->groupBy('id_postulado')
+                        ->groupBy('id_votocat')
+                        ->get();
+                //obtner las fechas (anio)
+                $date = Carbon::now();
+                $anio = $date->format('Y');
+                return view('admin.votaciones')->with('es', $es)->with('votos', $votos)->with('cat', $cat)->with('anio', $anio)->with('total', $total)->with('esfil', $esfil);
+            }else{
+                Session::flash('errorfitrar', 'No se encontraron registros para la busqueda.');
+                return back();
+            }
+        }else{
+            Session::flash('errorfitrar', 'No se encontraron registros para la busqueda.');
+            return back();
+
+        }
+       
+       
+    }
+
+    public function categoria(){
+        $cat = RegVotoModel:://se debe validar el periodo de votacion 
+          join('users','postulado.id_postulado', '=', 'users.id')
+        ->join('comportamiento_categ','postulado.id_votocat', '=', 'comportamiento_categ.id')
+        ->join('roles','users.id_rol', '=', 'roles.id')
+        ->join('cargo','users.id_cargo', '=', 'cargo.id')
+        ->join('area','cargo.id_area', '=', 'area.id')
+        ->select('id_postulado', 'id_votocat', 'comportamiento_categ.descripcion as categoria', 'users.name', 
+                    DB::raw( 'COUNT(postulado.id_votocat) as total'))
+        ->groupBy('id_postulado')
+        ->groupBy('id_votocat')
+        ->get();
+        return $cat;
+        return view('admin.listavot');
     }
 }

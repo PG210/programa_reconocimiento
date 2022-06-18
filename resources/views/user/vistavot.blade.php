@@ -4,6 +4,9 @@
   <div class="card">
     <div class="card-header" id="headingOne">
     <!---buscar-->
+    <div class="container" >
+       <h1 class="text-center">Votaciones Habilitadas Periodo: {{$vot->anio}} - {{$vot->periodo}}</h1><br>
+    </div>
     <div class="container">
         <br>
         <form action="{{route('buscar_votante')}}" method="POST">
@@ -154,6 +157,8 @@
                                     </tbody>
                                   </table>
                                 <!--end table-->
+                                <input value="{{$vot->idvot}}" name="idvot" id="idvot" hidden>
+                                <input value="{{$c->idusu}}" name="idpos" id="idpos" hidden>
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn" data-dismiss="modal" style="background-color:#FFBD03;">Salir</button>

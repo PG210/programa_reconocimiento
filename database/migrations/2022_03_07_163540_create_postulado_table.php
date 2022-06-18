@@ -20,9 +20,9 @@ return new class extends Migration
             $table->unsignedBigInteger('id_votocat');
             $table->foreign('id_votocat')->references('id')->on('comportamiento_categ');
             $table->unsignedBigInteger('id_votante');
-            $table->foreign('id_votante')->references('id')->on('users');
-            $table->string('periodo', 20);
-            $table->string('anio', 20);
+            $table->foreign('id_votante')->references('id')->on('users'); 
+            $table->unsignedBigInteger('id_estado');
+            $table->foreign('id_estado')->references('id')->on('estavotacion');
             $table->dateTime('fecha_voto');
             $table->timestamps();
         });

@@ -36,9 +36,6 @@
              <li><a href="{{ url('/dashboard') }}"><b>Volver</b></a></li>
             @else
              <li><a href="{{url('/reg') }}"><b>Iniciar</b></a></li>
-              @if (Route::has('register'))
-               <li><a href="{{ route('register') }}"><b>Registrar</b></a></li>
-               @endif
            @endauth
           @endif
         </ul>

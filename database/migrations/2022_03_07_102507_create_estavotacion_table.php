@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('estavotacion', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion', 30);
+            $table->string('anio', 30);
+            $table->string('periodo', 10);
             $table->string('estado', 10);
             $table->timestamps();
         });

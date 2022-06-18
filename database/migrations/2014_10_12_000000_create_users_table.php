@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('apellido');
-            $table->string('direccion');
+            $table->string('direccion')->nullable();
             $table->string('telefono');
             $table->unsignedBigInteger('id_rol'); //aqui sirve para conocer si el usuario es admin, jefe o visitante
             $table->foreign('id_rol')->references('id')->on('roles');//llave foranea para referenciar a la tabla users           <

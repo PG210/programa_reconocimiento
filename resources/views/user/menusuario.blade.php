@@ -1,7 +1,7 @@
 <?php
   use Illuminate\Support\Facades\DB;
 
-  $es = DB::table('estavotacion')->select('estado')->get();
+  $es = DB::table('estavotacion')->where('estado', '=', 1)->select('estado')->get();
 
 ?>
 <nav class="mt-2">
@@ -73,6 +73,7 @@
               </li>
             </ul>
           </li>
+          @if(isset($es[0]->estado))
           @if($es[0]->estado==1)
           <li class="nav-item">
             <a href="{{route('votacion_user')}}" class="nav-link">
@@ -82,6 +83,7 @@
               </p>
             </a>
           </li>
+          @endif
           @endif
         <!-- <li class="nav-header">EXAMPLES</li>
     

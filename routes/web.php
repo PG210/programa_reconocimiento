@@ -14,6 +14,9 @@ use App\Http\Controllers\NotificacionController\Notificar;
 use App\Http\Controllers\Reportes;
 use App\Http\Controllers\JefesController\Jefescon;
 use App\Http\Controllers\VotacionController\VotacionControl;
+use App\Http\Controllers\ImportacionController\Importacion;
+use App\Http\Controllers\MensajesController\MensajesControl;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -167,9 +170,19 @@ Route::post('/buscar/usuario', [PostController::class, 'buscar'])->middleware(['
 
 //votacion habilitar
 Route::get('/admin/votacion', [VotacionControl::class, 'habilitar'])->middleware(['admin'])->name('habilitar_votacion');
-Route::get('/admin/hab/votacion/{estado}/{id}', [VotacionControl::class, 'hab_votacion'])->middleware(['admin']);
+Route::post('/admin/hab/votacion', [VotacionControl::class, 'hab_votacion'])->middleware(['admin'])->name('hab_votaciones');
 Route::get('/vista/votacion', [VotacionControl::class, 'vista_user'])->middleware(['auth'])->name('votacion_user');
 Route::post('/votacion/buscar/usuario', [VotacionControl::class, 'buscar'])->middleware(['auth'])->name('buscar_votante');
 Route::post('/votacion/registrar', [VotacionControl::class, 'registrar'])->middleware(['auth'])->name('regvoto');
+Route::get('/deshab/votacion/{id}/{val}', [VotacionControl::class, 'desvot'])->middleware(['admin']);
+Route::post('/filtrar/votos', [VotacionControl::class, 'filtrar'])->middleware(['admin'])->name('filtrarVotos');
+Route::get('/votos/categoria', [VotacionControl::class, 'categoria'])->middleware(['admin'])->name('listaVot');
+//importar usuarios
+Route::post('/admin/importar/usuarios', [Importacion::class, 'archivoimpor'])->middleware(['admin'])->name('usuariosImport');
+
+//mensajes envio
+Route::get('/mensajes', [MensajesControl::class, 'vista'])->middleware(['auth'])->name('vistamensajes');
+
 
 require __DIR__.'/auth.php';
+

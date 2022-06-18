@@ -14,6 +14,45 @@
         </div>
         <br>
     @endif
+    <!---carga-->
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#carga">
+          <i class="fas fa-users" style="font-size:20px;"></i>
+        </button>
+
+        <!-- Modal -->
+        <form action="{{route('usuariosImport')}}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="modal fade" id="carga" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Carga Masiva De Usuarios</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               <!--formulario-->
+               <div class="input-group mb-3">
+                    <div class="custom-file">
+                        <input type="file" class="form-control" name="archivosubido" id="archivosubido" placeholder="elegir">
+                        <br>
+                    </div>
+                 </div>
+               <!--formulario de carga-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Salir</button>
+                <button type="submit" class="btn btn-primary">Importar</button>
+            </div>
+            </div>
+        </div>
+        </div>
+        </form>
+        
+    <!--carga masiva-->
+    <br>
     <div class="table-responsive">
     <table class="table">
               <thead class="table-warning">
@@ -97,5 +136,7 @@
           </table>
       </div>
         <!--end tabla-->
+
+
 
 @endsection
