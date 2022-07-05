@@ -176,7 +176,7 @@ Route::post('/votacion/buscar/usuario', [VotacionControl::class, 'buscar'])->mid
 Route::post('/votacion/registrar', [VotacionControl::class, 'registrar'])->middleware(['auth'])->name('regvoto');
 Route::get('/deshab/votacion/{id}/{val}', [VotacionControl::class, 'desvot'])->middleware(['admin']);
 Route::post('/filtrar/votos', [VotacionControl::class, 'filtrar'])->middleware(['admin'])->name('filtrarVotos');
-Route::get('/votos/categoria', [VotacionControl::class, 'categoria'])->middleware(['admin'])->name('listaVot');
+Route::post('/votos/categoria', [VotacionControl::class, 'categoria'])->middleware(['admin'])->name('listaVot');
 //importar usuarios
 Route::post('/admin/importar/usuarios', [Importacion::class, 'archivoimpor'])->middleware(['admin'])->name('usuariosImport');
 

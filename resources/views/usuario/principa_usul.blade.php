@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>Reconocimiento</title>
+  <link rel="icon" href="{{asset('dist/img/favicon.png')}}">
   @include('usuario.stylecss')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -11,7 +12,7 @@
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="{{ asset('dist/img/logo_evo.png')}}" alt="AdminLTELogo" height="60" width="60">
+    <img class="animation__shake" src="{{ asset('dist/img/logo_evo.png')}}" alt="cargando ..." height="60" width="60">
   </div>
 
   <!-- Navbar -->

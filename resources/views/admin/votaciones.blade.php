@@ -1,29 +1,26 @@
 @extends('usuario.principa_usul')
 @section('content')
 <div class="accordion" id="accordionExample">
-  <div class="card">
-    <div class="card-header" id="headingOne">
+  <div class="card" >
+    <div class="card-header" id="headingOne" style="background-color:#Ffbd03;">
     <div class="row">
         <div class="col-8">
-                <a href="/admin/votacion" class="btn text-left" type="button"  aria-controls="collapseOne">
-                   <i class="fas fa-home" style="font-size:23px;"></i>
-                </a>
                 <!-- Button trigger modal -->
-                 @if($total!=0)
-                    <a href="{{route('listaVot')}}" type="button" class="btn">
-                     <i class="fas fa-list-alt" style="font-size:23px;"></i>
-                    </a>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filtrarcat">
+                       <i class="fas fa-list-alt" style="font-size:23px;"></i>
+                    </button>
                     <!--end buton-->
-                    <button type="button" class="btn " data-toggle="modal" data-target="#filtrarvotos">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filtrarvotos">
                         <i class="fas fa-filter" style="font-size:22px;"></i> 
                     </button>
-                    <form action="{{route('filtrarVotos')}}" method="POST">
+
+                 <form action="{{route('filtrarVotos')}}" method="POST">
                 @csrf
                 <!-- Modal -->
                 <div class="modal fade" id="filtrarvotos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header" style="background-color:#1ED5F4;">
                         <h5 class="modal-title" id="exampleModalLabel">Seleccionar Año y Periodo</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -36,9 +33,11 @@
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Año</label>
                                 <select class="form-control" id="aniofil" name="aniofil">
-                                @foreach($esfil as $fil)
-                                <option val="{{$fil->anio}}">{{$fil->anio}}</option>
-                                @endforeach
+                                   @foreach($esfil as $fil)
+                                        @if(isset($fil->anio))
+                                            <option val="{{$fil->anio}}">{{$fil->anio}}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                         </div> 
@@ -55,18 +54,84 @@
                       <!--end inputs-->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-backward" style="font-size:15px;"></i></button>
+                        <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-backward" style="font-size:15px;"></i></button>
+                        @if(isset($esfil[0]->anio))
                         <button type="submit" class="btn btn-primary"><i class="fas fa-search" style="font-size:15px;"></i></button>
+                        @endif
                     </div>
                     </div>
                 </div>
                 </div>
              </form>
-             @endif
-            <!--end button-->
+            <!--end filtrar-->
             <!--filtrar por categoria-->
             <!-- Button trigger modal -->
-            <!--end filtrar-->
+                <!-- Modal -->
+                <form action="{{route('listaVot')}}" method="POST">
+                @csrf
+                <div class="modal fade" id="filtrarcat" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header" style="background-color:#1ED5F4;">
+                        <h5 class="modal-title" id="exampleModalLabel">Filtrar Votos Por Categoria</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!--mostrar categorias-->
+                         <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="categoria">Categoria</label>
+                                    <select class="form-control" id="categoria" name="categoria">
+                                      @foreach($cat as $c)
+                                        @if(isset($c->descripcion))
+                                          <option value="{{$c->idcat}}">{{$c->descripcion}}</option>
+                                        @endif
+                                      @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Año</label>
+                                    <select class="form-control" id="anio" name="anio">
+                                    
+                                    @foreach($esfil as $fil)
+                                        @if(isset($fil->anio))
+                                            <option val="{{$fil->anio}}">{{$fil->anio}}</option>
+                                        @endif
+                                    @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Periodo</label>
+                                    <select class="form-control" id="per" name="per">
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    </select>
+                                </div>
+                            </div>
+                         </div>
+                        <!--end categorias-->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-backward" style="font-size:15px;"></i></button>
+                        @if(isset($esfil[0]->anio))
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-search" style="font-size:15px;"></i></button>
+                        @endif
+                    </div>
+                    </div>
+                </div>
+                </div>
+              </form>
+            <!--end filtrar por categoria-->
           </div>
           <div class="col-4">
                <!--button-->
@@ -82,7 +147,7 @@
                 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header" style="background-color:#1ED5F4;">
                             <h5 class="modal-title" id="staticBackdropLabel">Habilitar Votaciones</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -128,7 +193,7 @@
                 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header" style="background-color:#1ED5F4;">
                             <h5 class="modal-title" id="staticBackdropLabel">Habilitar Votaciones</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -164,17 +229,17 @@
                   @endif
                 <!--end modal-->
                 @if(isset($es[0]->estado)==1)
-                        <button type="button" class="btn float-right d-none d-sm-none d-md-block" data-toggle="modal" data-target="#staticBackdropvot1" style="background-color:#FFBD03; margin-left:20rem;">
+                        <button type="button" class="btn float-right d-none d-sm-none d-md-block" data-toggle="modal" data-target="#staticBackdropvot1" style="background-color:#3190EF; color:white; margin-left:20rem;">
                             Deshabilitar 
                         </button>
-                        <button type="button" class="btn float-right d-block d-sm-block d-md-none" data-toggle="modal" data-target="#staticBackdropvot1" style="background-color:#FFBD03;">
+                        <button type="button" class="btn float-right d-block d-sm-block d-md-none" data-toggle="modal" data-target="#staticBackdropvot1" style="background-color:#3190EF; color:white;">
                             Deshabilitar 
                         </button>
                         <!-- Modal -->
                         <div class="modal fade" id="staticBackdropvot1" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                            <div class="modal-header">
+                            <div class="modal-header" style="background-color:#1ED5F4;">
                                 <h5 class="modal-title" id="staticBackdropLabel">Deshabilitar Votaciones</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -196,6 +261,7 @@
          </div>          
        </div>
        @if(Session::has('errorhab'))
+       <br>
         <div class="alert  alert-dismissible fade show" role="alert" style="background-color:#1ED5F4 ;">
         <strong>{{Session::get('errorhab')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -204,6 +270,7 @@
         </div>
        @endif
        @if(Session::has('errorfitrar'))
+       <br>
         <div class="alert  alert-dismissible fade show" role="alert" style="background-color:#1ED5F4 ;">
         <strong>{{Session::get('errorfitrar')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -213,115 +280,7 @@
        @endif
     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
-        <!---table-->
-        <div class="table-responsive">
-            <table class="table">
-                    <thead style="background-color:#FFBD03;">
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Periodo</th>
-                        <th scope="col">imagen</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Apellido</th>
-                        <th scope="col">Rol</th>
-                        <th scope="col">Cargo</th>
-                        <th scope="col">Area</th>
-                        <th scope="col">Votos</th>
-                        <th scope="col">Descripción</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                         $conta=1;
-                        ?>
-                       @if(isset($votos[0]))
-                       @foreach($votos as $v)
-                        <tr>
-                            <td>{{$conta++}}</td>
-                            <td>{{$v->anio}}-{{$v->periodo}}</td>
-                            <td>
-                                    @if($v->imagen==NULL)
-                                    <div class="user-panel mt-0 pb-0 mb-0 d-flex">
-                                        <div class="image">
-                                        <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
-                                        </div>
-                                    </div>
-                                    @endif
-                                    @if($v->imagen!=NULL)
-                                    <!--imagen-->
-                                    <div class="user-panel mt-0 pb-0 mb-0 d-flex">
-                                            <div class="image">
-                                            <img src="{{asset('dist/imgperfil/'.$v->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width">
-                                            </div>
-                                    </div>
-                                    @endif
-                            </td>
-                            <td>{{$v->name}}</td>
-                            <td>{{$v->apellido}}</td>
-                            <td>{{$v->rol}}</td>
-                            <td>{{$v->cargos}}</td>
-                            <td>{{$v->areas}}</td>
-                            <td>{{$v->total}}</td>
-                            <td>
-                            <!--modal -->
-                            <!-- Button trigger modal -->
-                                <div class="text-center">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop{{$v->idusu}}">
-                                      <i class="fas fa-vote-yea"></i>
-                                    </button>
-                                </div>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="staticBackdrop{{$v->idusu}}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                        <div class="modal-header"  style="background-color:#26F8FF;">
-                                            <h5 class="modal-title" id="staticBackdropLabel">Detalle de Votos</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                        <!---table-->
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                <th scope="col">No</th>
-                                                <th scope="col">Categoria</th>
-                                                <th scope="col">Votos</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                             <?php 
-                                              $vot=1;
-                                             ?>
-                                              @foreach($cat as $c)
-                                              @if($v->idusu == $c->id_postulado)
-                                                <tr>
-                                                <th scope="row">{{$vot++}}</th>
-                                                <td>{{$c->categoria}}</td>
-                                                <td>{{$c->total}}</td>
-                                                </tr>
-                                                @endif
-                                              @endforeach
-                                            </tbody>
-                                            </table>
-                                        <!--end table-->
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn" data-dismiss="modal" style="background-color:#26F8FF;"><i class="fas fa-sign-out-alt"></i></button>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                            <!--end modal-->
-                            </td>
-                        </tr>
-                       @endforeach
-                       @endif
-                    </tbody>
-                </table>
-            </div>
-        <!--end table-->
+
       </div>
     </div>
   </div>

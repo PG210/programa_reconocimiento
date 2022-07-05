@@ -17,12 +17,13 @@ class VotacionControl extends Controller
         $es = DB::table('estavotacion')->select('estado', 'estavotacion.id as ides', 'periodo', 'anio')->where('estado', '=', 1)->get();
         $esfil = DB::table('estavotacion')->select('anio')->distinct()->get();
         $total = DB::table('estavotacion')->where('estado', '=', 1)->count();
+        $cat = DB::table('comportamiento_categ')->select('comportamiento_categ.descripcion', 'comportamiento_categ.id as idcat')->get();
         //verificar si hay votos 
         //$val = DB::table('postulado')->count();
         //obtner las fechas (anio)
         $date = Carbon::now();
         $anio = $date->format('Y');
-        return view('admin.votaciones')->with('es', $es)->with('anio', $anio)->with('total', $total)->with('esfil', $esfil);
+        return view('admin.votaciones')->with('cat', $cat)->with('es', $es)->with('anio', $anio)->with('total', $total)->with('esfil', $esfil);
     }
 
     public function vista_user(){
@@ -216,7 +217,7 @@ class VotacionControl extends Controller
                 //obtner las fechas (anio)
                 $date = Carbon::now();
                 $anio = $date->format('Y');
-                return view('admin.votaciones')->with('es', $es)->with('votos', $votos)->with('cat', $cat)->with('anio', $anio)->with('total', $total)->with('esfil', $esfil);
+                return view('admin.listavot')->with('votos', $votos)->with('cat', $cat);
             }else{
                 Session::flash('errorfitrar', 'No se encontraron registros para la busqueda.');
                 return back();
@@ -230,19 +231,30 @@ class VotacionControl extends Controller
        
     }
 
-    public function categoria(){
+    public function categoria(Request $request){
         $cat = RegVotoModel:://se debe validar el periodo de votacion 
-          join('users','postulado.id_postulado', '=', 'users.id')
-        ->join('comportamiento_categ','postulado.id_votocat', '=', 'comportamiento_categ.id')
-        ->join('roles','users.id_rol', '=', 'roles.id')
-        ->join('cargo','users.id_cargo', '=', 'cargo.id')
-        ->join('area','cargo.id_area', '=', 'area.id')
-        ->select('id_postulado', 'id_votocat', 'comportamiento_categ.descripcion as categoria', 'users.name', 
-                    DB::raw( 'COUNT(postulado.id_votocat) as total'))
-        ->groupBy('id_postulado')
-        ->groupBy('id_votocat')
-        ->get();
-        return $cat;
-        return view('admin.listavot');
+                 join('users','postulado.id_postulado', '=', 'users.id')
+                ->join('comportamiento_categ','postulado.id_votocat', '=', 'comportamiento_categ.id')
+                ->join('roles','users.id_rol', '=', 'roles.id')
+                ->join('cargo','users.id_cargo', '=', 'cargo.id')
+                ->join('area','cargo.id_area', '=', 'area.id')
+                ->join('estavotacion', 'postulado.id_estado', '=', 'estavotacion.id')
+                ->where('comportamiento_categ.id', $request->categoria)
+                ->where('estavotacion.anio', $request->anio)->where('estavotacion.periodo', $request->per)
+                ->select('id_postulado', 'id_votocat', 'estavotacion.anio', 'estavotacion.periodo', 'users.imagen',
+                          'users.apellido', 'comportamiento_categ.descripcion as categoria', 'users.name', 'cargo.nombre as nomcar', 'area.nombre as areanom',
+                            DB::raw( 'COUNT(postulado.id_votocat) as total'))
+                ->groupBy('id_postulado')
+                ->groupBy('id_votocat')
+                ->get();
+        return view('admin.votcat')->with('cat', $cat);
+
+        /*
+         ->select('id_postulado', 'id_votocat', 'comportamiento_categ.descripcion as categoria', 'users.name', 
+                            DB::raw( 'COUNT(postulado.id_votocat) as total'))
+                ->groupBy('id_postulado')
+                ->groupBy('id_votocat')
+
+        */
     }
 }
