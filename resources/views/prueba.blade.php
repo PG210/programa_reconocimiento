@@ -22,7 +22,12 @@
                    <img src="dist/img/logo_evo.png" width="50px" style="margin-left:33%;" alt="..."> 
                 </a>
             </div>
-
+            @if(Session::has('errorInicio'))
+                <div style="background-color:#FFE527;">
+                {{Session::get('errorInicio')}}
+                </div>
+                <br><br>
+            @endif
             <div>
                <!-- <x-label for="email" :value="__('Usuario')" />-->
                 <label >Usuario</label>

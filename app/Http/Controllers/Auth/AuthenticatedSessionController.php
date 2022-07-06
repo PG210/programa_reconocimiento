@@ -7,6 +7,9 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use DB;
+Use Session;
+
 
 class AuthenticatedSessionController extends Controller
 {
@@ -16,8 +19,10 @@ class AuthenticatedSessionController extends Controller
      * @return \Illuminate\View\View
      */
     public function create()
-    {
-        return view('auth.login');
+    {  
+
+            return view('auth.login');
+        
     }
 
     /**
@@ -28,11 +33,22 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        $request->authenticate();
+       //valida si el usuario esta deshabilitado segun el estado
+        $con = DB::table('users')->where('users.email', '=', $request->email)->where('users.id_estado', '=', '1')->count();
+        
+        if($con!=0){
 
-        $request->session()->regenerate();
+            $request->authenticate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+            $request->session()->regenerate();
+    
+            return redirect()->intended(RouteServiceProvider::HOME);
+
+        }else{
+            Session::flash('errorInicio','Lo sentimos! Tu usuario ha sido deshabilitado');
+            return back();
+        }
+       
     }
 
     /**
