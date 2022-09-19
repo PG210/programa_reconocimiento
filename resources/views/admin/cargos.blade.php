@@ -1,23 +1,23 @@
 @extends('usuario.principa_usul')
 @section('content')
   <!-- Button trigger modal -->
-<div class="alert text-center" role="alert" style="background-color:#1ED5F4;">
- <h3>Gestión De Cargos </h3>
+<div class="alert text-center titulo" role="alert">
+ <h3>GESTIÓN DE CARGOS </h3>
 </div>
 <br>
-  <div class="row">
+  <div class="row letraform">
       <div class="col-md-10">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
-        <i class="fas fa-pen-alt"></i>&nbsp;Registrar Cargos
+        <i class="fas fa-pen-alt"></i>&nbsp;Registrar
        </button>
       </div>
       <div class="col-md-2">
-        <a type="button" href="{{route('areas')}}" class="btn btn-success">Volver</a>
+        <a type="button" href="{{route('areas')}}" class="btn salir float-right">Volver</a>
       </div>
    </div> 
 
        <!-- Modal -->
-       <form id="formu" action="{{route('guardarcargo')}}" method="POST">
+       <form id="formu" action="{{route('guardarcargo')}}" method="POST" class="letraform">
                 @csrf
                 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -49,8 +49,8 @@
                         <!----############--->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="btn confirmar">Guardar</button>
+                        <button type="button" class="btn salir" data-dismiss="modal">Cancelar</button>
                     </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
        <!--##################--->
       @if(Session::has('mensaje'))
         <br>
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <div class="alert alert-info alert-dismissible fade show letraform" role="alert">
         <strong>{{Session::get('mensaje')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -68,7 +68,7 @@
         @endif
         @if(Session::has('mensajeerror'))
         <br>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show letraform" role="alert">
         <strong>{{Session::get('mensajeerror')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -78,13 +78,14 @@
     <div class="row">
     <div class="col-md-12"> 
         <br>
-        <table class="table">
-            <thead style="background-color:#Ffbd03 ;">
+        <div class="table-responsive">
+        <table class="table letraform">
+            <thead class="tablaheader">
                 <tr>
                 <th scope="col">No</th>
                 <th scope="col">Cargo</th>
                 <th scope="col">Area</th>
-                <th scope="col">Acción</th>
+                <th scope="col" class="text-center">Acción</th>
                 </tr>
             </thead>
                 <tbody>
@@ -97,9 +98,9 @@
                        <td>{{$conta++}}</td>
                        <td>{{$f->cargonom}}</td>
                        <td>{{$f->areanom}}</td>
-                       <td>
-                           <a href="{{route('eliminarcargo',$f->idcar)}}" type="submit" class="btn btn-danger"> <i class="fas fa-trash-alt"></i></a>
-                           <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{$f->idcar}}">
+                       <td class="text-center">
+                           <a href="{{route('eliminarcargo',$f->idcar)}}" type="submit" class="btn btn-danger float-none"> <i class="fas fa-trash-alt"></i></a>
+                           <a type="button" class="btn btn-primary float-none" data-toggle="modal" data-target="#exampleModal{{$f->idcar}}">
                            <i class="nav-icon fas fa-edit" style="color:white;" ></i>
                           </a>
                           <!-- Modal -->
@@ -114,7 +115,7 @@
                                         <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-body" style="text-align:left;">
                                          <!--##############-->
                                             <!---##########-->
                                         
@@ -136,9 +137,9 @@
                                         <!--###########-->
                                         <!----############--->
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                    <div class="modal-footer letraform">
+                                        <button type="submit" class="btn confirmar">Guardar</button>
+                                        <button type="button" class="btn salir" data-dismiss="modal">Cancelar</button>
                                     </div>
                                     </div>
                                 </div>
@@ -151,7 +152,7 @@
                     @endforeach
                     @endif
                     @if($b==0)
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <div class="alert alert-warning alert-dismissible fade show letraform" role="alert">
                     <strong>No hay registros!</strong> Por favor ingresa un cargo.
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -160,6 +161,7 @@
                     @endif
                 </tbody>
         </table>
+      </div>
     </div>
 </div>
 <!--###########################--->

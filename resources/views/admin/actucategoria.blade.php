@@ -1,10 +1,10 @@
 @extends('usuario.principa_usul')
 @section('content')
 <!--formulario de actualizacion-->
-<div class="alert alert-success text-center" role="alert">
-Actualizar Comportamiento
+<div class="alert text-center titulo" role="alert">
+<h3>ACTUALIZAR COMPORTAMIENTO</h3>
 </div>
-<form  method="POST" action ="{{route('actualizarcat', $cat[0]->idcat)}}" enctype="multipart/form-data">
+<form  method="POST" action ="{{route('actualizarcat', $cat[0]->idcat)}}" enctype="multipart/form-data" class="letraform">
     @csrf
 <div class="form-group">
     <label for="nombre">Nombre</label>
@@ -39,11 +39,11 @@ Actualizar Comportamiento
     <div class="row">
         <div class="col-2">
         </div>
-        <div class="col-8">
+        <div class="col-6">
         </div>
-        <div class="col-2">
-        <button type="submit" class="btn btn-success">Guardar</button>
-        <a href="#" type="button" class="btn btn-warning" onclick="back()">Volver</a>
+        <div class="col-4 text-right">
+        <button type="submit" class="btn confirmar">Actualizar</button>
+        <a href="#" type="button" class="btn salir" onclick="back()">Volver</a>
         </div>
     </div>
   </div>

@@ -1,10 +1,10 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert alert-primary text-center" role="alert">
- Registro De Insignias
+<div class="alert text-center titulo" role="alert">
+ <h3>REGISTRO DE INSIGNIAS</h3>
 </div>
 <br>
-<form action="{{route('registroinsignias')}}" method="POST"  enctype="multipart/form-data">
+<form action="{{route('registroinsignias')}}" method="POST"  enctype="multipart/form-data" class="letraform">
   @csrf
   <div class="form-row">
     <div class="form-group col-md-6">
@@ -57,7 +57,7 @@
         <!--tabla-->
         <!--tabla para ver los valores-->
         <table class="table">
-              <thead class="table-warning">
+              <thead class="tablaheader">
               <tr>
                 <th scope="col">No</th>
                 <th scope="col">Nombre</th>
@@ -112,24 +112,26 @@
   </div>
 
   <br>
-  <button type="submit" class="btn btn-primary">Registrar</button>
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#visualizar">
+  <button type="submit" class="btn confirmar">Registrar</button>
+  <button type="button" class="btn ver" data-toggle="modal" data-target="#visualizar">
   Visualizar
 </button>
 </form>
+<br>
 <div class="modal fade" id="visualizar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Insignias Registradas</h5>
+        <h5 class="modal-title titulo" id="exampleModalLabel">INSIGNIAS REGISTRADAS</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body letraform">
         <!--tabla para ver los valores-->
+         <div class="table-responsive">
             <table class="table">
-              <thead class="table-warning">
+              <thead class="tablaheader">
               <tr>
                 <th scope="col">No</th>
                 <th scope="col">Nombre</th>
@@ -137,6 +139,7 @@
                 <th scope="col">Puntos</th>
                 <th scope="col">Imagen</th>
                 <th scope="col">Recompensa</th>
+                <th scope="col">Acción</th>
               </tr>
             </thead>
             <tbody>
@@ -159,6 +162,7 @@
                   <td><button type="button" class="btn btn-danger">Eliminar</button></td>
                  -->
                  <td>{{$c->prenom}}</td>
+                 <td><a href="{{route('actualizarinsignia',$c->id)}}" type="button" class="btn btn-success">Actualizar</a></td>
                 </tr>
              @endforeach
             @else
@@ -169,11 +173,11 @@
                
             </tbody>
           </table>
-
+          </div>
         <!--end tabla-->
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      <div class="modal-footer  letraform">
+        <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

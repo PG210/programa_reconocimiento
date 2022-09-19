@@ -1,54 +1,85 @@
 @extends('principal')
 @section('content')
+<style>
+  .letra{
+       font-family: 'Roboto Slab', serif;
+       font-size:40px;
+       line-height: 1.3;
+       font-weight: 700;
+       text-align:center; 
+  }
+  .textos{
+       font-family: 'Roboto Slab', serif;
+       font-size:20px;
+       line-height: 1.5;
+       color:#2E2E2E;
+       text-align:justify; 
+  }
+  .textos1{
+       font-family: 'Roboto Slab', serif;
+       font-size:18px;
+       line-height: 1.3;
+       color:white;
+       text-align:justify; 
+  }
+  .textos2{
+       font-family: 'Roboto Slab', serif;
+       font-size:19px;
+       line-height: 1.3;
+       color:white;
+       text-align:center; 
+  }
+</style>
 <div class="overlay">
     <div id="pageintro" class="hoc clear"> 
       <!-- ################################################################################################ -->
       <article>
-        <h3 class="heading">Programa Reconocimiento</h3>
-        <p>Lema</p>
-        <footer><a class="btn" href="#">Iniciar</a></footer>
+       <!-- <h3 class="heading">Programa Reconocimiento</h3>
+        <p>Lema</p>-->
+       <!-- <footer><a class="btn" href="#">Iniciar</a></footer>-->
       </article>
       <!-- ################################################################################################ -->
     </div>
   </div>
   <!-- ################################################################################################ -->
 </div>
-<!-- End Top Background Image Wrapper -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<div class="wrapper row3">
+<div class="wrapper row3" style="background-color:#F8F8F8;">
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
+    
     <section id="introblocks">
+  
       <ul class="nospace group btmspace-80">
-        <li class="one_third first">
-          <figure><a class="imgover" href="#"><img src="images/demo/348x400.png" alt=""></a>
-            <figcaption>
-              <h6 class="heading">Puntos</h6>
-              <div>
-                <p>Descripción sobre ¿como ganar puntos?</p>
+        <li class="one_third first" >
+          <figure><a class="imgover"><img src="{{asset('dist/img/puntos.png')}}"  alt="cargando imagen ..."  style=" border: 2px; border-radius: 25px; background-color:white;"> </a>
+            <figcaption style=" border: 2px;  padding: 10px; border-radius: 25px; ">
+              <h6 class="heading textos2">PUNTOS</h6>
+              <div class="textos1" style="color:white;">
+               <!-- <p>¿Como ganar puntos?</p>-->
+               <p> Ser bueno en tu trabajo siempre trae cosas buenas, recibe reconocimientos por parte de tus compañeros y gana puntos redimibles.</p>
               </div>
             </figcaption>
           </figure>
         </li>
         <li class="one_third">
-          <figure><a class="imgover" href="#"><img src="images/demo/348x400.png" alt=""></a>
-            <figcaption>
-              <h6 class="heading">Insignias</h6>
-              <div>
-                <p>Descripción sobre ¿como ganar insignias?</p>
+          <figure><a class="imgover" href="#"><img src="{{asset('dist/img/insignia.png')}}"  alt="cargando imagen ..." style=" border: 2px; border-radius: 25px; background-color:white;"></a>
+            <figcaption style=" border: 2px;  padding: 10px; border-radius: 25px; ">
+              <h6 class="heading textos2">INSIGNIAS</h6>
+              <div class="textos1">
+               <!-- <p>¿Como ganar insignias?</p>-->
+                <p>Los puntos obtenidos por tu buen trabajo, se ven reflejados en cada insignia obtenida.</p>
               </div>
             </figcaption>
           </figure>
         </li>
         <li class="one_third">
-          <figure><a class="imgover" href="#"><img src="images/demo/348x400.png" alt=""></a>
-            <figcaption>
-              <h6 class="heading">Recompensas</h6>
-              <div>
-                <p>Descripción sobre ¿Como obtener recompensas?</p>
+          <figure><a class="imgover" href="#"><img src="{{asset('dist/img/recompensas.png')}}" alt="cargando imagen ..." style=" border: 2px; border-radius: 25px; background-color:white;"></a>
+            <figcaption style=" border: 2px;  padding: 10px; border-radius: 25px; ">
+              <h6 class="heading textos2">RECOMPENSAS</h6>
+              <div class="textos1">
+               <!-- <p>¿Como obtener recompensas?</p>-->
+                <p>Cada insignia trae con sigo una gran recompensa.</p>
               </div>
             </figcaption>
           </figure>
@@ -56,37 +87,22 @@
       </ul>
     </section>
     <!-- ################################################################################################ -->
+    <div style=" border: 2px;  padding: 10px; border-radius: 25px; color:#15AFBA;" class="letra">¿POR QUÉ TENER UN PROGRAMA DE RECONOCIMIENTO EN SU EMPRESA? </div>
     <hr class="btmspace-80">
+    
     <!-- ################################################################################################ -->
     <section class="group">
-      <div class="one_half first"><img class="inspace-15 borderedbox" src="images/demo/474x356.png" alt=""></div>
-      <div class="one_half">
-        <ul class="nospace group inspace-15">
-          <li class="one_half first btmspace-50">
-            <article>
-              <h6 class="heading"><a href="#">hola</a></h6>
-              <p class="nospace">Sed tellus fusce velit orci aliquet et condimentum sit amet dapibus eget odio vivamus urna pellentesque felis&hellip;</p>
-            </article>
-          </li>
-          <li class="one_half btmspace-50">
-            <article>
-              <h6 class="heading"><a href="#">Pellentesque ipsum</a></h6>
-              <p class="nospace">Ut quam imperdiet tincidunt vestibulum eget magna eget sem imperdiet tincidunt praesent sit amet adipiscing&hellip;</p>
-            </article>
-          </li>
-          <li class="one_half first">
-            <article>
-              <h6 class="heading"><a href="#">Risus auctor vel</a></h6>
-              <p class="nospace">Accumsan curabitur cursus porta lectus nam posuere orci in elementum molestie purus erat volutpat ullamcorper&hellip;</p>
-            </article>
-          </li>
-          <li class="one_half">
-            <article>
-              <h6 class="heading"><a href="#">Volutpat vitae</a></h6>
-              <p class="nospace">Elit purus non odio etiam dictum euismod lectus vestibulum tincidunt erat vel molestie gravida ligula lacus&hellip;</p>
-            </article>
-          </li>
-        </ul>
+      <div class="one_half first"><img class="inspace-15 borderedbox" src="{{asset('images/demo/trofeo.png')}}" alt="cargando imagen ..." style="border-radius: 25px; background-color:white;" width="100%;"></div>
+      <div class="one_half textos">
+               <p> 
+                Todos los estudios demuestras que cuando el ser humano es reconocido, su <span style="color:#FFBD03;">motivación</span>, sentido de <span style="color:#FFBD03;">pertenencia</span> y su <span style="color:#FFBD03;">compromiso</span> aumentan.
+               </p>
+               <p>
+                Lo curioso es que se nos dificulta (por diferentes razones) reconocer las cosas buenas del otro, es más fácil evidenciar en que ha fallado y hacérselo saber de todas las maneras posible, que decirle todo lo bueno que hace.
+               </p>
+               <p>
+               Por tanto, nuestro programa de reconocimiento le ayudará a que sea fácil y divertido reconocer, lo verán como un juego, con actividades a través del tiempo que irán consolidando día a día una cultura de agradecimiento, apalancando el fortalecimiento del clima organizacional, de las competencias y los valores organizacionales.
+               </p>
       </div>
     </section>
     <!-- ################################################################################################ -->
@@ -94,39 +110,16 @@
     <div class="clear"></div>
   </main>
 </div>
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!--<div class="bgded overlay" style="background-image:url('images/demo/backgrounds/01.png');">
-  <figure class="hoc container clear imgroup"> -->
-    <!-- ################################################################################################ -->
-  <!--  <figcaption class="sectiontitle">
-      <p class="nospace font-xs">Pulvinar sem eu tincidunt magna</p>
-      <p class="heading underline font-x2">Nulla eu turpis curabitur</p>
-    </figcaption>
-    <ul class="nospace group">
-      <li class="one_third"><a class="imgover" href="#"><img src="images/demo/348x261.png" alt=""></a></li>
-      <li class="one_third"><a class="imgover" href="#"><img src="images/demo/348x261.png" alt=""></a></li>
-      <li class="one_third"><a class="imgover" href="#"><img src="images/demo/348x261.png" alt=""></a></li>
-      <li class="one_third"><a class="imgover" href="#"><img src="images/demo/348x261.png" alt=""></a></li>
-      <li class="one_third"><a class="imgover" href="#"><img src="images/demo/348x261.png" alt=""></a></li>
-      <li class="one_third"><a class="imgover" href="#"><img src="images/demo/348x261.png" alt=""></a></li>
-    </ul>-->
-    <!-- ################################################################################################ -->
- <!-- </figure>-->
   <!-- ################################################################################################ -->
   </section>
 </div>
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<div class="wrapper row2">
+
+<!--
+<div class="wrapper" style="background-color:#C4C4C4;">
   <div class="hoc container clear"> 
-    <!-- ################################################################################################ -->
-    <div class="sectiontitle">
-      <p class="heading underline font-x2">¡Dentro de nuestra plataforma podras encontrar!</p>
-    </div>
-    <ul class="nospace group team">
+      <div style=" border: 2px;  padding: 10px; border-radius: 25px; color:#082e41;" class="letra">¿QUÉ PODRÁS HACER EN NUESTRO PROGRAMA DE RECONOCIMIENTO? </div>
+       <hr class="btmspace-80">
+       <ul class="nospace group team">
       <li class="one_quarter first">
         <figure><a class="imgover" href="#"><img src="images/demo/300x300.png" alt=""></a>
           <figcaption><strong>A. Doe</strong> <em>Job Title Here</em></figcaption>
@@ -148,9 +141,8 @@
         </figure>
       </li>
     </ul>
-    <!-- ################################################################################################ -->
   </div>
-</div>
+</div>-->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->

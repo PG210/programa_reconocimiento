@@ -183,6 +183,14 @@ Route::post('/admin/importar/usuarios', [Importacion::class, 'archivoimpor'])->m
 //mensajes envio
 Route::get('/mensajes', [MensajesControl::class, 'vista'])->middleware(['auth'])->name('vistamensajes');
 
+//eliminar premio
+Route::get('/eliminar/premio/{id}', [InsigniasController::class, 'elimpremios'])->name('eliminarpremio')->middleware(['admin']);
+Route::get('/actualizar/premio/{id}', [InsigniasController::class, 'actualizarpre'])->name('actualizarpremio')->middleware(['admin']);
+Route::post('/actualizar/premio/form/{id}', [InsigniasController::class, 'actupremion'])->middleware(['admin'])->name('regpremioactu');
+
+//actualizar insignias
+Route::get('/actualizar/insignias/{id}', [InsigniasController::class, 'vistainsig'])->name('actualizarinsignia')->middleware(['admin']);
+Route::post('/actualizar/insignias/datos/{id}', [InsigniasController::class, 'formactuinsig'])->name('registroinsigniasactu')->middleware(['admin']);
 
 require __DIR__.'/auth.php';
 

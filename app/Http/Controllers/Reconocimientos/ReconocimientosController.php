@@ -123,7 +123,8 @@ class ReconocimientosController extends Controller
             /////################################################
             $contarusu=DB::table('users')->MAX('users.id');
             $uselogeado=auth()->id();
-            $numberid = mt_Rand(1, $contarusu);
+            $numberid = random_int(2, $contarusu);
+            //$numberid = mt_Rand(1, $contarusu);
             $val=DB::table('users')->where('users.id', '=', $numberid)->count();
             if($numberid!=$uselogeado && $val!=0){
                   $c=1;

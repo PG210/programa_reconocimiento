@@ -1,19 +1,19 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert text-center" role="alert" style="background-color:#1ED5F4;">
- <h3>Gestion De Areas y Cargos </h3>
+<div class="alert text-center titulo" role="alert">
+ <h3>GESTIÓN DE AREAS Y CARGOS </h3>
 </div>
-<div class="row">
+<div class="row letraform">
    <div class="col-md-5">
-     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
-        <i class="fas fa-pen-alt"></i>&nbsp;Registrar Areas
+     <button type="button" class="btn" data-toggle="modal" data-target="#staticBackdrop" style="background-color:#5959D1; color:#FFF;">
+        <i class="fas fa-pen-alt"></i>&nbsp;Areas
     </button>
     </div>
     <div class="col-md-3">
-      <a type="button" href="{{route('vistacargo')}}" class="btn btn-success float-none"> <i class="fas fa-pen-alt"></i>&nbsp;Registrar Cargos</a>
+      <a type="button" href="{{route('vistacargo')}}" class="btn float-none" style="margin-top:3px; background-color:#FFBD03; color:#FFF;"> <i class="fas fa-pen-alt"></i>&nbsp;Cargos</a>
     </div>
     <div class="col-md-4">
-      <a type="button" href="{{route('vincular_jefes')}}" class="btn float-right" style="background-color:#EC4857; color:white;"><i class="fas fa-users"></i>&nbsp;Vincular Jefes</a>
+      <a type="button" href="{{route('vincular_jefes')}}" class="btn float-right" style="background-color:#5959D1; color:white;"><i class="fas fa-users"></i>&nbsp;Vincular Jefes</a>
     </div>
 </div>
 <div class="row">
@@ -26,13 +26,13 @@
                 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header titulo">
                         <h5 class="modal-title" id="staticBackdropLabel">Formulario Areas</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body letraform">
                         <!--##############-->
                             
                             <div class="form-row">
@@ -42,9 +42,9 @@
                             </div>
                         <!----############--->
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    <div class="modal-footer letraform">
+                        <button type="submit" class="btn confirmar">Guardar</button>
+                        <button type="button" class="btn salir" data-dismiss="modal">Cancelar</button>
                     </div>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
       <br>
       @if(Session::has('mensaje'))
         <br>
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <div class="alert alert-info alert-dismissible fade show letraform" role="alert">
         <strong>{{Session::get('mensaje')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -63,7 +63,7 @@
         @endif
         @if(Session::has('mensajeerror'))
         <br>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show letraform" role="alert">
         <strong>{{Session::get('mensajeerror')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -71,8 +71,8 @@
         </div>
         @endif
       <br>
-      <table class="table">
-        <thead style="background-color:#Ffbd03 ;">
+      <table class="table letraform">
+        <thead class="tablaheader">
             <tr>
             <th scope="col">No</th>
             <th scope="col">Area</th>
@@ -91,7 +91,7 @@
         <tbody id="datosdos">
         </tbody>
         </table>
-      <div id="table"> </div>
+      <div id="table" class="letraform"> </div>
     </div>
 </div>
 

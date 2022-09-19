@@ -18,18 +18,18 @@
     }
 </style>
 <!--###################################-->
-<div class="container" style="background-color:#1ED5F4; padding-top:10px;  padding-bottom:10px;">
+<div class="container" style="padding-top:10px;  padding-bottom:10px;">
 <div class="row">
-    <div class="col-12 text-center">
-     <h5>Listado De Insignias A Obtener</h5>
+    <div class="col-12 text-center titulo">
+     <h3>LISTADO DE INSIGNIAS A OBTENER</h3>
     </div>
 </div>
 </div>
 <br>
 <div class="table-responsive">
-<table class="table table-bordered">
+<table class="table table-bordered letraform2">
   <thead>
-    <tr style="background-color:#FFBD03;">
+    <tr style="background-color:#08FFD5;">
       <th scope="col">No</th>
       <th scope="col">Nombre</th>
       <th scope="col">Nivel</th>
@@ -37,7 +37,7 @@
       <th scope="col">Puntos</th>
       <th scope="col">Insignia</th>
       <th scope="col">Descripcion</th>
-      <th scope="col">Recomepensa</th>
+      <th scope="col">Recompensa</th>
     </tr>
   </thead>
   <tbody><!---idinsig -->

@@ -71,12 +71,11 @@
         
   
 ?>
-<li class="nav-item dropdown">
-        
+    <li class="nav-item dropdown">  
         <!---###modal----->
           <!-- Button trigger modal -->
           <a type="button" class="nav-link" data-toggle="modal" data-target="#exampleModal" onclick="sonido()">
-             <i class="far fa-bell fa-lg"></i>
+             <i class="far fa-bell fa-lg" style="color:white;"></i>
              <div id="nnoti2">
               @if($val!=0 || $insignoti!=0)
               <span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;"> 
@@ -92,7 +91,7 @@
             <div class="modal-dialog modal-dialog-scrollable">
               <div class="modal-content">
                 <div class="modal-header" style="background-color:#1ED5F4; color:white;">
-                  <h5 class="modal-title" id="exampleModalLabel"><span >Notificaciones</span></h5>
+                  <h5 class="modal-title titulo" id="exampleModalLabel"><span >NOTIFICACIONES</span></h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -120,7 +119,7 @@
                                     <br>
                                    </div>
                                   </div>
-                                  <div class="col-6">
+                                  <div class="col-6 letraform">
                                     <div class="info">
                                      {{$n->name}}  {{$n->apellido}}
                                     </div>
@@ -135,7 +134,7 @@
                           </h2>
                         </div>
                         <div id="collapseTwo{{$n->id}}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                          <div class="card-body" style="background-color:#08FFD5;">
+                          <div class="card-body letra2" style="background-color:#08FFD5;">
                           <!---Cuerpo del mensaje-->
                               <div class="container-flex">
                               <div class="row">
@@ -152,28 +151,28 @@
                               <div class="row">
                                 <div class="col-12">
                                   <hr>
-                                  <h6 style="padding-left:20px;"><b> Por: </b>&nbsp;{{$n->notides}}</h6>
+                                  <h6 style="padding-left:20px;"><b> Por: </b>&nbsp;<span style="color:#5D5D5D;">{{$n->notides}}</span></h6>
                                   <hr>
                                 </div>
                                 </div>
                                 <br>
                               <div class="row">
                                 <div class="col-12">
-                                <h6 style="padding-left:20px;"><b>Comportamiento:</b>&nbsp;{{$n->comportamiento}}</h6>
+                                <h6 style="padding-left:20px;"><b>Comportamiento:</b>&nbsp;<span style="color:#5D5D5D;">{{$n->comportamiento}}</span></h6>
                                   <hr>
                                 </div>
                                 </div>
                                 <br>
                               <div class="row">
                                 <div class="col-12">
-                                <h6 style="padding-left:20px;"><b>Categoria:</b>&nbsp;{{$n->categoria}}</h6>
+                                <h6 style="padding-left:20px;"><b>Categoria:</b>&nbsp;<span style="color:#5D5D5D;">{{$n->categoria}}</span></h6>
                                     <hr>
                                 </div>
                                 </div>
                                 <!--botones-->
                                 <div class="row">
                                 <div class="col-12">
-                                  <a href="/reporte/insignias" type="button" class="btn btn-primary float-right">Ver</a>
+                                  <a href="/reporte/insignias" type="button" class="btn confirmar float-right">Ver</a>
                                 </div>
                                 </div>
                                 <!--end -- botones-->
@@ -191,7 +190,7 @@
                   @if($insignoti!=0) 
                   @foreach($insig as $in)
                   <div class="accordion" id="accordionExample">
-                      <div class="card">
+                      <div class="card letra2">
                         <div class="card-header" id="headingTwo">
                           <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left collapsed" type="submit" data-toggle="collapse" data-target="#collapseTwo{{$in->idnotinsig}}" aria-expanded="false" aria-controls="collapseTwo{{$in->idnotinsig}}" onclick="insignialeer('{{$in->idnotinsig}}')">
@@ -235,28 +234,28 @@
                               <div class="row">
                                 <div class="col-12">
                                   <hr>
-                                  <h6 style="padding-left:20px;"><b>Insignia: </b>&nbsp;{{$in->name}}</h6>
+                                  <h6 style="padding-left:20px;"><b>Insignia: </b>&nbsp;<span style="color:#5D5D5D;">{{$in->name}}</span></h6>
                                   <hr>
                                 </div>
                                 </div>
                                 <br>
                               <div class="row">
                                 <div class="col-12">
-                                <h6 style="padding-left:20px;"><b>Nivel:</b>&nbsp;{{$in->nivel}}</h6>
+                                <h6 style="padding-left:20px;"><b>Nivel:</b>&nbsp;<span style="color:#5D5D5D;">{{$in->nivel}}</span></h6>
                                   <hr>
                                 </div>
                                 </div>
                                 <br>
                               <div class="row">
                                 <div class="col-12">
-                                <h6 style="padding-left:20px;"><b>Recompensa:</b>&nbsp; {{$in->predes}} </h6>
+                                <h6 style="padding-left:20px;"><b>Recompensa:</b>&nbsp;<span style="color:#5D5D5D;">{{$in->predes}}</span></h6>
                                     <hr>
                                 </div>
                                 </div>
                                 <!--botones-->
                                 <div class="row">
                                 <div class="col-12">
-                                  <a href="/reconocimientos/listar" type="button" class="btn btn-primary float-right">Ver</a>
+                                  <a href="/reconocimientos/listar" type="button" class="btn confirmar float-right">Ver</a>
                                 </div>
                                 </div>
                                 <!--end -- botones-->
@@ -275,7 +274,7 @@
 
                 <!---Notificaciones leidas-->
                 <div class="dropdown-divider"></div>
-                <h6 style="background-color:#1ED5F4; padding-top:10px; padding-bottom:10px;">&nbsp;<i class="fas fa-check"></i>&nbsp;Notificaciones leidas</h6>
+                <h6 class="letraform" style="background-color:#1ED5F4; color:white; padding-top:10px; padding-bottom:10px;">&nbsp;<i class="fas fa-check"></i>&nbsp;Notificaciones leidas</h6>
                 <div class="dropdown-divider"></div>
                 <!--colapsed para todas las notificaciones-->
                 <div id="datosuno">
@@ -300,12 +299,12 @@
                                    <br>
                                   </div>
                                  </div>
-                                 <div class="col-5">
+                                 <div class="col-5 letraform">
                                    <div class="info">
                                     {{$le->name}}  {{$le->apellido}}
                                    </div>
                                  </div>
-                                 <div class="col-4">
+                                 <div class="col-4 letraform">
                                     <span class="float-right text-muted text-sm">{{date('Y-m-d', strtotime($le->fecha))}}</span>
                                  </div> 
                              </div>
@@ -315,7 +314,7 @@
                       </h2>
                     </div>
                     <div id="collapseThree{{$le->id}}" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                      <div class="card-body" style="background-color:#08FFD5;">
+                      <div class="card-body letra2" style="background-color:#08FFD5;">
                          <!---Cuerpo del mensaje-->
                          <div class="container-flex">
                              <div class="row">
@@ -332,21 +331,21 @@
                              <div class="row">
                                <div class="col-12">
                                  <hr>
-                                 <h6 style="padding-left:20px;"><b> Por: </b>&nbsp;{{$le->notides}}</h6>
+                                 <h6 style="padding-left:20px;"><b> Por: </b>&nbsp;<span style="color:#5D5D5D;">{{$le->notides}}</span></h6>
                                  <hr>
                                </div>
                                </div>
                                <br>
                              <div class="row">
                                <div class="col-12">
-                               <h6 style="padding-left:20px;"><b>Comportamiento:</b>&nbsp;{{$le->comportamiento}}</h6>
+                               <h6 style="padding-left:20px;"><b>Comportamiento:</b>&nbsp;<span style="color:#5D5D5D;">{{$le->comportamiento}}</span></h6>
                                  <hr>
                                </div>
                                </div>
                                <br>
                              <div class="row">
                                <div class="col-12">
-                               <h6 style="padding-left:20px;"><b>Categoria:</b>&nbsp;{{$le->categoria}}</h6>
+                               <h6 style="padding-left:20px;"><b>Categoria:</b>&nbsp;<span style="color:#5D5D5D;">{{$le->categoria}}</span></h6>
                                    <hr>
                                </div>
                                </div>
@@ -376,7 +375,7 @@
                   @if($insigleida!=0)  
                   @foreach($inleida as $i)
                   <div class="accordion" id="accordionExample">
-                      <div class="card">
+                      <div class="card letra2">
                         <div class="card-header" id="headingTwo">
                           <h2 class="mb-0">
                             <button class="btn btn-link btn-block text-left collapsed" type="submit" data-toggle="collapse" data-target="#collapseTwo{{$i->idnotinsig}}" aria-expanded="false" aria-controls="collapseTwo{{$i->idnotinsig}}">
@@ -420,21 +419,21 @@
                               <div class="row">
                                 <div class="col-12">
                                   <hr>
-                                  <h6 style="padding-left:20px;"><b>Insignia: </b>&nbsp;{{$i->name}}</h6>
+                                  <h6 style="padding-left:20px;"><b>Insignia: </b>&nbsp;<span style="color:#5D5D5D;">{{$i->name}}</span></h6>
                                   <hr>
                                 </div>
                                 </div>
                                 <br>
                               <div class="row">
                                 <div class="col-12">
-                                <h6 style="padding-left:20px;"><b>Nivel:</b>&nbsp;{{$i->nivel}}</h6>
+                                <h6 style="padding-left:20px;"><b>Nivel:</b>&nbsp;<span style="color:#5D5D5D;">{{$i->nivel}}</span></h6>
                                   <hr>
                                 </div>
                                 </div>
                                 <br>
                               <div class="row">
                                 <div class="col-12">
-                                <h6 style="padding-left:20px;"><b>Recompensa:</b>&nbsp; {{$i->predes}} </h6>
+                                <h6 style="padding-left:20px;"><b>Recompensa:</b>&nbsp; <span style="color:#5D5D5D;">{{$i->predes}}</span></h6>
                                     <hr>
                                 </div>
                                 </div>
@@ -461,7 +460,7 @@
                <div id="insignia"></div>
                </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button type="button" class="btn salir" data-dismiss="modal">Salir</button>
                 </div>
               </div>
             </div>
@@ -521,7 +520,7 @@ function eliminar(id){
             if(arreglo[x].imagen=="ruta"){
 
               var valor =  '<div class="accordion" id="accordionExample">'+
-                  '<div class="card">'+
+                  '<div class="card letra2">'+
                     '<div class="card-header" id="headingThree">'+
                       '<h2 class="mb-0">'+
                        '<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree'+arreglo[x].id+'" aria-expanded="false" aria-controls="collapseThree'+arreglo[x].id+'">'+
@@ -561,21 +560,21 @@ function eliminar(id){
                                '<div class="row">'+
                                '<div class="col-12">'+
                                '<hr>'+
-                               '<h6 style="padding-left:20px;"><b> Por: </b>&nbsp;'+arreglo[x].notides+'</h6>'+
+                               '<h6 style="padding-left:20px;"><b> Por: </b>&nbsp; <span style="color:#5D5D5D;">'+arreglo[x].notides+'</span></h6>'+
                                '<hr>'+
                                '</div>'+
                                '</div>'+
                                '<br>'+
                                '<div class="row">'+
                                '<div class="col-12">'+
-                               '<h6 style="padding-left:20px;"><b>Comportamiento:</b>&nbsp;'+arreglo[x].comportamiento+'</h6>'+
+                               '<h6 style="padding-left:20px;"><b>Comportamiento:</b>&nbsp; <span style="color:#5D5D5D;">'+arreglo[x].comportamiento+'</span> </h6>'+
                                '<hr>'+
                                '</div>'+
                                '</div>'+
                                '<br>'+
                                '<div class="row">'+
                                '<div class="col-12">'+
-                               '<h6 style="padding-left:20px;"><b>Categoria:</b>&nbsp;'+arreglo[x].categoria+'</h6>'+
+                               '<h6 style="padding-left:20px;"><b>Categoria:</b>&nbsp; <span style="color:#5D5D5D;">'+arreglo[x].categoria+'</span> </h6>'+
                                '<hr>'+
                                '</div>'+
                                '</div>'+
@@ -594,7 +593,7 @@ function eliminar(id){
             }else{
 
               var valor =  '<div class="accordion" id="accordionExample">'+
-                  '<div class="card">'+
+                  '<div class="card letra2">'+
                     '<div class="card-header" id="headingThree">'+
                       '<h2 class="mb-0">'+
                        '<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree'+arreglo[x].id+'" aria-expanded="false" aria-controls="collapseThree'+arreglo[x].id+'">'+
@@ -634,21 +633,21 @@ function eliminar(id){
                                '<div class="row">'+
                                '<div class="col-12">'+
                                '<hr>'+
-                               '<h6 style="padding-left:20px;"><b> Por: </b>&nbsp;'+arreglo[x].notides+'</h6>'+
+                               '<h6 style="padding-left:20px;"><b> Por: </b>&nbsp; <span style="color:#5D5D5D;">'+arreglo[x].notides+'</span> </h6>'+
                                '<hr>'+
                                '</div>'+
                                '</div>'+
                                '<br>'+
                                '<div class="row">'+
                                '<div class="col-12">'+
-                               '<h6 style="padding-left:20px;"><b>Comportamiento:</b>&nbsp;'+arreglo[x].comportamiento+'</h6>'+
+                               '<h6 style="padding-left:20px;"><b>Comportamiento:</b>&nbsp; <span style="color:#5D5D5D;">'+arreglo[x].comportamiento+'</span> </h6>'+
                                '<hr>'+
                                '</div>'+
                                '</div>'+
                                '<br>'+
                                '<div class="row">'+
                                '<div class="col-12">'+
-                               '<h6 style="padding-left:20px;"><b>Categoria:</b>&nbsp;'+arreglo[x].categoria+'</h6>'+
+                               '<h6 style="padding-left:20px;"><b>Categoria:</b>&nbsp; <span style="color:#5D5D5D;">'+arreglo[x].categoria+'</span> </h6>'+
                                '<hr>'+
                                '</div>'+
                                '</div>'+
@@ -722,7 +721,7 @@ function eliminarinsig(id){
           if(arr.length!=0){
             for(var x=0; x<arr.length; x++){
             var val=  '<div class="accordion" id="accordionExample">'+
-                         '<div class="card">'+
+                         '<div class="card letra2">'+
                                 '<div class="card-header" id="headingTwo">'+
                                   '<h2 class="mb-0">'+
                                     '<button class="btn btn-link btn-block text-left collapsed" type="submit" data-toggle="collapse" data-target="#collapseTwo'+arr[x].idnotinsig+'" aria-expanded="false" aria-controls="collapseTwo'+arr[x].idnotinsig+'">'+
@@ -761,21 +760,21 @@ function eliminarinsig(id){
                                       '<div class="row">'+
                                         '<div class="col-12">'+
                                           '<hr>'+
-                                          '<h6 style="padding-left:20px;"><b>Insignia: </b>&nbsp;'+arr[x].name+'</h6>'+
+                                          '<h6 style="padding-left:20px;"><b>Insignia: </b>&nbsp; <span style="color:#5D5D5D;">'+arr[x].name+'</span></h6>'+
                                           '<hr>'+
                                         '</div>'+
                                         '</div>'+
                                         '<br>'+
                                       '<div class="row">'+
                                         '<div class="col-12">'+
-                                        '<h6 style="padding-left:20px;"><b>Nivel:</b>&nbsp;'+arr[x].nivel+'</h6>'+
+                                        '<h6 style="padding-left:20px;"><b>Nivel:</b>&nbsp; <span style="color:#5D5D5D;">'+arr[x].nivel+'</span></h6>'+
                                           '<hr>'+
                                         '</div>'+
                                         '</div>'+
                                         '<br>'+
                                       '<div class="row">'+
                                         '<div class="col-12">'+
-                                        '<h6 style="padding-left:20px;"><b>Recompensa:</b>&nbsp; '+arr[x].predes+'</h6>'+
+                                        '<h6 style="padding-left:20px;"><b>Recompensa:</b>&nbsp; <span style="color:#5D5D5D;">'+arr[x].predes+'</span></h6>'+
                                             '<hr>'+
                                         '</div>'+
                                         '</div>'+

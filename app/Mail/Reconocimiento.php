@@ -8,8 +8,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class Reconocimiento extends Mailable implements ShouldQueue
+class Reconocimiento extends Mailable 
 {
+    //implements ShouldQueue
     use Queueable, SerializesModels;
     public $datosrec;
     /**

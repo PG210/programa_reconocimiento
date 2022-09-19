@@ -1,11 +1,11 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert text-center" role="alert" style="background-color:#1ED5F4;">
- <h3>Actualizar Usuario {{$dat[0]->name}} {{$dat[0]->apellido}}</h3>
+<div class="alert text-center titulo" role="alert">
+ <h3>ACTUALIZAR EL USUARIO: {{$dat[0]->name}} {{$dat[0]->apellido}}</h3>
 </div>
 @if(Session::has('mensaje'))
         <br>
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <div class="alert alert-info alert-dismissible fade show letraform" role="alert">
         <strong>{{Session::get('mensaje')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -15,7 +15,7 @@
 @endif
 @if(Session::has('menerror'))
         <br>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="alert alert-danger alert-dismissible fade show letraform" role="alert">
         <strong>{{Session::get('menerror')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -23,7 +23,7 @@
         </div>
         <br>
 @endif
-<form action="{{route('actudatos')}}" method="POST">
+<form action="{{route('actudatos')}}" method="POST" class="letraform">
 @csrf
 <div class="form-row">
     <div class="form-group col-md-6">
@@ -93,8 +93,8 @@
   <div class="row">
       <div class="col-md-6">
       <input type="text" class="form-control" id="inputCity" name="id"   value="{{$dat[0]->idusu}}" hidden>
-        <button type="submit" class="btn btn-info">Guardar Cambios</button>
-        <a type="button" href="/reporte/usuarios" class="btn btn-success">Volver</a>
+        <button type="submit" class="btn confirmar">Actualizar</button>
+        <a type="button" href="/reporte/usuarios" class="btn salir">Volver</a>
       </div>
       <div class="col-md-6">
         

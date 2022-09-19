@@ -64,7 +64,7 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #212529;
+  color: #000;
   text-align: left;
   background-color: #fff;
 }
@@ -4314,7 +4314,7 @@ input[type="button"].btn-block {
 }
 
 .nav-link.disabled {
-  color: #6c757d;
+  color: #FFFFFF;
   pointer-events: none;
   cursor: default;
 }
@@ -4335,14 +4335,14 @@ input[type="button"].btn-block {
 }
 
 .nav-tabs .nav-link.disabled {
-  color: #6c757d;
+  color: #FFFFFF;
   background-color: transparent;
   border-color: transparent;
 }
 
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
-  color: #495057;
+  color: #FFFFFF;
   background-color: #fff;
   border-color: #dee2e6 #dee2e6 #fff;
 }
@@ -4360,7 +4360,7 @@ input[type="button"].btn-block {
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #007bff;
+  background-color: #FFFFFF;
 }
 
 .nav-fill > .nav-link,
@@ -10151,7 +10151,7 @@ button.bg-dark:focus {
 }
 
 .text-capitalize {
-  text-transform: capitalize !important;
+  /*text-transform: capitalize !important;*/
 }
 
 .font-weight-light {
@@ -15473,11 +15473,11 @@ body.text-sm .control-sidebar {
 }
 
 .nav-pills .nav-link {
-  color: #6c757d;
+  color: #FFFFFF;
 }
 
 .nav-pills .nav-link:not(.active):hover {
-  color: #007bff;
+  color: #FFFFFF;
 }
 
 .nav-pills .nav-item.dropdown.show .nav-link:hover {
@@ -18389,7 +18389,7 @@ body.text-sm .control-sidebar {
 }
 
 .dark-mode .nav-pills .nav-link {
-  color: #ced4da;
+  color: #FFFFFF;
 }
 
 .dark-mode .nav-tabs {

@@ -1,8 +1,8 @@
 @extends('usuario.principa_usul')
 @section('content')
 <div class="container">
-<div class="alert text-center" role="alert" style="background-color:#1bf9cd;">
-  <h3>Enviar Reconocimientos</h3>
+<div class="alert text-center titulo" role="alert" >
+  <h3>ENVIAR RECONOCIMIENTOS</h3>
 </div>
 </div>
 <br>
@@ -18,7 +18,7 @@
 @endif
 <!---Modal-para buscar-->
        <div class="container">
-       <form id="buscar">
+       <form id="buscar" class="letraform">
        @csrf
         <div class="form-row">
             <div class="col-11">
@@ -34,8 +34,8 @@
      <br>
 <!--tabla de usuarios-->
 <div class="table-responsive">
-        <table class="table table-hover">
-        <thead class="bg-primary">
+        <table class="table table-hover letraform">
+        <thead class="tablaheader">
             <tr>
             <th scope="col">No</th>
             <th scope="col">Nombre</th>
@@ -56,12 +56,17 @@
             <td>{{$u->apellido}}</td>
             <td>{{$u->direccion}}</td>
             <td>
-                <!--imagen-->
                 <div class="user-panel mt-0 pb-0 mb-0 d-flex">
-                        <div class="image">
-                        <img src="{{asset('dist/imgperfil/'.$u->imagen)}}" class="img-circle elevation-2" alt="User Image">
-                        </div>
+                <div class="image">
+                  @if($u->imagen!=null)
+                    <img src="{{asset('dist/imgperfil/'.$u->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
+                  @endif
+                  @if($u->imagen==null)
+                  <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
+                  @endif
+                  </div>
                 </div>
+                <!--imagen-->
                 <!---end imagen-->
             </td>
             <td>
@@ -102,14 +107,25 @@
        if(arreglo.length!=0){
             for(var x=0; x<arreglo.length; x++){
             conta+=1;
-            var valor = '<tr>' +
-            '<td>' + conta +'</td>' +
-            '<td>' +  arreglo[x].name + '</td>' +
-            '<td>' +  arreglo[x].apellido + '</td>' +
-            '<td>' +  arreglo[x].direccion + '</td>' +
-            '<td>' +  arreglo[x].imagen + '</td>' +
-            '<td> <a href="/reconocimientos/usuario/'+arreglo[x].id+'" type="button" class="btn" style="color:#ffbd03;" data-toggle="tooltip" title="Enviar Reconocimiento"><i class="fas fa-award  fa-2x"></i></a></td>' +
-            '</tr>';
+            if(arreglo[x].imagen!=null){
+                var valor = '<tr>' +
+                '<td>' + conta +'</td>' +
+                '<td>' +  arreglo[x].name + '</td>' +
+                '<td>' +  arreglo[x].apellido + '</td>' +
+                '<td>' +  arreglo[x].direccion + '</td>' +
+                '<td> <img src="/dist/imgperfil/' +arreglo[x].imagen+ ' " class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;</td>' +
+                '<td> <a href="/reconocimientos/usuario/'+arreglo[x].id+'" type="button" class="btn" style="color:#ffbd03;" data-toggle="tooltip" title="Enviar Reconocimiento"><i class="fas fa-award  fa-2x"></i></a></td>' +
+                '</tr>';
+            }else{
+              var valor = '<tr>' +
+                '<td>' + conta +'</td>' +
+                '<td>' +  arreglo[x].name + '</td>' +
+                '<td>' +  arreglo[x].apellido + '</td>' +
+                '<td>' +  arreglo[x].direccion + '</td>' +
+                '<td> <img src="/dist/imgperfil/perfil_no_borrar.jpeg" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;</td>' +
+                '<td> <a href="/reconocimientos/usuario/'+arreglo[x].id+'" type="button" class="btn" style="color:#ffbd03;" data-toggle="tooltip" title="Enviar Reconocimiento"><i class="fas fa-award  fa-2x"></i></a></td>' +
+                '</tr>';
+            }
             $('#tablamostrar').append(valor);
         }
        }else{

@@ -1,7 +1,7 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert text-center" role="alert"  style="background-image: url('{{ asset('dist/img/confeticom.gif') }}');">
-  <h3><b>Insignias Obtenidas</b></h3>
+<div class="alert text-center titulo" role="alert"  style="background-image: url('{{ asset('dist/img/confeticom.gif') }}');">
+  <h3><b>INSIGNIAS OBTENIDAS</b></h3>
 </div>
 <br>
       @if($b==0)
@@ -20,11 +20,11 @@
               <div class="row">
                <div class="col-6">
                 <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                <h5><i class="fas fa-gift" style="color:#5959D1 ;"></i>&nbsp;Insignias</h5>
+                <h5 class="letratarjeta3"><i class="fas fa-gift" style="color:#5959D1; font-size:22px;"></i>&nbsp;&nbsp;Insignias</h5>
                 </button>
               </div>
               <div class="col-6">
-                <a href="{{route('visinsignias')}}" type="button" class="btn float-right"><i class="fas fa-list-alt" style="color:#5959D1; font-size: 20px;"></i></a>
+                <a href="{{route('visinsignias')}}" type="button" class="btn float-right"><i class="fas fa-list-alt" style="color:#5959D1; font-size: 22px;"></i></a>
                </div>
              </div>
             </h2>
@@ -33,12 +33,13 @@
           <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
              <!-- aqui va la tabla de datos de insignias-->
-             <div class="table-responsive">
+             <div class="table-responsive letraform2">
                   <table class="table">
-                    <thead  style="background-color:#08FFD5;">
+                    <thead class="letraform" style="background-color:#08FFD5;">
                       <tr>
                         <th scope="col">No</th>
-                        <th scope="col">Nombre</th>
+                        <th scope="col">Envia</th>
+                        <th scope="col">Nombre Insignia</th>
                         <th scope="col">Nivel</th>
                         <th scope="col">Recompensa</th>
                         <th scope="col">Fecha</th>
@@ -49,8 +50,12 @@
                     <tbody>
                               <tr>
                               @if($b!=0)
+                              <?php
+                                $acum=1;
+                              ?>
                                 @foreach($rec as $r)
-                                <th scope="row">{{$r->nomusu}} {{$r->apeusu}}</th>
+                                <td>{{$acum++}}</td>
+                                <td scope="row">{{$r->nomusu}} {{$r->apeusu}}</td>
                                 <td>{{$r->nominsig}}</td>
                                 <td>{{$r->catinsign}}</td>
                                 <td> {{$r->nompremio}}</td>
@@ -58,7 +63,7 @@
                                 <td>{{$r->puntos_acumulados}}</td>
                                 <td>
                                   <!-- Button trigger modal -->
-                                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal{{$r->idinsig}}">
+                                  <button type="button" class="btn confirmar" data-toggle="modal" data-target="#exampleModal{{$r->idinsig}}">
                                   <i class="icon-nav fas fa-eye"></i>
                                   </button>
                                   <!-- Modal -->
@@ -66,7 +71,7 @@
                                     <div class="modal-dialog modal-lg">
                                       <div class="modal-content">
                                         <div class="modal-header">
-                                          <h5 class="modal-title" id="exampleModalLabel">Detalles De La Insignia</h5>
+                                          <h5 class="modal-title titulo" id="exampleModalLabel">Detalles De La Insignia</h5>
                                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                           </button>
@@ -74,8 +79,8 @@
                                         <div class="modal-body">
                                           <!------------------------------------------------->
                                           <div class="table-responsive">
-                                          <table class="table">
-                                            <thead style="background-color:#5959D1; color:white;">
+                                          <table class="table letraform">
+                                            <thead style="background-color:#2ED5F4; color:white;">
                                               <tr>
                                                 <th scope="col">Insignia</th>
                                                 <th scope="col">Nombre</th>
@@ -98,7 +103,7 @@
                                           <!------------------------------------------------>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-warning" data-dismiss="modal">Aceptar</button>
+                                            <button type="button" class="btn salir" data-dismiss="modal">Aceptar</button>
                                         </div>
                                       </div>
                                     </div>
@@ -119,7 +124,7 @@
           <div class="card-header" id="headingThree">
             <h2 class="mb-0">
               <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-              <h5><i class="fas fa-medal" style="color:#5959D1;"></i>&nbsp;Tabla De Insignias</h5>
+              <h5 class="letratarjeta3"><i class="fas fa-medal" style="color:#5959D1; font-size:22px;"></i>&nbsp;&nbsp;Tabla De Insignias</h5>
               </button>
             </h2>
           </div>
@@ -128,8 +133,8 @@
             
             <!----table-->
             @if($b!=0)
-            <table class="table table-responsive">
-                        <thead>
+            <table class="table table-responsive letraform">
+                        <thead style="background-color:#08FFD5;">
                         <tr>
                         
                             <th scope="col"></th>

@@ -5,32 +5,32 @@
         <div class="card">
             <div class="card-header" id="headingOne">
             <h2 class="mb-0">
-                <div class="row">
+                <div class="row titulo">
                    <div class="col-3">
                         <a href="/reporte/recompensas" class="btn btn-link btn-block text-left" type="button">
-                        <i class="fas fa-tasks"></i>&nbsp;Listado sin entregar
+                        <i class="fas fa-tasks" style="font-size:22px;"></i>&nbsp;&nbsp;Listado sin entregar
                         </a>
                     </div>
                     <div class="col-3">
                         <a href="/reporte/insignias/excel/1" class="btn btn-link btn-block text-left" type="button">
-                        <i class="fas fa-file-excel"></i>&nbsp;Reporte
+                        <i class="fas fa-file-excel" style="font-size:22px;"></i>&nbsp;&nbsp;Reporte
                         </a>
                     </div>
                     <div class="col-3">
                        <a href="{{route('entregados')}}" class="btn btn-link btn-block text-right" type="button">
-                       <i class="fas fa-tasks"></i>&nbsp;Lista entregados
+                       <i class="fas fa-tasks" style="font-size:22px;"></i>&nbsp;&nbsp;Lista entregados
                         </a>
                     </div>
                     <div class="col-3">
                        <a href="/reporte/insignias/excel/2" class="btn btn-link btn-block text-right" type="button" >
-                         <i class="fas fa-file-excel"></i>&nbsp;Reporte
+                         <i class="fas fa-file-excel" style="font-size:22px;"></i>&nbsp;&nbsp;Reporte
                         </a>
                     </div>
                </div>
             </h2>
             </div>
 
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div id="collapseOne" class="collapse show table-responsive letraform" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
         <!--table de informacion-->
             <table class="table table-bordered">
@@ -78,15 +78,15 @@
                                         <div class="modal-content">
                                             <div style="background-color:white !important;">
                                                 <br>
-                                                <h4 class="modal-title text-center" style="color:black; text-align: center;">
+                                                <h5 class="modal-title text-center titulo" style="color:black; text-align: center;">
                                                     <span  class="text-center">¿Desea entregar la recompensa a: </span><br> <span style="background-color:yellow;"> {{$dat->nombre}} {{$dat->apellido}}</span> ?
-                                                </h4>
+                                                </h5>
                                                 <br>
                                             </div>
                                            
                                             <div class="modal-footer">
-                                                <a  class="btn btn-success" href="{{ route('entregar', $dat->idinsig) }}">Si</a>
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                                <button type="button" class="btn salir" data-dismiss="modal">No</button>
+                                                <a  class="btn confirmar" href="{{ route('entregar', $dat->idinsig) }}">Si</a>
                                             </div>
                                         </div>
                                     </div>

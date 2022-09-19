@@ -5,35 +5,35 @@
         <div class="card">
             <div class="card-header" id="headingOne">
             <h2 class="mb-0">
-                <div class="row">
+                <div class="row titulo">
                     <div class="col-3">
                         <a href="/gerente/informe/1" class="btn btn-link btn-block text-left" type="button">
-                        <i class="fas fa-tasks"></i>&nbsp;Listado sin entregar
+                        <i class="fas fa-tasks" style="font-size:22px;"></i>&nbsp;&nbsp;Listado sin entregar
                         </a>
                     </div>
                     <div class="col-3">
                         <a href="/gerente/insignias/excel/1" class="btn btn-link btn-block text-left" type="button">
-                        <i class="fas fa-file-excel"></i>&nbsp;Reporte
+                        <i class="fas fa-file-excel" style="font-size:22px;"></i>&nbsp;&nbsp;Reporte
                         </a>
                     </div>
                     <div class="col-3">
                        <a href="/gerente/informe/2" class="btn btn-link btn-block text-right" type="button">
-                       <i class="fas fa-tasks"></i>&nbsp;Lista entregados
+                       <i class="fas fa-tasks" style="font-size:22px;"></i>&nbsp;&nbsp;Lista entregados
                         </a>
                     </div>
                     <div class="col-3">
                        <a href="/gerente/insignias/excel/2" class="btn btn-link btn-block text-right" type="button" >
-                         <i class="fas fa-file-excel"></i>&nbsp;Reporte
+                         <i class="fas fa-file-excel" style="font-size:22px;"></i>&nbsp;Reporte
                         </a>
                     </div>
                </div>
             </h2>
             </div>
 
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div id="collapseOne" class="collapse show letraform" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
         <!--table de informacion-->
-            <table class="table table-bordered">
+            <table class="table table-bordered table-responsive">
             <thead>
                 <tr>
                 <th scope="col">No</th>

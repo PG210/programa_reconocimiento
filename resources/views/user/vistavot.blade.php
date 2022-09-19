@@ -4,10 +4,10 @@
   <div class="card">
     <div class="card-header" id="headingOne">
     <!---buscar-->
-    <div class="container" >
-       <h1 class="text-center">Votaciones Habilitadas Periodo: {{$vot->anio}} - {{$vot->periodo}}</h1><br>
+    <div class="container  titulo">
+       <h3 class="text-center"><b>VOTACIONES HABILITADAS PERIODO: {{$vot->anio}} - {{$vot->periodo}}</b></h3><br>
     </div>
-    <div class="container">
+    <div class="container letraform">
         <br>
         <form action="{{route('buscar_votante')}}" method="POST">
          @csrf
@@ -28,7 +28,7 @@
     <div class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
     <!--table--> 
-      <div class="table-responsive">
+      <div class="table-responsive letraform">
       <table class="table">
               <thead style="background-color:#FFBD03;">
               <tr>
@@ -75,7 +75,7 @@
                         <td>
                           <!--modal-->
                           <!-- Button trigger modal -->
-                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalVot{{$c->idusu}}">
+                          <button type="button" class="btn confirmar" data-toggle="modal" data-target="#modalVot{{$c->idusu}}">
                             Votar
                           </button>
 
@@ -86,12 +86,12 @@
                             <div class="modal-dialog">
                               <div class="modal-content">
                                 <div class="modal-header" style="background-color:#08FFD5;">
-                                  <h5 class="modal-title" id="modalVotLabel">Votar por cada categoria</h5>
+                                  <h5 class="modal-title letraform" id="modalVotLabel">VOTAR POR CADA CATEGORIA</h5>
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
                                 </div>
-                                <div class="modal-body">
+                                <div class="modal-body letraform">
                                 <!--table-->
                                 @if(Session::has('error_voto'))
                                   <div class="alert  alert-dismissible fade show" role="alert" style="background-color:#FFBD03;">
@@ -102,7 +102,7 @@
                                   </div>
                                   @endif
                                 <!--mensaje-->
-                                <table class="table table-bordered">
+                                <table class="table table-bordered letraform">
                                     <thead>
                                       <tr>
                                         <th scope="col">No</th>
@@ -161,9 +161,9 @@
                                 <input value="{{$c->idusu}}" name="idpos" id="idpos" hidden>
                                 </div>
                                 <div class="modal-footer">
-                                  <button type="button" class="btn" data-dismiss="modal" style="background-color:#FFBD03;">Salir</button>
+                                  <button type="button" class="btn salir" data-dismiss="modal">Salir</button>
                                   @if($b!=2)
-                                  <button type="submit" class="btn btn-primary">Guardar</button>
+                                  <button type="submit" class="btn confirmar">Votar</button>
                                   @endif
                                 </div>
                               </div>

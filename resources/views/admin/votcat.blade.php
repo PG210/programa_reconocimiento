@@ -9,7 +9,7 @@
                   <i class="fas fa-home" style="font-size:23px;"></i>
                 </a>
             </div>
-            <div class="col-8">
+            <div class="col-8 titulo">
                 <h4 class="text-left">Categoria: 
                     @if(isset($cat[0]))
                     {{$cat[0]->categoria}}
@@ -21,8 +21,9 @@
     <div class="collapse show" aria-labelledby="headingOne">
       <div class="card-body">
        <!--table-->
-       <table class="table">
-            <thead style="background-color:#Ffbd03;">
+       <div class="table-responsive">
+       <table class="table letraform">
+            <thead class="tablaheader">
                 <tr>
                 <th scope="col">No</th>
                 <th scope="col">Periodo</th>
@@ -70,6 +71,7 @@
                 @endforeach
             </tbody>
             </table>
+          </div>
        <!--end table-->
     
       </div>

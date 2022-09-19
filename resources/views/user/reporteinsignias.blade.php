@@ -1,12 +1,12 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert text-center" role="alert" style="background-image: url('{{ asset('dist/img/estrellasfondo.gif') }}');">
-  <h3><b>Reconocimientos Recibidos</b></h3>
+<div class="alert text-center titulo" role="alert" style="background-image: url('{{ asset('dist/img/estrellasfondo.gif') }}');">
+  <h3><b>RECONOCIMIENTOS RECIBIDOS</b></h3>
 </div>
 <br> 
 <!---####################collapsed--->
   @if($esta==0)
-    <div class="alert alert-info alert-dismissible fade show" role="alert">
+    <div class="alert alert-info alert-dismissible fade show letraform" role="alert">
       <strong>No tienes Reconocimentos!</strong>&nbsp;Espera Pronto te reconoceran&nbsp;<i class="fas fa-smile" style="color:yellow;"></i>
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
@@ -19,13 +19,13 @@
     <div class="card-header" id="headingOne">
       <h2 class="mb-0">
         <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-        <h5><i class="fas fa-star" style="color:#5959D1;"></i>&nbsp;Tabla De Resultados</h5>
+        <h5 class="letratarjeta3"><i class="fas fa-star" style="color:#5959D1;"></i>&nbsp;Tabla De Resultados</h5>
         </button>
       </h2>
     </div>
     
     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-      <div class="card-body">
+      <div class="card-body letraform">
        <!--############################################--->
         <table class="table table-responsive">
                   <thead>
@@ -50,7 +50,7 @@
                       <td >{{$c->c4}}</td>
                       <td >{{$c->c5}}</td>
                       <td >
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+                        <button type="button" class="btn confirmar" data-toggle="modal" data-target="#staticBackdrop">
                             Detalle
                           </button>
                       </td>
@@ -111,7 +111,7 @@
                                                                     <!------datos de usuarios envian-->
                             </div>
                             <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                              <button type="button" class="btn salir" data-dismiss="modal">Salir</button>
                             </div>
                           </div>
                         </div>
@@ -125,12 +125,12 @@
     <div class="card-header" id="headingTwo">
       <h2 class="mb-0">
         <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-        <h5><i class="fas fa-dice" style="color:#5959D1 ;"></i>&nbsp;Tabla De Puntos</h5>
+        <h5 class="letratarjeta3"><i class="fas fa-dice" style="color:#5959D1 ;"></i>&nbsp;Tabla De Puntos</h5>
         </button>
       </h2>
     </div>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-      <div class="card-body">
+      <div class="card-body letraform">
         <!--################-->
         <table class="table table-responsive">
                     <thead>

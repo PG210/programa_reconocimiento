@@ -3,7 +3,7 @@
 
 @if(Session::has('jefe'))
         <br>
-        <div class="alert alert-dismissible fade show" role="alert" style="background-color:#1ED5F4;">
+        <div class="alert alert-dismissible fade show letraform" role="alert" style="background-color:#1ED5F4;">
         <strong>{{Session::get('jefe')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -12,7 +12,7 @@
 @endif
 @if(Session::has('vincu'))
         <br>
-        <div class="alert alert-dismissible fade show" role="alert" style="background-color:#EC4857;">
+        <div class="alert alert-dismissible fade show letraform" role="alert" style="background-color:#EC4857;">
         <strong>{{Session::get('vincu')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -21,7 +21,7 @@
 @endif
 @if(Session::has('regis'))
         <br>
-        <div class="alert alert-dismissible fade show" role="alert" style="background-color:#1ED5F4;">
+        <div class="alert alert-dismissible fade show letraform" role="alert" style="background-color:#1ED5F4;">
         <strong>{{Session::get('regis')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -30,8 +30,8 @@
 @endif
 
 <div class="table-responsive">
-    <table class="table" >
-              <thead style="background-color:#FFBD03;">
+    <table class="table letraform" >
+              <thead class="tablaheader">
               <tr>
                 <th scope="col">No</th>
                 <th scope="col">Nombre</th>
@@ -59,10 +59,10 @@
                         <td>
                             <div class="text-center">
                     <!--#######################################3-->
-                            <a type="button" data-toggle="modal" data-target="#cambiarPro{{$c->id}}" data-placement="bottom"  title="Deshabilitar"><i class="nav-icon fas fa-edit" style="color:  #e1b308;" ></i></a>
-                            <a type="button" data-toggle="modal" data-target="#staticBackdrop{{$c->id}}"><i class="fas fa-eye"></i></a>
+                            <a type="button" data-toggle="modal" data-target="#cambiarPro{{$c->id}}" data-placement="bottom"  title="Deshabilitar"><i class="nav-icon fas fa-edit" style="color:#e1b308; font-size:20px;" ></i></a>
+                            <a type="button" data-toggle="modal" data-target="#staticBackdrop{{$c->id}}"><i class="fas fa-eye" style="font-size:20px;"></i></a>
                             <!-- Ventana modal para deshabilitar -->
-                             <form action="{{route('vinjefes')}}" method="POST">
+                             <form action="{{route('vinjefes')}}" method="POST" class="letraform">
                                 @csrf
                                <div class="modal fade" id="cambiarPro{{ $c->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                     <div class="modal-dialog" role="document">
@@ -104,7 +104,7 @@
                                     <div class="modal fade" id="staticBackdrop{{$c->id}}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg modal-dialog-scrollable">
                                         <div class="modal-content">
-                                        <div class="modal-header">
+                                        <div class="modal-header titulo">
                                             <h5 class="modal-title" id="staticBackdropLabel">Jefes Vinculados para: <span style="background-color:yellow">{{$c->name}} {{$c->apellido}} </span></h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -113,8 +113,8 @@
                                         <div class="modal-body">
                                         <!----table--->
                                         <div class="table-responsive">
-                                        <table class="table table-bordered">
-                                            <thead>
+                                        <table class="table table-bordered letraform">
+                                            <thead class="tablaheader">
                                                 <tr>
                                                 <th scope="col">No</th>
                                                 <th scope="col">Nombre</th>
@@ -148,8 +148,8 @@
                                         </div>
                                         <!---end table-->
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                        <div class="modal-footer letraform">
+                                            <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
                                         </div>
                                         </div>
                                     </div>
@@ -165,9 +165,9 @@
           </table>
       </div>
       <!--button-->
-      <div class="row">
+      <div class="row letraform">
          <div class="col-12">
-          <a href="/areas/empresa" class="btn btn-info float-right"><i class="fas fa-backward"></i>&nbsp;&nbsp;Volver</a>
+          <a href="/areas/empresa" class="btn salir float-right">&nbsp;&nbsp;Volver</a>
          </div>
       </div>
         <!--end tabla-->

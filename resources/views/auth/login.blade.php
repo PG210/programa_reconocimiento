@@ -12,35 +12,27 @@
 
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
+        <br><br>
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
-            <!-- Email Address -->
-            <div class="text-center">
-                 <a href="/">
-                   <img src="dist/img/logo_evo.png" width="50px" style="margin-left:33%;" alt="..."> 
-                </a>
-            </div>
-            <!--mensaje-->
+          
             @if(Session::has('errorInicio'))
                 <div style="background-color:#FFE527;">
                 {{Session::get('errorInicio')}}
                 </div>
                 <br><br>
             @endif
-            <!--end mensaje-->
-            
             <div>
-               <!-- <x-label for="email" :value="__('Usuario')" />-->
-                <label >Usuario</label>
+                <label class="block font-medium text-sm text-gray-700" for="email" style="padding-bottom:5px;">Usuario</label>
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             </div>
 
             <!-- Password -->
             <div class="mt-4">
                 <!--<x-label for="password" :value="__('Contraseña')" />-->
-                <label >Contraseña</label>
+                <label class="block font-medium text-sm text-gray-700" style="padding-bottom:5px;">Contraseña</label>
 
                 <x-input id="password" class="block mt-1 w-full"
                                 type="password"
@@ -68,6 +60,7 @@
                 </x-button>
             </div>
         </form>
+        <br>
     </x-auth-card>
 </x-guest-layout>
 

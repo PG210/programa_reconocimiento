@@ -2,7 +2,7 @@
 @section('content')
 <div class="accordion" id="accordionExample">
   <div class="card" >
-    <div class="card-header" id="headingOne" style="background-color:#Ffbd03;">
+    <div class="card-header" id="headingOne" style="background-color#1BF9CD;">
     <div class="row">
         <div class="col-8">
                 <!-- Button trigger modal -->
@@ -20,13 +20,13 @@
                 <div class="modal fade" id="filtrarvotos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                    <div class="modal-header" style="background-color:#1ED5F4;">
+                    <div class="modal-header titulo">
                         <h5 class="modal-title" id="exampleModalLabel">Seleccionar Año y Periodo</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body letraform">
                       <!---inputs-->
                       <div class="row">
                         <div class="col-6">
@@ -54,10 +54,10 @@
                       <!--end inputs-->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-backward" style="font-size:15px;"></i></button>
                         @if(isset($esfil[0]->anio))
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-search" style="font-size:15px;"></i></button>
+                        <button type="submit" class="btn confirmar"><i class="fas fa-search" style="font-size:15px;"></i></button>
                         @endif
+                        <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
                     </div>
                     </div>
                 </div>
@@ -72,13 +72,13 @@
                 <div class="modal fade" id="filtrarcat" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                    <div class="modal-header" style="background-color:#1ED5F4;">
+                    <div class="modal-header titulo">
                         <h5 class="modal-title" id="exampleModalLabel">Filtrar Votos Por Categoria</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body letraform">
                         <!--mostrar categorias-->
                          <div class="row">
                             <div class="col-12">
@@ -122,10 +122,10 @@
                         <!--end categorias-->
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-backward" style="font-size:15px;"></i></button>
                         @if(isset($esfil[0]->anio))
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-search" style="font-size:15px;"></i></button>
+                        <button type="submit" class="btn confirmar"><i class="fas fa-search" style="font-size:15px;"></i></button>
                         @endif
+                        <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
                     </div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
               </form>
             <!--end filtrar por categoria-->
           </div>
-          <div class="col-4">
+          <div class="col-4 letraform">
                <!--button-->
                @if(isset($es[0]))
                @if($es[0]->estado==2) 
@@ -148,7 +148,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header" style="background-color:#1ED5F4;">
-                            <h5 class="modal-title" id="staticBackdropLabel">Habilitar Votaciones</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">Votaciones</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
@@ -173,8 +173,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
-                            <button type="submit" class="btn btn-primary">Si</button>
+                            <button type="submit" class="btn confirmar">Si</button>
+                            <button type="button" class="btn salir" data-dismiss="modal">No</button>
                         </div>
                         </div>
                     </div>
@@ -193,8 +193,8 @@
                 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                        <div class="modal-header" style="background-color:#1ED5F4;">
-                            <h5 class="modal-title" id="staticBackdropLabel">Habilitar Votaciones</h5>
+                        <div class="modal-header titulo">
+                            <h5 class="modal-title" id="staticBackdropLabel">Votaciones</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
@@ -219,8 +219,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
-                            <button type="submit" class="btn btn-primary">Si</button>
+                            <button type="submit" class="btn confirmar">Si</button>
+                            <button type="button" class="btn salir" data-dismiss="modal">No</button>
                         </div>
                         </div>
                     </div>
@@ -239,7 +239,7 @@
                         <div class="modal fade" id="staticBackdropvot1" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                            <div class="modal-header" style="background-color:#1ED5F4;">
+                            <div class="modal-header titulo">
                                 <h5 class="modal-title" id="staticBackdropLabel">Deshabilitar Votaciones</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -249,8 +249,8 @@
                                 ¿Desea deshabilitar las votaciones {{$es[0]->anio}} {{$es[0]->periodo}}?
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
-                                <a href="/deshab/votacion/{{$es[0]->ides}}/2" type="button" class="btn btn-primary">Si</a>
+                                <a href="/deshab/votacion/{{$es[0]->ides}}/2" type="button" class="btn confirmar">Si</a>
+                                <button type="button" class="btn salir" data-dismiss="modal">No</button>
                             </div>
                             </div>
                         </div>
@@ -262,7 +262,7 @@
        </div>
        @if(Session::has('errorhab'))
        <br>
-        <div class="alert  alert-dismissible fade show" role="alert" style="background-color:#1ED5F4 ;">
+        <div class="alert  alert-dismissible fade show letraform" role="alert" style="background-color:#1ED5F4 ;">
         <strong>{{Session::get('errorhab')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -271,7 +271,7 @@
        @endif
        @if(Session::has('errorfitrar'))
        <br>
-        <div class="alert  alert-dismissible fade show" role="alert" style="background-color:#1ED5F4 ;">
+        <div class="alert  alert-dismissible fade show letraform" role="alert" style="background-color:#1ED5F4 ;">
         <strong>{{Session::get('errorfitrar')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>

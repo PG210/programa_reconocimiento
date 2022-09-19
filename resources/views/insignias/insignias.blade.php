@@ -1,10 +1,10 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert text-center" role="alert" style="background-color:#1ED5F4;">
- <h3>Registro De Comportamiento</h3>
+<div class="alert text-center titulo" role="alert">
+ <h3>REGISTRO DE COMPORTAMIENTOS</h3>
 </div>
 <br>
-<form action="{{route('reginsignias')}}" method="POST"  enctype="multipart/form-data">
+<form action="{{route('reginsignias')}}" method="POST"  enctype="multipart/form-data" class="letraform">
   @csrf
   <div class="form-row">
     <div class="form-group col-md-12">
@@ -28,9 +28,9 @@
       <input type="file" class="form-control" id="imagen" name="imagen" required>
     </div>
   </div>
- <button type="submit" class="btn btn-primary">Guardar</button>
- <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#visualizarmodal">
-  Ver Registros
+ <button type="submit" class="btn confirmar">Registrar</button>
+ <button type="button" class="btn ver" data-toggle="modal" data-target="#visualizarmodal">
+  Visualizar
 </button> 
 </form>
 <!--instanciar el ajax para quitar el error no definido-->
@@ -38,15 +38,15 @@
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Comportamientos Registrados</h5>
+        <h5 class="modal-title titulo" id="exampleModalLabel">Comportamientos Registrados</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <!--tabla para ver los valores-->
-            <table class="table">
-              <thead class="table-warning">
+            <table class="table letraform">
+              <thead class="tablaheader">
               <tr>
                 <th scope="col">No</th>
                 <th scope="col">Comportamiento</th>
@@ -77,7 +77,7 @@
 
              @endforeach
               @else
-                  <div class="alert alert-warning text-center" role="alert">
+                  <div class="alert alert-warning text-center letraform" role="alert">
                     No Hay Registros
                   </div>
               @endif
@@ -88,7 +88,7 @@
         <!--end tabla-->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

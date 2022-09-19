@@ -1,19 +1,19 @@
 @extends('usuario.principa_usul')
 @section('content')
 <!--formulario de actualizacion-->
-<div class="alert alert-success text-center" role="alert">
-Actualizar Categoria
+<div class="alert titulo text-center" role="alert">
+<h3>ACTUALIZAR CATEGORíA</h3>
 </div>
 @if(Session::has('actualizado'))
 <br>
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
+<div class="alert alert-warning alert-dismissible fade show letraform" role="alert">
   <strong>{{Session::get('actualizado')}}</strong> 
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 @endif
-<form  method="POST" action ="{{route('guarcategoria', $cat[0]->id)}}">
+<form  method="POST" action ="{{route('guarcategoria', $cat[0]->id)}}" class="letraform">
     @csrf
 <div class="form-group">
     <label for="nombre">Nombre</label>
@@ -27,11 +27,11 @@ Actualizar Categoria
     <div class="row">
         <div class="col-2">
         </div>
-        <div class="col-8">
+        <div class="col-6">
         </div>
-        <div class="col-2">
-        <button type="submit" class="btn btn-success">Guardar</button>
-        <a href="#" type="button" class="btn btn-warning" onclick="back()">Volver</a>
+        <div class="col-4 text-right">
+        <button type="submit" class="btn confirmar">Actualizar</button>
+        <a href="#" type="button" class="btn salir" onclick="back()">Volver</a>
         </div>
     </div>
   </div>

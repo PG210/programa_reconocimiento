@@ -12,8 +12,8 @@
             <div class="card-body">
                <!---table-->
             <div class="table-responsive">
-                        <table class="table">
-                                <thead style="background-color:#FFBD03;">
+                        <table class="table letraform">
+                                <thead class="tablaheader">
                                 <tr>
                                     <th scope="col">No</th>
                                     <th scope="col">Periodo</th>
@@ -64,21 +64,22 @@
                                         <!-- Button trigger modal -->
                                             <div class="text-center">
                                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop{{$v->idusu}}">
-                                                <i class="fas fa-vote-yea"></i>
+                                                <i class="fas fa-vote-yea" style="font-size:20px;"></i>
                                                 </button>
                                             </div>
                                                 <!-- Modal -->
                                                 <div class="modal fade" id="staticBackdrop{{$v->idusu}}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
-                                                    <div class="modal-header"  style="background-color:#26F8FF;">
+                                                    <div class="modal-header titulo">
                                                         <h5 class="modal-title" id="staticBackdropLabel">Detalle de Votos</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <div class="modal-body">
+                                                    <div class="modal-body letraform">
                                                     <!---table-->
+                                                    <div class="table-responsive">
                                                     <table class="table table-bordered">
                                                         <thead>
                                                             <tr>
@@ -102,10 +103,11 @@
                                                         @endforeach
                                                         </tbody>
                                                         </table>
+                                                    </div>
                                                     <!--end table-->
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn" data-dismiss="modal" style="background-color:#26F8FF;"><i class="fas fa-sign-out-alt"></i></button>
+                                                        <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
                                                     </div>
                                                     </div>
                                                 </div>

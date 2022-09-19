@@ -1,12 +1,6 @@
 @extends('usuario.principa_usul')
 @section('content')
 <ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color:#1ED5F4; color:black;">
-  <li class="nav-item" role="presentation">
-    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" style="color:black;">Categoria</a>
-  </li>
-  <li class="nav-item" role="presentation">
-    
-  </li>
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -15,11 +9,12 @@
    <div class="col-md-5">
       <br>
      <!--seleccionar-->
-     <form id="categoria" method="post">
+     <div class="container">
+     <form id="categoria" method="post" class="letraform">
         @csrf
         <div class="row">
            <div class="col-md-12">
-              <i class="fas fa-list-alt" style="color:#468DF9;"></i>&nbsp;<label for="inputState">Categoria</label>
+              <i class="fas fa-list-alt" style="color:#468DF9; font-size:24px;"></i>&nbsp;&nbsp;<label for="inputState">Categoria</label>
                 <select id="categor" class="form-control" name="categor">
                   <option selected>Elegir...</option>
                   @if($b==0)
@@ -35,15 +30,17 @@
               <!--end seleccionar--->
         </div>
       </form>
-      <br>
-      <div>
+     </div>
+      <br><br>
+      <div class="container">
       
-        <form id="comportamiento" method="post">
+        <form id="comportamiento" method="post" class="letraform">
         @csrf
         <div class="row">
            <div class="col-md-12">
-              <label>Comportamiento</label>
+           <i class="fas fa-list-alt" style="color:#468DF9; font-size:24px;"></i>&nbsp;&nbsp;<label>Comportamiento</label>
               <select id="slt-cursos" class="form-control">
+        
               </select>
             </div>
           </div>
@@ -51,13 +48,13 @@
       </div>
       <!--mensaje de recomendacion-->
       <br><br>
-    <div class="row">
+    <div class="row letraform">
       <div class="col-md-12">
       <div id="sugerir"></div>
      </div>
     </div>
     <!-----#######################---->
-    <div class="row">
+    <div class="row letraform">
       <div class="col-md-12">
       <div id="sinsugerir"></div>
      </div>
@@ -65,7 +62,8 @@
     <!----End mensajes de recomendacion--->
    </div>
     
-     <div class="col-md-6">
+  <div class="col-md-7">
+   <div class="container">
    <form method="post" id="formudatos" name="formudatos">
      @csrf
    <br> 
@@ -75,48 +73,46 @@
         <div class="card-body">
             <div class="row">
               <div class="col-md-9">
-              <h3 class="card-title"><em>Para:</em><b> {{$usu[0]->name}} {{$usu[0]->apellido}} </b></h3><br>
+              <h3 class="card-title letratarjeta1"><em>Para:</em><b> {{$usu[0]->name}} {{$usu[0]->apellido}} </b></h3><br>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-3 letratarjeta1">
                 <div class="punto" ></div>
               </div>
             </div>
             <hr>
             <div id="imagen" class="imagen">
             </div>
-            <h3><em>Te reconozco por:</em></h3> 
+            <h3 class="letratarjeta2"><em>Te reconozco por:</em></h3> 
             <p class="card-text">
 
-            <h4 class="nomcate" style="background-color:#1ED5F4">  <h4>
+            <h4 class="nomcate letratarjeta2" style="background-color:#1ED5F4">  <h4>
 
             </p>
             <hr>
-            <h3><em>Comportamiento:</em></h3>
-            <h4 class="compor" style="background-color:#1ED5F4">  <h4>
+            <h3 class="letratarjeta2"><em>Comportamiento:</em></h3>
+            <h4 class="compor letratarjeta2" style="background-color:#1ED5F4">  <h4>
             <hr>
-            <h3><em>Detalle:</em></h3>
+            <h3 class="letratarjeta2"><em>Detalle:</em></h3>
             <!---############--->
-            <div class="mb-3 was-validated">
+            <div class="mb-3 was-validated letraform">
               <textarea class="form-control is-invalid" id="detexto" name="detexto" placeholder="Ingrese un detalle de reconocimiento" required></textarea>
             </div>
             <!--##########  -->
             <hr>
         </div>
-        <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush letratarjeta1">
             
             <li class="list-group-item"><em>De: </em><b>{{Auth::user()->name}}</b></li>
         </ul>
         <div class="card-body">
             <div class="row">
-                <div class="col-8">
-                
-                </div>
-                <div class="col-4">
+                <div class="col-7"></div>
+                <div class="col-5 text-center">
                   <input type="text" class="form-control" id="idusu" name="idusu" value="{{$usu[0]->id}}" hidden>
-                  <a href="/reconocimientos/enviar" type="button" class="btn float-left" style="background-color:blue; color:white;">Volver</a>&nbsp;&nbsp;
+                  <a href="/reconocimientos/enviar" type="button" class="btn salir letraform"  style="margin-left:0.8em; margin-bottom:10px;">Volver</a>
                  <!-- <input type="text" class="form-control idcompor" id="idcompor" name="idcompor" value>-->
                  <select id="stl-compor" class="form-control" hidden></select>
-                 <button type="submit" class="btn" style="background-color:#08FFD5; float:right;">Enviar</button>
+                 <button type="submit" class="btn confirmar letraform float-right">Enviar</button>
                 </div>
            </div>
         </div>
@@ -124,7 +120,6 @@
     
       </div>
     </form>
-    <div class="col-md-1">
    </div>
       </div>
    </div>
@@ -152,7 +147,6 @@
     var idusu=$('#idusu').val();
     var idcat=$('#stl-compor').val();
     var detexto = $('#detexto').val();
-    console.log(idcat);
     var _token = $('input[name=_token]').val(); //token de seguridad
     $.ajax({
       type: "POST",
@@ -242,7 +236,6 @@
         _token:_token
       } 
     }).done(function(res){
-      console.dir(res);
       cursos.find('option').remove();
       var arreglo = JSON.parse(res);
       for(var x=0; x<arreglo.length; x++){
@@ -264,7 +257,7 @@
           var imagen = $('#imagen');//sirve para que las imagenes no se junten o dupliquen
           var idcom=$('#slt-cursos').val();
           var _token = $('input[name=_token]').val(); //token de seguridad
-          console.log(idcom);
+        
           $.ajax({
             type: "POST",
             url:"{{route('filtrarcomport')}}",

@@ -10152,7 +10152,7 @@ button.bg-dark:focus {
 }
 
 .text-capitalize {
-  text-transform: capitalize !important;
+  /*text-transform: capitalize !important;*/
 }
 
 .font-weight-light {
@@ -15474,7 +15474,7 @@ body.text-sm .control-sidebar {
 }
 
 .nav-pills .nav-link {
-  color: #6c757d;
+  color: #fff;
 }
 
 .nav-pills .nav-link:not(.active):hover {

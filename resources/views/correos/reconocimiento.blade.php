@@ -111,13 +111,12 @@
                     <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                       <tr>
                         <td style="width:260px;padding:0;vertical-align:top;color:#153643;">
-                         <div style="text-align:center;">
+                          <!-- <div style="text-align:center;">
                           <img src="https://assets.codepen.io/210284/left.gif" alt="" />
-                         </div>
-                         <br>
+                         </div>-->
                          <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
                          <!--Datos de la categoria y comportamiento-->
-                         <form class="form1">
+                         <form class="form1" style="font-size:14px;font-family:Arial,sans-serif; text-align: justify;">
                            <div class="container">
                             <label for="firstName" class="first-name">Detalle:</label>
                             <label for="firstName" class="first-name">{{$datosrec->detalle}}</label>

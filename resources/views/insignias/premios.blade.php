@@ -1,11 +1,20 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert alert-primary text-center" role="alert">
- Registro De Recompensas
+<div class="alert text-center titulo" role="alert">
+ <h3>REGISTRO DE RECOMPENSAS</h3>
 </div>
 <br>
-
-<form action="{{route('regpremio')}}" method="POST"  enctype="multipart/form-data">
+@if(Session::has('eliminarexit'))
+<br>
+<div class="alert alert-warning alert-dismissible fade show letraform" role="alert">
+  <strong>{{Session::get('eliminarexit')}}</strong> 
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<br>
+@endif
+<form action="{{route('regpremio')}}" method="POST" class="letraform"  enctype="multipart/form-data">
   @csrf
   <div class="form-row">
     <div class="form-group col-md-6">
@@ -19,11 +28,11 @@
   </div>
   <div class="form-group">
      <label for="exampleFormControlFile1">Seleccionar Imagen</label>
-    <input type="file" class="form-control-file" id="img" name="img" required>
+    <input type="file" class="form-control-file form-control" id="img" name="img" required>
   </div>
-  
-  <button type="submit" class="btn btn-primary">Registrar</button>
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#visualizar">
+  <br>
+  <button type="submit" class="btn confirmar">Registrar</button>
+  <button type="button" class="btn ver" data-toggle="modal" data-target="#visualizar">
   Visualizar
 </button>
 </form>
@@ -31,23 +40,25 @@
 
 <!-- Modal -->
 <div class="modal fade" id="visualizar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-scrollable">
-    <div class="modal-content">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content ">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Listado De Recompensas</h5>
+        <h5 class="modal-title titulo" id="exampleModalLabel">Listado De Recompensas</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body letraform">
         <!--tabla para ver los valores-->
             <table class="table">
-              <thead class="table-warning">
+              <thead class="tablaheader">
               <tr>
                 <th scope="col">No</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Descripción</th>
                 <th scope="col">Imagen</th>
+                <th scope="col"></th>
+                <th scope="col">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -60,10 +71,9 @@
                     <div class="text-center">
                     <img src="{{asset('imgpremios/'.$c->rutaimagen)}}" class="rounded" alt="..."  width= "50px" height="50px" >
                   </div>
-                </td>
-                <!--  <td><button type="button" class="btn btn-success">Actualizar</button></td>
-                  <td><button type="button" class="btn btn-danger">Eliminar</button></td>
-                 -->
+                 </td>
+                 <td><a href="{{route('actualizarpremio',$c->id)}}" type="button" class="btn btn-success">Actualizar</a></td>
+                 <td><a href="{{route('eliminarpremio',$c->id)}}" type="button" class="btn btn-danger">Eliminar</button></td>
                 </tr>
              @endforeach
             </tbody>
@@ -72,7 +82,7 @@
         <!--end tabla-->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

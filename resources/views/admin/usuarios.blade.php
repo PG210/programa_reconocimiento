@@ -1,12 +1,12 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert text-center" role="alert" style="background-color:#1ED5F4;">
- <h3>Gestion De Usuarios </h3>
+<div class="alert text-center titulo" role="alert">
+ <h3>GESTIÓN DE USUARIOS </h3>
 </div>
    <!--tabla para ver los valores-->
    @if(Session::has('mensaje'))
         <br>
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <div class="alert alert-info alert-dismissible fade show letraform" role="alert">
         <strong>{{Session::get('mensaje')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -26,25 +26,25 @@
         <div class="modal fade" id="carga" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header titulo">
                 <h5 class="modal-title" id="exampleModalLabel">Carga Masiva De Usuarios</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body letraform">
                <!--formulario-->
                <div class="input-group mb-3">
                     <div class="custom-file">
-                        <input type="file" class="form-control" name="archivosubido" id="archivosubido" placeholder="elegir">
+                        <input type="file" class="form-control" name="archivosubido" id="archivosubido" placeholder="elegir" required>
                         <br>
                     </div>
                  </div>
                <!--formulario de carga-->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-dismiss="modal">Salir</button>
-                <button type="submit" class="btn btn-primary">Importar</button>
+                <button type="submit" class="btn confirmar">Importar</button>
+                <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
             </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
     <br>
     <div class="table-responsive">
     <table class="table">
-              <thead class="table-warning">
+              <thead class="tablaheader letraform">
               <tr>
                 <th scope="col">No</th>
                 <th scope="col">Nombre</th>
@@ -68,7 +68,7 @@
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="letraform">
                 <?php
                 $conta=1;
                 ?>
@@ -84,16 +84,16 @@
                         <td>{{$c->esta}}</td>
                         <td>
                             <div class="text-center">
-                            <a href="{{route('actualizaruser',$c->id)}}" data-toggle="tooltip" data-placement="bottom"  title="Editar"><i class="nav-icon fas fa-edit" style="color:  #e1b308;" ></i></a>
+                            <a href="{{route('actualizaruser',$c->id)}}" data-toggle="tooltip" data-placement="bottom"  title="Editar"><i class="nav-icon fas fa-edit" style="color:  #e1b308; font-size:20px;" ></i></a>
                     <!--#######################################3-->
                     <?php
                         if($c->esta == 'habilitado'){
                             ?>
-                            <a type="button" data-toggle="modal" data-target="#cambiarPro{{$c->id}}" data-placement="bottom"  title="Deshabilitar"><i class="nav-icon fas fa-toggle-on" style="color: #64e108;"></i></a>
+                            <a type="button" data-toggle="modal" data-target="#cambiarPro{{$c->id}}" data-placement="bottom"  title="Deshabilitar"><i class="nav-icon fas fa-toggle-on" style="color: #64e108; font-size:20px;"></i></a>
                             <?php
                         }else{
                             ?>
-                            <a type="button" data-toggle="modal" data-target="#cambiarPro{{$c->id}}" data-placement="bottom"  title="Habilitar"><i class="nav-icon fas fa-toggle-off" style="color: #9cbe82;"></i></a>
+                            <a type="button" data-toggle="modal" data-target="#cambiarPro{{$c->id}}" data-placement="bottom"  title="Habilitar"><i class="nav-icon fas fa-toggle-off" style="color: #9cbe82; font-size:20px;"></i></a>
                             <?php
                         }
                         ?>
@@ -102,21 +102,21 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header" style="background-color:white !important;">
-                                                <h4 class="modal-title text-center" style="color:black; text-align: center;">
-                                                    <span>¿Cambiar el estado {{$c->esta}} del Usuario? </span>
+                                                <h4 class="modal-title text-center titulo" style="color:black; text-align: center;">
+                                                    <span>¿Modificar el estado "{{$c->esta}}" del Usuario? </span>
                                                 </h4>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button> 
                                             </div>
-                                            <div class="modal-body mt-2 text-center">
+                                            <div class="modal-body mt-2 text-center letraform">
                                                 <strong style="text-align: center !important"> 
                                                 {{ $c->name }} - {{ $c->email}}
                                                 </strong>
                                             </div>
                                             <div class="modal-footer">
-                                                <a  class="btn btn-success" href="{{ route('cambiarestado', $c->id) }}">Cambiar</a>
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                                <a  class="btn confirmar" href="{{ route('cambiarestado', $c->id) }}">Modificar</a>
+                                                <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
                                             </div>
                                         </div>
                                     </div>

@@ -76,8 +76,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-size: inherit;
-  font-weight: inherit;
+ /* font-size: inherit;
+  font-weight: inherit;*/
 }
 
 /*
@@ -368,8 +368,8 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
 
 img,
 video {
-  max-width: 200px;
-  height: 120px;
+  max-width: 100%;
+  height: auto;
 }
 
 /*
@@ -935,7 +935,7 @@ select {
 }
 .bg-gray-800 {
   --tw-bg-opacity: 1;
-  background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+  background-color: rgb(21 175 186 / var(--tw-bg-opacity));
 }
 .fill-current {
   fill: currentColor;
@@ -1016,7 +1016,7 @@ select {
   font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 .text-sm {
-  font-size: 0.875rem;
+  font-size: 1.3rem;
   line-height: 1.25rem;
 }
 .text-base {
@@ -1032,7 +1032,7 @@ select {
   line-height: 1.75rem;
 }
 .text-xs {
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   line-height: 1rem;
 }
 .font-medium {
@@ -1065,7 +1065,7 @@ select {
 }
 .text-gray-700 {
   --tw-text-opacity: 1;
-  color: rgb(55 65 81 / var(--tw-text-opacity));
+  color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 .text-indigo-700 {
   --tw-text-opacity: 1;
