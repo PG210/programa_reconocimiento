@@ -81,7 +81,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar elevation-3" style="background-color:#082e41;">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="https://www.evolucion.co/" class="brand-link">
       <img src="{{ asset('dist/img/logo_evo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
       <span class="brand-text font-weight-light"><h3 style="color:white; font-weight: bold;">Evolución</h3></span>
     </a>

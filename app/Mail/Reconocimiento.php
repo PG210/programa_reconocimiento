@@ -12,6 +12,7 @@ class Reconocimiento extends Mailable
 {
     //implements ShouldQueue
     use Queueable, SerializesModels;
+    public $subject="Nuevo Reconocimiento";
     public $datosrec;
     /**
      * Create a new message instance.

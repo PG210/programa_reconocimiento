@@ -40,26 +40,24 @@
                   </tr>
                   </thead>
                   <tbody>
-                  @if($esta!=0)
+                    @if($esta != 0) 
+                    <?php
+                      $con = count($categoria);
+                      ?>
                     @foreach($recibidos as $c)
                       <tr>
-                      <th >{{$c->nombre}} {{$c->ape}}</th>
-                      <td>{{$c->c1}}</td>
-                      <td >{{$c->c2}}</td>
-                      <td >{{$c->c3}}</td>
-                      <td >{{$c->c4}}</td>
-                      <td >{{$c->c5}}</td>
-                      <td >
-                        <button type="button" class="btn confirmar" data-toggle="modal" data-target="#staticBackdrop">
+                        <th>{{$c->nombre}} {{$c->ape}}</th>
+                        @for($i = 1; $i <= $con; $i++)
+                          <td>{{$c->{'c'.$i} }}</td>
+                        @endfor
+                        <td>
+                          <button type="button" class="btn confirmar" data-toggle="modal" data-target="#staticBackdrop">
                             Detalle
                           </button>
-                      </td>
-                      <!---comparar las categorias en un if(cat==1 document.get.elementid(#col2))-->
-                      <!--para colocar los datos con inner en los ids-->
-                      <!--tr debe de ir con un id del usuario-->
+                        </td>
                       </tr>
-                      @endforeach
-                    @endif
+                    @endforeach
+                  @endif
                   </tbody>
                   </table>
        <!---##############################################-->
@@ -77,37 +75,57 @@
                             </div>
                             <div class="modal-body">
                               <!-------datos de usuarios quien envia-->
-                              <table class="table">
-                                      <thead>
-                                        <tr style="background-color:#2ED5F4;" >
-                                          <th scope="col">No</th>
-                                          <th scope="col">Envia</th>
-                                          <th scope="col">Categoria</th>
-                                          <th scope="col">Comportamiento</th>
-                                          <th scope="col">Detalle</th>
-                                          <th scope="col">Puntos</th>
-                                          <th scope="col">Fecha</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                      @if($esta!=0)
-                                        <?php
-                                         $conta=1;
-                                        ?>
-                                        @foreach($detalle as $det)
-                                        <tr>
-                                          <th scope="row">{{$conta++}}</th>
-                                          <td>{{$det->nomenvia}} {{$det->apenvia}}</td>
-                                          <td>{{$det->descat}}</td>
-                                          <td>{{$det->comportamiento}}</td>
-                                          <td>{{$det->det}}</td>
-                                          <td>{{$det->puntos}}</td>
-                                          <td>{{$det->fecha}}</td>
-                                        </tr>
-                                        @endforeach 
+                              @if($esta!=0)
+                                    <?php
+                                         $contab=1;
+                                    ?>
+                                    @foreach($detalle as $d)
+                                    <div class="accordion" id="accordionExampledet1{{$d->idcat}}">
+                                        <div class="card"  style="background-color:#F5F5F5;">
+                                          <div class="card-header" id="headingTwodet1{{$d->idcat}}">
+                                            <h2 class="mb-0">
+                                              <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwodet1{{$d->idcat}}" aria-expanded="false" aria-controls="collapseTwodet1{{$d->idcat}}">
+                                                 <i class="fas fa-sort" style="color:#2ED5F4; font-size:24px;"></i>
+                                                 <span class="float-right" style="color:black; font-size:16px;" >{{date('Y-m-d', strtotime($d->fecha))}}</span>
+                                              </button>
+                                            </h2>
+                                          </div>
+                                          <div id="collapseTwodet1{{$d->idcat}}" class="collapse" aria-labelledby="headingTwodet1{{$d->idcat}}" data-parent="#accordionExampledet1{{$d->idcat}}">
+                                            <div class="card-body">
+                                              <!--card body-->
+                                              <div class="row">
+                                              <div class="col-8">
+                                                <b> Enviado por: </b> {{$d->nomenvia}} {{$d->apenvia}}
+                                               </div>
+                                               <div class="col-4 text-right">
+                                               <i class="fas fa-heart" style="color:#0070B8; font-size:20px;"></i>
+                                                  <span class="badge badge-warning text-left" style="color:white; font-size: 0.875em;"> 
+                                                    {{$d->puntos}} Puntos
+                                                  </span>
+                                               </div>
+                                              </div>
+                                              <hr>
+                                              <div class="row">
+                                              <div class="col-12 text-justify">
+                                                <b> Detalle: </b> {{$d->det}}
+                                               </div>
+                                              </div>
+                                              <hr>
+                                              <div class="row">
+                                              <div class="col-6">
+                                                <b>Categoria: </b> {{$d->descat}}
+                                               </div>
+                                               <div class="col-6 text-justify">
+                                                <b>Comportamiento:</b> {{$d->comportamiento}}
+                                               </div>
+                                              </div>
+                                             <!--end-card-body-->
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      @endforeach 
                                       @endif
-                                      </tbody>
-                                    </table>
                                                                     <!------datos de usuarios envian-->
                             </div>
                             <div class="modal-footer">

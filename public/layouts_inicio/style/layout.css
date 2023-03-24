@@ -325,7 +325,7 @@ input:focus, textarea:focus, *:required:focus{border-color:#B946AD !important;}
 .btn, .btn.inverse:hover{color:#FFFFFF; background-color:#B946AD; border-color:#B946AD;}
 .btn:hover, .btn.inverse{color:inherit; background-color:transparent; border-color:inherit;}
 
-.imgover:hover::before{background-color:rgba(21,175,186,.5);/* #B946AD */}
+/*.imgover:hover::before{background-color:rgba(21,175,186,.5);*/
 .imgover, .imgover:hover::after{color:#FFFFFF;}
 
 .heading.underline::after{background-color:#A032AB;}

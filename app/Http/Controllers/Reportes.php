@@ -47,11 +47,13 @@ class Reportes extends Controller
                      ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
                      ->join('area', 'cargo.id_area', '=', 'area.id')
                      ->select('cargo.id_area')
+                     ->distinct('cargo.id_area')
                      ->get();
             
                     //aqui se debe recorrer la consulta puesto que al consultar a la tabla jefes_tot se encuentra
                     //dos jefes vinculados por lo tanto se juntan dos areas o dependencias que tienen personal a cargo
-                     for($i=0;$i<count($jefes);$i++){  
+                    //return $jefes;
+                    for($i=0;$i<count($jefes);$i++){  
                          $arr[$i] =  DB::table('insignia_obtenida')
                                     ->join('insignia', 'insignia_obtenida.id_insignia', '=', 'insignia.id')
                                     ->join('users', 'insignia_obtenida.id_usuario', '=', 'users.id')
@@ -64,13 +66,14 @@ class Reportes extends Controller
                                     ->select('insignia_obtenida.id as idinsig', 'insignia_obtenida.entregado as estado', 'insignia.name as nominsig', 'insignia.descripcion as insigdes', 'insignia.puntos',
                                             'insignia.rutaimagen as imginsig', 'premios.descripcion as despremio', 'premios.rutaimagen as imgpre', 'comportamiento_categ.descripcion as categoria',
                                             'users.name as nombre', 'users.apellido', 'cargo.nombre as cargonom', 'area.nombre as areanom')
+                                    
                                     ->get();
                        
                     } 
-
                    // return $arr[0][0]->idinsig;
                   
         }
+       // return $arr;
         return view('jefe.vistareporte')->with('b', $b)->with('datos', $datos)->with('res', $arr);
         
     }

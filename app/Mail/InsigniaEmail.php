@@ -11,7 +11,9 @@ class InsigniaEmail extends Mailable
 {
     //implements ShouldQueue
     use Queueable, SerializesModels;
+    public $subject="Ganaste una insignia";
     public $datosin;
+
 
     /**
      * Create a new message instance.

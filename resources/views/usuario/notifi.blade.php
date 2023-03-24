@@ -111,17 +111,17 @@
                                   <div class="col-3">
                                     <div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">
                                     @if($n->imagen!=null)
-                                     <img src="{{asset('dist/imgperfil/'.$n->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
+                                      <img src="{{asset('dist/imgperfil/'.$n->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
                                     @endif
-                                    @if($n->imagen==null)
-                                    <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
+                                    @if($n->imagen == null)
+                                       <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
                                     @endif
                                     <br>
                                    </div>
                                   </div>
                                   <div class="col-6 letraform">
                                     <div class="info">
-                                     {{$n->name}}  {{$n->apellido}}
+                                     {{$n->name}}  {{$n->apellido}} 
                                     </div>
                                   </div>
                                   <div class="col-3">
@@ -290,10 +290,10 @@
                          <div class="row">
                                  <div class="col-3">
                                    <div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">
-                                   @if($le->imagen!="ruta")
+                                   @if($le->imagen!=NULL)
                                     <img src="{{asset('dist/imgperfil/'.$le->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
                                    @endif
-                                   @if($le->imagen=="ruta")
+                                   @if($le->imagen==NULL)
                                    <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
                                    @endif
                                    <br>

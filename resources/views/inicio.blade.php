@@ -1,150 +1,155 @@
 @extends('principal')
 @section('content')
-<style>
-  .letra{
-       font-family: 'Roboto Slab', serif;
-       font-size:40px;
-       line-height: 1.3;
-       font-weight: 700;
-       text-align:center; 
-  }
-  .textos{
-       font-family: 'Roboto Slab', serif;
-       font-size:20px;
-       line-height: 1.5;
-       color:#2E2E2E;
-       text-align:justify; 
-  }
-  .textos1{
-       font-family: 'Roboto Slab', serif;
-       font-size:18px;
-       line-height: 1.3;
-       color:white;
-       text-align:justify; 
-  }
-  .textos2{
-       font-family: 'Roboto Slab', serif;
-       font-size:19px;
-       line-height: 1.3;
-       color:white;
-       text-align:center; 
-  }
-</style>
-<div class="overlay">
-    <div id="pageintro" class="hoc clear"> 
-      <!-- ################################################################################################ -->
-      <article>
-       <!-- <h3 class="heading">Programa Reconocimiento</h3>
-        <p>Lema</p>-->
-       <!-- <footer><a class="btn" href="#">Iniciar</a></footer>-->
-      </article>
-      <!-- ################################################################################################ -->
+<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center" style="background-image: url('dist/img/y.jpg');  background-position: center; background-repeat: no-repeat;  background-size: cover; position: relative; height:auto;">
+<div class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center">
+  <div class="col-md-5 p-lg-5 mx-auto my-5">
+   <!-- <h1 class="display-4 font-weight-normal letratitulo">ReconoSER</h1>
+    <p class="lead font-weight-normal letrap">Bienvenidos a nuestro programa de reconocimientos.</p>
+    <a class="btn btn-outline-secondary letrap" href="#">Comenzar</a>-->
+  </div>
+  <!--<div class="product-device shadow-sm d-none d-md-block"></div>
+  <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>-->
+</div>
+</div>
+<br>
+<!--que es reconocer-->
+<!--linea divisora-->
+<div class="card-body" style="background-color:#082e41;">
+    <h2 class="display-5 text-center letratitulo" style="color:white;">¿POR QUÉ TENER UN PROGRAMA DE RECONOCIMIENTO EN SU EMPRESA?</h2>
+  </div>
+<br>
+<!--end - linea divisora-->
+<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+  <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+    <img src="{{asset('images/demo/parrafo.jpg')}}" class="img-fluid" height="auto" width="100%" alt="Cargando imagen ...">
+  </div>
+  <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+    <div>
+      <!--<h2 class="display-5">Another headline</h2>-->
+      <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+        Cuando el ser humano cuenta con sus necesidades básicas satisfechas dentro de una organización, el reconocimiento es el siguiente paso para aumentar su motivación, el sentido de pertenencia y su compromiso.
+      </p>
+       <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+        Lo curioso es que a las personas se les dificulta (por diferentes razones) reconocer las cosas buenas de sus compañeros de trabajo, es más fácil evidenciar en que ha fallado y hacérselo saber de todas las maneras posibles, que decirle todo lo bueno que hace.
+       </p>
+       <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+        ReconoSER es una plataforma (virtual y presencial) que le ayudará a su organización a que las personas reconozcan de una manera divertida los comportamientos, competencias y/o valores de sus compañeros. Lo verán como un juego, con actividades a través del tiempo que ayudarán a consolidar en el día a día una cultura de reconocimiento, apalancando el fortalecimiento del clima organizacional de la organización.
+      </p>
     </div>
   </div>
-  <!-- ################################################################################################ -->
 </div>
-<div class="wrapper row3" style="background-color:#F8F8F8;">
-  <main class="hoc container clear"> 
-    <!-- main body -->
-    <!-- ################################################################################################ -->
-    
-    <section id="introblocks">
-  
-      <ul class="nospace group btmspace-80">
-        <li class="one_third first" >
-          <figure><a class="imgover"><img src="{{asset('dist/img/puntos.png')}}"  alt="cargando imagen ..."  style=" border: 2px; border-radius: 25px; background-color:white;"> </a>
-            <figcaption style=" border: 2px;  padding: 10px; border-radius: 25px; ">
-              <h6 class="heading textos2">PUNTOS</h6>
-              <div class="textos1" style="color:white;">
-               <!-- <p>¿Como ganar puntos?</p>-->
-               <p> Ser bueno en tu trabajo siempre trae cosas buenas, recibe reconocimientos por parte de tus compañeros y gana puntos redimibles.</p>
-              </div>
-            </figcaption>
-          </figure>
-        </li>
-        <li class="one_third">
-          <figure><a class="imgover" href="#"><img src="{{asset('dist/img/insignia.png')}}"  alt="cargando imagen ..." style=" border: 2px; border-radius: 25px; background-color:white;"></a>
-            <figcaption style=" border: 2px;  padding: 10px; border-radius: 25px; ">
-              <h6 class="heading textos2">INSIGNIAS</h6>
-              <div class="textos1">
-               <!-- <p>¿Como ganar insignias?</p>-->
-                <p>Los puntos obtenidos por tu buen trabajo, se ven reflejados en cada insignia obtenida.</p>
-              </div>
-            </figcaption>
-          </figure>
-        </li>
-        <li class="one_third">
-          <figure><a class="imgover" href="#"><img src="{{asset('dist/img/recompensas.png')}}" alt="cargando imagen ..." style=" border: 2px; border-radius: 25px; background-color:white;"></a>
-            <figcaption style=" border: 2px;  padding: 10px; border-radius: 25px; ">
-              <h6 class="heading textos2">RECOMPENSAS</h6>
-              <div class="textos1">
-               <!-- <p>¿Como obtener recompensas?</p>-->
-                <p>Cada insignia trae con sigo una gran recompensa.</p>
-              </div>
-            </figcaption>
-          </figure>
-        </li>
-      </ul>
-    </section>
-    <!-- ################################################################################################ -->
-    <div style=" border: 2px;  padding: 10px; border-radius: 25px; color:#15AFBA;" class="letra">¿POR QUÉ TENER UN PROGRAMA DE RECONOCIMIENTO EN SU EMPRESA? </div>
-    <hr class="btmspace-80">
-    
-    <!-- ################################################################################################ -->
-    <section class="group">
-      <div class="one_half first"><img class="inspace-15 borderedbox" src="{{asset('images/demo/trofeo.png')}}" alt="cargando imagen ..." style="border-radius: 25px; background-color:white;" width="100%;"></div>
-      <div class="one_half textos">
-               <p> 
-                Todos los estudios demuestras que cuando el ser humano es reconocido, su <span style="color:#FFBD03;">motivación</span>, sentido de <span style="color:#FFBD03;">pertenencia</span> y su <span style="color:#FFBD03;">compromiso</span> aumentan.
-               </p>
-               <p>
-                Lo curioso es que se nos dificulta (por diferentes razones) reconocer las cosas buenas del otro, es más fácil evidenciar en que ha fallado y hacérselo saber de todas las maneras posible, que decirle todo lo bueno que hace.
-               </p>
-               <p>
-               Por tanto, nuestro programa de reconocimiento le ayudará a que sea fácil y divertido reconocer, lo verán como un juego, con actividades a través del tiempo que irán consolidando día a día una cultura de agradecimiento, apalancando el fortalecimiento del clima organizacional, de las competencias y los valores organizacionales.
-               </p>
-      </div>
-    </section>
-    <!-- ################################################################################################ -->
-    <!-- / main body -->
-    <div class="clear"></div>
-  </main>
-</div>
-  <!-- ################################################################################################ -->
-  </section>
-</div>
-
-<!--
-<div class="wrapper" style="background-color:#C4C4C4;">
-  <div class="hoc container clear"> 
-      <div style=" border: 2px;  padding: 10px; border-radius: 25px; color:#082e41;" class="letra">¿QUÉ PODRÁS HACER EN NUESTRO PROGRAMA DE RECONOCIMIENTO? </div>
-       <hr class="btmspace-80">
-       <ul class="nospace group team">
-      <li class="one_quarter first">
-        <figure><a class="imgover" href="#"><img src="images/demo/300x300.png" alt=""></a>
-          <figcaption><strong>A. Doe</strong> <em>Job Title Here</em></figcaption>
-        </figure>
-      </li>
-      <li class="one_quarter">
-        <figure><a class="imgover" href="#"><img src="images/demo/300x300.png" alt=""></a>
-          <figcaption><strong>B. Doe</strong> <em>Job Title Here</em></figcaption>
-        </figure>
-      </li>
-      <li class="one_quarter">
-        <figure><a class="imgover" href="#"><img src="images/demo/300x300.png" alt=""></a>
-          <figcaption><strong>C. Doe</strong> <em>Job Title Here</em></figcaption>
-        </figure>
-      </li>
-      <li class="one_quarter">
-        <figure><a class="imgover" href="#"><img src="images/demo/300x300.png" alt=""></a>
-          <figcaption><strong>D. Doe</strong> <em>Job Title Here</em></figcaption>
-        </figure>
-      </li>
-    </ul>
+<!--end reconocer-->
+<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+  <div class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden" style="background-color:#004E5A;">
+   <img src="{{asset('dist/img/puntos.jpg')}}" class="img-fluid" height="auto" width="100%" alt="Cargando imagen ...">
   </div>
-</div>-->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
+  <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+    <div class="my-3 p-3">
+      <h2 class="display-5 letratitulo" style="color:#004E5A;">PUNTOS</h2>
+    </div>
+    <!-- <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">-->
+    <div class="mx-auto" style="width: 95%; height: auto; border-radius: 21px;">
+    <div class="container">
+    <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+    Gana puntos por la forma de comportarte:
+    </p>
+    <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+      1. Ganaras puntos cada que te reconozcan.
+    </p>
+    <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+      2. Existen diferentes tipos de puntos, según el alcance del comportamiento.
+    </p>
+    <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+      3. ¡A mayor cantidad de puntos, mayor cantidad de recompensas!
+      </p>
+     </div> 
+   </div> 
+ </div>
+</div>
 
+<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+  <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+    <div class="my-3 p-3">
+      <h2 class="display-5 letratitulo" style="color:#90D1BD;">INSIGNIAS</h2>
+    </div>
+      <div class="mx-auto" style="width: 95%; height: auto; border-radius: 21px;">
+        <div class="container">
+        <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+        Los símbolos tienen el poder de hacernos sentir especiales:
+        </p>
+        <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+          1. Permiten dar forma a lo que no la tiene (Valores, competencias, comportamientos).
+        </p>
+        <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+          2. Nos ayudan a distinguir al que lo está haciendo muy bien.
+        </p>
+        <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+          3. Aumentan el compromiso social del que la posee.
+        </p>
+        <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+          4. Tienen una función motivadora a través del STATUS.
+        </p>
+        </div> 
+    </div> 
+  </div>
+  <div class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden" style="background-color:#90D1BD;">
+    <img  src="{{asset('dist/img/insignias.jpg')}}" class="img-fluid" height="auto" width="100%" alt="Cargando imagen ...">
+  </div>
+</div>
+
+<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+  <div class=" mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden" style="background-color:#4df9bd;">
+    <img  src="{{asset('dist/img/recompensas.jpg')}}" class="img-fluid" height="auto" width="100%" alt="Cargando imagen ...">
+  </div>
+  <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+  <div class="my-3 p-3">
+      <h2 class="display-5 letratitulo" style="color:#4df9bd;">RECOMPENSAS</h2>
+    </div>
+      <div class="mx-auto" style="width: 95%; height: auto; border-radius: 21px;">
+        <div class="container">
+        <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+        Las recompensas están diseñadas para impactar el salario emocional:
+        </p>
+        <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+          1. Las recompensas emocionales ofrecen muchas posibilidades. Hay formas infinitas de evocar emociones positivas.
+        </p>
+        <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+          2. Una emoción positiva genera recordación y afianza el concepto de la marca empleadora.
+        </p>
+        <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+          3. Facilita a los colaboradores beneficios no económicos que les hace sentirse felices dentro de la empresa. 
+        </p>
+        </div> 
+    </div> 
+  </div>
+</div>
+<!---votación-->
+<div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
+  <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+    <div class="my-3 p-3">
+      <h2 class="display-5 letratitulo" style="color:#90D1BD;">VOTACIÓN</h2>
+    </div>
+      <div class="mx-auto" style="width: 95%; height: auto; border-radius: 21px;">
+        <div class="container">
+        <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+        La participación de todos los colaboradores de la compañia para elegir a los mejores, permitirá:
+        </p>
+        <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+          1. Contar con un proceso democrático de elección.
+        </p>
+        <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+          2. Involucrar a toda la organización para escoger a los que mejor representen las competencias, comportamientos y/o valores de la compañia.
+        </p>
+        <p class="text-justify letrarob" style="font-size:18px; line-height: 1.6;">
+          3. Generar concesos a través de la participación mayoritaria.
+        </p>
+        </div> 
+    </div> 
+  </div>
+  <div class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden" style="background-color:#90D1BD;">
+    <img  src="{{asset('dist/img/insignias.jpg')}}" class="img-fluid" height="auto" width="100%" alt="Cargando imagen ...">
+  </div>
+</div>
+<!--end votacion-->
+<br>
 @endsection

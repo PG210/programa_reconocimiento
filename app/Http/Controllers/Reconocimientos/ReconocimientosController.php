@@ -47,9 +47,10 @@ class ReconocimientosController extends Controller
                       ->join('users as usu', 'catrecibida.id_user_envia', '=', 'usu.id')
                       ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
                       ->join('categoria_reconoc', 'catrecibida.id_comportamiento', '=', 'categoria_reconoc.id')
-                      ->select('catrecibida.id_user_recibe', 'catrecibida.detalle as det', 'users.name as nomrecibe', 'usu.name as nomenvia', 'usu.apellido as apenvia', 'comportamiento_categ.descripcion as descat',
+                      ->select('catrecibida.id as idcat', 'catrecibida.id_user_recibe', 'catrecibida.detalle as det', 'users.name as nomrecibe', 'usu.name as nomenvia', 'usu.apellido as apenvia', 'comportamiento_categ.descripcion as descat',
                                 'categoria_reconoc.nombre as comportamiento', 'catrecibida.puntos', 'catrecibida.fecha')
                       ->get();
+                
                     $puntos =DB::table('catrecibida')
                     ->where('catrecibida.id_user_recibe', '=', $idlog)
                     ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
@@ -57,7 +58,9 @@ class ReconocimientosController extends Controller
                     ->selectRaw('comportamiento_categ.descripcion as nom, SUM(catrecibida.puntos) as p')
                     ->groupBy('id_categoria')
                     ->get();
+
             //return 
+            
         }//llave cierre del div
         else{
           $esta=0;
@@ -109,7 +112,7 @@ class ReconocimientosController extends Controller
 }
   public function listarrec($id){
       $valcateg=DB::table('comportamiento_categ')->count();
-      if($valcateg>=5){//valida que por lo menos haya 5 categorias registradas puesto que las tablas donde se asignan los puntos a categoria solamente esta para 5 campos
+      if($valcateg>0 && $valcateg <=5){//valida que por lo menos haya 5 categorias registradas puesto que las tablas donde se asignan los puntos a categoria solamente esta para 5 campos
               $v=DB::table('comportamiento_categ')->count();
             if($v>1){
               $b=1;
@@ -122,13 +125,18 @@ class ReconocimientosController extends Controller
             $cat =DB::table('categoria_reconoc')->get();
             /////################################################
             $contarusu=DB::table('users')->MAX('users.id');
-            $uselogeado=auth()->id();
-            $numberid = random_int(2, $contarusu);
+            $uselogeado=auth()->id(); 
+            $rand = range(2, $contarusu); //obtiene numeros sin repetirse
+            shuffle($rand); //intercala los numeros sin repetirse
+            $totdatos = DB::table('users')->count(); //contar los datos para iterar nuevo random
+            $totdatos = $totdatos-1;
+            $posrand = rand(0, $totdatos);
+            $numberid = $rand[0];         
             //$numberid = mt_Rand(1, $contarusu);
             $val=DB::table('users')->where('users.id', '=', $numberid)->count();
-            if($numberid!=$uselogeado && $val!=0){
+            if($val != 0){
                   $c=1;
-                  $usuazar=DB::table('users')->where('users.id', '=', $numberid)->get();
+                  $usuazar=DB::table('users')->where('users.id', '=', $numberid)->where('users.id', '!=', $uselogeado)->get();
               }else{
               $c=0;
               $usuazar="sin datos";
@@ -232,11 +240,11 @@ class ReconocimientosController extends Controller
            'catrecibida.puntos', 'categoria_reconoc.nombre as comportamiento', 'categoria_reconoc.rutaimagen', 
            'envia.name as nomenvia', 'envia.apellido as apenvia', 'recibe.name as nomrecibe', 'recibe.apellido as aperecibe', 'recibe.email as correocibe')
           ->first();
-          Mail::to($datosrec->correocibe)->send(new Reconocimiento($datosrec)); //envia mensajes
+          Mail::to($datosrec->correocibe)->queue(new Reconocimiento($datosrec)); //envia mensajes
          
           ///aqui se debe verificar si gano una insignia
 
-     $puntosreco =DB::table('catrecibida')
+           $puntosreco =DB::table('catrecibida')
                     ->where('catrecibida.id_user_recibe', '=', $usurecibe)
                     ->where('catrecibida.id_categoria', '=', $cat->idcom)
                     ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
@@ -277,7 +285,7 @@ class ReconocimientosController extends Controller
                         'comportamiento_categ.descripcion as catinsig')
                 ->first();
     
-               Mail::to($datosin->correocibe)->send(new InsigniaEmail($datosin)); //envia mensajes
+               Mail::to($datosin->correocibe)->queue(new InsigniaEmail($datosin)); //envia mensajes
                
                 
 
@@ -288,9 +296,15 @@ class ReconocimientosController extends Controller
         //sacar un aleatorio para sugerencia
         $contarusu=DB::table('users')->MAX('users.id');
         $us=auth()->id();
-        $numberid = mt_Rand(1, $contarusu);
+        $rand = range(2, $contarusu);
+        shuffle($rand); //intercala los numeros sin repetirse
+        $totdatos = DB::table('users')->count(); //contar los datos para iterar nuevo random
+        $totdatos = $totdatos-1;
+        $posrand = rand(0, $totdatos);
+        $numberid = $rand[$posrand];     
+        
         $val=DB::table('users')->where('users.id', '=', $numberid)->count();
-        if($numberid!=$us && $val!=0){
+        if($numberid!=$us && $numberid != $usurecibe && $val!=0){
               $c=1;
               $usuazar=DB::table('users')->where('users.id', '=', $numberid)->get();
             

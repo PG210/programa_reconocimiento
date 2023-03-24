@@ -58,10 +58,10 @@
             <td>
                 <div class="user-panel mt-0 pb-0 mb-0 d-flex">
                 <div class="image">
-                  @if($u->imagen!=null)
+                  @if($u->imagen!=null && $u->imagen != 'ruta')
                     <img src="{{asset('dist/imgperfil/'.$u->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
                   @endif
-                  @if($u->imagen==null)
+                  @if($u->imagen==null || $u->imagen == 'ruta')
                   <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
                   @endif
                   </div>

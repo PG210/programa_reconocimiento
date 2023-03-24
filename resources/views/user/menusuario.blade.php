@@ -18,20 +18,12 @@
           </li>    
          
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('perfil')}}" class="nav-link">
               <i class="nav-icon fas fa-user-cog"></i>
               <p>
-                Perfil <i class="right fas fa-angle-left"></i>
+                Perfil
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('perfil')}}" class="nav-link">
-                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp;<p>Ver Perfil</p>
-                </a>
-              </li>
-            </ul>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -57,21 +49,12 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('reporte_re')}}" class="nav-link">
               <i class="nav-icon fas fa-trophy"></i>
               <p>
                 Recompensas
-                <i class="fas fa-angle-left right"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">         
-             <li class="nav-item">
-                <a href="{{route('reporte_re')}}" class="nav-link">
-                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp;<p>Insignias</p>
-                </a>
-              </li>
-            </ul>
           </li>
           @if(isset($es[0]->estado))
           @if($es[0]->estado==1)

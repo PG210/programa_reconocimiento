@@ -8,7 +8,7 @@
                 <div class="row titulo">
                     <div class="col-3">
                         <a href="/gerente/informe/1" class="btn btn-link btn-block text-left" type="button">
-                        <i class="fas fa-tasks" style="font-size:22px;"></i>&nbsp;&nbsp;Listado sin entregar
+                        <i class="fas fa-tasks" style="font-size:22px;"></i>&nbsp;&nbsp;Listado sin entregar 
                         </a>
                     </div>
                     <div class="col-3">

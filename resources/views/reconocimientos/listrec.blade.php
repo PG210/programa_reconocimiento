@@ -16,7 +16,7 @@
            <div class="col-md-12">
               <i class="fas fa-list-alt" style="color:#468DF9; font-size:24px;"></i>&nbsp;&nbsp;<label for="inputState">Categoria</label>
                 <select id="categor" class="form-control" name="categor">
-                  <option selected>Elegir...</option>
+                  <option value=" ">Elegir...</option>
                   @if($b==0)
                   <option>Sin Categoria</option>
                   @endif
@@ -40,7 +40,6 @@
            <div class="col-md-12">
            <i class="fas fa-list-alt" style="color:#468DF9; font-size:24px;"></i>&nbsp;&nbsp;<label>Comportamiento</label>
               <select id="slt-cursos" class="form-control">
-        
               </select>
             </div>
           </div>
@@ -73,10 +72,22 @@
         <div class="card-body">
             <div class="row">
               <div class="col-md-9">
+               <div class="user-panel d-flex"> 
+               <div class="image">
+              @if($usu[0]->imagen!=null && $usu[0]->imagen != 'ruta')
+                 <img src="{{asset('dist/imgperfil/'.$usu[0]->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width:4.1rem; height: auto;">
+                  @endif
+                  @if($usu[0]->imagen==null || $usu[0]->imagen == 'ruta')
+                  <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image"  style="padding-bottom:2px; width:4.1rem; height: auto;" >
+                @endif
+               </div>
+              </div>
               <h3 class="card-title letratarjeta1"><em>Para:</em><b> {{$usu[0]->name}} {{$usu[0]->apellido}} </b></h3><br>
               </div>
               <div class="col-md-3 letratarjeta1">
-                <div class="punto" ></div>
+                <div class="punto" >
+
+                </div>
               </div>
             </div>
             <hr>
@@ -103,6 +114,7 @@
         <ul class="list-group list-group-flush letratarjeta1">
             
             <li class="list-group-item"><em>De: </em><b>{{Auth::user()->name}}</b></li>
+
         </ul>
         <div class="card-body">
             <div class="row">
@@ -148,7 +160,8 @@
     var idcat=$('#stl-compor').val();
     var detexto = $('#detexto').val();
     var _token = $('input[name=_token]').val(); //token de seguridad
-    $.ajax({
+    if(idcat != null){
+      $.ajax({
       type: "POST",
       url:"{{route('envrecat')}}",
       
@@ -158,8 +171,7 @@
         detexto:detexto,
         _token:_token
       }, 
-      success:function(response){
-        
+        success:function(response){
           var dat = JSON.parse(response);
           console.log(dat);
           $("#sugerir").empty();
@@ -208,11 +220,11 @@
                   '</div>';
           $('#sugerir').append(er);
         });
+    }else{
+      toastr.warning('Elige una categoria y un comportamiento.', 'Datos vacios!', {timeOut:3000});
+      
+    }
   });
-  function refrescar(){
-    //Actualiza la página
-    location.reload();
-  }
  </script> 
  <script>
    function resetform() {
@@ -238,11 +250,13 @@
     }).done(function(res){
       cursos.find('option').remove();
       var arreglo = JSON.parse(res);
+        arreglo.unshift({id: 0, nombre: 'Elegir ...'});//agrega el elegir al inicio
+        console.log(arreglo);
+        //var t = '<option>Elegir ....</option>';
       for(var x=0; x<arreglo.length; x++){
-        var t= '<option value="' + arreglo[x].id + '">' + arreglo[x].nombre  + '</option>';
-         //todo+='<td>'+arreglo[x].nombre+'</td>';
+          t='<option value="' + arreglo[x].id + '">' + arreglo[x].nombre  + '</option>';
+         //todo+='<td>'+arreglo[x].nombre+'</td>'; 
          cursos.append(t);
-         
       }
      
     });

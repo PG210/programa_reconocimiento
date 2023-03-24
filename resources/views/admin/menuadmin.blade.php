@@ -10,81 +10,48 @@
               </p>
             </a>
           </li>    
-         
+         <!--se modifico esta parte -->
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('perfil')}}" class="nav-link">
               <i class="nav-icon fas fa-user-cog"></i>
               <p>
-                Perfil <i class="right fas fa-angle-left"></i>
+                Perfil 
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('perfil')}}" class="nav-link">
-                &nbsp; &nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp;<p>Ver Perfil</p>
-                </a>
-              </li>
-            </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('reg_categ')}}" class="nav-link">
+            <i class="nav-icon fas fa-sitemap"></i>
+              <p>
+                Categorias
+              </p>
+            </a>
+          </li>
+          <!--end modificar--->
+          <li class="nav-item">
+            <a  href="{{route('insignia')}}" class="nav-link">
             <i class="nav-icon fas fa-medal"></i>
               <p>
                 Insignias
-                <i class="fas fa-angle-left right"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-           
-            <li class="nav-item">
-                <a href="{{route('insignia')}}" class="nav-link">
-                 &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                 &nbsp;<p>Registrar Insignia</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('reg_categ')}}" class="nav-link">
-                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp;<p>Categoria</p>
-                </a>
-              </li>
-            </ul>
           </li>
+          <!--se modifico-->
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{route('premios_vis')}}" class="nav-link">
               <i class="nav-icon fas fa-trophy"></i>
               <p>
                 Recompensas
-                <i class="fas fa-angle-left right"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-            <li class="nav-item">
-                <a href="{{route('premios_vis')}}" class="nav-link">
-                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp;  <p>Registrar</p>
-                </a>
-              </li>
-                      
-            </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-medal"></i>
+            <a href="{{route('reporteusuarios')}}" class="nav-link">
+            <i class="nav-icon fas fa-file-excel"></i>
               <p>
                 Reportes
-                <i class="fas fa-angle-left right"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">  
-              <li class="nav-item">
-                <a href="{{route('reporteusuarios')}}" class="nav-link">
-                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp;<p>Usuarios</p>
-                </a>
-              </li>        
-            </ul>
           </li>
           <li class="nav-item">
             <a href="{{route('habilitar_votacion')}}" class="nav-link">

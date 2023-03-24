@@ -20,7 +20,7 @@ class UsersImport implements ToModel
         $val = DB::table('users')->where('email', '=', $row[6])->count(); //valida los usuarios registrados
         if($val==0){
 
-            return new User([
+           $datos = new User([
                 'name' => $row[0],
                 'apellido' => $row[1],
                 'direccion'  => $row[2],
@@ -31,6 +31,7 @@ class UsersImport implements ToModel
                 'password' =>  Hash::make($row[7]),
                 'id_estado'  => $row[8],
             ]);
+            return $datos;
         }  
     }
 }
