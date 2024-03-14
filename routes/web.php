@@ -98,7 +98,7 @@ Route::get('/reporte/insignias',[ReconocimientosController::class, 'reporteinsig
 
 //ruta reconocimiento
 Route::get('/reconocimientos/listar', [ReconocimientosController::class, 'reporte_reconocimiento'])->name('reporte_re');
-Route::get('/reconocimientos/usuario/{id}', [ReconocimientosController::class, 'listarrec'])->name('listareconocer');
+Route::get('/reconocimientos/usuario', [ReconocimientosController::class, 'listarrec'])->name('listareconocer');
 
 
 //envia reconocimiento de categoria
@@ -133,7 +133,17 @@ Route::get('/reporte/usuarios', [Inicio::class, 'visualizar'])->middleware(['aut
 Route::get('/users/estado/{id}', [Inicio::class, 'estado'])->middleware(['auth', 'admin'])->name('cambiarestado');
 Route::get('/users/actualizar/{id}', [Inicio::class, 'actualizar'])->middleware(['auth', 'admin'])->name('actualizaruser');
 Route::post('/users/actualizar', [Inicio::class, 'regdatos'])->middleware(['auth', 'admin'])->name('actudatos');
-//
+//=========================== grupos de usuarios =========================================
+Route::get('/users/grupos', [Inicio::class, 'vistaGrupos'])->middleware(['auth', 'admin'])->name('vistaGrupos');
+Route::post('/users/nuevo/grupo', [Inicio::class, 'nuevoGrupo'])->middleware(['auth', 'admin'])->name('nuevoGrupo');
+Route::post('/users/update/grupo', [Inicio::class, 'actuGrupo'])->middleware(['auth', 'admin'])->name('actuGrupo');
+Route::post('/users/delete/grupo/{id}', [Inicio::class, 'deleteGrupo'])->middleware(['auth', 'admin'])->name('deleteGrupo');
+Route::post('/grupo/users/{id}', [Inicio::class, 'grupUser'])->middleware(['auth', 'admin'])->name('grupUser');
+
+#========================= metricas ========================================
+Route::get('/grupo/metricas/{id}', [Inicio::class, 'metricas'])->middleware(['auth', 'admin'])->name('metricas');
+Route::post('/update/puntos', [InsigniasController::class, 'modpuntos'])->middleware(['auth', 'admin'])->name('modpuntos');
+
 //notificaciones cambiar estado
 Route::get('notificacion/estado/{id}', [Notificar::class, 'estado'])->name('notificaciones');
 //eliminar notificacion

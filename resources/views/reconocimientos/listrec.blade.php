@@ -1,5 +1,20 @@
 @extends('usuario.principa_usul')
 @section('content')
+<style>
+  .textotarjeta{
+    background-color:#082e41;
+    color:white;
+    padding: 5px;
+    border-radius:10px;
+  }
+  .introjs-skipbutton {
+    background-color:yellow;
+    border-radius:10px;
+    color:black;
+    font-size: 20px;
+  }
+</style>
+ <!--manejar datatables -->
 <ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color:#1ED5F4; color:black;">
 </ul>
 <div class="tab-content" id="myTabContent">
@@ -12,19 +27,23 @@
      <div class="container">
      <form id="categoria" method="post" class="letraform">
         @csrf
-        <div class="row">
-           <div class="col-md-12">
-              <i class="fas fa-list-alt" style="color:#468DF9; font-size:24px;"></i>&nbsp;&nbsp;<label for="inputState">Categoria</label>
-                <select id="categor" class="form-control" name="categor">
+         <div class="row">
+            <div class="col-md-12 textotarjeta">
+                <label>&nbsp;&nbsp;Categoria</label>
+            </div>
+           </div>
+           <div class="row mt-3">
+            <div class="col-md-12">
+                <select id="categor" class="form-control" name="categor" data-step="1">
                   <option value=" ">Elegir...</option>
-                  @if($b==0)
-                  <option>Sin Categoria</option>
-                  @endif
-                  @if($b==1)
-                    @foreach($categoria as $cate)
-                    <option value="{{$cate->id}}">{{$cate->descripcion}}</option>
-                    @endforeach
-                  @endif
+                    @if($b==0)
+                    <option>Sin Categoria</option>
+                    @endif
+                    @if($b==1)
+                      @foreach($categoria as $cate)
+                      <option value="{{$cate->id}}">{{$cate->descripcion}}</option>
+                      @endforeach
+                    @endif
                 </select>
               </div>
               <!--end seleccionar--->
@@ -33,14 +52,17 @@
      </div>
       <br><br>
       <div class="container">
-      
         <form id="comportamiento" method="post" class="letraform">
         @csrf
         <div class="row">
-           <div class="col-md-12">
-           <i class="fas fa-list-alt" style="color:#468DF9; font-size:24px;"></i>&nbsp;&nbsp;<label>Comportamiento</label>
-              <select id="slt-cursos" class="form-control">
-              </select>
+           <div class="col-md-12 textotarjeta">
+             <label>&nbsp;&nbsp;Comportamiento</label>
+            </div>
+          </div>
+          <!--=======================-->
+          <div class="row mt-3">
+            <div class="col-md-12">
+               <select id="slt-cursos" class="form-control" data-step="2"></select>
             </div>
           </div>
         </form>
@@ -63,68 +85,116 @@
     
   <div class="col-md-7">
    <div class="container">
-   <form method="post" id="formudatos" name="formudatos">
+   <form method="POST" id="formudatos" name="formudatos">
      @csrf
    <br> 
    <div class="card-deck">
-       
         <div class="card" style="width: 18rem;">
         <div class="card-body">
             <div class="row">
-              <div class="col-md-9">
+              <div class="col-lg-9 col-md-12">
                <div class="user-panel d-flex"> 
-               <div class="image">
-              @if($usu[0]->imagen!=null && $usu[0]->imagen != 'ruta')
-                 <img src="{{asset('dist/imgperfil/'.$usu[0]->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width:4.1rem; height: auto;">
-                  @endif
-                  @if($usu[0]->imagen==null || $usu[0]->imagen == 'ruta')
-                  <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image"  style="padding-bottom:2px; width:4.1rem; height: auto;" >
-                @endif
+                 <!--modal para elegir los usuarios-->
+                    <!-- Button trigger modal -->
+                      <button type="button" id="botoncolab" class="btn btn-outline-primary  letraform" data-toggle="modal" data-target="#listaUsers" data-step="3">
+                      <i class="fas fa-users"></i> Colaboradores
+                      </button>
+                 
+                      <!-- Modal -->
+                      <div class="modal fade" id="listaUsers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header" style="background-color:#15AFBA; color:white;">
+                              <h5 class="modal-title letraform" id="exampleModalLabel">ELEGIR COLABORADORES</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body letraform">
+                              <!--listado de usuarios-->
+                              <div class="row">
+                                <div class="col-12 text-end">
+                                    <input type="text" class="form-control" id="searchTerm" onkeyup="doSearch()" placeholder="Buscar...">
+                                </div>
+                              </div>
+                              <!--================================-->
+                              <div class="table-responsive">
+                              <table class="table" id="tablaDate">
+                                <thead>
+                                  <tr>
+                                    <th></th>
+                                    <th>Nombres</th>
+                                    <th>imagen</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  @foreach($usu as $usuario)
+                                  <tr>
+                                    <td><input type="checkbox" name="usuariosSel[]" value="{{ $usuario->id }}" aria-label="Checkbox for following text input"></td>
+                                    <td>{{ $usuario->name }} {{ $usuario->apellido }}</td>
+                                    <td>
+                                    <div class="user-panel mt-0 pb-0 mb-0 d-flex">
+                                      <div class="image">
+                                        @if($usuario->imagen!=null && $usuario->imagen != 'ruta')
+                                          <img src="{{asset('dist/imgperfil/'.$usuario->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
+                                        @endif
+                                        @if($usuario->imagen==null || $usuario->imagen == 'ruta')
+                                        <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
+                                        @endif
+                                        </div>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                  @endforeach
+                                  <tr class='noSearch hide'>
+                                    <td colspan="3"></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                              </div>
+                              <!--lista users-->
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Salir</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                 <!---end modal--->
                </div>
               </div>
-              <h3 class="card-title letratarjeta1"><em>Para:</em><b> {{$usu[0]->name}} {{$usu[0]->apellido}} </b></h3><br>
-              </div>
-              <div class="col-md-3 letratarjeta1">
-                <div class="punto" >
-
-                </div>
+              <div class="col-lg-3 col-md-12 mt-1 letratarjeta1">
+               <span> {{$nompuntos->descripcion}}: </span><span class="punto"></span><i class="fas fa-star" style="color:#FFC107;"></i>
               </div>
             </div>
             <hr>
             <div id="imagen" class="imagen">
             </div>
-            <h3 class="letratarjeta2"><em>Te reconozco por:</em></h3> 
-            <p class="card-text">
-
-            <h4 class="nomcate letratarjeta2" style="background-color:#1ED5F4">  <h4>
-
-            </p>
+            <h3 class="letratarjeta2 textotarjeta mt-3">Te reconozco por:</h3> 
+            <h5 class="nomcate letratarjeta1"><h5>
             <hr>
-            <h3 class="letratarjeta2"><em>Comportamiento:</em></h3>
-            <h4 class="compor letratarjeta2" style="background-color:#1ED5F4">  <h4>
+            <h3 class="letratarjeta2 textotarjeta">Comportamiento:</h3>
+            <h5 class="compor letratarjeta1"><h5>
             <hr>
-            <h3 class="letratarjeta2"><em>Detalle:</em></h3>
+            <h3 class="letratarjeta2 textotarjeta">Detalle:</h3>
             <!---############--->
             <div class="mb-3 was-validated letraform">
-              <textarea class="form-control is-invalid" id="detexto" name="detexto" placeholder="Ingrese un detalle de reconocimiento" required></textarea>
+              <textarea class="form-control is-invalid mt-3 letratarjeta1" id="detexto" name="detexto" placeholder="Ingrese un detalle de reconocimiento" minlength="30" data-step="4" required></textarea>
             </div>
             <!--##########  -->
             <hr>
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                  <h5 class="letratarjeta2 textotarjeta"><b>De:&nbsp;{{Auth::user()->name}} {{Auth::user()->apellido}}</h5>
+                </div>
+            </div>
         </div>
-        <ul class="list-group list-group-flush letratarjeta1">
-            
-            <li class="list-group-item"><em>De: </em><b>{{Auth::user()->name}}</b></li>
-
-        </ul>
         <div class="card-body">
             <div class="row">
                 <div class="col-7"></div>
                 <div class="col-5 text-center">
-                  <input type="text" class="form-control" id="idusu" name="idusu" value="{{$usu[0]->id}}" hidden>
-                  <a href="/reconocimientos/enviar" type="button" class="btn salir letraform"  style="margin-left:0.8em; margin-bottom:10px;">Volver</a>
-                 <!-- <input type="text" class="form-control idcompor" id="idcompor" name="idcompor" value>-->
-                 <select id="stl-compor" class="form-control" hidden></select>
-                 <button type="submit" class="btn confirmar letraform float-right">Enviar</button>
+                <select id="stl-compor" class="form-control" name="idcat" hidden></select>
+                 <button type="submit" id="enviar" class="btn confirmar letraform float-right" data-step="5">Enviar</button>
                 </div>
            </div>
         </div>
@@ -152,164 +222,39 @@
 <!--Ajax enviar respuesta--->
 <!--instanciar el ajax para quitar el error no definido-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="{{ asset('js/formulario.js')}}"></script>
+<script src="{{ asset('js/buscador.js')}}"></script>
 <script>
-  /*tomamos la información del formulario y la enviamos a la ruta y de la ruta al controlador*/
-  $('#formudatos').submit(function(e){
-    e.preventDefault();
-    var idusu=$('#idusu').val();
-    var idcat=$('#stl-compor').val();
-    var detexto = $('#detexto').val();
-    var _token = $('input[name=_token]').val(); //token de seguridad
-    if(idcat != null){
-      $.ajax({
-      type: "POST",
-      url:"{{route('envrecat')}}",
-      
-      data:{
-        idusu:idusu,
-        idcat:idcat,
-        detexto:detexto,
-        _token:_token
-      }, 
-        success:function(response){
-          var dat = JSON.parse(response);
-          console.log(dat);
-          $("#sugerir").empty();
-          if(dat.length!=0){
-          $('#formudatos')[0].reset();
-          toastr.success('El envió de reconocimiento fue exitosó', 'Nuevo Reconocimiento', {timeOut:3000});
-          //setTimeout(refrescar, 2000);
-          for(var i=0; i<dat.length; i++){
-            var resul= '<div class="alert alert-info alert-dismissible fade show" role="alert">'+
-                '<strong><i class="fas fa-laugh-beam fa-2x" style="color:#FCFF24;"></i> &nbsp;Sugerencia! Reconoce a :'+
-                  '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/reconocimientos/usuario/'+ dat[i].id +'">' + dat[i].name + '&nbsp;' + dat[i].apellido + '</a></strong>'+
-                   '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-                  '<span aria-hidden="true">&times;</span>'+
-                '</button>'+
-              '</div>';
-              $('#sugerir').append(resul);
+document.addEventListener('DOMContentLoaded', function() {
+    introJs().setOptions({
+            nextLabel: 'Siguiente',
+            prevLabel: 'Anterior',
+            skipLabel: 'Omitir',
+            doneLabel: 'Listo',
+        steps: [
+            { 
+                element: document.querySelector('#categor'),
+                intro: "Selecciona la categoría en la que deseas reconocer a alguien."
+            },
+            {
+                element: document.querySelector('#slt-cursos'),
+                intro: "Selecciona un comportamiento."
+            },
+            {
+                element: document.querySelector('#botoncolab'),
+                intro: "Selecciona uno o varios colaboradores a quienes quieras reconocer."
+            },
+            {
+                element: document.querySelector('#detexto'),
+                intro: "Aquí escribe un mensaje resaltando la actitud positiva de los colaboradores."
+            },
+            {
+                element: document.querySelector('#enviar'),
+                intro: "Envía el mensaje.",
+                position: 'left'
             }
-          }else{
-           
-              $("#sugerir").empty();
-              $('#formudatos')[0].reset();
-              toastr.success('El envió de reconocimiento fue exitosó', 'Nuevo Reconocimiento', {timeOut:3000});
-
-              var er = '<div class="alert alert-warning alert-dismissible fade show" role="alert">'+
-                        '<strong><i class="fas fa-laugh-beam fa-2x" style="color:#FCFF24;"></i> &nbsp;No hay sugerencias!'+
-                          '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>'+
-                          '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-                          '<span aria-hidden="true">&times;</span>'+
-                        '</button>'+
-                      '</div>';
-                      $('#sugerir').append(er);
-
-          }
-      }
-    }).fail(function(jqXHR, response){
-          $("#sugerir").empty();
-          $('#formudatos')[0].reset();
-          toastr.success('El envió de reconocimiento fue exitosó', 'Nuevo Reconocimiento', {timeOut:3000});
-
-	        var er = '<div class="alert alert-warning alert-dismissible fade show" role="alert">'+
-                    '<strong><i class="fas fa-laugh-beam fa-2x" style="color:#FCFF24;"></i> &nbsp;No hay sugerencias!'+
-                      '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>'+
-                      '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-                      '<span aria-hidden="true">&times;</span>'+
-                    '</button>'+
-                  '</div>';
-          $('#sugerir').append(er);
-        });
-    }else{
-      toastr.warning('Elige una categoria y un comportamiento.', 'Datos vacios!', {timeOut:3000});
-      
-    }
-  });
- </script> 
- <script>
-   function resetform() {
-     $("form select").each(function() { this.selectedIndex = 0 });
-     $("form input[type=text],form input[type=number]").each(function() { this.value = '' });
-  }
- </script>
-<!--end respuesta ajax-->
-
-<script>
-  /*tomamos la información del formulario y la enviamos a la ruta y de la ruta al controlador*/
-  $('#categoria').on('change', function(){
-    var idcate=$('#categor').val();
-    var _token = $('input[name=_token]').val(); //token de seguridad
-    var cursos = $("#slt-cursos");
-    $.ajax({
-      type: "POST",
-      url:"{{route('filtrarcat')}}",
-      data:{
-        idcate:idcate,
-        _token:_token
-      } 
-    }).done(function(res){
-      cursos.find('option').remove();
-      var arreglo = JSON.parse(res);
-        arreglo.unshift({id: 0, nombre: 'Elegir ...'});//agrega el elegir al inicio
-        console.log(arreglo);
-        //var t = '<option>Elegir ....</option>';
-      for(var x=0; x<arreglo.length; x++){
-          t='<option value="' + arreglo[x].id + '">' + arreglo[x].nombre  + '</option>';
-         //todo+='<td>'+arreglo[x].nombre+'</td>'; 
-         cursos.append(t);
-      }
-     
-    });
-  });
- </script> 
-
-<!---script para consultar comportamiento--->
-      <script>
-        /*tomamos la información del formulario y la enviamos a la ruta y de la ruta al controlador*/
-        $('#slt-cursos').on('change', function(){
-          var compor= $("#stl-compor");//sirve para almacenar y limpiar el select
-          var imagen = $('#imagen');//sirve para que las imagenes no se junten o dupliquen
-          var idcom=$('#slt-cursos').val();
-          var _token = $('input[name=_token]').val(); //token de seguridad
-        
-          $.ajax({
-            type: "POST",
-            url:"{{route('filtrarcomport')}}",
-            data:{
-              idcom:idcom,
-              _token:_token
-            } 
-          }).done(function(res){
-            console.dir(res);
-            var arreglo = JSON.parse(res);
-            compor.find('option').remove();
-           // nombre.append(arreglo.nomcat);
-          
-          //
-            for(var x=0; x<arreglo.length; x++){
-              $('.nomcate').html(arreglo[x].descripcion);
-              $('.compor').html(arreglo[x].nomcat);
-              $('.punto').html('<label> Puntos: ' + arreglo[x].puntos  + '</label>');
-             
-             // console.log(arreglo[x].rutaimagen);
-              $('.imagen').html('<img class="card-img-top" src="/imgpremios/' + arreglo[x].rutaimagen + '" >');
-              compor.append('<option value="' + arreglo[x].idcom + '">' +  arreglo[x].idcom + '</option>');
-             // $('$idcompor').val(arreglo[x].idcom);
-             // console.log(arreglo[x].nomcat);
-              // var todo='<tr><td>' + arreglo[x].id+'</td>';
-              //todo+='<td>'+arreglo[x].nombre+'</td>';
-             // imagen.find('option').remove();  
-            }
-          });
-        });
-      </script> 
-<!----final de script para consultar comportamiento--->
- <script>
-   function resetform() {
-     $("form select").each(function() { this.selectedIndex = 0 });
-     $("form input[type=text],form input[type=number]").each(function() { this.value = '' });
-  }
- </script>
-<!--end respuesta ajax-->
-
+        ]
+    }).start();
+});
+</script>
 @endsection

@@ -70,7 +70,7 @@
                 <!---end imagen-->
             </td>
             <td>
-             <a href="{{route('listareconocer',$u->id)}}" type="button" class="btn" style="color:#ffbd03;" data-toggle="tooltip" title="Enviar Reconocimiento"><i class="fas fa-award  fa-2x"></i></a>
+             <a href="{{route('listareconocer')}}" type="button" class="btn" style="color:#ffbd03;" data-toggle="tooltip" title="Enviar Reconocimiento"><i class="fas fa-award  fa-2x"></i></a>
             </td>
             </tr>
             @endforeach

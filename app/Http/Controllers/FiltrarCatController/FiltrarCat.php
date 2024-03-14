@@ -13,20 +13,6 @@ class FiltrarCat extends Controller
        $bus=DB::table('categoria_reconoc')->where('id_comportamiento', '=', $id)->count();
         $info=DB::table('categoria_reconoc')->where('id_comportamiento', '=', $id)->get();
         return response(json_decode($info),200)->header('Content-type', 'text/plain');
-
-       
-        /*$v=DB::table('comportamiento_categ')->count();
-        if($v>1){
-          $b=1;
-          $categoria=DB::table('comportamiento_categ')->where('comportamiento_categ.descripcion', '!=', 'Default')->get();
-        }else{
-          $b=0;
-          $categoria=DB::table('comportamiento_categ')->get();
-        }
-        $usu =DB::table('users')->where('users.id', '=', $id)->get();
-        $cat =DB::table('categoria_reconoc')->get();
-        return view('reconocimientos.listrec')->with('cat', $cat)->with('usu', $usu)->with('categoria', $categoria)->with('b', $b);
-    */
     }
    public function comportamiento(Request $request){
        $id=$request->idcom;

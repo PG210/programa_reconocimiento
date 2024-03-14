@@ -7,20 +7,20 @@
     <img src="{{ asset('dist/img/enviare.jpg')}}" class="card-img-top img-fluid" alt="..." style="border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
     <div class="card-body">
       <div class="container"><h5 class="card-title letra1" style="padding-left:2em;" ><b>Envia Reconocimientos</b></h5></div><br><br>
-      <p class="card-text" style="text-align: center;"><a href="/reconocimientos/enviar" type="button" class="btn confirmar letraform">Ingresar</a></p>
+      <p class="card-text" style="text-align: center;"><a href="{{route('listareconocer')}}" type="button" class="btn confirmar letraform">Ingresar</a></p>
     </div>
   </div>
   <div class="card" style=" border: 2px; border-radius: 25px; background-color:white;">
     <img src="{{ asset('dist/img/ganareco.jpg')}}" class="card-img-top img-fluid" alt="..." style="border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
     <div class="card-body">
-    <div class="container"><h5 class="card-title letra1" style="padding-left:2em;" ><b>Gana Reconocimientos</b></h5></div><br><br>
+    <div class="container"><h5 class="card-title letra1" style="padding-left:2em;" ><b>Ver tus reconocimientos</b></h5></div><br><br>
       <p class="card-text" style="text-align: center;"><a href="/reporte/insignias" type="button" class="btn confirmar letraform">Ingresar</a></p>
     </div>
   </div>
   <div class="card" style=" border: 2px; border-radius: 25px; background-color:white;">
     <img src="{{ asset('dist/img/ganains.jpg')}}" class="card-img-top "  alt="..."  height="345px"; style="border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
     <div class="card-body">
-    <div class="container"><h5 class="card-title letra1" style="padding-left:5em;" ><b>Gana Insignias</b></h5></div><br><br>
+    <div class="container"><h5 class="card-title letra1" style="padding-left:5em;" ><b>Ver tus insignias</b></h5></div><br><br>
       <p class="card-text" style="text-align: center;"><a href="/reconocimientos/listar" type="button" class="btn confirmar letraform">Ingresar</a></p>
     </div>
   </div>

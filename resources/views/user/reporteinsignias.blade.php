@@ -100,7 +100,7 @@
                                                <div class="col-4 text-right">
                                                <i class="fas fa-heart" style="color:#0070B8; font-size:20px;"></i>
                                                   <span class="badge badge-warning text-left" style="color:white; font-size: 0.875em;"> 
-                                                    {{$d->puntos}} Puntos
+                                                    {{$d->puntos}} {{$nompuntos->descripcion}}
                                                   </span>
                                                </div>
                                               </div>
@@ -143,11 +143,11 @@
     <div class="card-header" id="headingTwo">
       <h2 class="mb-0">
         <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-        <h5 class="letratarjeta3"><i class="fas fa-dice" style="color:#5959D1 ;"></i>&nbsp;Tabla De Puntos</h5>
+        <h5 class="letratarjeta3"><i class="fas fa-dice" style="color:#5959D1 ;"></i>&nbsp;Tabla De {{$nompuntos->descripcion}}</h5>
         </button>
       </h2>
     </div>
-    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
       <div class="card-body letraform">
         <!--################-->
         <table class="table table-responsive">

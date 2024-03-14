@@ -9,7 +9,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="{{route('inicio')}}" class="nav-link active">
+            <a href="{{route('inicio')}}" class="nav-link @if(Request::is('inicio')) active @endif">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Inicio
@@ -18,24 +18,16 @@
           </li>    
          
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-user-cog"></i>
-              <p>
-                Perfil <i class="right fas fa-angle-left"></i>
+            <a href="{{route('perfil')}}"  class="nav-link @if(Request::is('perfil')) active @endif">
+            <i class="nav-icon fas fa-user-cog"></i>
+             <p>
+                Perfil 
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('perfil')}}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ver Perfil</p>
-                </a>
-              </li>
-            </ul>
           </li>
    
           <li class="nav-item">
-            <a href="/gerente/informe/1" class="nav-link">
+            <a href="/gerente/informe/1" class="nav-link @if(Request::is('gerente/informe/1')) active @endif">
             <i class="nav-icon fas fa-medal"></i>
               <p>
                 Reportes
@@ -43,7 +35,7 @@
              </a>
           </li>
           <li class="nav-item">
-            <a href="{{route('visinsignias')}}" class="nav-link">
+            <a href="{{route('visinsignias')}}" class="nav-link @if(Request::is('reporte/visualizar/recompensas')) active @endif">
               <i class="nav-icon fas fa-trophy"></i>
               <p>
                 Recompensas
@@ -53,7 +45,7 @@
           @if(isset($es[0]->estado))
           @if($es[0]->estado==1)
           <li class="nav-item">
-            <a href="{{route('votacion_user')}}" class="nav-link">
+            <a href="{{route('votacion_user')}}"  class="nav-link @if(Request::is('vista/votacion')) active @endif">
             <i class="nav-icon fas fa-vote-yea"></i>
               <p>
                 Votación

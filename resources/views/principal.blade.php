@@ -32,15 +32,6 @@
         }
       }
 
-      .letrap{
-        font-family: 'Roboto Slab', serif;
-        font-weight:400;
-      }
-      .letratitulo{
-        font-family: 'Roboto Slab', serif;
-        font-weight:700;
-      }
-
       .ir-arriba {
         display:none;
         padding:5px;
@@ -53,10 +44,147 @@
         right:20px;
         border-radius:10px;
       }
-      .letrarob{
-        font-family: 'Roboto';
-        font-size: 18px;
-      }
+
+     @media screen and (min-width: 1920px) {
+        .letrarob {
+          font-family: 'Roboto';
+          font-size: 45px;
+          line-height: 1.6;
+        }
+        
+        .letratitulo{
+          font-family: 'Roboto Slab', serif;
+          font-size: 3rem;
+          font-weight:700;
+        }
+
+        .letratitulofooter{
+          font-family: 'Roboto Slab', serif;
+          font-size: 2rem;
+          font-weight:700;
+        }
+
+        .letrap{
+          font-family: 'Roboto Slab', serif;
+          font-size: 25px;
+          font-weight:400;
+        }
+        
+        .icono{
+          font-size:45px;
+        }
+
+        .ampliar{
+          padding: 6rem !important;
+        }
+
+        .ampliarnav{
+          padding: 2rem !important;
+        }
+
+        .imagenlogin{
+          padding: 17em;
+        }
+        .forms{  
+          max-width: 100%;
+        }
+
+        .centraform{
+          margin-left: 25% !important;
+          font-size:30px;
+        }
+
+        .boton {
+          font-size: 24px;
+         }
+
+        .iconwsp{
+          width: 80px;
+          height: 80px;
+        }
+
+        /*Se agrego estas lineas css */
+
+        .imagenlogo{
+          max-width: 390px !important;
+          height: 145px !important;
+        }
+
+        .container{
+          max-width: 1200px !important;
+        }
+
+        .btningresar{
+          font-size:33px;
+        }
+
+        .iconfont{
+          font-size:30px;
+        }
+        
+      }/*Este rango esta bien para pantallas extragrandes*/
+
+    @media screen and (min-width: 1440px) and (max-width: 1919px) {
+        .letrarob {
+          font-family: 'Roboto';
+          font-size: 24px;
+          line-height: 1.6;
+        }
+
+        .letratitulofooter{
+          font-family: 'Roboto Slab', serif;
+          font-weight:700;
+        }
+
+        .letrap{
+          font-family: 'Roboto Slab', serif;
+          font-weight:400;
+        }
+       
+        .icono{
+          font-size:24px;
+        }
+        /*Se agrego esta codigo css */
+         .imagenlogo{
+          height: auto; 
+          width: 80%;
+        }
+
+        .iconfont{
+          font-size:25px;
+        }
+      }/*este rango esta bien para pantallas medianas */
+
+      @media screen and (max-width: 1439px) {
+        .letrarob {
+          font-family: 'Roboto';
+          font-size: 18px;
+          line-height: 1.6;
+        }
+
+        .letratitulofooter{
+          font-family: 'Roboto Slab', serif;
+          font-weight:700;
+        }
+
+        .letrap{
+          font-family: 'Roboto Slab', serif;
+          font-weight:400;
+        }
+
+        .icono{
+          font-size:24px;
+        }
+        /*Se agrego esta codigo css */
+        .imagenlogo{
+          height: auto; 
+          width: 80%;
+        }
+
+        .iconfont{
+          font-size:18px;
+        }
+      }/*Este rango para pantallas pequeñas */
     </style>
 
     
@@ -64,23 +192,23 @@
   </head>
   <body style="background-color:white;">
 <!--navar-->
-<nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color:white; padding:0;">
+<nav class="navbar navbar-expand-lg navbar-light sticky-top ampliarnav" style="background-color:white; padding:0;">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
   <div class="container d-flex flex-column flex-md-row justify-content-between">
     <a href="#" aria-label="Product">
-      <img src="dist/img/evolucion_fondo_2.jpg" class="img-fluid" height="auto" width="80%" alt="Cargando imagen ...">
+      <img src="dist/img/evolucion_fondo_2.jpg" class="img-fluid imagenlogo" alt="Cargando imagen ...">
     </a>
     <div class="form-inline">
-     <a class="mr-sm-3" href="{{url('/')}}"><i class="bi bi-house-fill" style="color:#15AFBA; font-size:24px;"></i></a>&nbsp;
+     <a class="mr-sm-3" href="{{url('/')}}"><i class="bi bi-house-fill iconfont" style="color:#15AFBA;"></i></a>&nbsp;
       <!--login-->
       @if (Route::has('login'))
       @auth
-        <a class="form-control mr-sm-2 letrap"  href="{{ url('/dashboard') }}" style="background-color:#15AFBA; color:white; text-decoration:none;"><b>Volver</b></a>
+        <a class="form-control mr-sm-2 btningresar"  href="{{ url('/dashboard') }}" style="background-color:#15AFBA; color:white; text-decoration:none;"><b>Volver</b></a>
       @else
-      <a class="form-control mr-sm-2 letrap" href="{{url('/reg') }}" style="background-color:#15AFBA; color:white; text-decoration:none;"><i class="bi bi-arrow-right-square-fill" style="font-size:18px; color:white;"></i> Ingresar</a>
+      <a class="form-control mr-sm-2 btningresar" href="{{url('/reg') }}" style="background-color:#15AFBA; color:white; text-decoration:none;"><i class="bi bi-arrow-right-square-fill iconfont" style="color:white;"></i> Ingresar</a>
       @endauth
     @endif
     </div>
@@ -98,13 +226,13 @@
       <div class="col-12 col-md">
          <div class="container" style="background-color:white; padding:0; margin:0; border-radius:20px;" >
           <a href="https://www.evolucion.co/" aria-label="Product" target="_blank">
-            <img src="dist/img/evolucion_fondo.png" class="img-fluid" height="auto" width="90%" alt="Cargando imagen ..." style="background-color:24px;">
+            <img src="dist/img/evolucion_fondo.png" class="img-fluid imagenlogo" alt="Cargando imagen ..." style="background-color:24px;">
           </a>
        </div>
         
       </div>
       <div class="col-6 col-md">
-        <h5 class="letratitulo">Servicios</h5>
+        <h5 class="letratitulofooter">Servicios</h5>
         <ul class="list-unstyled text-small letrap">
           <li><a style="color:white;" href="https://www.evolucion.co/formaccion/" target="_blank">Formacción</a></li>
           <li><a style="color:white;" href="https://www.evolucion.co/didaktica/" target="_blank">Didaktica</a></li>
@@ -114,7 +242,7 @@
         </ul>
       </div>
       <div class="col-6 col-md">
-        <h5 class="letratitulo">Politicas</h5>
+        <h5 class="letratitulofooter">Politicas</h5>
         <ul class="list-unstyled text-small letrap">
           <li>
            <a type="button" data-toggle="modal" data-target="#acceso">
@@ -133,6 +261,7 @@
                   </div>
                   <div class="modal-body text-justify letrap" style="font-size:18px;">
                     <!---frase-->
+                   <div class="container"> 
                     <p style="color:black;">
                     <ul>
                       <li style="color:black; font-size:18px;">Esta prohibido acceder a la información o archivos de otros usuarios dentro de ReconoSER sin la autorización correspondiente.</li>
@@ -141,7 +270,7 @@
                       <li style="color:black; font-size:18px;">El usuario debe tener autorización de la respectiva Dirección para el uso de ReconoSER. Se debe verificar que el nivel de acceso otorgado sea adecuado para los propósitos de la empresa.</li>
                     </ul>
                     </p>
-                  
+                  </div>
                     <!--frase-->
                   </div>
                   <div class="modal-footer font-size:18px;">
@@ -167,6 +296,7 @@
                   </div>
                   <div class="modal-body text-justify letrap" style="font-size:18px;">
                     <!---frase-->
+                    <div class="container">
                     <p style="color:black;">
                     <ul>
                       <li style="color:black;">Los usuarios deben ser únicos y no podrán ser compartidos. Asimismo, los
@@ -183,7 +313,7 @@
                      </li>
                      </ul>
                     </p>
-                  
+                  </div>
                     <!--frase-->
                   </div>
                   <div class="modal-footer">
@@ -197,7 +327,7 @@
         </ul>
       </div>
       <div class="col-6 col-md">
-        <h5 class="letratitulo">Sobre Nosotros</h5>
+        <h5 class="letratitulofooter">Sobre Nosotros</h5>
         <ul class="list-unstyled text-small letrap">
           <li><a type="button" data-toggle="modal" data-target="#acerca">
               Acerca
@@ -240,18 +370,21 @@
         </ul>
       </div>
       <div class="col-6 col-md">
-        <h5 class="letratitulo">Contactos</h5>
+        <h5 class="letratitulofooter">Contactos</h5>
         <ul class="list-unstyled text-small letrap">
           <li><a style="color:white;" href="#"> +57 3172821923</a></li>
           <li><a style="color:white;" href="mailto:info@envolucion.co"> info@envolucion.co</a></li>
-          <li><a style="color:white;" href="https://www.facebook.com/evolucion.aprendizajedivertido/" target="_blank"><i class="bi bi-facebook" style="color:#2F4575; font-size:24px;"></i></a>&nbsp;&nbsp;<a href="https://www.youtube.com/channel/UCYeBcORYopRC4e6naxf53Zw" target="_blank"><i class="bi bi-youtube" style="color:#FF0000; font-size:24px;"></i></a>&nbsp;&nbsp;<a href="https://www.linkedin.com/company/evolucionaprendizajedivertido/?viewAsMember=true"><i class="bi bi-linkedin" style="color:#006AA4; font-size:22px;"></i></a></li>
+          <li>
+              <a style="color:white;" href="https://www.facebook.com/evolucion.aprendizajedivertido/" target="_blank"><i class="bi bi-facebook icono" style="color:#2F4575;"></i></a>&nbsp;&nbsp;
+              <a href="https://www.youtube.com/channel/UCYeBcORYopRC4e6naxf53Zw" target="_blank"><i class="bi bi-youtube icono" style="color:#FF0000;"></i></a>&nbsp;&nbsp;
+              <a href="https://www.linkedin.com/company/evolucionaprendizajedivertido/?viewAsMember=true"><i class="bi bi-linkedin icono" style="color:#006AA4;"></i></a></li>
         </ul>
       </div>
     </div>
   </footer>
 </div>
 <div class="card-footer text-center" style="padding: 1px; background-color:#082e41; color:white;">
-      <small class="d-block mb-3 text-center letrap" style="font-size:18px; padding-top:3px;">Copyright © 2022 Evolución All Rights Reserved</small>
+      <small class="d-block mb-3 text-center letrap" style="padding-top:3px;">Copyright © 2022 Evolución All Rights Reserved</small>
 </div>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>

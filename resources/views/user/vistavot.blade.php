@@ -5,22 +5,15 @@
     <div class="card-header" id="headingOne">
     <!---buscar-->
     <div class="container  titulo">
-       <h3 class="text-center"><b>VOTACIONES HABILITADAS PERIODO: {{$vot->anio}} - {{$vot->periodo}}</b></h3><br>
+       <h3 class="text-center"><b>VOTACIONES HABILITADAS PERIODO : {{$vot->anio}} - {{$vot->periodo}}</b></h3><br>
     </div>
     <div class="container letraform">
         <br>
-        <form action="{{route('buscar_votante')}}" method="POST">
-         @csrf
-            <div class="row">
-                <div class="col-md-10">
-                <input type="text" class="form-control" placeholder="Ingrese Nombre" id="dato" name="dato">
-                </div>
-                <div class="col-md-2">
-                <button class="btn float-left" type="submit" style="background-color:#06E17A;"><i class="fas fa-search" style="font-size:20px;"></i></button>
-                &nbsp;&nbsp;&nbsp;&nbsp;<a href="/vista/votacion" class="btn  float-center" type="button" style="background-color:#06E17A;"><i class="fas fa-undo-alt" style="font-size:20px;"></i></a>
-                </div>
-            </div>
-            </form>
+        <div class="row">
+          <div class="col-12 text-end">
+              <input type="text" class="form-control" id="searchTerm" onkeyup="doSearch()" placeholder="Buscar...">
+          </div>
+        </div>
     </div>
     <br>
    <!--end buscar-->     
@@ -29,7 +22,7 @@
       <div class="card-body">
     <!--table--> 
       <div class="table-responsive letraform">
-      <table class="table">
+      <table class="table" id="tablaDate">
               <thead style="background-color:#FFBD03;">
               <tr>
                 <th scope="col">No</th>
@@ -51,21 +44,18 @@
                         <tr>
                         <th scope="row">{{$conta++}}</th>
                         <td>
-                            @if($c->imagen==NULL)
                             <div class="user-panel mt-0 pb-0 mb-0 d-flex">
-                                <div class="image">
-                                <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
-                                </div>
+                              <div class="image">
+                                  <!---======================= image ============-->
+                                  @if($c->imagen!=null && $c->imagen != 'ruta')
+                                    <img src="{{asset('dist/imgperfil/'.$c->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
+                                  @endif
+                                  @if($c->imagen==null || $c->imagen == 'ruta')
+                                    <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
+                                  @endif
+                              </div>
                             </div>
-                            @endif
-                            @if($c->imagen!=NULL)
-                             <!--imagen-->
-                            <div class="user-panel mt-0 pb-0 mb-0 d-flex">
-                                    <div class="image">
-                                    <img src="{{asset('dist/imgperfil/'.$c->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width">
-                                    </div>
-                            </div>
-                            @endif
+                            <!--===========================================-->
                         </td>
                         <td>{{$c->name}}</td>
                         <td>{{$c->apellido}}</td>
@@ -174,6 +164,9 @@
                         </td>
                         </tr>
                     @endforeach
+                    <tr class='noSearch hide'>
+                      <td colspan="8"></td>
+                    </tr>
             </tbody>
           </table>
       </div>
@@ -182,6 +175,6 @@
     </div>
   </div>   
 </div>
-
+<script src="{{ asset('js/buscador.js')}}"></script>
 
 @endsection

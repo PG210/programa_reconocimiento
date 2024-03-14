@@ -1,25 +1,28 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert text-center titulo" role="alert">
+<div class="text-center titulo">
  <h3>GESTIÓN DE USUARIOS </h3>
 </div>
    <!--tabla para ver los valores-->
    @if(Session::has('mensaje'))
-        <br>
         <div class="alert alert-info alert-dismissible fade show letraform" role="alert">
         <strong>{{Session::get('mensaje')}}</strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
-        <br>
     @endif
     <!---carga-->
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#carga">
-          <i class="fas fa-users" style="font-size:20px;"></i>
-        </button>
-
+       
+        <!--=================== botones==========================-->
+        <div class="btn-group" role="group" aria-label="Basic outlined example">
+            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#carga">
+            <i class="fas fa-user-plus"></i> Usuarios
+            </button>
+        </div>
+        <!--=======================================================-->
+       
         <!-- Modal -->
         <form action="{{route('usuariosImport')}}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -36,7 +39,7 @@
                <!--formulario-->
                <div class="input-group mb-3">
                     <div class="custom-file">
-                        <input type="file" class="form-control" name="archivosubido" id="archivosubido" placeholder="elegir" required>
+                        <input type="file" class="form-control" name="archivosubido" id="archivosubido" placeholder="elegir" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" required>
                         <br>
                     </div>
                  </div>
@@ -44,7 +47,7 @@
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn confirmar">Importar</button>
-                <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn salir" data-dismiss="modal">Salir</button>
             </div>
             </div>
         </div>

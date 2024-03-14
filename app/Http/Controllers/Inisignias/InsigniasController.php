@@ -9,6 +9,7 @@ use App\Models\Insignias\InsigniasModel;
 use App\Models\Categorias\Comportamiento;
 use App\Models\Categorias\Categoria_reco;
 use App\Models\Categorias\Premios;
+use App\Models\Insignias\PuntosModel; // para cambiar el nombre de los puntos
 use Session;
 
 class InsigniasController extends Controller
@@ -51,6 +52,7 @@ class InsigniasController extends Controller
         $pre=DB::table('premios')->get();
         $categ=DB::table('comportamiento_categ')->get();
         $res=DB::table('insignia')->count();
+        $nompuntos = PuntosModel::findOrFail(1);
         if($res!=0){
             $b=1;
             $insignia=DB::table('insignia')
@@ -63,8 +65,15 @@ class InsigniasController extends Controller
             $r=array('name' => 'Sin datos', 'descripcion' => 'Sin datos', 'puntos' => '0', 'id_premio' => '0', 'rutaimagen' => 'sin datos');
             $insignia=$r;
         }
-        return view('insignias.reginsignia')->with('pre', $pre)->with('insignia', $insignia)->with('b', $b)->with('categ', $categ);;
+        return view('insignias.reginsignia')->with('pre', $pre)->with('insignia', $insignia)->with('b', $b)->with('categ', $categ)->with('nompuntos', $nompuntos);
     }
+
+//=================== modificar puntos ====
+public function modpuntos(Request $request){
+  // modificar el nombre de los puntos
+  PuntosModel::findOrFail(1)->update(['descripcion' => $request->nompunto]);
+  return back();
+}
 
     public function reginsig(Request $request){
         $category = new Categoria_reco();

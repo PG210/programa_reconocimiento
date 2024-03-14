@@ -82,8 +82,7 @@
                 </td>
                 <td>
                 <div>
-                  <input type="radio" id="contactChoice1"
-                  name="premio" value="{{$c->id}}" required>
+                  <input type="radio" id="contactChoice1" name="premio" value="{{$c->id}}" required>
                   <label for="contactChoice1"> </label>
                 </div>
                 </td>
@@ -113,9 +112,8 @@
 
   <br>
   <button type="submit" class="btn confirmar">Registrar</button>
-  <button type="button" class="btn ver" data-toggle="modal" data-target="#visualizar">
-  Visualizar
-</button>
+  <button type="button" class="btn ver" data-toggle="modal" data-target="#visualizar">Visualizar</button>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#puntosconfig">Puntos</button>
 </form>
 <br>
 <div class="modal fade" id="visualizar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -179,6 +177,33 @@
       <div class="modal-footer  letraform">
         <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
       </div>
+    </div>
+  </div>
+</div>
+<!--=====================================-->
+<div class="modal fade" id="puntosconfig" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title titulo" id="exampleModalLabel">CONFIGURAR PUNTOS</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="{{route('modpuntos')}}" method="POST">
+        @csrf
+      <div class="modal-body letraform">
+       <p>Nota: En este apartado puede configurar el nombre para los puntos.<p>
+          <div class="form-group">
+            <label class="col-form-label">Nombre:</label>
+            <input type="text" class="form-control" id="nompunto" name="nompunto" value="{{$nompuntos->descripcion}}" required>
+          </div>
+      </div>
+      <div class="modal-footer  letraform">
+        <button type="submit" class="btn confirmar">Guardar</button>
+        <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
+      </div>
+      </form>
     </div>
   </div>
 </div>

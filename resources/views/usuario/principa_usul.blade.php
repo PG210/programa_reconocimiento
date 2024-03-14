@@ -146,7 +146,7 @@
 
   <!-- /.content-wrapper -->
   <footer class="main-footer letra1 text-left" style="background-color:#15AFBA; color:white;">
-    <strong>Copyright &copy; 2022 <a href="https://www.evolucion.co/" style="color:white;">Evolucion</a>.</strong>
+    <strong>Copyright &copy; 2022 <a href="https://www.evolucion.co/" style="color:white;">Evolución</a>.</strong>
     <b>Todos los derechos reservados</b>
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 1.0.0
