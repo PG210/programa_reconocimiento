@@ -13,15 +13,15 @@
   </button>
 </div>
 @endif
-<form  method="POST" action ="{{route('guarcategoria', $cat[0]->id)}}" class="letraform">
+<form  method="POST" action ="{{route('guarcategoria', $cat[0]->id)}}" class="letraform" enctype="multipart/form-data">
     @csrf
 <div class="form-group">
     <label for="nombre">Nombre</label>
     <input type="text" class="form-control" id="des" name="des" value="{{$cat[0]->descripcion}}">
   </div>
   <div class="form-group">
-    <label for="des">Puntos</label>
-    <input type="text" class="form-control" id="puntos" name="puntos" value="{{$cat[0]->puntos}}">
+    <label for="puntos">Imagen</label>
+    <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*" required>
   </div>
   <div class="form-group">
     <div class="row">

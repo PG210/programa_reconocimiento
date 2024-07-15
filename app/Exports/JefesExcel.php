@@ -40,14 +40,15 @@ class JefesExcel implements FromView
             ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
             ->join('area', 'cargo.id_area', '=', 'area.id')
             ->join('premios', 'insignia.id_premio', '=', 'premios.id')
-            ->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
+            //->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
             ->where('entregado', $this->id)//cuando es igual a 1 no esta entregado
             ->where('area.id', $this->j[$i]->id_area)//cuando es igual a 1 no esta entregado
             ->select('users.name as nombre', 'users.apellido', 'cargo.nombre as cargonom', 'area.nombre as areanom', 
                     'insignia.descripcion as insigdes', 'premios.descripcion as despremio', 
-                    'comportamiento_categ.descripcion as categoria', 'insignia.puntos', 'entregado'
+                    'premios.name as tipo', 'insignia.puntos', 'entregado', 'insignia.name as nominsig' 
                 )->get();
             } 
+
 
         return view('jefe.gerente')->with('res', $res);
     }

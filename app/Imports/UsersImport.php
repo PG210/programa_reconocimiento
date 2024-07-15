@@ -16,9 +16,17 @@ class UsersImport implements ToModel
     */
     public function model(array $row)
     {  
+        if(empty($row[8])) {
+            return "Hola";
+        }
+
+        // Validar que el correo electrónico es válido
+        if (!filter_var($row[6], FILTER_VALIDATE_EMAIL)) {
+            throw new \Exception("El correo electrónico no es válido.");
+        }
        
         $val = DB::table('users')->where('email', '=', $row[6])->count(); //valida los usuarios registrados
-        if($val==0){
+        if($val == 0){
 
            $datos = new User([
                 'name' => $row[0],
@@ -31,7 +39,10 @@ class UsersImport implements ToModel
                 'password' =>  Hash::make($row[7]),
                 'id_estado'  => $row[8],
             ]);
+            $datos->save();
             return $datos;
-        }  
+        }else{
+            return null;
+        }
     }
 }

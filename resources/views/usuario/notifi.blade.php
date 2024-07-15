@@ -16,7 +16,7 @@
           ->where('catrecibida.id_user_recibe', $usu)->where('notificaciones.estado', 1)
           ->select('notificaciones.id', 'notificaciones.notinom', 'notificaciones.notides', 'users.name', 
                    'users.apellido', 'users.imagen', 'notificaciones.fecha', 'comportamiento_categ.descripcion as categoria',
-                   'categoria_reconoc.nombre as comportamiento', 'comportamiento_categ.puntos as catpuntos', 'categoria_reconoc.rutaimagen')
+                   'categoria_reconoc.nombre as comportamiento', 'categoria_reconoc.puntos as catpuntos', 'comportamiento_categ.rutaimagen')
           ->get();
            }
 
@@ -31,7 +31,7 @@
                     ->where('catrecibida.id_user_recibe', $usu)->where('notificaciones.estado', 2)
                     ->select('notificaciones.id', 'notificaciones.notinom', 'notificaciones.notides', 'users.name', 
                             'users.apellido', 'users.imagen', 'notificaciones.fecha', 'comportamiento_categ.descripcion as categoria',
-                            'categoria_reconoc.nombre as comportamiento', 'comportamiento_categ.puntos as catpuntos', 'categoria_reconoc.rutaimagen')
+                            'categoria_reconoc.nombre as comportamiento', 'categoria_reconoc.puntos as catpuntos', 'comportamiento_categ.rutaimagen')
                     ->get();
                    
             }
@@ -75,10 +75,10 @@
         <!---###modal----->
           <!-- Button trigger modal -->
           <a type="button" class="nav-link" data-toggle="modal" data-target="#exampleModal" onclick="sonido()">
-             <i class="far fa-bell fa-lg" style="color:white;"></i>
+             <i class="far fa-bell fa-lg" style="color:black;"></i>
              <div id="nnoti2">
               @if($val!=0 || $insignoti!=0)
-              <span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;"> 
+              <span class="badge badge-success navbar-badge" style="color:white; font-size: 0.875em;"> 
               {{$val + $insignoti}} <!---suma las notificaciones-->
              </span>
               @endif
@@ -301,7 +301,7 @@
                                  </div>
                                  <div class="col-5 letraform">
                                    <div class="info">
-                                    {{$le->name}}  {{$le->apellido}}
+                                    {{$le->name}}  {{$le->apellido}} 
                                    </div>
                                  </div>
                                  <div class="col-4 letraform">
@@ -517,7 +517,7 @@ function eliminar(id){
           if(arreglo.length!=0){
             for(var x=0; x<arreglo.length; x++){
             
-            if(arreglo[x].imagen=="ruta"){
+            if(!arreglo[x].imagen){
 
               var valor =  '<div class="accordion" id="accordionExample">'+
                   '<div class="card letra2">'+
@@ -527,7 +527,7 @@ function eliminar(id){
                          '<div class="row">'+
                                  '<div class="col-3">'+
                                    '<div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">'+
-                                   '<img src="dist/imgperfil/perfil_no_borrar.jpeg" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >'+
+                                   '<img src="/dist/imgperfil/perfil_no_borrar.jpeg" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >'+
                                    '<br>'+
                                   '</div>'+
                                  '</div>'+

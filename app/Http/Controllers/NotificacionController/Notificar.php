@@ -53,7 +53,7 @@ class Notificar extends Controller
                     ->where('catrecibida.id_user_recibe', $usu)->where('notificaciones.estado', 2)
                     ->select('notificaciones.id', 'notificaciones.notinom', 'notificaciones.notides', 'users.name', 
                             'users.apellido', 'users.imagen', 'notificaciones.fecha', 'comportamiento_categ.descripcion as categoria',
-                            'categoria_reconoc.nombre as comportamiento', 'comportamiento_categ.puntos as catpuntos', 'categoria_reconoc.rutaimagen')
+                            'categoria_reconoc.nombre as comportamiento', 'categoria_reconoc.puntos as catpuntos', 'comportamiento_categ.rutaimagen')
                     ->get();
             }
         return response(json_decode($leidos),200)->header('Content-type', 'text/plain');

@@ -29,7 +29,7 @@
         @csrf
          <div class="row">
             <div class="col-md-12 textotarjeta">
-                <label>&nbsp;&nbsp;Categoria</label>
+                <label>&nbsp;&nbsp;Categoría</label>
             </div>
            </div>
            <div class="row mt-3">
@@ -37,7 +37,7 @@
                 <select id="categor" class="form-control" name="categor" data-step="1">
                   <option value=" ">Elegir...</option>
                     @if($b==0)
-                    <option>Sin Categoria</option>
+                    <option>Sin Categoría</option>
                     @endif
                     @if($b==1)
                       @foreach($categoria as $cate)
@@ -97,12 +97,12 @@
                  <!--modal para elegir los usuarios-->
                     <!-- Button trigger modal -->
                       <button type="button" id="botoncolab" class="btn btn-outline-primary  letraform" data-toggle="modal" data-target="#listaUsers" data-step="3">
-                      <i class="fas fa-users"></i> Colaboradores
+                      <i class="fas fa-users"></i> Puntos
                       </button>
                  
                       <!-- Modal -->
                       <div class="modal fade" id="listaUsers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-dialog-scrollable">
                           <div class="modal-content">
                             <div class="modal-header" style="background-color:#15AFBA; color:white;">
                               <h5 class="modal-title letraform" id="exampleModalLabel">ELEGIR COLABORADORES</h5>
@@ -155,7 +155,7 @@
                               <!--lista users-->
                             </div>
                             <div class="modal-footer">
-                              <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Salir</button>
+                              <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i>Aceptar</button>
                             </div>
                           </div>
                         </div>

@@ -36,19 +36,20 @@ class ProductsExport implements FromQuery,  WithHeadings, WithEvents
                     ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
                     ->join('area', 'cargo.id_area', '=', 'area.id')
                     ->join('premios', 'insignia.id_premio', '=', 'premios.id')
-                    ->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
+                    //->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
                     ->where('entregado', $this->id)//cuando es igual a 1 no esta entregado
                     ->where('area.id', $this->c)//cuando es igual a 1 no esta entregado
-                    ->select('users.name as nombre', 'users.apellido', 'cargo.nombre as cargonom', 'area.nombre as areanom', 
-                            'insignia.descripcion as insigdes', 'premios.descripcion as despremio', 
-                            'comportamiento_categ.descripcion as categoria', 'insignia.puntos'
-                        );
+                    ->select('users.name as nombre', 'users.apellido', 'insignia.name as nominsig',
+                            'insignia.descripcion as insigdes', 'premios.descripcion as despremio', 'premios.name as nompremio', 
+                             'insignia.puntos'
+                        )
+                    ->orderBy('nombre', 'asc');
 
         }
 
         public function headings(): array //encabezado del excel implementar WithHeadings
         {
-            return ["Nombre", "Apellido", "Cargo", "Area", "Insignia", "Recompensa", "Categoria", "Puntos"];
+            return ["Nombre", "Apellido", "Insignia", "Nivel", "Recompensa", "Tipo", "Peñutes"];
         }
 
     //aplicar color al encabezado
@@ -57,7 +58,7 @@ class ProductsExport implements FromQuery,  WithHeadings, WithEvents
             return [
                 AfterSheet::class    => function(AfterSheet $event) {
     
-                    $event->sheet->getDelegate()->getStyle('A1:H1')
+                    $event->sheet->getDelegate()->getStyle('A1:G1')
                             ->getFill()
                             ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                             ->getStartColor()

@@ -27,16 +27,16 @@
 </div>
 <br>
 <div class="table-responsive">
-<table class="table table-bordered letraform2">
-  <thead>
-    <tr style="background-color:#08FFD5;">
+<table class="table letraform2">
+  <thead class="tablaheader">
+    <tr>
       <th scope="col">No</th>
       <th scope="col">Nombre</th>
       <th scope="col">Nivel</th>
-      <th scope="col">Categoria</th>
       <th scope="col">Puntos</th>
       <th scope="col">Insignia</th>
-      <th scope="col">Descripcion</th>
+      <th scope="col">Tipo recompensa</th>
+      <th scope="col">Descripción</th>
       <th scope="col">Recompensa</th>
     </tr>
   </thead>
@@ -50,13 +50,13 @@
       <th scope="row">{{$conta++}}</th>
       <td>{{$c->name}}</td>
       <td>{{$c->descripcion}}</td>
-      <td>{{$c->catdescrip}}</td>
       <td>{{$c->puntos}}</td>
       <td> 
           <div class="text-center">
                     <img src="{{asset('imgpremios/'.$c->imginsig)}}" class="rounded zoom" alt="..."  width= "50px" height="50px" >
           </div>
       </td>
+      <td>{{$c->nompre}}</td>
       <td>{{$c->despremio}}</td>
       <td>
           <div class="text-center">

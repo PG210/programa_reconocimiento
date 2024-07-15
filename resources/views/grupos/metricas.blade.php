@@ -16,7 +16,7 @@
    @foreach($cate as $cat)
         @php
             $totalPuntos = isset($puntaje[$cat->id]) ? $puntaje[$cat->id] : 0;
-            $anchoBarra = ($totalPuntos * 100) / 20000;
+            $anchoBarra = ($totalPuntos * 100) / 2000;
         @endphp
         <li class="mt-2">Categoría: {{ $cat->descripcion }}, Total de puntos: {{ $totalPuntos }}</li>
        <div class="progress mt-2">

@@ -12,17 +12,106 @@
         </button>
         </div>
     @endif
+    @if(session()->has('regexit'))
+    <div class="alert alert-info alert-dismissible fade show letraform" role="alert" id="alert">
+        {{ session('regexit') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+    @if(session()->has('regfalse'))
+    <div class="alert alert-danger alert-dismissible fade show letraform" role="alert" id="alert">
+        {{ session('regfalse') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
     <!---carga-->
         <!-- Button trigger modal -->
-       
-        <!--=================== botones==========================-->
-        <div class="btn-group" role="group" aria-label="Basic outlined example">
-            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#carga">
-            <i class="fas fa-user-plus"></i> Usuarios
-            </button>
+        <div class="row mt-1">
+           <div class="col-md-12 col-lg-4">
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#carga"><i class="fas fa-file-excel"></i>&nbsp;Carga masiva</button>
+                <!---boton registro individual-->
+                <a class="btn btn-outline-success" data-toggle="collapse" href="#regusuarioindi" role="button" aria-expanded="false" aria-controls="collapseExample">
+                  <i class="fas fa-user-plus"></i>&nbsp;Usuario 
+                </a>
+                <!---==========================--->
+            </div>
+           </div>
+           <div class="col-md-12 col-lg-8">
+                <input type="text" class="form-control" id="searchTerm" onkeyup="doSearch()" placeholder="Buscar...">
+            </div>
+            <!---=============================-->
+            <div class="collapse mt-2" id="regusuarioindi">
+                <div class="card card-body letraform">
+                    <!---========= fromulario de registro individual ===========-->
+                   <p> En esta sección se debe registrar a los colaboradores de manera individual, por favor complete todos los campos. Si presenta inconvenientes comuniquese con el administrador. </p>
+                     <form method="POST" action="{{route('addUser')}}">
+                        @csrf
+                        <div class="form-group row">
+                            <label for="nombres" class="col-sm-2 col-lg-2 col-form-label">Nombres</label>
+                            <div class="col-sm-4 col-lg-4">
+                              <input type="text" class="form-control" id="nombres" name="nombres" required>
+                            </div>
+                            <label for="apellidos" class="col-sm-2 col-lg-2 col-form-label">Apellidos</label>
+                            <div class="col-sm-4 col-lg-4">
+                               <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="direccion" class="col-sm-2 col-lg-2 col-form-label">Dirección</label>
+                            <div class="col-sm-4 col-lg-4">
+                              <textarea class="form-control" id="direccion" name="direccion" rows="2" required></textarea>
+                            </div>
+                            <label for="telefono" class="col-sm-2 col-lg-2 col-form-label">Celular</label>
+                            <div class="col-sm-4 col-lg-4">
+                             <input type="text" class="form-control" id="telefono" name="telefono" maxlength="20" minlength="10" pattern="\+[0-9]{10,15}" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-2 col-lg-2 col-form-label">Email</label>
+                            <div class="col-sm-4 col-lg-4">
+                              <input type="text" class="form-control" id="email" name="email" required>
+                            </div>
+                            <label for="pass" class="col-sm-2 col-lg-2 col-form-label">Contraseña</label>
+                            <div class="col-sm-4 col-lg-4">
+                            <!---=========================-->
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                   <a id="togglePassword" type="button" onclick="togglePasswordVisibility()">
+                                     <i id="eyeIcon" class="fas fa-eye-slash"></i>
+                                   </a>
+                                 </span>
+                                </div>
+                                <input type="password" class="form-control" id="pass" name="pass" aria-label="Username" aria-describedby="basic-addon1" required>
+                            </div>
+                            <!---===================-->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="rol" class="col-sm-2 col-lg-2 col-form-label">Rol</label>
+                            <div class="col-sm-10 col-lg-10">
+                              <select class="form-control" id="rol" name="rol" required>
+                                @foreach($roles as $rol)
+                                 <option value="{{$rol->id}}">{{$rol->descripcion}}</option>
+                                @endforeach
+                             </select>
+                            </div>
+                        </div>
+                        <div class="form-group row float-right">
+                            <button class="btn btn-outline-primary float-end" type="submit">Registrar</button>
+                        </div>
+                     </form>   
+                    <!--========= end formulario =========================-->
+                </div>
+            </div>
+            <!--===============================-->
         </div>
         <!--=======================================================-->
-       
         <!-- Modal -->
         <form action="{{route('usuariosImport')}}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -55,9 +144,10 @@
         </form>
         
     <!--carga masiva-->
-    <br>
-    <div class="table-responsive">
-    <table class="table">
+    <!---buscador -->
+    <!--end buscador-->
+    <div class="table-responsive mt-2">
+    <table class="table"  id="tablaDate">
               <thead class="tablaheader letraform">
               <tr>
                 <th scope="col">No</th>
@@ -129,17 +219,36 @@
 
                     <!---#######################################-->    
                         </div>
-                        </td>
-                        <!--  <td><button type="button" class="btn btn-success">Actualizar</button></td>
-                        <td><button type="button" class="btn btn-danger">Eliminar</button></td>
-                        -->
+                        </td>      
+                        </tr>
+                        <tr class='noSearch hide'>
+                            <td colspan="3"></td>
                         </tr>
                     @endforeach
             </tbody>
           </table>
       </div>
         <!--end tabla-->
+<script src="{{ asset('js/buscador.js')}}"></script>
+<script>
+    setTimeout(function() {
+        document.getElementById('alert').style.display = 'none';
+    }, 3000); // 3 segundos en milisegundos
 
+    //=====================
+function togglePasswordVisibility() {
+    var passwordInput = document.getElementById("pass");
+    var eyeIcon = document.getElementById("eyeIcon");
 
-
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeIcon.classList.remove("fa-eye-slash");
+        eyeIcon.classList.add("fa-eye");
+    } else {
+        passwordInput.type = "password";
+        eyeIcon.classList.remove("fa-eye");
+        eyeIcon.classList.add("fa-eye-slash");
+    }
+}
+</script>
 @endsection

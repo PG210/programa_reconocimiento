@@ -2,9 +2,9 @@
 <html lang="es">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Evolución, ReconoSER, Programa de incentivos y reconocimientos">
-    <title>ReconoSER</title>
+    <title>Evolución</title>
     <link rel="icon" href="{{asset('dist/img/favicon.png')}}">
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
@@ -45,7 +45,85 @@
         border-radius:10px;
       }
 
-     @media screen and (min-width: 1920px) {
+     @media screen and (min-width: 1901px) {
+        .letrarob {
+          font-family: 'Roboto';
+          line-height: 1.6;
+        }
+        
+        .letratitulo{
+          font-family: 'Roboto Slab', serif;
+          font-size: 3rem;
+          font-weight:700;
+        }
+
+        .letratitulofooter{
+          font-family: 'Roboto Slab', serif;
+          font-size: 1.5rem;
+          font-weight:700;
+        }
+
+        .letrap{
+          font-family: 'Roboto Slab', serif;
+          font-size: 25px;
+          font-weight:400;
+        }
+        
+        .icono{
+          font-size:45px;
+        }
+
+       /* .ampliar{
+          padding: 6rem !important;
+        }*/
+
+        .ampliarnav{
+          padding: 2rem !important;
+        }
+
+        .imagenlogin{
+          padding: 17em;
+        }
+        .forms{  
+          max-width: 100%;
+        }
+
+        .centraform{
+          margin-left: 25% !important;
+          font-size:30px;
+        }
+
+        .boton {
+          font-size: 24px;
+         }
+
+        .iconwsp{
+          width: 80px;
+          height: 80px;
+        }
+
+        /*Se agrego estas lineas css */
+
+        .imagenlogo{
+          max-width: 390px !important;
+          height: 145px !important;
+        }
+
+        .container{
+          max-width: 1200px !important;
+        }
+
+        .btningresar{
+          font-size:33px;
+        }
+
+        .iconfont{
+          font-size:30px;
+        }
+        
+      }/*Este rango esta bien para pantallas medianas*/
+
+      @media screen and (min-width: 2400px) {
         .letrarob {
           font-family: 'Roboto';
           font-size: 45px;
@@ -124,7 +202,8 @@
         
       }/*Este rango esta bien para pantallas extragrandes*/
 
-    @media screen and (min-width: 1440px) and (max-width: 1919px) {
+    
+      @media screen and (min-width: 1440px) and (max-width: 1900px) {
         .letrarob {
           font-family: 'Roboto';
           font-size: 24px;
@@ -186,8 +265,6 @@
         }
       }/*Este rango para pantallas pequeñas */
     </style>
-
-    
     <!-- Custom styles for this template -->
   </head>
   <body style="background-color:white;">
@@ -223,27 +300,85 @@
 <div class="card-footer" style="background-color:#15AFBA; color:white;">
   <footer class="container py-5" >
     <div class="row">
-      <div class="col-12 col-md">
-         <div class="container" style="background-color:white; padding:0; margin:0; border-radius:20px;" >
-          <a href="https://www.evolucion.co/" aria-label="Product" target="_blank">
-            <img src="dist/img/evolucion_fondo.png" class="img-fluid imagenlogo" alt="Cargando imagen ..." style="background-color:24px;">
+      
+      <div class="col-lg-4 col-md-4">
+         <div class="container" style="background-color:white; border-radius:20px;" >
+         <a href="https://www.evolucion.co/" aria-label="Product" target="_blank">
+            <img src="dist/img/evolucion_fondo.png" class="img-fluid imagenlogo" alt="Cargando imagen ...">
           </a>
        </div>
         
       </div>
-      <div class="col-6 col-md">
+      <div class="col-lg-3 col-md-3">
         <h5 class="letratitulofooter">Servicios</h5>
-        <ul class="list-unstyled text-small letrap">
-          <li><a style="color:white;" href="https://www.evolucion.co/formaccion/" target="_blank">Formacción</a></li>
-          <li><a style="color:white;" href="https://www.evolucion.co/didaktica/" target="_blank">Didaktica</a></li>
-          <li><a style="color:white;" href="https://www.evolucion.co/gamificacion/" target="_blank">Gamificación</a></li>
-          <li><a style="color:white;" href="https://www.evolucion.co/play-box/" target="_blank">Play Box</a></li>
-          <li><a style="color:white;" href="https://www.evolucion.co/metaverso/" target="_blank">Metaverso</a></li>
-        </ul>
+         <!--============= links de menu =================-->
+        <div class="btn-group dropright text-small letrap">
+          <a type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="color:white;">
+            FormAcción
+          </a>
+          <div class="dropdown-menu">
+            <!-- Dropdown menu links -->
+            <a class="dropdown-item" href="https://evolucion.co/liderazgo/" target="_blank">Liderazgo Innovador</a>
+            <a class="dropdown-item" href="https://evolucion.co/venta-consultiva/" target="_blank">Venta Consultiva</a>
+            <a class="dropdown-item" href="https://evolucion.co/formadores-de-facilitadores/" target="_blank">Formadores de Facilitadores</a>
+            <a class="dropdown-item" href="https://evolucion.co/creatividad-e-innovacion/" target="_blank">Creatividad e Innovación</a>
+            <a class="dropdown-item" href="https://evolucion.co/cohesion-de-equipos/" target="_blank">Cohesión de Equipos</a>
+          </div>
+        </div>
+        <!----===============================-->
+        <div class="btn-group dropright text-small letrap">
+          <a type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="color:white;">
+            Tecnologías de <br> educación
+          </a>
+          <div class="dropdown-menu">
+            <!-- Dropdown menu links -->
+            <a class="dropdown-item" href="https://evolucion.co/metaversos/" target="_blank">Metaversos</a>
+            <a class="dropdown-item" href="https://evolucion.co/g-learning/" target="_blank">G-Learning</a>
+            <a class="dropdown-item" href="https://evolucion.co/reconoser/" target="_blank">ReconoSer</a>
+            <a class="dropdown-item" href="https://evolucion.co/realidad-aumentada/" target="_blank">Realidad Aumentada</a>
+            <a class="dropdown-item" href="https://evolucion.co/microlearning/" target="_blank">Microlearning WhatsApp</a>
+          </div>
+        </div>
+         <!--============= links de menu =================-->
       </div>
-      <div class="col-6 col-md">
-        <h5 class="letratitulofooter">Politicas</h5>
+      <div class="col-lg-2 col-md-3">
+        <h5 class="letratitulofooter">Políticas</h5>
         <ul class="list-unstyled text-small letrap">
+           <li><a type="button" data-toggle="modal" data-target="#acerca">Acerca</a></li>
+            <!-- Button trigger modal -->
+            <!-- Modal -->
+            <div class="modal fade" id="acerca" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="container">
+                    <br>
+                    <h5 class="letratitulo" id="staticBackdropLabel" style="color:#4c519c; text-align:center; padding-top:2px; font-size:24px;">EN EVOLUCIÓN</h5>
+                    <hr>
+                  </div>
+                  <div class="modal-body text-justify letrap" style="font-size:20px;">
+                    <!---frase-->
+                    <p style="color:black;">
+                    Creemos que <span style="color:#4c519c;"><b>un enfoque experiencial y divertido</b></span> es el mejor catalizador para el  <span style="color:#4c519c;"><b>aprendizaje en las organizaciones.</b></span> Para nosotros, tanto el contenido a dar como la forma de darlo es igualmente importante.  
+                    </p>
+                    <p style="color:black;">
+                    Por esto, vivimos en constante actualización no solo de los mejores contenidos, si no también de los <span style="color:#4c519c;"><b>mejores métodos de facilitación organizacional</b></span> para adultos, para que ellos vivan experiencias a través de nuestros diseños (presenciales y/o virtuales), generando reflexiones, conceptualizaciones de los temas a trabajar y sobre todo obtengan una ruta de clara de cómo aplicar lo aprendido en sus vidas. 
+                    </p>
+                    <p style="color:black;">
+                    <span style="color:#4c519c;"><b>
+                    Son ustedes el centro de todo lo que construimos. Son ustedes los protagonistas activos de cada proceso formativo. </b></span>
+                    </p>
+                    <p style="color:black;">
+                    Disfrutamos lo que hacemos, cada reto supone para nosotros un proceso apasionante de <span style="color:#4c519c;"><b>ideación a la medida de cada organización</b></span>, crear, innovar y diseñar nuevas formas de transferir ese conocimiento que la compañía necesita para sus colaboradores de una manera divertida, constructivista y aplicable en el tiempo es sin duda, nuestra razón de ser…
+                    </p>
+                    <!--frase-->
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Salir</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!--end --modal-->
           <li>
            <a type="button" data-toggle="modal" data-target="#acceso">
               Acceso
@@ -326,65 +461,21 @@
           </li>
         </ul>
       </div>
-      <div class="col-6 col-md">
-        <h5 class="letratitulofooter">Sobre Nosotros</h5>
-        <ul class="list-unstyled text-small letrap">
-          <li><a type="button" data-toggle="modal" data-target="#acerca">
-              Acerca
-            </a></li>
-          <!--modal-->
-          <!-- Button trigger modal -->
-            <!-- Modal -->
-            <div class="modal fade" id="acerca" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-scrollable">
-                <div class="modal-content">
-                  <div class="container">
-                    <br>
-                    <h5 class="letratitulo" id="staticBackdropLabel" style="color:#4c519c; text-align:center; padding-top:2px; font-size:24px;">EN EVOLUCIÓN</h5>
-                    <hr>
-                  </div>
-                  <div class="modal-body text-justify letrap" style="font-size:20px;">
-                    <!---frase-->
-                    <p style="color:black;">
-                    Creemos que <span style="color:#4c519c;"><b>un enfoque experiencial y divertido</b></span> es el mejor catalizador para el  <span style="color:#4c519c;"><b>aprendizaje en las organizaciones.</b></span> Para nosotros, tanto el contenido a dar como la forma de darlo es igualmente importante.  
-                    </p>
-                    <p style="color:black;">
-                    Por esto, vivimos en constante actualización no solo de los mejores contenidos, si no también de los <span style="color:#4c519c;"><b>mejores métodos de facilitación organizacional</b></span> para adultos, para que ellos vivan experiencias a través de nuestros diseños (presenciales y/o virtuales), generando reflexiones, conceptualizaciones de los temas a trabajar y sobre todo obtengan una ruta de clara de cómo aplicar lo aprendido en sus vidas. 
-                    </p>
-                    <p style="color:black;">
-                    <span style="color:#4c519c;"><b>
-                    Son ustedes el centro de todo lo que construimos. Son ustedes los protagonistas activos de cada proceso formativo. </b></span>
-                    </p>
-                    <p style="color:black;">
-                    Disfrutamos lo que hacemos, cada reto supone para nosotros un proceso apasionante de <span style="color:#4c519c;"><b>ideación a la medida de cada organización</b></span>, crear, innovar y diseñar nuevas formas de transferir ese conocimiento que la compañía necesita para sus colaboradores de una manera divertida, constructivista y aplicable en el tiempo es sin duda, nuestra razón de ser…
-                    </p>
-                    <!--frase-->
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-dismiss="modal">Salir</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <!--end --modal-->
-        </ul>
-      </div>
-      <div class="col-6 col-md">
+      <div class="col-lg-3 col-md-3">
         <h5 class="letratitulofooter">Contactos</h5>
         <ul class="list-unstyled text-small letrap">
           <li><a style="color:white;" href="#"> +57 3172821923</a></li>
           <li><a style="color:white;" href="mailto:info@envolucion.co"> info@envolucion.co</a></li>
           <li>
-              <a style="color:white;" href="https://www.facebook.com/evolucion.aprendizajedivertido/" target="_blank"><i class="bi bi-facebook icono" style="color:#2F4575;"></i></a>&nbsp;&nbsp;
-              <a href="https://www.youtube.com/channel/UCYeBcORYopRC4e6naxf53Zw" target="_blank"><i class="bi bi-youtube icono" style="color:#FF0000;"></i></a>&nbsp;&nbsp;
-              <a href="https://www.linkedin.com/company/evolucionaprendizajedivertido/?viewAsMember=true"><i class="bi bi-linkedin icono" style="color:#006AA4;"></i></a></li>
+              <a style="color:white;" href="https://www.instagram.com/somos_evolucion_?igsh=amU2eG1xamR5Ync1" target="_blank"><i class="bi bi-instagram icono" style="color:#833ab4;"></i></a>&nbsp;&nbsp;
+              <a href="https://www.linkedin.com/company/evolucionaprendizajedivertido/?viewAsMember=true" target="_blank"><i class="bi bi-linkedin icono" style="color:#006AA4;"></i></a></li>
         </ul>
       </div>
     </div>
   </footer>
 </div>
 <div class="card-footer text-center" style="padding: 1px; background-color:#082e41; color:white;">
-      <small class="d-block mb-3 text-center letrap" style="padding-top:3px;">Copyright © 2022 Evolución All Rights Reserved</small>
+      <small class="d-block mb-3 text-center letrap" style="padding-top:3px;">Copyright © 2024 Evolución. Todos los derechos reservados</small>
 </div>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
@@ -426,24 +517,7 @@
   });
 </script>
 <!--aqui script de chatboot-->
-<script>
-window.addEventListener('mouseover', initLandbot, { once: true });
-window.addEventListener('touchstart', initLandbot, { once: true });
-var myLandbot;
-function initLandbot() {
-  if (!myLandbot) {
-    var s = document.createElement('script');s.type = 'text/javascript';s.async = true;
-    s.addEventListener('load', function() {
-      var myLandbot = new Landbot.Livechat({
-        configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-1421237-7WM98HCU7U7V4SZ9/index.json',
-      });
-    });
-    s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.js';
-    var x = document.getElementsByTagName('script')[0];
-    x.parentNode.insertBefore(s, x);
-  }
-}
-</script>
+
 <!--end script-->
   </body>
 </html>

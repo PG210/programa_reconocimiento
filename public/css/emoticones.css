@@ -1,0 +1,212 @@
+  .scrolly {
+        max-height: 550px; /* Define la altura máxima del contenedor */
+        overflow-y: auto; /* Habilita el scroll vertical cuando sea necesario */
+    }
+  /*=================boton de reacciones=================*/
+  .btn_reaccion {
+        display: inline-flex;
+        -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            -o-flex-wrap: wrap;
+                flex-wrap: wrap;
+        -ms-align-items: left;
+        align-items: left;
+        justify-content: left;
+        position: relative;
+        color:black;
+        /*padding: 10px 20px;*/
+        border: none;
+        /*background: linear-gradient(90deg,#57A6FF,#E153FF);*/
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    .btn_reaccion > span {
+        color: #fff;
+    }
+
+    .btn_reaccion .reacciones {
+        display: flex;
+        position: absolute;
+        bottom: calc(100% + 10px);
+        background-color: #D4E4FF;
+        padding: 5px;
+        border-radius: 5rem;
+        opacity: 0;
+        visibility: hidden;
+        -webkit-transition: all 200ms ease-in;
+            -o-transition: all 200ms ease-in;
+                transition: all 200ms ease-in;
+        -webkit-transform: translateY(15px);
+          -moz-transform: translateY(15px);
+            -ms-transform: translateY(15px);
+            -o-transform: translateY(15px);
+                transform: translateY(15px);
+    }
+    .btn_reaccion:hover .reacciones {
+        opacity: 1;
+        visibility: visible;
+        -webkit-transform: translateY(0);
+          -moz-transform: translateY(0);
+            -ms-transform: translateY(0);
+            -o-transform: translateY(0);
+                transform: translateY(0);
+    }
+    .btn_reaccion .reacciones::before {
+        content: '';
+        display: block;
+        border-style: solid;
+        border-color: transparent;
+        border-width: 12px 12px 12px 12px;
+        border-top-color: #D4E4FF;
+        position: absolute;
+        bottom: -24px;
+        left: calc(50% - 12px);
+    }
+
+    .btn_reaccion .reaccion {
+        display: flex;
+        -ms-align-items: center;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background-color: #fff;
+        border-radius: 5rem;
+        -webkit-transition: all 200ms ease-in;
+            -o-transition: all 200ms ease-in;
+                transition: all 200ms ease-in;
+    }
+    .btn_reaccion .reaccion + .reaccion {
+        margin-left: 5px;
+    }
+    .btn_reaccion .reaccion i {
+        font-size: 1.3rem;
+    }
+    .btn_reaccion .reaccion > span {
+        display: block;
+        width: auto;
+        font-size: .9em;
+        position: absolute;
+        top: -1.5rem;
+        font-weight: bold;
+        -ms-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        color: #333;
+        -webkit-transition: all 200ms ease-in;
+            -o-transition: all 200ms ease-in;
+                transition: all 200ms ease-in;
+        -webkit-transform: translateY(15px);
+          -moz-transform: translateY(15px);
+            -ms-transform: translateY(15px);
+            -o-transform: translateY(15px);
+                transform: translateY(15px);
+    }
+    .btn_reaccion .reaccion:nth-child(1):hover > span,
+    .btn_reaccion .reaccion:nth-child(2):hover > span,
+    .btn_reaccion .reaccion:nth-child(3):hover > span,
+    .btn_reaccion .reaccion:nth-child(4):hover > span,
+    .btn_reaccion .reaccion:nth-child(5):hover > span {
+        opacity: 1;
+        visibility: visible;
+        -webkit-transform: translateY(0);
+          -moz-transform: translateY(0);
+            -ms-transform: translateY(0);
+            -o-transform: translateY(0);
+                transform: translateY(0);
+    }
+    .btn_reaccion .reaccion:nth-child(1):hover {
+        background-color: #4E88FF;
+        color: #fff;
+    }
+    .btn_reaccion .reaccion:nth-child(2):hover {
+        background-color: #FF3D3D;
+        color: #fff;
+    }
+    .btn_reaccion .reaccion:nth-child(3):hover {
+        background-color: #FF7D3D;
+        color: #fff;
+    }
+    .btn_reaccion .reaccion:nth-child(4):hover {
+        background-color: #A63DFF;
+        color: #fff;
+    }
+    .btn_reaccion .reaccion:nth-child(5):hover {
+        background-color: #FF3D3D;
+        color: #fff;
+    }
+
+    /* animacion salto */
+    /*
+    .btn_reaccion .reaccion:hover {
+        -webkit-animation-duration: 500ms;
+            -o-animation-duration: 500ms;
+                animation-duration: 500ms;
+        -webkit-animation-timing-function: ease-out;
+            -o-animation-timing-function: ease-out;
+                animation-timing-function: ease-out;
+        -webkit-animation-name: saltar;
+            -o-animation-name: saltar;
+                animation-name: saltar;
+    }
+    @keyframes saltar {
+        from {
+            -webkit-transform: translateY(0);
+            -ms-transform: translateY(0);
+            -o-transform: translateY(0);
+            transform: translateY(0);
+        }
+        50% {
+            -webkit-transform: translateY(-15px);
+            -ms-transform: translateY(-15px);
+            -o-transform: translateY(-15px);
+            transform: translateY(-15px);
+        }
+        to {
+            -webkit-transform: translateY(0);
+            -ms-transform: translateY(0);
+            -o-transform: translateY(0);
+            transform: translateY(0);
+        }
+    }*/
+  /*estylos para dropdawn */
+  .myInput {
+  box-sizing: border-box;
+  background-image: url('../img/searchicon.png');
+  background-position: 14px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 14px 20px 12px 45px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+ }
+
+.myInput:focus {outline: 3px solid #ddd;}
+
+.dropdownnew {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownnew-content {
+  display: none;
+  position: absolute;
+  background-color: #f6f6f6;
+  min-width: 230px;
+  overflow: auto;
+  border: 1px solid #ddd;
+  z-index: 1;
+}
+
+.dropdownnew-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdownnew a:hover {background-color: #ddd;}
+
+.show {display: block;}

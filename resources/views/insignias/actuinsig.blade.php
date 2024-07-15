@@ -38,7 +38,10 @@
       <!---Seleccion-->
       <label for="categoria">Categoria</label>
         <select class="form-control" id="categoria" name="categoria">
-          <option value="{{$datosin[0]->idcateg}}">{{$datosin[0]->descateg}}</option>
+        @if(isset($datosin[0]->idcateg))
+        <option value="{{$datosin[0]->idcateg}}">{{$datosin[0]->descateg}}</option>
+        @endif
+        <option value="puntos">Insignia de puntos</option>
         @foreach($categ as $ca)
           <option value="{{$ca->id}}">{{$ca->descripcion}}</option>
         @endforeach
@@ -46,7 +49,7 @@
       <!--end Seleccion-->
     </div>
    <div class="form-group col-md-6">
-    <label for="puntos">Puntos</label>
+    <label for="puntos">{{$puntos->descripcion}}</label>
     <input type="text" class="form-control" id="puntos" name="puntos" value="{{$datosin[0]->puntos}}" required>
    </div>
    

@@ -70,11 +70,11 @@ class Jefescon extends Controller
         ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
         ->join('area', 'cargo.id_area', '=', 'area.id')
         ->join('premios', 'insignia.id_premio', '=', 'premios.id')
-        ->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
+        //->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
         ->where('insignia_obtenida.entregado', $con)//cuando es igual a 1 no esta entregado
         ->select('insignia_obtenida.id as idinsig', 'insignia_obtenida.entregado as estado', 'insignia.name as nominsig', 'insignia.descripcion as insigdes', 'insignia.puntos',
-                 'insignia.rutaimagen as imginsig', 'premios.descripcion as despremio', 'premios.rutaimagen as imgpre', 'comportamiento_categ.descripcion as categoria',
-                'users.name as nombre', 'users.apellido', 'cargo.nombre as cargonom', 'area.nombre as areanom', 'insignia_obtenida.entregado')
+                 'insignia.rutaimagen as imginsig', 'premios.descripcion as despremio', 'premios.rutaimagen as imgpre', 
+                'users.name as nombre', 'users.apellido', 'cargo.nombre as cargonom', 'area.nombre as areanom', 'insignia_obtenida.entregado', 'premios.name as nompre')
         ->get();
 
       }else{

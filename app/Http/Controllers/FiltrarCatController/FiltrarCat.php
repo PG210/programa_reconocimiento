@@ -18,8 +18,8 @@ class FiltrarCat extends Controller
        $id=$request->idcom;
        $com=DB::table('categoria_reconoc')->where('categoria_reconoc.id', '=', $id)->
             join('comportamiento_categ', 'categoria_reconoc.id_comportamiento', '=', 'comportamiento_categ.id')
-            ->select('categoria_reconoc.id as idcom', 'categoria_reconoc.nombre as nomcat', 'categoria_reconoc.rutaimagen',
-            'categoria_reconoc.rutaimagen', 'comportamiento_categ.descripcion', 'comportamiento_categ.puntos')
+            ->select('categoria_reconoc.id as idcom', 'categoria_reconoc.nombre as nomcat', 'comportamiento_categ.rutaimagen',
+             'comportamiento_categ.descripcion', 'categoria_reconoc.puntos')
             ->get();
        return response(json_decode($com,JSON_UNESCAPED_UNICODE),200)->header('Content-type', 'text/plain');
    }

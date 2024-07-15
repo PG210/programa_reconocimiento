@@ -48,7 +48,9 @@
                       <tr>
                         <th>{{$c->nombre}} {{$c->ape}}</th>
                         @for($i = 1; $i <= $con; $i++)
+                           @if(isset($c) && isset($c->{'c'.$i}))
                           <td>{{$c->{'c'.$i} }}</td>
+                           @endif
                         @endfor
                         <td>
                           <button type="button" class="btn confirmar" data-toggle="modal" data-target="#staticBackdrop">

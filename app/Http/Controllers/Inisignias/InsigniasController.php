@@ -10,6 +10,7 @@ use App\Models\Categorias\Comportamiento;
 use App\Models\Categorias\Categoria_reco;
 use App\Models\Categorias\Premios;
 use App\Models\Insignias\PuntosModel; // para cambiar el nombre de los puntos
+use App\Models\Reconocimientos\ReconocimientosModal;
 use Session;
 
 class InsigniasController extends Controller
@@ -21,7 +22,7 @@ class InsigniasController extends Controller
             $b=1;
             $categ = DB::table('categoria_reconoc')
             ->join('comportamiento_categ', 'id_comportamiento', 'comportamiento_categ.id')
-            ->select('categoria_reconoc.id', 'categoria_reconoc.nombre', 'categoria_reconoc.rutaimagen', 'comportamiento_categ.descripcion as compor')
+            ->select('categoria_reconoc.id', 'categoria_reconoc.nombre', 'categoria_reconoc.rutaimagen', 'comportamiento_categ.descripcion as compor', 'categoria_reconoc.id_comportamiento', 'categoria_reconoc.puntos')
             ->get();
         }
         else{
@@ -57,7 +58,7 @@ class InsigniasController extends Controller
             $b=1;
             $insignia=DB::table('insignia')
             ->join('premios', 'id_premio', '=', 'premios.id')
-            ->select('insignia.id', 'insignia.name', 'insignia.descripcion', 'insignia.puntos', 'insignia.rutaimagen', 'premios.name as prenom')
+            ->select('insignia.id', 'insignia.name', 'insignia.descripcion', 'insignia.puntos', 'insignia.rutaimagen', 'premios.name as prenom', 'insignia.tipo')
             ->get();
         }
         else{
@@ -65,6 +66,7 @@ class InsigniasController extends Controller
             $r=array('name' => 'Sin datos', 'descripcion' => 'Sin datos', 'puntos' => '0', 'id_premio' => '0', 'rutaimagen' => 'sin datos');
             $insignia=$r;
         }
+        
         return view('insignias.reginsignia')->with('pre', $pre)->with('insignia', $insignia)->with('b', $b)->with('categ', $categ)->with('nompuntos', $nompuntos);
     }
 
@@ -77,39 +79,47 @@ public function modpuntos(Request $request){
 
     public function reginsig(Request $request){
         $category = new Categoria_reco();
-        if($request->hasFile('imagen')){                 
-            $file = $request->file('imagen');
-            $val = "caterec".time().".".$file->guessExtension();
-            $ruta = public_path("imgpremios/".$val);
-           // if($file->guessExtension()=="pdf"){
-            copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
-            $category->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
-            $category->nombre = $request->input('nombre');
-            $category->id_comportamiento = $request->input('scompor');     
-            $category->save();
-            return back();
-           }
+        $category->nombre = $request->input('nombre');
+        $category->id_comportamiento = $request->input('scompor'); 
+        $category->puntos = $request->input('puntos');  
+        $category->save();
+        return back();
+           
     }
 
     public function registroinsignia(Request $request){
-        //return $request;
+        $idcat = $request->input('categoria');
         $category = new InsigniasModel();
         if($request->hasFile('img')){                 
             $file = $request->file('img');
             $val = "insignia".time().".".$file->guessExtension();
             $ruta = public_path("imgpremios/".$val);
-           // if($file->guessExtension()=="pdf"){
             copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
-            $category->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
-            $category->name = $request->input('nombre');
-            $category->descripcion = $request->input('descripcion');
-            $category->id_premio = $request->input('premio'); 
-            $category->id_categoria = $request->input('categoria');     
-            $category->puntos = $request->input('puntos'); 
-            $category->save();
-            return back();
+                $category->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
+                $category->name = $request->input('nombre');
+                $category->descripcion = $request->input('descripcion');
+                $category->id_premio = $request->input('premio');     
+                $category->puntos = $request->input('puntos'); 
+                if(strpos($idcat, 'puntos') === false){
+                    $category->id_categoria = $idcat; // si no esta la palabra puntos
+                }else{
+                    $category->tipo = 1;  //si es una insignia de puntos
+                }
+                $category->save();
            }
-
+           return back();
+    }
+    //===========eliminar las insignias ============
+    public function deleteinsig($id){
+        $dato = InsigniasModel::find($id);
+        $validar = ReconocimientosModal::where('id_insignia', $id)->count();
+        if ($validar != 0) {
+            return back();
+        }else{
+            $dato->delete();
+            return back();
+        }
+       
     }
 
     //aqui se obtinene reporte para jefes y usuario de las insignias que puede ganar
@@ -119,10 +129,10 @@ public function modpuntos(Request $request){
             $b=1;
             $coninsig = DB::table('insignia')
             ->join('premios', 'insignia.id_premio', '=', 'premios.id')
-            ->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
+            //->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
             ->select('insignia.id as idinsig', 'insignia.name', 'insignia.descripcion', 'insignia.puntos', 
-                    'premios.descripcion as despremio', 'insignia.rutaimagen as imginsig',
-                    'premios.rutaimagen as imgpre', 'comportamiento_categ.descripcion as catdescrip')
+                    'premios.descripcion as despremio', 'premios.name as nompre', 'insignia.rutaimagen as imginsig',
+                    'premios.rutaimagen as imgpre')
             ->get();
 
         }else{
@@ -167,44 +177,55 @@ public function modpuntos(Request $request){
 
     //vista de formulario insignia
     public function vistainsig($id){
-        $datosin = DB::table('insignia')->where('insignia.id', '=', $id)
+        $datosin = '';
+        $pre = DB::table('premios')->get();
+        $categ = DB::table('comportamiento_categ')->get();
+        $puntos = DB::table('puntosconfig')->first();
+        #==========================================================
+        $insigcom = DB::table('insignia')->where('insignia.id', '=', $id)
                     ->join('premios', 'id_premio', '=', 'premios.id')
                     ->join('comportamiento_categ', 'id_categoria', '=', 'comportamiento_categ.id')
                     ->select('insignia.id', 'insignia.name', 'insignia.descripcion', 'insignia.puntos', 'insignia.rutaimagen', 'premios.name as prenom',
                             'premios.id as idpremio', 'comportamiento_categ.id as idcateg', 'comportamiento_categ.descripcion as descateg')
                     ->get();
-        $pre=DB::table('premios')->get();
-        $categ=DB::table('comportamiento_categ')->get();
-        return view('insignias.actuinsig')->with('datosin', $datosin)->with('pre', $pre)->with('categ', $categ);
+       
+        if (count($insigcom) == 0){
+            $insigcom =  DB::table('insignia')->where('insignia.id', '=', $id)
+                        ->join('premios', 'id_premio', '=', 'premios.id')
+                        ->select('insignia.id', 'insignia.name', 'insignia.descripcion', 'insignia.puntos', 'insignia.rutaimagen', 'premios.name as prenom',
+                                'premios.id as idpremio')
+                        ->get();
+        }
+
+        $datosin = $insigcom;
+        
+        return view('insignias.actuinsig')->with('puntos', $puntos)->with('datosin', $datosin)->with('pre', $pre)->with('categ', $categ);
     }
 
     //actualizar insignias
     public function formactuinsig(Request $request, $id){
+        $idcat = $request->input('categoria');
         $ins = InsigniasModel::findOrfail($id);//buscar el id del producto para actualizar  
-        
         if($request->hasFile('img')){                 
             $file = $request->file('img');
             $val = "insignia".time().".".$file->guessExtension();
             $ruta = public_path("imgpremios/".$val);
            // if($file->guessExtension()=="pdf"){
             copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
-            $ins->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
+            $ins->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos   
+           }
             $ins->name = $request->input('nombre');
             $ins->descripcion = $request->input('descripcion');
             $ins->puntos = $request->input('puntos');
             $ins->id_premio = $request->input('premio');
-            $ins->id_categoria = $request->input('categoria');
-            $ins->save();
-           
-        }else{
-            $ins->name = $request->input('nombre');
-            $ins->descripcion = $request->input('descripcion');
-            $ins->puntos = $request->input('puntos');
-            $ins->id_premio = $request->input('premio');
-            $ins->id_categoria = $request->input('categoria');
+            if(strpos($idcat, 'puntos') === false){
+                $ins->id_categoria = $request->input('categoria'); // si no esta la palabra puntos
+            }else{
+                $ins->tipo = 1;  //si es una insignia de puntos
+            }
             $ins->save();
 
-        }
+        
         Session::flash('actualizainsig', 'Insignia Actualizada Correctamente!');
         return back();
     }

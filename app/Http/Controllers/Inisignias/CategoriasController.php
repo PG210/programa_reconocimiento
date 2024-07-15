@@ -17,10 +17,17 @@ class CategoriasController extends Controller
     }
 
     public function regis_cat(Request $request){
-        $category = new Comportamiento();
-        $category->descripcion = $request->input('descrip');
-        $category->puntos = $request->input('puntos');
-        $category->save();
+        if($request->hasFile('imagen')){                 
+            $file = $request->file('imagen');
+            $val = "imgcat".time().".".$file->guessExtension();
+            $ruta = public_path("imgpremios/".$val);
+            copy($file, $ruta);
+            $category = new Comportamiento();
+            $category->descripcion = $request->input('descrip');
+            $category->puntos = 0;
+            $category->rutaimagen = $val;
+            $category->save();
+        }
         return back();
     }
 
@@ -34,59 +41,55 @@ class CategoriasController extends Controller
 
    
     public function actucat(Request $request, $id){
-        $categoria = Categoria_reco::findOrfail($id);//buscar el id del producto para actualizar
-        if($request->hasFile('imagen')){                 
-            $file = $request->file('imagen');
-            $val = "cateact".time().".".$file->guessExtension();
-            $ruta = public_path("imgpremios/".$val);
-           // if($file->guessExtension()=="pdf"){
-            copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
-            $categoria->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
-            $categoria->nombre = $request->input('nombre');
-            $categoria->id_comportamiento = $request->input('com');
-            $categoria->save();
-            return redirect()->route('reg_insignia');
-           
-        }else{
             $res = Categoria_reco::findOrfail($id);
-            $img = $res->rutaimagen;
-            $res->rutaimagen = $img;//ingresa el nombre de la ruta a la base de datos
-            $res->nombre = $request->input('nombre');
-            $res->id_comportamiento = $request->input('com');
+            $res->nombre = $request->input('nombrenew');
+            $res->id_comportamiento = $request->input('comnew');
+            $res->puntos = $request->input('puntosnew');
             $res->save();
             return redirect()->route('reg_insignia');
-
-        }
-         //redirect()->route('lista_productos');
-        
         }
 
-        public function eliminar($id){
-         $val=DB::table('categoria_reconoc')->where('categoria_reconoc.id_comportamiento','=',$id)->count();
+    public function eliminar($id){
+            $val = DB::table('categoria_reconoc')->where('categoria_reconoc.id_comportamiento', '=', $id)->count();
             if($val!=0){
                 Session::flash('mensaje', 'No se puede eliminar! Categoria se encuentra vinculada');
                 return back();
             }else{
                 Session::flash('mensaje', 'Eliminado con éxito!');
-                DB::table('comportamiento_categ')->where('comportamiento_categ.id','=',$id)->delete();
+                DB::table('comportamiento_categ')->where('id', '=', $id)->delete();
                 return back();
             }
          
         }
-        
-        public function busactualizar($id){
-            $cat=DB::table('comportamiento_categ')->where('comportamiento_categ.id', '=', $id)
-                 ->get();
-            return view('admin.actualizacategor')->with('cat', $cat);
+    //================== eliminar datos de comportamiento ========0
+    public function deleteCom($id){
+        $cont = DB::table('catrecibida')->where('id_comportamiento', '=', $id)->count();
+        if($cont == 0){
+            DB::table('categoria_reconoc')->where('id', '=', $id)->delete();
         }
-        
-        public function actualizar(Request $request, $id){
+        return back();
+    }
 
-            $categoria = Comportamiento::findOrfail($id);//buscar el id del producto para actualizar                 
+    public function busactualizar($id){
+       $cat=DB::table('comportamiento_categ')->where('comportamiento_categ.id', '=', $id)
+            ->get();
+       return view('admin.actualizacategor')->with('cat', $cat);
+    }
+        
+    public function actualizar(Request $request, $id){
+        if($request->hasFile('imagen')){
+            $file = $request->file('imagen');
+            $val = "imgcat".time().".".$file->guessExtension();
+            $ruta = public_path("imgpremios/".$val);
+            copy($file, $ruta);
+            //=========buscar el id para actualizar                 
+            $categoria = Comportamiento::findOrfail($id);
             $categoria->descripcion = $request->input('des');
-            $categoria->puntos = $request->input('puntos');
+            $categoria->puntos = 0;
+            $categoria->rutaimagen = $val;
             $categoria->save();
             Session::flash('actualizado', 'Categoria Actualizada Correctamente!');
-            return back();
         }
+        return back();
+    }
 }

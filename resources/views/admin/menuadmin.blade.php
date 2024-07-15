@@ -10,6 +10,7 @@
               </p>
             </a>
           </li>    
+          
          <!--se modifico esta parte -->
           <li class="nav-item">
             <a href="{{route('perfil')}}" class="nav-link @if(Request::is('perfil')) active @endif">
@@ -18,7 +19,32 @@
                 Perfil 
               </p>
             </a>
+          </li> 
+          <!--===================metricas ============================= -->
+          <li class="nav-item">
+            <a href="#" class="nav-link ">
+            <i class="nav-icon fas fa-chart-line"></i>
+              <p>
+               Métricas
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('metricasranking')}}" class="nav-link @if(Request::is('metricas/ranking')) active @endif">
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                &nbsp;<p>Rec. Obtenidos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+               <a href="{{route('metricasEnvio')}}" class="nav-link @if(Request::is('reconocimientos/enviados/admin')) active @endif">
+                 &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                 &nbsp;<p>Rec. Enviados</p>
+               </a>
+             </li>  
+            </ul>
           </li>
+          <!-- ========================================================-->
           <li class="nav-item">
             <a href="{{route('reg_categ')}}" class="nav-link @if(Request::is('Categorias/registro')) active @endif">
             <i class="nav-icon fas fa-sitemap"></i>

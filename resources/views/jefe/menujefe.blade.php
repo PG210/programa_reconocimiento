@@ -25,6 +25,33 @@
               </p>
             </a>
           </li>
+          <!--==============--> 
+            <!--===================metricas ============================= -->
+            <li class="nav-item">
+            <a href="#" class="nav-link ">
+            <i class="nav-icon fas fa-chart-line"></i>
+              <p>
+               Métricas
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('metricasranking')}}" class="nav-link @if(Request::is('metricas/ranking')) active @endif">
+                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                &nbsp;<p>Rec. Obtenidos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+               <a href="{{route('metricasEnvio')}}" class="nav-link @if(Request::is('reconocimientos/enviados/admin')) active @endif">
+                 &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
+                 &nbsp;<p>Rec. Enviados</p>
+               </a>
+             </li>  
+            </ul>
+          </li>
+          <!-- ========================================================-->
+          <!--=================-->
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-award"></i>
@@ -64,21 +91,27 @@
               </p>
              </a>
           </li>
-          @if(isset($es[0]->estado))
-          @if($es[0]->estado==1)
+         <!---===========-->
           <li class="nav-item">
-            <a href="{{route('votacion_user')}}" class="nav-link @if(Request::is('vista/votacion')) active @endif">
+            <a href="{{route('habilitar_votacion')}}" class="nav-link @if(Request::is('admin/votacion')) active @endif">
             <i class="nav-icon fas fa-vote-yea"></i>
               <p>
                 Votación
               </p>
             </a>
           </li>
+          @if(isset($es[0]->estado))
+          @if($es[0]->estado==1)
+          <li class="nav-item">
+            <a href="{{route('votacion_user')}}" class="nav-link @if(Request::is('vista/votacion')) active @endif">
+            <i class="nav-icon fas fa-vote-yea"></i>
+              <p>
+               Avance Votación
+              </p>
+            </a>
+          </li>
           @endif
           @endif
-        <!-- <li class="nav-header">EXAMPLES</li>
-    
-          <li class="nav-header">MISCELLANEOUS</li>-->
-          
+       
         </ul>
       </nav>

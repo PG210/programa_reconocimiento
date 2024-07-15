@@ -40,6 +40,7 @@
                 <th scope="col">Nombres</th>
                 <th scope="col">Cargo</th>
                 <th scope="col">Area</th>
+                <th scope="col">Tipo recompensa</th>
                 <th scope="col">Recompensa</th>
                 <th scope="col">Estado</th>
                 </tr>
@@ -58,6 +59,7 @@
                 <td>{{$dat->nombre}} {{$dat->apellido}}</td>
                 <td>{{$dat->cargonom}}</td>
                 <td>{{$dat->areanom}}</td>
+                <td>{{$dat->nompre}}</td>
                 <td>{{$dat->despremio}}</td>
                 @if($dat->entregado==1)
                 <td>Sin entregar</td>

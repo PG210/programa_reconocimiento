@@ -4,18 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="x-apple-disable-message-reformatting">
-  <title></title>
-  <!--[if mso]>
-  <noscript>
-    <xml>
-      <o:OfficeDocumentSettings>
-        <o:PixelsPerInch>96</o:PixelsPerInch>
-      </o:OfficeDocumentSettings>
-    </xml>
-  </noscript>
-  <![endif]-->
+  <title>Evolución</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;500;700&display=swap" rel="stylesheet">
   <style>
-    table, td, div, h1, p {font-family: Arial, sans-serif;}
+    table, td, div, h1, p {font-family: 'Roboto Slab', serif;}
     * {
        box-sizing: border-box;
         }
@@ -85,6 +77,40 @@
           /* align-items por defecto tiene el valor `stretch` */
           align-items: start;
         }
+    .letraform{
+      font-family: 'Roboto Slab', serif;
+      font-size:17px;
+      line-height: 1.3;
+      font-weight: 500;
+      text-align:left; 
+    }
+    /*Boton de enviar reconocimiento */
+    .botonclase {
+      background-color: #04AA6D; /* Green */
+      border: none;
+      color: white;
+      border-radius: 10px;
+      padding: 16px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+
+    .button2 {
+      background-color: white; 
+      color: black; 
+      border: 2px solid #008CBA;
+    }
+
+    .button2:hover {
+      background-color: #008CBA;
+      color: white;
+    }
+
   </style>
 </head>
 <body style="margin:0;padding:0;">
@@ -103,7 +129,7 @@
               <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">    
                 <tr>
                   <td style="padding:0 0 36px 0;color:#153643;">
-                    <h1 style="font-size:18px;margin:0 0 15px 0;font-family:Arial,sans-serif; text-align: justify;"><span style="color:#Ffbd03;"> {{$datosrec->nomenvia}} {{$datosrec->apenvia}} </span> Te acaba de enviar un reconocimiento.</h1>
+                    <h1 style="font-size:18px;margin:0 0 15px 0;font-family:Arial,sans-serif;"><span style="color:#Ffbd03;"> {{$datosrec->nomenvia}} {{$datosrec->apenvia}} </span> Te acaba de enviar un reconocimiento.</h1>
                   </td>
                 </tr>
                 <tr>
@@ -111,32 +137,30 @@
                     <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">
                       <tr>
                         <td style="width:260px;padding:0;vertical-align:top;color:#153643;">
-                          <!-- <div style="text-align:center;">
-                          <img src="https://assets.codepen.io/210284/left.gif" alt="" />
-                         </div>-->
+                        
                          <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">
                          <!--Datos de la categoria y comportamiento-->
-                         <form class="form1" style="font-size:14px;font-family:Arial,sans-serif; text-align: justify;">
+                         <form class="form1 letraform" style="font-size:14px;font-family:Arial,sans-serif; text-align: justify;">
                            <div class="container">
-                            <label for="firstName" class="first-name">Detalle:</label>
+                            <label for="firstName" class="first-name">Detalle: </label>
                             <label for="firstName" class="first-name">{{$datosrec->detalle}}</label>
                             <br>
                           </div>
                           <hr>
                           <div class="container">
-                             <label for="lastName" class="last-name">Categoria</label>  <!-- rutaimagen-->
+                             <label for="lastName" class="last-name">Categoría: </label>  <!-- rutaimagen-->
                              <label for="lastName" class="last-name">{{$datosrec->categoria}}</label> 
                              <br>
                           </div>
                           <hr>
                           <div class="container">
-                            <label for="job">Comportamiento</label>
+                            <label for="job">Comportamiento: </label>
                             <label for="job">{{$datosrec->comportamiento}}</label>
                             <br>
                           </div>
                           <hr>
                           <div class="container">
-                            <label for="age">Puntos</label>
+                            <label for="age">Peñutes: </label>
                             <label for="age">{{$datosrec->puntos}}</label>
                           </div>
                           
@@ -146,16 +170,13 @@
                          </p>
                         </td>
                       
-                       <!-- <td style="width:20px;padding:0;font-size:0;line-height:0;">&nbsp;</td>-->
-                        <!--<td style="width:260px;padding:0;vertical-align:top;color:#153643;">
-                          <p style="margin:0 0 25px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><img src="https://assets.codepen.io/210284/right.gif" alt="" width="260" style="height:auto;display:block;" /></p>
-                          <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Morbi porttitor, eget est accumsan dictum, nisi libero ultricies ipsum, in posuere mauris neque at erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempus adipiscing felis, sit amet blandit ipsum volutpat sed.</p>
-                          <p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><a href="http://www.example.com" style="color:#ee4c50;text-decoration:underline;">In tempus felis blandit</a></p>
-                        </td>-->
                       </tr>
                     </table>
                     <br>
                     <p style="font-size:18px;margin:0 0 15px 0;font-family:Arial,sans-serif; text-align: justify;"><span style="color:black;">Recibir un reconocimiento es premiar tus esfuerzos, espero que esto te siga motivando para lograr nuevos proyectos que te impulsen a avanzar.</p>
+                     <div style="text-align:center">
+                      <a class="botonclase boton2" href="/" target="_blank"> Ve y reconoce </a>
+                     </div>
                   </td>
                 </tr>
               </table>
@@ -168,7 +189,7 @@
                 <tr>
                   <td style="padding:0;width:50%;" align="left">
                     <a href="https://www.evolucion.co/" style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:black;">
-                      &reg; Evolución, 2022<br/>
+                      &reg; Evolución, 2024<br/>
                    </a>
                    <label style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:black;" >{{date ('Y-m-d', strtotime($datosrec->fecha))}}</label>
                   </td>

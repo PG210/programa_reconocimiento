@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('descripcion');
             $table->integer('puntos');
+            $table->string('rutaimagen')->nullable();
             $table->timestamps();
         });
     }

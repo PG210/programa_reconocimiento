@@ -3,8 +3,8 @@
          <tr>
          <th scope="col" style="background-color:#FFBD03;">No</th>
          <th scope="col" style="background-color:#FFBD03;">Nombres</th>
-         <th scope="col" style="background-color:#FFBD03;">Cargo</th>
-         <th scope="col" style="background-color:#FFBD03;">Area</th>
+         <th scope="col" style="background-color:#FFBD03;">Insignia</th>
+         <th scope="col" style="background-color:#FFBD03;">Tipo recompensa</th>
          <th scope="col" style="background-color:#FFBD03;">Recompensa</th>
          <th scope="col" style="background-color:#FFBD03;">Estado</th>
          </tr>
@@ -20,8 +20,8 @@
                 echo '<tr>
                 <td>'.$con++.'</td>
                 <td>'.$res[$i][$j]->nombre." ".$res[$i][$j]->apellido.'</td>
-                <td>'.$res[$i][$j]->cargonom.'</td>
-                <td>'.$res[$i][$j]->areanom.'</td>
+                <td>'.$res[$i][$j]->nominsig.'</td>
+                <td>'.$res[$i][$j]->tipo.'</td>
                 <td>'.$res[$i][$j]->despremio.'</td>
                 <td>'."Sin entregar".'</td>
                 </tr>';
@@ -29,8 +29,8 @@
                 echo '<tr>
                 <td>'.$con++.'</td>
                 <td>'.$res[$i][$j]->nombre." ".$res[$i][$j]->apellido.'</td>
-                <td>'.$res[$i][$j]->cargonom.'</td>
-                <td>'.$res[$i][$j]->areanom.'</td>
+                <td>'.$res[$i][$j]->nominsig.'</td>
+                <td>'.$res[$i][$j]->tipo.'</td>
                 <td>'.$res[$i][$j]->despremio.'</td>
                 <td>'."Entregado".'</td>
                 </tr>';

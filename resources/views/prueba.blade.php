@@ -41,6 +41,13 @@
                                     <span class="input-group-text" id="basic-addon1"><i class="bi bi-lock-fill"></i></span>
                                 </div>
                                 <input id="password" name="password" class="form-control" type="password" autocomplete="current-password" required>
+                                <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                   <a id="togglePassword" type="button" onclick="togglePasswordVisibility()">
+                                     <i id="eyeIcon" class="bi bi-eye"></i>
+                                   </a>
+                                 </span>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -62,5 +69,21 @@
         </main>
         <br></div>
         <br>
+<script>
+function togglePasswordVisibility() {
+    var passwordInput = document.getElementById("password");
+    var eyeIcon = document.getElementById("eyeIcon");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeIcon.classList.remove("fa-eye");
+        eyeIcon.classList.add("fa-eye-slash");
+    } else {
+        passwordInput.type = "password";
+        eyeIcon.classList.remove("fa-eye-slash");
+        eyeIcon.classList.add("fa-eye");
+    }
+}
+</script>
 @endsection
 

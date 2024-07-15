@@ -5,7 +5,7 @@
 </div>
 <br>
       @if($b==0)
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
         <strong>No tienes insignias!</strong> Espera, pronto obtendras una.
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -35,29 +35,29 @@
              <!-- aqui va la tabla de datos de insignias-->
              <div class="table-responsive letraform2">
                   <table class="table">
-                    <thead class="letraform" style="background-color:#08FFD5;">
+                    <thead class="letraform tablaheader">
                       <tr>
                         <th scope="col">No</th>
-                        <th scope="col">Envia</th>
-                        <th scope="col">Nombre Insignia</th>
+                        <th scope="col">Insignia</th>
                         <th scope="col">Nivel</th>
+                        <th scope="col">Tipo recompensa</th>
                         <th scope="col">Recompensa</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Puntos</th>
                         <th scope="col"></th>
                       </tr>
-                    </thead>
+                    </thead> 
                     <tbody>
-                              <tr>
+                          <tr>
                               @if($b!=0)
                               <?php
                                 $acum=1;
                               ?>
                                 @foreach($rec as $r)
                                 <td>{{$acum++}}</td>
-                                <td scope="row">{{$r->nomusu}} {{$r->apeusu}}</td>
                                 <td>{{$r->nominsig}}</td>
                                 <td>{{$r->catinsign}}</td>
+                                <td>{{$r->despremio}}</td>
                                 <td> {{$r->nompremio}}</td>
                                 <td>{{date('Y-m-d', strtotime($r->fecha))}}</td>
                                 <td>{{$r->puntos_acumulados}}</td>
@@ -90,8 +90,7 @@
                                               </tr>
                                             </thead>
                                             <tbody>
-                                            
-                                            <tr>
+                                              <tr>
                                                 <td> <img src="{{asset('imgpremios/'.$r->imginsig)}}" class="img-fluid" alt="cargando imagen ..."  width= "50px" height="50px" ></td>
                                                 <td ><br>{{$r->nominsig}} {{$r->catinsign}}</td>
                                                 <td> <img src="{{asset('imgpremios/'.$r->imgpremio)}}" class="img-fluid" alt="cargando imagen ..."  width= "50px" height="50px" ></td>
@@ -103,7 +102,7 @@
                                           <!------------------------------------------------>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn salir" data-dismiss="modal">Aceptar</button>
+                                            <button type="button" class="btn salir" data-dismiss="modal">Salir</button>
                                         </div>
                                       </div>
                                     </div>
@@ -128,7 +127,7 @@
               </button>
             </h2>
           </div>
-          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+          <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="card-body">
             
             <!----table-->
@@ -151,13 +150,22 @@
                             @foreach($insign as $cant)
                                
                               @if($cant->des =="Oro")
-                              <th ><i class="fas fa-medal fa-2x" style="color:#ffbd03;"></i></th>
+                              <th>
+                                <!--<i class="fas fa-medal fa-2x" style="color:#ffbd03;"></i>-->
+                                <img src="{{asset('imgpremios/'.$cant->rutaimagen)}}" class="img-fluid" alt="cargando imagen ..."  width= "50px" height="50px">
+                              </th>
                               @endif
                               @if($cant->des =="Plata")
-                              <th ><i class="fas fa-medal fa-2x" style="color:#C0C0C0;"></i></th>
+                              <th>
+                                <!--<i class="fas fa-medal fa-2x" style="color:#C0C0C0;"></i>-->
+                                <img src="{{asset('imgpremios/'.$cant->rutaimagen)}}" class="img-fluid" alt="cargando imagen ..."  width= "50px" height="50px">
+                              </th>
                               @endif
                               @if($cant->des =="Bronce")
-                              <th ><i class="fas fa-medal fa-2x" style="color:#CD7F32;"></i></th>
+                              <th>
+                                <!--<i class="fas fa-medal fa-2x" style="color:#CD7F32;"></i>-->
+                                <img src="{{asset('imgpremios/'.$cant->rutaimagen)}}" class="img-fluid" alt="cargando imagen ..."  width= "50px" height="50px">
+                              </th>
                               @endif
                             @endforeach
                          

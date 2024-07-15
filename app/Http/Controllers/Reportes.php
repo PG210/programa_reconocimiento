@@ -31,12 +31,13 @@ class Reportes extends Controller
                 ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
                 ->join('area', 'cargo.id_area', '=', 'area.id')
                 ->join('premios', 'insignia.id_premio', '=', 'premios.id')
-                ->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
+               // ->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
                 ->where('insignia_obtenida.entregado', 1)//cuando es igual a 1 no esta entregado
                 ->where('area.id', $con)
                 ->select('insignia_obtenida.id as idinsig', 'insignia_obtenida.entregado as estado', 'insignia.name as nominsig', 'insignia.descripcion as insigdes', 'insignia.puntos',
-                         'insignia.rutaimagen as imginsig', 'premios.descripcion as despremio', 'premios.rutaimagen as imgpre', 'comportamiento_categ.descripcion as categoria',
-                        'users.name as nombre', 'users.apellido', 'cargo.nombre as cargonom', 'area.nombre as areanom')
+                         'insignia.rutaimagen as imginsig', 'premios.descripcion as despremio', 'premios.rutaimagen as imgpre', 
+                        'users.name as nombre', 'users.apellido', 'cargo.nombre as cargonom', 'area.nombre as areanom', 'premios.name as nompre')
+                ->orderBy('users.name', 'asc')
                 ->get();
         }else{
             //$arr ;
@@ -60,13 +61,13 @@ class Reportes extends Controller
                                     ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
                                     ->join('area', 'cargo.id_area', '=', 'area.id')
                                     ->join('premios', 'insignia.id_premio', '=', 'premios.id')
-                                    ->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
+                                    //->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
                                     ->where('insignia_obtenida.entregado', 1)//cuando es igual a 1 no esta entregado
                                     ->where('area.id', $jefes[$i]->id_area)
                                     ->select('insignia_obtenida.id as idinsig', 'insignia_obtenida.entregado as estado', 'insignia.name as nominsig', 'insignia.descripcion as insigdes', 'insignia.puntos',
-                                            'insignia.rutaimagen as imginsig', 'premios.descripcion as despremio', 'premios.rutaimagen as imgpre', 'comportamiento_categ.descripcion as categoria',
-                                            'users.name as nombre', 'users.apellido', 'cargo.nombre as cargonom', 'area.nombre as areanom')
-                                    
+                                            'insignia.rutaimagen as imginsig', 'premios.descripcion as despremio', 'premios.rutaimagen as imgpre',
+                                            'users.name as nombre', 'users.apellido', 'cargo.nombre as cargonom', 'area.nombre as areanom', 'premios.name as nompre')
+                                    ->orderBy('users.name', 'asc')
                                     ->get();
                        
                     } 
@@ -108,12 +109,13 @@ class Reportes extends Controller
                 ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
                 ->join('area', 'cargo.id_area', '=', 'area.id')
                 ->join('premios', 'insignia.id_premio', '=', 'premios.id')
-                ->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
+                //->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
                 ->where('insignia_obtenida.entregado', 2)//cuando es igual a 1 no esta entregado
                 ->where('area.id', $c)
                 ->select('insignia_obtenida.id as idinsig', 'insignia_obtenida.entregado as estado', 'insignia.name as nominsig', 'insignia.descripcion as insigdes', 'insignia.puntos',
-                        'insignia.rutaimagen as imginsig', 'premios.descripcion as despremio', 'premios.rutaimagen as imgpre', 'comportamiento_categ.descripcion as categoria',
-                        'users.name as nombre', 'users.apellido', 'cargo.nombre as cargonom', 'area.nombre as areanom')
+                        'insignia.rutaimagen as imginsig', 'premios.descripcion as despremio', 'premios.rutaimagen as imgpre', 
+                        'users.name as nombre', 'users.apellido', 'cargo.nombre as cargonom', 'area.nombre as areanom', 'premios.name as nompre')
+                ->orderBy('users.name', 'asc')
                 ->get();
 
         }else{
@@ -137,12 +139,13 @@ class Reportes extends Controller
                                      ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
                                      ->join('area', 'cargo.id_area', '=', 'area.id')
                                      ->join('premios', 'insignia.id_premio', '=', 'premios.id')
-                                     ->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
+                                     //->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
                                      ->where('insignia_obtenida.entregado', 2)//cuando es igual a 1 no esta entregado
                                      ->where('area.id', $jefes[$i]->id_area)
                                      ->select('insignia_obtenida.id as idinsig', 'insignia_obtenida.entregado as estado', 'insignia.name as nominsig', 'insignia.descripcion as insigdes', 'insignia.puntos',
-                                             'insignia.rutaimagen as imginsig', 'premios.descripcion as despremio', 'premios.rutaimagen as imgpre', 'comportamiento_categ.descripcion as categoria',
-                                             'users.name as nombre', 'users.apellido', 'cargo.nombre as cargonom', 'area.nombre as areanom')
+                                             'insignia.rutaimagen as imginsig', 'premios.descripcion as despremio', 'premios.rutaimagen as imgpre',
+                                             'users.name as nombre', 'users.apellido', 'cargo.nombre as cargonom', 'area.nombre as areanom', 'premios.name as nompre')
+                                     ->orderBy('users.name', 'asc')
                                      ->get();
                         
                      } 

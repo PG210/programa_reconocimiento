@@ -38,6 +38,10 @@ Route::get('/for', function () {
     return view('formulario');
 });
 
+Route::get('/inicio/prueba', function () {
+    return view('pagina_inicio');
+});
+
 //rutas de pagina princpal inicio
 Route::get('/pro', function () {
     return view('qep');
@@ -50,9 +54,8 @@ Route::get('/contacto', function () {
 });
 //end rutas principal
 
-Route::get('/dashboard', function () {
-    return view('usuario.inicio');
-})->middleware(['auth'])->name('dashboard');
+//ruta para retornar al dahboard
+Route::get('/dashboard', [Inicio::class, 'dash'])->middleware(['auth'])->name('dashboard');
 
 Route::get('/inicio', [Inicio::class, 'index'])->name('inicio');
 
@@ -86,8 +89,7 @@ Route::post('/insignia/registro/admin', [InsigniasController::class, 'registroin
 //actualizar categoria insignias
 Route::get('/actualizar/categorias/{id}', [CategoriasController::class, 'buscaractu'])->middleware(['auth', 'admin'])->name('formactucat');
 Route::post('/actualizar/cambios/{id}', [CategoriasController::class, 'actucat'])->middleware(['auth', 'admin'])->name('actualizarcat');
-
-
+Route::get('/delete/comportamiento/{id}', [CategoriasController::class, 'deleteCom'])->middleware(['auth', 'admin'])->name('deleteCom');
 //buscar
 //Route::get('posts',[PostController::class, 'index'])->name('posts.index');
 Route::get('posts/search',[PostController::class, 'search'])->name('posts.search');
@@ -133,6 +135,8 @@ Route::get('/reporte/usuarios', [Inicio::class, 'visualizar'])->middleware(['aut
 Route::get('/users/estado/{id}', [Inicio::class, 'estado'])->middleware(['auth', 'admin'])->name('cambiarestado');
 Route::get('/users/actualizar/{id}', [Inicio::class, 'actualizar'])->middleware(['auth', 'admin'])->name('actualizaruser');
 Route::post('/users/actualizar', [Inicio::class, 'regdatos'])->middleware(['auth', 'admin'])->name('actudatos');
+//registrar usuario individual
+Route::post('/admin/add/user', [Inicio::class, 'addUser'])->middleware(['auth', 'admin'])->name('addUser');
 //=========================== grupos de usuarios =========================================
 Route::get('/users/grupos', [Inicio::class, 'vistaGrupos'])->middleware(['auth', 'admin'])->name('vistaGrupos');
 Route::post('/users/nuevo/grupo', [Inicio::class, 'nuevoGrupo'])->middleware(['auth', 'admin'])->name('nuevoGrupo');
@@ -179,14 +183,14 @@ Route::get('/reporte/visualizar/recompensas', [InsigniasController::class, 'repo
 Route::post('/buscar/usuario', [PostController::class, 'buscar'])->middleware(['auth'])->name('buscar_usuario');
 
 //votacion habilitar
-Route::get('/admin/votacion', [VotacionControl::class, 'habilitar'])->middleware(['admin'])->name('habilitar_votacion');
-Route::post('/admin/hab/votacion', [VotacionControl::class, 'hab_votacion'])->middleware(['admin'])->name('hab_votaciones');
+Route::get('/admin/votacion', [VotacionControl::class, 'habilitar'])->middleware(['auth'])->name('habilitar_votacion');
+Route::post('/admin/hab/votacion', [VotacionControl::class, 'hab_votacion'])->middleware(['auth'])->name('hab_votaciones');
 Route::get('/vista/votacion', [VotacionControl::class, 'vista_user'])->middleware(['auth'])->name('votacion_user');
 Route::post('/votacion/buscar/usuario', [VotacionControl::class, 'buscar'])->middleware(['auth'])->name('buscar_votante');
 Route::post('/votacion/registrar', [VotacionControl::class, 'registrar'])->middleware(['auth'])->name('regvoto');
-Route::get('/deshab/votacion/{id}/{val}', [VotacionControl::class, 'desvot'])->middleware(['admin']);
-Route::post('/filtrar/votos', [VotacionControl::class, 'filtrar'])->middleware(['admin'])->name('filtrarVotos');
-Route::post('/votos/categoria', [VotacionControl::class, 'categoria'])->middleware(['admin'])->name('listaVot');
+Route::get('/deshab/votacion/{id}/{val}', [VotacionControl::class, 'desvot'])->middleware(['auth']);
+Route::post('/filtrar/votos', [VotacionControl::class, 'filtrar'])->middleware(['auth'])->name('filtrarVotos');
+Route::post('/votos/categoria', [VotacionControl::class, 'categoria'])->middleware(['auth'])->name('listaVot');
 //importar usuarios
 Route::post('/admin/importar/usuarios', [Importacion::class, 'archivoimpor'])->middleware(['admin'])->name('usuariosImport');
 
@@ -200,7 +204,27 @@ Route::post('/actualizar/premio/form/{id}', [InsigniasController::class, 'actupr
 
 //actualizar insignias
 Route::get('/actualizar/insignias/{id}', [InsigniasController::class, 'vistainsig'])->name('actualizarinsignia')->middleware(['admin']);
+// delete insignias 
+Route::get('/delete/insignias/{id}', [InsigniasController::class, 'deleteinsig'])->name('deleteinsignia')->middleware(['admin']);
 Route::post('/actualizar/insignias/datos/{id}', [InsigniasController::class, 'formactuinsig'])->name('registroinsigniasactu')->middleware(['admin']);
+
+//================== metricas =======================================
+Route::get('/metricas/ranking', [ReconocimientosController::class, 'metricasranking'])->name('metricasranking')->middleware(['auth']);
+Route::get('/metricas/ranking/user', [ReconocimientosController::class, 'metricasusers'])->name('metricasusers')->middleware(['auth']);
+
+//===================reconocimientos enviados =======================
+Route::get('/reconocimientos/enviados', [ReconocimientosController::class, 'recenviados'])->name('recenviados')->middleware(['auth']);
+Route::get('/reconocimientos/enviados/admin', [ReconocimientosController::class, 'metricasEnvio'])->name('metricasEnvio')->middleware(['auth']);
+
+//============= reacciones ============
+Route::get('/reacciones', [Inicio::class, 'reacciones'])->name('reacciones')->middleware(['auth']);
+
+//============= comentario  ============
+Route::POST('/comentario', [Inicio::class, 'comentario'])->name('comentario')->middleware(['auth']);
+
+Route::get('/correo/not', function () {
+    return view('correos.notificacion');
+});
 
 require __DIR__.'/auth.php';
 

@@ -27,6 +27,7 @@
       <!---Seleccion-->
       <label for="categoria">Categoria</label>
         <select class="form-control" id="categoria" name="categoria" required>
+        <option value="puntos">Insignia de puntos</option>
         @foreach($categ as $ca)
           <option value="{{$ca->id}}">{{$ca->descripcion}}</option>
         @endforeach
@@ -34,8 +35,8 @@
       <!--end Seleccion-->
     </div>
    <div class="form-group col-md-6">
-    <label for="puntos">Puntos</label>
-    <input type="text" class="form-control" id="puntos" name="puntos" placeholder="Ejm: 100" required>
+    <label for="puntos">{{$nompuntos->descripcion}}</label>
+    <input type="number" class="form-control" id="puntos" name="puntos" placeholder="Ejm: 100" min="0" required>
    </div>
    
   </div>
@@ -133,10 +134,11 @@
               <tr>
                 <th scope="col">No</th>
                 <th scope="col">Nombre</th>
-                <th scope="col">Descripción</th>
+                <th scope="col">Nivel</th>
                 <th scope="col">Puntos</th>
                 <th scope="col">Imagen</th>
                 <th scope="col">Recompensa</th>
+                <th scope="col">Tipo</th>
                 <th scope="col">Acción</th>
               </tr>
             </thead>
@@ -156,11 +158,20 @@
                     <img src="{{asset('imgpremios/'.$c->rutaimagen)}}" class="rounded" alt="..."  width= "50px" height="50px" >
                   </div>
                 </td>
-                <!--  <td><button type="button" class="btn btn-success">Actualizar</button></td>
-                  <td><button type="button" class="btn btn-danger">Eliminar</button></td>
-                 -->
                  <td>{{$c->prenom}}</td>
-                 <td><a href="{{route('actualizarinsignia',$c->id)}}" type="button" class="btn btn-success">Actualizar</a></td>
+                 <td>
+                 @if($c->tipo == 1)
+                   <span>Insignia puntos</span>
+                 @else 
+                   <span>Insignia categoría</span>
+                 @endif
+                 </td>
+                 <td>
+                  <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <a type="button" class="btn btn-outline-success" href="{{route('actualizarinsignia',$c->id)}}"><i class="fas fa-edit"></i></a>
+                    <a type="button" class="btn btn-outline-danger" href="{{route('deleteinsignia',$c->id)}}"><i class="fas fa-trash"></i></a>
+                  </div>
+                </td>
                 </tr>
              @endforeach
             @else
@@ -175,7 +186,7 @@
         <!--end tabla-->
       </div>
       <div class="modal-footer  letraform">
-        <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn salir" data-dismiss="modal">Salir</button>
       </div>
     </div>
   </div>
@@ -201,7 +212,7 @@
       </div>
       <div class="modal-footer  letraform">
         <button type="submit" class="btn confirmar">Guardar</button>
-        <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn salir" data-dismiss="modal">Salir</button>
       </div>
       </form>
     </div>

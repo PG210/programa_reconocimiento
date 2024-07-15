@@ -33,13 +33,21 @@
             <div id="collapseOne" class="collapse show table-responsive letraform" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
         <!--table de informacion-->
-            <table class="table table-bordered">
+              <!---========= buscador =============-->
+                <div class="row mb-2">
+                    <div class="col-lg-12 col-md-12 text-end">
+                        <input type="text" class="form-control" id="searchTerm" onkeyup="doSearch()" placeholder="Buscar...">
+                    </div>
+                </div>
+                <!--====================================-->
+            <div class="table-responsive">
+            <table class="table table-bordered" id="tablaDate">
             <thead>
                 <tr>
                 <th scope="col">No</th>
                 <th scope="col">Nombres</th>
-                <th scope="col">Cargo</th>
-                <th scope="col">Area</th>
+                <th scope="col">Insignia</th>
+                <th scope="col">Tipo recompensa</th>
                 <th scope="col">Recompensa</th>
                 <th scope="col">Estado</th>
                 </tr>
@@ -55,8 +63,8 @@
                 <tr>
                 <th scope="row">{{$conta++}}</th>
                 <td>{{$dat->nombre}} {{$dat->apellido}}</td>
-                <td>{{$dat->cargonom}}</td>
-                <td>{{$dat->areanom}}</td>
+                <td>{{$dat->nominsig}}</td>
+                <td>{{$dat->nompre}}</td>
                 <td>{{$dat->despremio}}</td>
                 <td>Sin entregar</td>
                 <td>
@@ -119,12 +127,17 @@
                 }
                 ?>
                 @endif
+                <tr class='noSearch hide'>
+                    <td colspan="6"></td>
+                </tr>
             </tbody>
             </table>
+            </div>
            <!---end table-->
             </div>
             </div>
         </div>
         </div>
 <!---end collapse-->
+<script src="{{ asset('js/buscador.js')}}"></script>
 @endsection

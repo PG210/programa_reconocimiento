@@ -57,7 +57,7 @@
      color:#FFFFFF;
   }
   .tablaheader{
-     background-color:#1BF9CD;
+     background-color:#F2C93B;
      color:#000;
   }
   .letratarjeta1{
@@ -86,5 +86,8 @@
        line-height: 1.3;
        font-weight: 400;
        color:black;
+ }
+ .colortablas{
+     background-color: #F2C93B;
  }
 </style>

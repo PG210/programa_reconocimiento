@@ -38,8 +38,8 @@
                 <tr>
                 <th scope="col">No</th>
                 <th scope="col">Nombres</th>
-                <th scope="col">Cargo</th>
-                <th scope="col">Area</th>
+                <th scope="col">Insignia</th>
+                <th scope="col">Tipo recompensa</th>
                 <th scope="col">Recompensa</th>
                 <th scope="col">Estado</th>
                 </tr>
@@ -55,8 +55,8 @@
                 <tr>
                 <th scope="row">{{$conta++}}</th>
                 <td>{{$dat->nombre}} {{$dat->apellido}}</td>
-                <td>{{$dat->cargonom}}</td>
-                <td>{{$dat->areanom}}</td>
+                <td>{{$dat->nominsig}}</td>
+                <td>{{$dat->nompre}}</td>
                 <td>{{$dat->despremio}}</td>
                 <td>Entregado</td>
                 <td>
@@ -108,8 +108,8 @@
                     echo '<tr>
                             <td>'.$con++.'</td>
                             <td>'.$res[$i][$j]->nombre." ".$res[$i][$j]->apellido.'</td>
-                            <td>'.$res[$i][$j]->cargonom.'</td>
-                            <td>'.$res[$i][$j]->areanom.'</td>
+                            <td>'.$res[$i][$j]->nominsig.'</td>
+                            <td>'.$res[$i][$j]->nompre.'</td>
                             <td>'.$res[$i][$j]->despremio.'</td>
                             <td>'."Entregado".'</td>
                         </tr>';

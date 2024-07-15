@@ -12,7 +12,8 @@ class Importacion extends Controller
 {
     public function archivoimpor(Request $request){
         $file = $request->file('archivosubido');
-        Excel::import(new UsersImport, $file);
+        $var = Excel::import(new UsersImport, $file);
+        return $var;
         return back();
     }
 }
