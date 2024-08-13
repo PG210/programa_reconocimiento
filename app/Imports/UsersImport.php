@@ -15,34 +15,35 @@ class UsersImport implements ToModel
     * @return \Illuminate\Database\Eloquent\Model|null
     */
     public function model(array $row)
-    {  
-        if(empty($row[8])) {
-            return "Hola";
+    {
+        if (empty($row[0]) || empty($row[1]) || empty($row[2]) || empty($row[3]) || empty($row[4]) || empty($row[5]) || empty($row[6]) || empty($row[7])) {
+            throw new \Exception('Por favor, revisa el archivo algún dato esta vacio.');   // Opcional: Lanza una excepción o maneja el error de alguna manera
         }
 
-        // Validar que el correo electrónico es válido
-        if (!filter_var($row[6], FILTER_VALIDATE_EMAIL)) {
-            throw new \Exception("El correo electrónico no es válido.");
-        }
-       
-        $val = DB::table('users')->where('email', '=', $row[6])->count(); //valida los usuarios registrados
-        if($val == 0){
-
-           $datos = new User([
+        $email = $row[6]; // Extraemos el correo electrónico de la fila
+    
+        // Verificamos si el usuario con el correo electrónico dado ya existe
+        $existing_user = User::where('email', $email)->first();
+    
+        if ($existing_user) {
+            // El usuario ya existe, omitimos esta fila
+            return null;
+        } else {
+            // Creamos una nueva instancia de User
+            $user = new User([
                 'name' => $row[0],
                 'apellido' => $row[1],
-                'direccion'  => $row[2],
-                'telefono'  => $row[3],
-                'id_rol'  => $row[4],
-                'id_cargo'  => $row[5],
-                'email' => $row[6] ,
-                'password' =>  Hash::make($row[7]),
-                'id_estado'  => $row[8],
+                'direccion' => $row[2],
+                'telefono' => $row[3],
+                'id_rol' => $row[4],
+                'id_cargo' => $row[5],
+                'email' => $email,
+                'password' => Hash::make($row[7]),
+                'id_estado' => 1,
+                'imagen' => 'perfil_no_borrar.jpeg',
             ]);
-            $datos->save();
-            return $datos;
-        }else{
-            return null;
+    
+            return $user;
         }
     }
 }

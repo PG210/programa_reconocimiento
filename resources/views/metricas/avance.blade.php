@@ -121,9 +121,9 @@
                             @endif
                         @endforeach
                         @endif
-                        <td>{{ $oroCount }} | @if($totalsum != 0){{ $oroCount*100/$totalsum }}% @else 0% @endif</td>
-                        <td>{{ $plataCount }} | @if($totalsum != 0){{ $plataCount*100/$totalsum }}% @else 0% @endif</td>
-                        <td>{{ $bronceCount }} | @if($totalsum != 0){{ $bronceCount*100/$totalsum }}%  @else 0% @endif</td>
+                        <td>{{ $oroCount }} | @if($totalsum != 0){{ number_format($oroCount * 100 / $totalsum, 0) }}% @else 0% @endif</td>
+                        <td>{{ $plataCount }} | @if($totalsum != 0){{  number_format($plataCount*100/$totalsum) }}% @else 0% @endif</td>
+                        <td>{{ $bronceCount }} | @if($totalsum != 0){{  number_format($bronceCount*100/$totalsum) }}%  @else 0% @endif</td>
                         <td>{{ $totalsum }} |  @if($totalsum != 0) 100% @else 0% @endif</td>
                     </tr>
                     @endforeach

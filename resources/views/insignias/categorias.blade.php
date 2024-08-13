@@ -68,7 +68,7 @@
                   </div>
                   <div class="form-group">
                     <label for="puntos">Imagen</label>
-                    <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*" required>
+                    <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
                   </div>
                 <!---end datos-->
               </div>

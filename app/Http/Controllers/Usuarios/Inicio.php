@@ -17,13 +17,15 @@ use App\Models\RecibeCatMoldel\Comentarios;
 use App\Mail\ReaccionesComentarios; //instanciar para enviar correos
 use Illuminate\Support\Facades\Mail; // enviar mails
 use Session;
+use App\Models\Comunicacion\ComunicacionModel;
+#use Illuminate\Support\Facades\Cache;
 //==========
 use App\Models\User;
 
 class Inicio extends Controller
 {
-
-    private function detallecate(){
+     //manejar sin cache
+     private function detallecate(){
         $detalle = DB::table('catrecibida')
                     ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
                     ->join('users as usu', 'catrecibida.id_user_envia', '=', 'usu.id')
@@ -32,9 +34,41 @@ class Inicio extends Controller
                     ->select('catrecibida.id as idcat', 'catrecibida.id_user_recibe', 'catrecibida.detalle as det', 'users.name as nomrecibe', 'users.apellido as aperecibe', 'usu.name as nomenvia', 'usu.apellido as apenvia', 'usu.imagen as imagenenv', 'comportamiento_categ.descripcion as descat',
                             'categoria_reconoc.nombre as comportamiento', 'comportamiento_categ.rutaimagen as img', 'catrecibida.puntos', 'catrecibida.fecha')
                     ->orderBy('fecha', 'DESC')
-                    ->get();
+                    ->simplePaginate(10); // Paginación
         return $detalle;
     }
+     
+    /*private function detallecate(){
+        $userId = auth()->id(); // O el ID del usuario actual si aplica
+        $page = request('page', 1);
+        $cacheKey = "detalle_page_{$page}_user_{$userId}";
+        $detalle = Cache::remember($cacheKey, 60, function() {
+            return DB::table('catrecibida')
+            ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
+            ->join('users as usu', 'catrecibida.id_user_envia', '=', 'usu.id')
+            ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+            ->join('categoria_reconoc', 'catrecibida.id_comportamiento', '=', 'categoria_reconoc.id')
+            ->select(
+                'catrecibida.id as idcat',
+                'catrecibida.id_user_recibe',
+                'catrecibida.detalle as det',
+                'users.name as nomrecibe',
+                'users.apellido as aperecibe',
+                'usu.name as nomenvia',
+                'usu.apellido as apenvia',
+                'usu.imagen as imagenenv',
+                'comportamiento_categ.descripcion as descat',
+                'categoria_reconoc.nombre as comportamiento',
+                'comportamiento_categ.rutaimagen as img',
+                'catrecibida.puntos',
+                'catrecibida.fecha'
+            )
+            ->orderBy('fecha', 'DESC')
+            ->paginate(10); // Paginación
+        });
+    
+        return $detalle;
+    }*/
     
     //fucnion para retornar emoticones
     private function emoticonesTot(){
@@ -94,13 +128,20 @@ class Inicio extends Controller
         $users = $this->usuariosReacciones();
         $comentarios = $this->com();
         $valor = 0;
-        //return $users;
-        return view('usuario.inicio')
-              ->with('detalle', $detalle)
-              ->with('emoticonCounts', $emoticones)
-              ->with('emoticonuser', $datos)
-              ->with('users', $users)->with('comentarios', $comentarios)
-              ->with('valor', $valor);
+        $images = ComunicacionModel::orderBy('posicion', 'asc')->get();
+        $estadoimg = ComunicacionModel::where('posicion', 1)->select('estado')->first();
+       
+        //return $emoticones;
+        return view('usuario.inicio', [
+            'detalle' => $detalle,
+            'emoticonCounts' => $emoticones,
+            'emoticonuser' => $datos,
+            'images' => $images,
+            'users' => $users,
+            'comentarios' => $comentarios,
+            'valor' => $valor,
+            'estadoimg' => $estadoimg
+        ]);
     }
     // retornar la misma vista
     public function index(){
@@ -113,7 +154,9 @@ class Inicio extends Controller
                ->join('area', 'cargo.id_area', '=', 'area.id')
                ->join('estado', 'users.id_estado', '=', 'estado.id')
                ->select('users.id','name', 'apellido','telefono', 'email','roles.descripcion as rol', 
-                         'cargo.nombre as nomcar', 'area.nombre as nomarea', 'estado.descrip as esta')->get();
+                         'cargo.nombre as nomcar', 'area.nombre as nomarea', 'estado.descrip as esta')
+               ->orderBy('name', 'ASC')
+               ->get();
         //retornar los roles
         $roles = DB::table('roles')->where('id', '!=', 1)->get();
         return view('admin.usuarios')->with('lista', $lista)->with('roles', $roles);
@@ -352,6 +395,7 @@ nombre
     $usu = auth()->user()->id;
     $nombre = auth()->user()->name;
     $apellido = auth()->user()->apellido;
+    $emailusulog = auth()->user()->email; // email del usuario que esta logeado
     $res = $request->emoticon;
     $res1 = $request->idemot;
     $res2 = $request->idrec;
@@ -401,22 +445,26 @@ nombre
         'estado' => '1',
         'fecha' => $reconocimiento->fecha,
     ];
-    Mail::to($reconocimiento->email)->queue(new ReaccionesComentarios($datos)); //envia mensajes
+
+    if(strtolower($emailusulog) != strtolower($reconocimiento->email))
+       Mail::to($reconocimiento->email)->queue(new ReaccionesComentarios($datos)); //envia mensajes
     return response()->json($data);
   }
 
   //========== comentario del history ======
   public function comentario(Request $request){
+    if ($request->isMethod('post')) {
      $usu = auth()->user()->id;
      $nombre = auth()->user()->name;
      $apellido = auth()->user()->apellido;
+     $emailusulog = auth()->user()->email; // email del usuario que esta logeado
      $valor = $request->valorInput;
      //guardar los datos
-     $category = new Comentarios();
-     $category->comentario = $request->contenido;
-     $category->idusu= $usu;
-     $category->idrec = $valor;
-     $category->save();
+            $category = new Comentarios();
+            $category->comentario = $request->contenido;
+            $category->idusu= $usu;
+            $category->idrec = $valor;
+            $category->save();
      // retornar el id que debe levantar
      $detalle = $this->detallecate();
      $emoticones = $this->emoticonesTot();
@@ -425,10 +473,18 @@ nombre
      $users = $this->usuariosReacciones();
      $comentarios = $this->com();
      // data para el correo
+     
      $reconocimiento = DB::table('catrecibida')
-                      ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
-                      ->where('catrecibida.id', $valor)
-                      ->select('catrecibida.detalle', 'catrecibida.created_at as fecha', 'users.name as nombre', 'users.apellido', 'users.email')->first();
+            ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
+            ->join('users as userenvia', 'catrecibida.id_user_envia', '=', 'userenvia.id')
+            ->where('catrecibida.id', $valor)
+            ->select('catrecibida.detalle', 
+                    'catrecibida.created_at as fecha', 
+                    'users.name as nombre', 
+                    'users.apellido', 
+                    'users.email', 
+                    'userenvia.email as emailenvia')
+            ->first();
      //enviar correo
      $datos = [
         'nombre' => $nombre,
@@ -440,13 +496,33 @@ nombre
         'estado' => '2',
         'fecha' => $reconocimiento->fecha,
         ];
-     Mail::to($reconocimiento->email)->queue(new ReaccionesComentarios($datos)); //envia mensajes
+     // validar que el correo no sea de la misma persona que reacciona
+     if(strtolower($emailusulog) != strtolower($reconocimiento->email))
+         Mail::to($reconocimiento->email)->queue(new ReaccionesComentarios($datos)); //envia mensajes
      
-     return view('usuario.inicio')
-           ->with('detalle', $detalle)
-           ->with('emoticonCounts', $emoticones)
-           ->with('emoticonuser', $datosem)
-           ->with('users', $users)->with('comentarios', $comentarios)->with('valor', $valor);
+     //if(strtolower($emailusulog) != strtolower($reconocimiento->emailenvia)) //enviar correo a la persona que envio el reconocimiento
+     //    Mail::to($reconocimiento->emailenvia)->queue(new ReaccionesComentarios($datos));  
+     //======== para imagenes de carrucel
+     $images = ComunicacionModel::orderBy('posicion', 'asc')->get();
+     $estadoimg = ComunicacionModel::where('posicion', 1)->select('estado')->first();
+     
+     return view('usuario.inicio', [
+        'detalle' => $detalle,
+        'emoticonCounts' => $emoticones,
+        'emoticonuser' => $datosem,
+        'images' => $images,
+        'users' => $users,
+        'comentarios' => $comentarios,
+        'valor' => $valor,
+        'estadoimg' => $estadoimg
+    ]);
+     
+    }else{
+        // lógica para otros métodos
+        return redirect('/dashboard');
+    }
+    //=========== aqui termina la validacion ===
+
   }
 
 }

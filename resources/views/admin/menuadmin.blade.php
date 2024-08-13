@@ -104,6 +104,16 @@
               </p>
             </a>
           </li>
+          <!--- comunicaciones --->
+          <li class="nav-item">
+            <a href="{{route('comunicacion.index')}}" class="@if(Request::is('comunicacion')) active @endif nav-link">
+            <i class="nav-icon fas fa-comments"></i>
+              <p>
+               Comunicación
+              </p>
+            </a>
+          </li>
+          <!--end comunicaciones-->
           <li class="nav-item">
             <a href="{{route('areas')}}" class="nav-link @if(Request::is('areas/empresa')) active @endif">
             &nbsp;<i class="fas fa-industry"></i>

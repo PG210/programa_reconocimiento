@@ -91,7 +91,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'reconocimiento.evolucion@gmail.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'notificaciones@correo.evolucion.co'),
         'name' => env('MAIL_FROM_NAME', 'Reconocimientos'),
     ],
 

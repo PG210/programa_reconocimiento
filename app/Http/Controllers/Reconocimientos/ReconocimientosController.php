@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\Usuarios\Usuarios;
 use App\Models\Insignias\PuntosModel; // para cambiar el nombre de los puntos 
 use App\Models\Categorias\Comportamiento;
+use App\Models\RecibeCatMoldel\Comentarios;
+use App\Models\RecibeCatMoldel\Emoticones;
+use App\Models\Insignias\InsigniasModel; 
 use  Session;
 
 class ReconocimientosController extends Controller
@@ -25,133 +28,254 @@ class ReconocimientosController extends Controller
     public function enviar(){
       return redirect('/reconocimientos/usuario');
     }
-
-   public function reporteinsig(){
-        //consultar reconocimientos recibidos
-        $idlog=auth()->id();
-        $nompuntos = PuntosModel::findOrFail(1);
-        //validdar que existan datos
-        $dval=DB::table('catrecibida')->where('catrecibida.id_user_recibe', '=', $idlog)->count();
-        if($dval!=0){
-                    $esta=1;
-                    $recibidos = DB::table('catrecibida')
-                      ->where('catrecibida.id_user_recibe', '=', $idlog)
-                      ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
-                      ->selectRaw('catrecibida.id_user_recibe, users.name as nombre, users.apellido as ape, 
-                      SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5')
-                      ->groupBy('id_user_recibe')
-                      ->get();
-                    $categoria=DB::table('comportamiento_categ')->get();
-                    $detalle = DB::table('catrecibida')
-                      ->where('catrecibida.id_user_recibe', '=', $idlog)
-                      ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
-                      ->join('users as usu', 'catrecibida.id_user_envia', '=', 'usu.id')
-                      ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
-                      ->join('categoria_reconoc', 'catrecibida.id_comportamiento', '=', 'categoria_reconoc.id')
-                      ->select('catrecibida.id as idcat', 'catrecibida.id_user_recibe', 'catrecibida.detalle as det', 'users.name as nomrecibe', 'usu.name as nomenvia', 'usu.apellido as apenvia', 'comportamiento_categ.descripcion as descat',
-                                'categoria_reconoc.nombre as comportamiento', 'catrecibida.puntos', 'catrecibida.fecha')
-                      ->get();
-                
-                    $puntos =DB::table('catrecibida')
-                    ->where('catrecibida.id_user_recibe', '=', $idlog)
-                    ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
-                    ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
-                    ->selectRaw('comportamiento_categ.descripcion as nom, SUM(catrecibida.puntos) as p')
-                    ->groupBy('id_categoria')
-                    ->get();
-
-            //return 
-            
-        }//llave cierre del div
-        else{
-          $esta=0;
-          $recibidos="sin datos";
-          $categoria="sin datos";
-          $detalle="sin datos";
-          $puntos="sin datos";
+   //filtrar todos los reconocimientos recibidos
+   private function reconocimientosRecibidos($idlog, $fecini = null, $fecfin = null){
+       $query = RecibirCat::where('catrecibida.id_user_recibe', '=', $idlog)
+              ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
+              ->join('users as usu', 'catrecibida.id_user_envia', '=', 'usu.id')
+              ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+              ->join('categoria_reconoc', 'catrecibida.id_comportamiento', '=', 'categoria_reconoc.id')
+              ->select('catrecibida.id as idcat', 'catrecibida.id_user_recibe', 'catrecibida.detalle as det', 'users.name as nomrecibe', 'usu.name as nomenvia', 'usu.apellido as apenvia', 'comportamiento_categ.descripcion as descat',
+                        'categoria_reconoc.nombre as comportamiento', 'catrecibida.puntos', 'catrecibida.fecha', 'comportamiento_categ.rutaimagen as img', 'usu.imagen as fperfil');
+        //comparar si existe las fechas inicial y final    
+        if ($fecini && $fecfin) {
+                $query->whereBetween('catrecibida.fecha', [$fecini, $fecfin]);
         }
-        return view('user.reporteinsignias')->with('recibidos', $recibidos)->with('categoria', $categoria)->with('detalle', $detalle)->with('puntos', $puntos)->with('esta', $esta)->with('nompuntos', $nompuntos);
+      $detalle = $query->orderBy('catrecibida.fecha', 'DESC')->get();
+      return $detalle;
    }
-           //////////
-           //////////
+   //============= filtrar todos los comentarios ========
+   private function comentariosEnc($idlog, $fecini = null){
+    $fechanow = Carbon::now()->format('Y-m-d');
+    $comentariosquery = Comentarios::join('catrecibida', 'comentarioshistoy.idrec', '=', 'catrecibida.id')
+                  ->join('users', 'comentarioshistoy.idusu', '=', 'users.id')
+                  ->where('catrecibida.id_user_recibe', $idlog)
+                  ->select('comentarioshistoy.comentario', 'catrecibida.id as idrec', 'users.name as nombre', 'users.apellido as apellido', 'users.imagen', 'comentarioshistoy.idusu', 'comentarioshistoy.created_at as fec');
 
-
-   public function reporte_reconocimiento(){
-        $idlog=auth()->id();
-        //validar si una persona tiene insignias 
-        $validar=DB::table('insignia_obtenida')->where('insignia_obtenida.id_usuario', '=', $idlog)->count();
-       if($validar!=0){
-              $b=1;
-              $rec = DB::table('insignia_obtenida')->where('insignia_obtenida.id_usuario', '=', $idlog)
+    $emoticonesquery = Emoticones::join('catrecibida', 'emoticones.idrec', '=', 'catrecibida.id')
+                  ->where('catrecibida.id_user_recibe', $idlog)
+                  ->select('emoticones.idrec', 'emoticones.idemot', 'emoticones.created_at', DB::raw('COUNT(*) as count'));
+    if ($fecini) {
+        $comentariosquery->whereBetween('comentarioshistoy.created_at', [$fecini, $fechanow]);
+        $emoticonesquery->whereBetween('emoticones.created_at', [$fecini, $fechanow]);
+    }
+    $comentarios = $comentariosquery->orderBy('comentarioshistoy.created_at', 'DESC')->get();
+    $emoticones = $emoticonesquery
+                  ->groupBy('emoticones.idrec', 'emoticones.idemot', 'emoticones.created_at')
+                  ->orderBy('emoticones.idrec')
+                  ->orderBy('emoticones.idemot')
+                  ->get();
+    return [
+              'comentarios' => $comentarios,
+              'emoticones' => $emoticones
+           ];
+   }
+   // total de reconocimientos recibidos
+   public function totreconocimientos($idlog,  $mesActual=null, $anioActual=null){
+          $recibidos = RecibirCat::where('catrecibida.id_user_recibe', '=', $idlog)
+                        ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
+                        ->selectRaw('catrecibida.id_user_recibe, users.name as nombre, users.apellido as ape, 
+                        SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5')
+                        ->groupBy('id_user_recibe')
+                        ->get();
+          //============== reconocimientos recibidos en el mes actual ==============
+          $rmes = RecibirCat::where('catrecibida.id_user_recibe', '=', $idlog)
+                  ->whereMonth('catrecibida.created_at', $mesActual)
+                  ->whereYear('catrecibida.created_at', $anioActual)
+                  ->count();
+          return [
+                    'recibidos' => $recibidos,
+                    'rmes' => $rmes
+                ];
+   }
+   //=========================================
+  private function usuReacciones($usu){
+    $res = DB::table('emoticones')
+        ->join('users', 'emoticones.iduser', '=', 'users.id')
+        ->join('catrecibida', 'emoticones.idrec', '=', 'catrecibida.id')
+        ->where('catrecibida.id_user_recibe', $usu)
+        ->select('idrec', 'idemot', 'emoticon', 'iduser', 'users.name', 'users.apellido')
+        ->orderBy('idrec')
+        ->get();
+    return $res;
+   }
+   //============= funcion para retornar los reconocimientos =============
+   private function reporte_reconocimiento($idlog, $mesActual, $anioActual, $fecini=Null, $fecfin=Null){
+        $recquery = ReconocimientosModal::where('insignia_obtenida.id_usuario', '=', $idlog)
                       ->join('insignia','insignia_obtenida.id_insignia','=','insignia.id')
-                      //se debe cambiar la categoria_reconoc por comportamiento_categ en la tabla de la base de datos
-                      ->join('users','insignia_obtenida.id_usuario','=','users.id')
                       ->join('premios', 'insignia.id_premio', '=', 'premios.id')
                       ->select('insignia.puntos as puntosin', 'insignia_obtenida.id as idinsig',
-                        'insignia.name as nominsig', 'insignia_obtenida.fecha', 'insignia_obtenida.puntos_acumulados', 
+                        'insignia.name as nominsig', 'insignia_obtenida.fecha', 'insignia_obtenida.created_at', 'insignia_obtenida.puntos_acumulados', 
                         'insignia.descripcion as catinsign', 'insignia.rutaimagen as imginsig',
-                        'premios.descripcion as nompremio', 'premios.rutaimagen as imgpremio', 'premios.name as despremio', 
-                        'users.name as nomusu', 'users.apellido as apeusu')
-                      ->get();
-          //consultar las insignias para colocar la estrella
-              $insign = DB::table('insignia_obtenida')->where('insignia_obtenida.id_usuario', '=', $idlog)
-                      ->join('users', 'insignia_obtenida.id_usuario', '=', 'users.id')
-                      ->join('insignia','insignia_obtenida.id_insignia','=','insignia.id')
-                      ->selectRaw('insignia.name as nom, insignia.descripcion as des, insignia.rutaimagen')
-                      ->get();
-                      //return $insign;
+                        'premios.descripcion as nompremio', 'premios.rutaimagen as imgpremio', 'premios.name as despremio', 'insignia_obtenida.entregado');
+        if ($fecini) {
+          $recquery->whereBetween('insignia_obtenida.created_at', [$fecini, $fecfin]);
+        }
+        $rec = $recquery->orderBy('insignia_obtenida.created_at', 'DESC')->get();
+        //=== total de insignias obtenidas en el mes ===========
+        $inmes = ReconocimientosModal::where('insignia_obtenida.id_usuario', '=', $idlog)
+                      ->whereMonth('created_at', $mesActual)
+                      ->whereYear('created_at', $anioActual)
+                      ->count();
+        // =========== insignias a obtener ===================
+        $insobtener = InsigniasModel::join('premios', 'id_premio', '=', 'premios.id')
+                      ->select('insignia.id', 'insignia.name', 'insignia.descripcion', 'insignia.rutaimagen as imgin', 'insignia.puntos', 'premios.name as despre')
+                      ->orderBy('insignia.id', 'ASC')->get();
+        return [
+                'rec' => $rec,
+                'inmes' => $inmes,
+                'insobtener' => $insobtener
+              ];
+    }
+   //=========================================
+   public function reporteinsig(){
+        //consultar reconocimientos recibidos
+        $mesActual = Carbon::now()->month;
+        $mesActualNombre = Carbon::now()->format('F');
+        $anioActual = Carbon::now()->year;
+        $fecha = Carbon::now()->format('Y-m-d');
+        $idlog=auth()->id();
+        $nompuntos = PuntosModel::findOrFail(1);
+        $fecini = '';
+        $fecfin = '';
+        //variables 
+        $esta=0;
+        $recibidos="sin datos";
+        $categoria="sin datos";
+        $detalle="sin datos";
+        $puntos="sin datos";
+        $comentarios = '';
+        $usureac = '';
+        // retornar las recompensas 
+        $reconocimientosquery = $this->reporte_reconocimiento($idlog, $mesActual, $anioActual);
+        $reconocimientos = $reconocimientosquery['rec'];
+        $inmes = $reconocimientosquery['inmes'];
+        $insobtener = $reconocimientosquery['insobtener'];
+        //validdar que existan datos
+        $dval=RecibirCat::where('catrecibida.id_user_recibe', '=', $idlog)->count();
+        if($dval!=0){
+                    $esta=1;
+                    $categoria=Comportamiento::all();
+                    //============ informacion de tarjetas ==========
+                    $recibidosquery =  $this->totreconocimientos($idlog, $mesActual, $anioActual);
+                    $recibidos = $recibidosquery['recibidos'];
+                    $rmes = $recibidosquery['rmes'];
+                    //================================================
+                    $detalle = $this->reconocimientosRecibidos($idlog);
+                    $resultado = $this->comentariosEnc($idlog);
+                    $comentarios = $resultado['comentarios'];
+                    $emoticones = $resultado['emoticones'];
+                    //========= obtener todas las reacciones ================
+                    $usureac = $this->usuReacciones($idlog);       
+        }//llave cierre del div
+        return view('user.reporteinsignias')->with(['recibidos' => $recibidos, 'categoria' => $categoria, 'detalle' => $detalle, 'fecini' => $fecini, 'fecfin' => $fecfin,
+          'reconocimientos' => $reconocimientos, 'esta' => $esta, 'nompuntos' => $nompuntos, 'fecha' => $fecha, 'usureac' => $usureac, 'comentarios' => $comentarios, 'emoticones' => $emoticones,
+          'rmes' => $rmes, 'mes' => $mesActualNombre, 'inmes' => $inmes, 'insobtener'=>$insobtener]);
+      
+  }
 
-       }else{
-       
-          $rec="Sin datos";
-          $insign="sin datos";
-          $b=0;
-       }
+//filtrar los dfatos de los reconocimientos obtenidos por fecha
+public function filtrarReconocimientos(Request $request){
+  $fecini = $request->fecini;
+  $fecfin = $request->fecfin;
+  $idlog=auth()->id();
+  //==============================
+  $mesActual = Carbon::now()->month;
+  $mesActualNombre = Carbon::now()->format('F');
+  $anioActual = Carbon::now()->year;
+  $fecha = Carbon::now()->format('Y-m-d');
+  $nompuntos = PuntosModel::findOrFail(1);
+  $esta = 0;
+  //=== obtener los reconocimientos ===
+  $reconocimientosquery = $this->reporte_reconocimiento($idlog, $mesActual, $anioActual, $fecini, $fecfin);
+  $reconocimientos = $reconocimientosquery['rec'];
+  $inmes = $reconocimientosquery['inmes'];
+  $insobtener = $reconocimientosquery['insobtener'];
+  //=============================
+  $dval = RecibirCat::where('catrecibida.id_user_recibe', '=', $idlog)->count();
+  if($dval !=0 ){
+     $esta = 1;
+     $categoria=Comportamiento::all();
+     $recibidosquery =  $this->totreconocimientos($idlog, $mesActual, $anioActual);
+     $recibidos = $recibidosquery['recibidos'];
+     $rmes = $recibidosquery['rmes'];
+     //====================
+     $detalle = $this->reconocimientosRecibidos($idlog, $fecini, $fecfin);
+     $resultado = $this->comentariosEnc($idlog, $fecini);
+     $comentarios = $resultado['comentarios'];
+     $emoticones = $resultado['emoticones'];
+     $usureac = $this->usuReacciones($idlog);
 
-    return view('reconocimientos.listar')->with('rec',$rec)->with('insign',$insign)->with('b',$b);
+     return view('user.reporteinsignias')->with(['recibidos' => $recibidos, 'categoria' => $categoria, 'detalle' => $detalle, 'fecini' => $fecini, 'fecfin' => $fecfin, 'reconocimientos' => $reconocimientos,
+      'esta' => $esta, 'nompuntos' => $nompuntos, 'fecha' => $fecha, 'usureac' => $usureac, 'comentarios' => $comentarios, 'emoticones' => $emoticones, 'rmes' => $rmes, 'mes' => $mesActualNombre, 'inmes' => $inmes, 'insobtener'=>$insobtener]);
+    
+  }
+  return back();
 }
-  public function listarrec(){
-      $valcateg=DB::table('comportamiento_categ')->count();
+   
+ /* public function listarrec(){
+      $valcateg=Comportamiento::count();
       $nompuntos = PuntosModel::findOrFail(1); // nombre para los puntos
+      $uselogeado=auth()->id(); 
       if($valcateg){//valida que por lo menos haya 5 categorias registradas puesto que las tablas donde se asignan los puntos a categoria solamente esta para 5 campos
-              $v=DB::table('comportamiento_categ')->count();
+              $v=Comportamiento::count();
             if($v>1){
               $b=1;
-              $categoria=DB::table('comportamiento_categ')->where('comportamiento_categ.descripcion', '!=', 'Default')->get();
+              $categoria=Comportamiento::where('comportamiento_categ.descripcion', '!=', 'Default')->get();
             }else{
               $b=0;
-              $categoria=DB::table('comportamiento_categ')->get();
+              $categoria=Comportamiento::get();
             }
-            //$usu =DB::table('users')->where('users.id', '=', $id)->get();
-            $uselogeado=auth()->id(); 
-            $usuarios=DB::table('users')->where('users.id', '!=', $uselogeado)->where('users.id_rol', '!=', 1)->get();
-            $cat = DB::table('categoria_reconoc')->get();
+            $usuarios=Usuarios::where('users.id', '!=', $uselogeado)->where('users.id_rol', '!=', 1)->get();
+            //$cat = DB::table('categoria_reconoc')->get();
             /////################################################
-            $contarusu=DB::table('users')->MAX('users.id');
-            $rand = range(2, $contarusu); //obtiene numeros sin repetirse
-            shuffle($rand); //intercala los numeros sin repetirse
-            $totdatos = DB::table('users')->count(); //contar los datos para iterar nuevo random
-            $totdatos = $totdatos-1;
-            $posrand = rand(0, $totdatos);
-            $numberid = $rand[0];         
+            //$contarusu=DB::table('users')->MAX('users.id');
+            //$rand = range(2, $contarusu); //obtiene numeros sin repetirse
+            //shuffle($rand); //intercala los numeros sin repetirse
+            //$totdatos = DB::table('users')->count(); //contar los datos para iterar nuevo random
+            //$totdatos = $totdatos-1;
+            //$posrand = rand(0, $totdatos);
+            //$numberid = $rand[0];         
             //$numberid = mt_Rand(1, $contarusu);
-            $val=DB::table('users')->where('users.id', '=', $numberid)->count();
-            if($val != 0){
-                  $c=1;
-                  $usuazar=DB::table('users')->where('users.id', '=', $numberid)->where('users.id', '!=', $uselogeado)->get();
-              }else{
-              $c=0;
-              $usuazar="sin datos";
-          }
-          return view('reconocimientos.listrec')->with('cat', $cat)->with('usu', $usuarios)->with('categoria', $categoria)->with('b', $b)->with('usuazar',$usuazar)->with('c',$c)->with('nompuntos', $nompuntos);
+            //$val=DB::table('users')->where('users.id', '=', $numberid)->count();
+            //if($val != 0){
+            //      $c=1;
+             //     $usuazar=DB::table('users')->where('users.id', '=', $numberid)->where('users.id', '!=', $uselogeado)->get();
+             // }else{
+             // $c=0;
+             // $usuazar="sin datos";
+          // }
+          return view('reconocimientos.listrec')->with('usu', $usuarios)->with('categoria', $categoria)->with('b', $b)->with('nompuntos', $nompuntos);
             /////##############################################
       }else{//sino hay mas de 5 registros solamente retornara un mensaje registre categorias 
         Session::flash('messajeinfo', 'Por Favor Registre Almenos Cinco Categorias!'); 
         return back();
+      }     
+  }  */
+
+public function listarrec(){
+      $valcateg = Comportamiento::count();
+      $nompuntos = PuntosModel::findOrFail(1); // nombre para los puntos
+      $uselogeado = auth()->id(); 
+      if ($valcateg > 0) { // Validar que haya al menos 5 categorías registradas  
+          
+          $categoria = Comportamiento::all(); // categorias
+          $usuarios = Usuarios::where('id', '!=', $uselogeado)
+                              ->where('id_rol', '!=', 1)
+                              ->select('id', 'name', 'apellido', 'imagen')
+                              ->get();
+                              
+          return view('reconocimientos.listrec')
+                  ->with('usu', $usuarios)
+                  ->with('categoria', $categoria)
+                  ->with('nompuntos', $nompuntos);
+      } else {
+          // Si no hay más de 5 registros, retorna un mensaje para registrar categorías
+          Session::flash('messajeinfo', '¡Por favor registre al menos cinco categorías!'); 
+          return back();
       }
-      
-      
-  }  
+  }
+  
   
   //funcion para reutilizar
   private function obtenerInsig($idinsig){

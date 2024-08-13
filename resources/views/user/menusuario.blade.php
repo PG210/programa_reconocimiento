@@ -27,33 +27,18 @@
             </a>
           </li> 
           <li class="nav-item">
-            <a href="#" class="nav-link ">
+            <a href="{{route('listareconocer')}}" class="nav-link @if(Request::is('reconocimientos/usuario')) active ver @endif">
               <i class="nav-icon fas fa-award"></i>
               <p>
-                Reconocer
-                <i class="right fas fa-angle-left"></i>
+                Enviar
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{route('listareconocer')}}" class="nav-link @if(Request::is('reconocimientos/usuario')) active ver @endif">
-                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp;<p>Enviar</p>
-                </a>
-              </li>
-              <li class="nav-item">
-               <a href="{{route('reporteinsignias')}}" class="nav-link @if(Request::is('reporte/insignias')) active @endif">
-                 &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                 &nbsp;<p>Reconocimiento</p>
-               </a>
-             </li>  
-            </ul>
           </li>
           <li class="nav-item">
-            <a href="{{route('reporte_re')}}" class="nav-link @if(Request::is('reconocimientos/listar')) active @endif">
+            <a href="{{route('reporteinsignias')}}" class="nav-link @if(Request::is('reporte/insignias')) active @endif">
               <i class="nav-icon fas fa-trophy"></i>
               <p>
-                Recompensas
+                Reconocimientos
               </p>
             </a>
           </li>

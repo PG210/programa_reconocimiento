@@ -11,6 +11,7 @@ use App\Models\Categorias\Categoria_reco;
 use App\Models\Categorias\Premios;
 use App\Models\Insignias\PuntosModel; // para cambiar el nombre de los puntos
 use App\Models\Reconocimientos\ReconocimientosModal;
+use Intervention\Image\Facades\Image; // optimizar las imagenes
 use Session;
 
 class InsigniasController extends Controller
@@ -94,20 +95,35 @@ public function modpuntos(Request $request){
             $file = $request->file('img');
             $val = "insignia".time().".".$file->guessExtension();
             $ruta = public_path("imgpremios/".$val);
-            copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
-                $category->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
-                $category->name = $request->input('nombre');
-                $category->descripcion = $request->input('descripcion');
-                $category->id_premio = $request->input('premio');     
-                $category->puntos = $request->input('puntos'); 
-                if(strpos($idcat, 'puntos') === false){
-                    $category->id_categoria = $idcat; // si no esta la palabra puntos
-                }else{
-                    $category->tipo = 1;  //si es una insignia de puntos
-                }
-                $category->save();
-           }
-           return back();
+
+            // Crear una instancia de la imagen y redimensionarla si es necesario
+            $img = Image::make($file->getRealPath());
+
+            // Redimensionar la imagen si es necesario
+            $img->resize(400, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            
+            // Optimizar la imagen ajustando la calidad (70% en este ejemplo) y manteniendo la extensión original
+            $img->encode($file->guessExtension(), 80);
+
+            // Guardar la imagen optimizada en la ruta especificada
+            $img->save($ruta);
+
+            $category->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
+            $category->name = $request->input('nombre');
+            $category->descripcion = $request->input('descripcion');
+            $category->id_premio = $request->input('premio');     
+            $category->puntos = $request->input('puntos'); 
+            if(strpos($idcat, 'puntos') === false){
+                $category->id_categoria = $idcat; // si no esta la palabra puntos
+            }else{
+                $category->tipo = 1;  //si es una insignia de puntos
+            }
+            $category->save();
+        }
+        return back();
     }
     //===========eliminar las insignias ============
     public function deleteinsig($id){
@@ -152,25 +168,33 @@ public function modpuntos(Request $request){
     }
 
     public function actupremion(Request $request, $id){
-           $pre = Premios::findOrfail($id);//buscar el id del producto para actualizar  
+       
+        $pre = Premios::findOrfail($id);//buscar el id del producto para actualizar  
         
         if($request->hasFile('img')){                 
             $file = $request->file('img');
             $val = "premio".time().".".$file->guessExtension();
             $ruta = public_path("imgpremios/".$val);
-           // if($file->guessExtension()=="pdf"){
-            copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
-            $pre->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
-            $pre->name = $request->input('nombre');
-            $pre->descripcion = $request->input('des');
-            $pre->save();
-           
-        }else{
-            $pre->name = $request->input('nombre');
-            $pre->descripcion = $request->input('des');
-            $pre->save();
+            // Crear una instancia de la imagen
+            $img = Image::make($file->getRealPath());
 
+            // Redimensionar la imagen si es necesario
+            $img->resize(400, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            
+            // Optimizar la imagen ajustando la calidad (70% en este ejemplo) y manteniendo la extensión original
+            $img->encode($file->guessExtension(), 80);
+
+            // Guardar la imagen optimizada en la ruta especificada
+            $img->save($ruta);
+
+            $pre->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
         }
+        $pre->name = $request->input('nombre');
+        $pre->descripcion = $request->input('des');
+        $pre->save();
         Session::flash('actualizadopre', 'Recompensa Actualizada Correctamente!');
         return back();
     }
@@ -210,8 +234,22 @@ public function modpuntos(Request $request){
             $file = $request->file('img');
             $val = "insignia".time().".".$file->guessExtension();
             $ruta = public_path("imgpremios/".$val);
-           // if($file->guessExtension()=="pdf"){
-            copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
+            
+            // Crear una instancia de la imagen y redimensionarla si es necesario
+            $img = Image::make($file->getRealPath());
+
+            // Redimensionar la imagen si es necesario
+            $img->resize(400, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+
+             // Optimizar la imagen ajustando la calidad (70% en este ejemplo) y manteniendo la extensión original
+            $img->encode($file->guessExtension(), 80);
+
+            // Guardar la imagen optimizada en la ruta especificada
+            $img->save($ruta);
+
             $ins->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos   
            }
             $ins->name = $request->input('nombre');

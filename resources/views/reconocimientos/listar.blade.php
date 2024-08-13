@@ -24,7 +24,7 @@
                 </button>
               </div>
               <div class="col-6">
-                <a href="{{route('visinsignias')}}" type="button" class="btn float-right"><i class="fas fa-list-alt" style="color:#5959D1; font-size: 22px;"></i></a>
+              
                </div>
              </div>
             </h2>

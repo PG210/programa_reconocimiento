@@ -9,5 +9,10 @@ class EstavotModel extends Model
 {
     protected $table = 'estavotacion';
     protected $primaryKey = 'id';//tiene que hacer referencia a la llave primaria  
+
+    public function RegVotoModel()
+    {
+        return $this->hasMany(RegVotoModel::class, 'id_estado', 'id');
+    }
 }
 

@@ -16,6 +16,7 @@ use App\Http\Controllers\JefesController\Jefescon;
 use App\Http\Controllers\VotacionController\VotacionControl;
 use App\Http\Controllers\ImportacionController\Importacion;
 use App\Http\Controllers\MensajesController\MensajesControl;
+use App\Http\Controllers\Comunicacion\ComunicacionController; //ruta para comunicacion
 
 /*
 |--------------------------------------------------------------------------
@@ -57,11 +58,11 @@ Route::get('/contacto', function () {
 //ruta para retornar al dahboard
 Route::get('/dashboard', [Inicio::class, 'dash'])->middleware(['auth'])->name('dashboard');
 
-Route::get('/inicio', [Inicio::class, 'index'])->name('inicio');
+Route::get('/inicio', [Inicio::class, 'index'])->middleware(['auth'])->name('inicio');
 
-Route::get('/perfil', [Perfil::class, 'index'])->name('perfil');
-Route::get('/perfil/actualizar', [Perfil::class, 'editar'])->name('usuarioeditar');
-Route::post('/perfil/actualizar', [Perfil::class, 'guardar'])->name('datosper');
+Route::get('/perfil', [Perfil::class, 'index'])->middleware(['auth'])->name('perfil');
+Route::get('/perfil/actualizar', [Perfil::class, 'editar'])->middleware(['auth'])->name('usuarioeditar');
+Route::post('/perfil/actualizar', [Perfil::class, 'guardar'])->middleware(['auth'])->name('datosper');
 
 
 Route::get('/reconocimientos/enviar', [ReconocimientosController::class, 'enviar'])->middleware(['auth'])->name('enviar');
@@ -92,15 +93,17 @@ Route::post('/actualizar/cambios/{id}', [CategoriasController::class, 'actucat']
 Route::get('/delete/comportamiento/{id}', [CategoriasController::class, 'deleteCom'])->middleware(['auth', 'admin'])->name('deleteCom');
 //buscar
 //Route::get('posts',[PostController::class, 'index'])->name('posts.index');
-Route::get('posts/search',[PostController::class, 'search'])->name('posts.search');
-Route::get('posts/show',[PostController::class, 'show'])->name('posts.show');
+Route::get('posts/search',[PostController::class, 'search'])->name('posts.search')->middleware(['auth']);
+Route::get('posts/show',[PostController::class, 'show'])->name('posts.show')->middleware(['auth']);
 
 //reporte insignias enviadas usuario 
-Route::get('/reporte/insignias',[ReconocimientosController::class, 'reporteinsig'])->name('reporteinsignias');
+Route::get('/reporte/insignias',[ReconocimientosController::class, 'reporteinsig'])->middleware(['auth'])->name('reporteinsignias');
+//filltrar reconocimietos 
+Route::post('/reporte/insignias/filter',[ReconocimientosController::class, 'filtrarReconocimientos'])->middleware(['auth'])->name('filtrarReconocimientos');
 
 //ruta reconocimiento
-Route::get('/reconocimientos/listar', [ReconocimientosController::class, 'reporte_reconocimiento'])->name('reporte_re');
-Route::get('/reconocimientos/usuario', [ReconocimientosController::class, 'listarrec'])->name('listareconocer');
+Route::get('/reconocimientos/listar', [ReconocimientosController::class, 'reporte_reconocimiento'])->middleware(['auth'])->name('reporte_re');
+Route::get('/reconocimientos/usuario', [ReconocimientosController::class, 'listarrec'])->middleware(['auth'])->name('listareconocer');
 
 
 //envia reconocimiento de categoria
@@ -149,31 +152,31 @@ Route::get('/grupo/metricas/{id}', [Inicio::class, 'metricas'])->middleware(['au
 Route::post('/update/puntos', [InsigniasController::class, 'modpuntos'])->middleware(['auth', 'admin'])->name('modpuntos');
 
 //notificaciones cambiar estado
-Route::get('notificacion/estado/{id}', [Notificar::class, 'estado'])->name('notificaciones');
+Route::get('notificacion/estado/{id}', [Notificar::class, 'estado'])->middleware(['auth'])->name('notificaciones');
 //eliminar notificacion
-Route::get('notificacion/eliminar/{id}', [Notificar::class, 'eliminar']);
+Route::get('notificacion/eliminar/{id}', [Notificar::class, 'eliminar'])->middleware(['auth']);
 //leer notificacion de insignias
-Route::get('notificacion/insignia/estado/{id}', [Notificar::class, 'leer']);
-Route::get('notificacion/eliminar/insignia/{id}', [Notificar::class, 'elimarinsig']);
+Route::get('notificacion/insignia/estado/{id}', [Notificar::class, 'leer'])->middleware(['auth']);
+Route::get('notificacion/eliminar/insignia/{id}', [Notificar::class, 'elimarinsig'])->middleware(['auth']);
 
 Route::get('notificacion/vista/correo', [Notificar::class, 'correo']);
 
 //vista reporte para jefes
-Route::get('/reporte/recompensas', [Reportes::class, 'index'])->middleware(['jefe'])->name('recompensas_obtenidas');
-Route::get('/entregar/{id}', [Reportes::class, 'cambiar_estado'])->middleware(['jefe'])->name('entregar');
-Route::get('/listado/entregados', [Reportes::class, 'consultar_entregados'])->middleware(['jefe'])->name('entregados');
+Route::get('/reporte/recompensas', [Reportes::class, 'index'])->middleware(['auth', 'jefe'])->name('recompensas_obtenidas');
+Route::get('/entregar/{id}', [Reportes::class, 'cambiar_estado'])->middleware(['auth', 'jefe'])->name('entregar');
+Route::get('/listado/entregados', [Reportes::class, 'consultar_entregados'])->middleware(['auth', 'jefe'])->name('entregados');
 
 //aqui reporte de insignias_con recompensas
-Route::get('/reporte/insignias/excel/{id}', [Reportes::class, 'reporte_recompensas'])->middleware(['jefe']);
+Route::get('/reporte/insignias/excel/{id}', [Reportes::class, 'reporte_recompensas'])->middleware(['auth', 'jefe']);
 
 //vincular jefes para reportes
-Route::get('/admin/vincular/jefes', [Jefescon::class, 'index'])->middleware(['admin'])->name('vincular_jefes');
-Route::post('/admin/vincular/jefes', [Jefescon::class, 'registrar'])->middleware(['admin'])->name('vinjefes');
-Route::get('/eliminar/jefes/{id}', [Jefescon::class, 'eliminar'])->middleware(['admin']);
+Route::get('/admin/vincular/jefes', [Jefescon::class, 'index'])->middleware(['auth', 'admin'])->name('vincular_jefes');
+Route::post('/admin/vincular/jefes', [Jefescon::class, 'registrar'])->middleware(['auth', 'admin'])->name('vinjefes');
+Route::get('/eliminar/jefes/{id}', [Jefescon::class, 'eliminar'])->middleware(['auth', 'admin']);
 
 //informe gerente
-Route::get('/gerente/informe/{id}', [Jefescon::class, 'vista_gen'])->middleware(['gerente'])->name('informe_gerente');
-Route::get('/gerente/insignias/excel/{id}', [Jefescon::class, 'gerente_excel'])->middleware(['gerente']);
+Route::get('/gerente/informe/{id}', [Jefescon::class, 'vista_gen'])->middleware(['auth', 'gerente'])->name('informe_gerente');
+Route::get('/gerente/insignias/excel/{id}', [Jefescon::class, 'gerente_excel'])->middleware(['auth', 'gerente']);
 
 //visualizar insignias que pueden ganar
 Route::get('/reporte/visualizar/recompensas', [InsigniasController::class, 'reporte'])->middleware(['auth'])->name('visinsignias');
@@ -192,21 +195,21 @@ Route::get('/deshab/votacion/{id}/{val}', [VotacionControl::class, 'desvot'])->m
 Route::post('/filtrar/votos', [VotacionControl::class, 'filtrar'])->middleware(['auth'])->name('filtrarVotos');
 Route::post('/votos/categoria', [VotacionControl::class, 'categoria'])->middleware(['auth'])->name('listaVot');
 //importar usuarios
-Route::post('/admin/importar/usuarios', [Importacion::class, 'archivoimpor'])->middleware(['admin'])->name('usuariosImport');
+Route::post('/admin/importar/usuarios', [Importacion::class, 'archivoimpor'])->middleware(['auth', 'admin'])->name('usuariosImport');
 
 //mensajes envio
 Route::get('/mensajes', [MensajesControl::class, 'vista'])->middleware(['auth'])->name('vistamensajes');
 
 //eliminar premio
-Route::get('/eliminar/premio/{id}', [InsigniasController::class, 'elimpremios'])->name('eliminarpremio')->middleware(['admin']);
-Route::get('/actualizar/premio/{id}', [InsigniasController::class, 'actualizarpre'])->name('actualizarpremio')->middleware(['admin']);
-Route::post('/actualizar/premio/form/{id}', [InsigniasController::class, 'actupremion'])->middleware(['admin'])->name('regpremioactu');
+Route::get('/eliminar/premio/{id}', [InsigniasController::class, 'elimpremios'])->name('eliminarpremio')->middleware(['auth', 'admin']);
+Route::get('/actualizar/premio/{id}', [InsigniasController::class, 'actualizarpre'])->name('actualizarpremio')->middleware(['auth', 'admin']);
+Route::post('/actualizar/premio/form/{id}', [InsigniasController::class, 'actupremion'])->middleware(['auth', 'admin'])->name('regpremioactu');
 
 //actualizar insignias
-Route::get('/actualizar/insignias/{id}', [InsigniasController::class, 'vistainsig'])->name('actualizarinsignia')->middleware(['admin']);
+Route::get('/actualizar/insignias/{id}', [InsigniasController::class, 'vistainsig'])->name('actualizarinsignia')->middleware(['auth', 'admin']);
 // delete insignias 
-Route::get('/delete/insignias/{id}', [InsigniasController::class, 'deleteinsig'])->name('deleteinsignia')->middleware(['admin']);
-Route::post('/actualizar/insignias/datos/{id}', [InsigniasController::class, 'formactuinsig'])->name('registroinsigniasactu')->middleware(['admin']);
+Route::get('/delete/insignias/{id}', [InsigniasController::class, 'deleteinsig'])->name('deleteinsignia')->middleware(['auth', 'admin']);
+Route::post('/actualizar/insignias/datos/{id}', [InsigniasController::class, 'formactuinsig'])->name('registroinsigniasactu')->middleware(['auth', 'admin']);
 
 //================== metricas =======================================
 Route::get('/metricas/ranking', [ReconocimientosController::class, 'metricasranking'])->name('metricasranking')->middleware(['auth']);
@@ -220,11 +223,20 @@ Route::get('/reconocimientos/enviados/admin', [ReconocimientosController::class,
 Route::get('/reacciones', [Inicio::class, 'reacciones'])->name('reacciones')->middleware(['auth']);
 
 //============= comentario  ============
-Route::POST('/comentario', [Inicio::class, 'comentario'])->name('comentario')->middleware(['auth']);
+Route::any('/comentario', [Inicio::class, 'comentario'])->name('comentario')->middleware(['auth']);
 
 Route::get('/correo/not', function () {
     return view('correos.notificacion');
 });
 
+//================== reporte de votaciones =========
+Route::post('/download/votos', [VotacionControl::class, 'excelVotos'])->name('excelVotos')->middleware(['auth']);
+Route::post('/postular/usuarios', [VotacionControl::class, 'postularVot'])->name('postularVot')->middleware(['auth']);
+
+//=========== comunicaciones ===========================
+// Ruta para el controlador de recursos, esto maneja las rutas index, store, show, edit, update, destroy
+Route::resource('comunicacion', ComunicacionController::class)->middleware(['auth']);
+// ruta para publicar
+Route::get('/publicar', [ComunicacionController::class, 'publicar'])->name('publicar')->middleware(['auth']);
 require __DIR__.'/auth.php';
 

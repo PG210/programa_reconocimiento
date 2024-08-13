@@ -1,5 +1,6 @@
 @extends('usuario.principa_usul')
 @section('content')
+@include('usuario.datatables')
 <div class="text-center titulo">
  <h3>GESTIÓN DE USUARIOS </h3>
 </div>
@@ -28,6 +29,25 @@
         </button>
     </div>
     @endif
+       <!-- Mostrar mensajes de éxito -->
+    @if(session('success'))
+        <div class="alert alert-info alert-dismissible fade show letraform" role="alert" id="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+
+    <!-- Mostrar mensajes de error -->
+    @if(session('error'))
+     <div class="alert alert-danger alert-dismissible fade show letraform" role="alert" id="alert">
+        {{ session('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
     <!---carga-->
         <!-- Button trigger modal -->
         <div class="row mt-1">
@@ -41,9 +61,6 @@
                 <!---==========================--->
             </div>
            </div>
-           <div class="col-md-12 col-lg-8">
-                <input type="text" class="form-control" id="searchTerm" onkeyup="doSearch()" placeholder="Buscar...">
-            </div>
             <!---=============================-->
             <div class="collapse mt-2" id="regusuarioindi">
                 <div class="card card-body letraform">
@@ -68,7 +85,7 @@
                             </div>
                             <label for="telefono" class="col-sm-2 col-lg-2 col-form-label">Celular</label>
                             <div class="col-sm-4 col-lg-4">
-                             <input type="text" class="form-control" id="telefono" name="telefono" maxlength="20" minlength="10" pattern="\+[0-9]{10,15}" required>
+                             <input type="text" class="form-control" id="telefono" name="telefono" maxlength="20" minlength="10" pattern="\+[0-9]{10,15}" placeholder="+573109006780" required>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -147,17 +164,14 @@
     <!---buscador -->
     <!--end buscador-->
     <div class="table-responsive mt-2">
-    <table class="table"  id="tablaDate">
+    <table class="table" id="votacion">
               <thead class="tablaheader letraform">
               <tr>
                 <th scope="col">No</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellido</th>
+                <th scope="col">Nombres</th>
                 <th scope="col">Email</th>
-                <th scope="col">Rol</th>
                 <th scope="col">Cargo</th>
                 <th scope="col">Area</th>
-                <th scope="col">Estado</th>
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
@@ -168,61 +182,49 @@
                 @foreach($lista as $c)
                         <tr>
                         <th scope="row">{{$conta++}}</th>
-                        <td>{{$c->name}}</td>
-                        <td>{{$c->apellido}}</td>
+                        <td>{{$c->name}} {{$c->apellido}}</td>
                         <td>{{$c->email}}</td>
-                        <td>{{$c->rol}}</td>
                         <td>{{$c->nomcar}}</td>
                         <td>{{$c->nomarea}}</td>
-                        <td>{{$c->esta}}</td>
                         <td>
-                            <div class="text-center">
-                            <a href="{{route('actualizaruser',$c->id)}}" data-toggle="tooltip" data-placement="bottom"  title="Editar"><i class="nav-icon fas fa-edit" style="color:  #e1b308; font-size:20px;" ></i></a>
-                    <!--#######################################3-->
-                    <?php
-                        if($c->esta == 'habilitado'){
-                            ?>
-                            <a type="button" data-toggle="modal" data-target="#cambiarPro{{$c->id}}" data-placement="bottom"  title="Deshabilitar"><i class="nav-icon fas fa-toggle-on" style="color: #64e108; font-size:20px;"></i></a>
-                            <?php
-                        }else{
-                            ?>
-                            <a type="button" data-toggle="modal" data-target="#cambiarPro{{$c->id}}" data-placement="bottom"  title="Habilitar"><i class="nav-icon fas fa-toggle-off" style="color: #9cbe82; font-size:20px;"></i></a>
-                            <?php
-                        }
-                        ?>
+                         <div class="text-center">
+                         <a href="{{route('actualizaruser',$c->id)}}" data-toggle="tooltip" data-placement="bottom"  title="Editar"><i class="nav-icon fas fa-edit" style="color:  #e1b308; font-size:20px;" ></i></a>
+                        <!--#######################################3-->
+                        @if($c->rol != 'admin')
+                        <a type="button" data-toggle="modal" data-target="#cambiarPro{{ $c->id }}" data-placement="bottom" title="{{ $c->esta == 'habilitado' ? 'Deshabilitar' : 'Habilitar' }}">
+                                <i class="nav-icon fas fa-toggle-{{ $c->esta == 'habilitado' ? 'on' : 'off' }}" style="color: {{ $c->esta == 'habilitado' ? '#64e108' : '#9cbe82' }}; font-size:20px;"></i>
+                        </a>
+                        @endif
                         <!-- Ventana modal para deshabilitar -->
                         <div class="modal fade" id="cambiarPro{{ $c->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header" style="background-color:white !important;">
-                                                <h4 class="modal-title text-center titulo" style="color:black; text-align: center;">
-                                                    <span>¿Modificar el estado "{{$c->esta}}" del Usuario? </span>
-                                                </h4>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button> 
-                                            </div>
-                                            <div class="modal-body mt-2 text-center letraform">
-                                                <strong style="text-align: center !important"> 
-                                                {{ $c->name }} - {{ $c->email}}
-                                                </strong>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a  class="btn confirmar" href="{{ route('cambiarestado', $c->id) }}">Modificar</a>
-                                                <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header" style="background-color:white !important;">
+                                                    <h4 class="modal-title text-center titulo" style="color:black; text-align: center;">
+                                                        <span>¿Modificar el estado "{{$c->esta}}" del Usuario? </span>
+                                                    </h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button> 
+                                                </div>
+                                                <div class="modal-body mt-2 text-center letraform">
+                                                    <strong style="text-align: center !important"> 
+                                                    {{ $c->name }} - {{ $c->email}}
+                                                    </strong>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a  class="btn confirmar" href="{{ route('cambiarestado', $c->id) }}">Modificar</a>
+                                                    <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!---fin ventana deshabilitar--->
+                                    <!---fin ventana deshabilitar--->
 
 
-                    <!---#######################################-->    
+                        <!---#######################################-->    
                         </div>
                         </td>      
-                        </tr>
-                        <tr class='noSearch hide'>
-                            <td colspan="3"></td>
                         </tr>
                     @endforeach
             </tbody>
@@ -233,7 +235,7 @@
 <script>
     setTimeout(function() {
         document.getElementById('alert').style.display = 'none';
-    }, 3000); // 3 segundos en milisegundos
+    }, 5000); // 3 segundos en milisegundos
 
     //=====================
 function togglePasswordVisibility() {
@@ -250,5 +252,12 @@ function togglePasswordVisibility() {
         eyeIcon.classList.add("fa-eye-slash");
     }
 }
+</script>
+<script> 
+  $('#votacion').DataTable({
+      "language": {
+          "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+        },
+  });
 </script>
 @endsection

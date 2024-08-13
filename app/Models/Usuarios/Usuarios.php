@@ -11,4 +11,8 @@ class Usuarios extends Model
    protected $table = 'users';
    protected $primaryKey = "id";//tiene que hacer referencia a la llave primaria  
    
+   public function RegVotoModel()
+   {
+       return $this->hasMany(RegVotoModel::class, 'id_votante', 'id');
+   }
 }

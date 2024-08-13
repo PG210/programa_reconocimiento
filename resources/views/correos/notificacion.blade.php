@@ -15,7 +15,7 @@
         form {
           padding: 1em;
           border: 1px solid #c1c1c1;
-          background-color:#D1FFF8;
+          background-color:#ECE9E9;
           margin-top: 2rem;
           max-width: 600px;
           margin-left: auto;
@@ -86,9 +86,9 @@
     }
     /*Boton de enviar reconocimiento */
     .botonclase {
-      background-color: #edbf5d; /* Green */
+      background-color: #EF464B; /* Green */
       border: none;
-      color: black;
+      color: white;
       border-radius: 10px;
       padding: 8px 15px;
       text-align: center;
@@ -119,7 +119,8 @@
       <td align="center" style="padding:0;">
         <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
           <tr>
-            <td align="center" style="padding:20px 0 20px 0;background:#131535;">
+            <td align="center" style="padding:10px 0 10px 0;background:#6D7274;">
+            <img src="https://asareconoser.evolucion.co/dist/img/logoas.png" alt="Cargando imagen ..." style="height:auto;display:block;" />
             </td>
           </tr>
           <tr>
@@ -128,15 +129,17 @@
                 <tr>
                   <td style="color:#153643;">
                     <h1 style="font-size:18px; font-family: Arial,sans-serif;">
-                    ¡Genial noticia! 🎉 <span style="color:#Ffbd03;">  {{ $datos['nomrecibe'] }} {{ $datos['aperecibe'] }}</span>
+                    ¡Genial noticia! 🎉 <span style="color:#Ffbd03;"> @if(isset($datos)) {{ $datos['nomrecibe'] }} {{ $datos['aperecibe'] }} @endif</span>
                    </h1>
                    <h1 style="font-size:18px; margin:0 0 5px 0; font-family: Arial,sans-serif;">
-                      <span style="color:#Ffbd03;"> {{ $datos['nombre'] }} {{ $datos['apellido'] }} </span> <span style="color:black;">
-                      ha @if($datos['estado'] == 1) 
-                          reaccionado {{$datos['emoticon']}} 
-                         @elseif($datos['estado'] == 2)
-                           comentado {{$datos['emoticon']}},
-                         @endif
+                      <span style="color:#Ffbd03;"> @if(isset($datos)){{ $datos['nombre'] }} {{ $datos['apellido'] }} @endif</span> <span style="color:black;">
+                      ha @if(isset($datos))
+                          @if($datos['estado'] == 1) 
+                            reaccionado {{$datos['emoticon']}} 
+                          @elseif($datos['estado'] == 2)
+                            comentado {{$datos['emoticon']}},
+                          @endif
+                        @endif
                      a tu reconocimiento.</span>
                    </h1>
                   </td>
@@ -152,7 +155,7 @@
                          <form class="form1" style="font-size:16px; font-family:Arial,sans-serif; text-align: justify; border-radius:10px;">
                            <div class="container">
                             <label for="firstName" class="first-name">Reconocimiento: </label>
-                            <label for="firstName" class="first-name">{{ $datos['detalle'] }}</label>
+                            <label for="firstName" class="first-name">@if(isset($datos)){{ $datos['detalle'] }}@endif</label>
                             <br>
                           </div> 
                           <hr>
@@ -167,7 +170,7 @@
                      <h1 style="font-size:18px; margin:0 0 5px 0; font-family: Arial,sans-serif; color:black;">
                         ¡Tu esfuerzo ha sido notado y apreciado!
                      </h1>
-                      <a class="botonclase boton2" href="https://ubuntu.evolucion.co/" target="_blank"> Ve comenta y reacciona </a>
+                      <a class="botonclase boton2" href="https://asareconoser.evolucion.co/" target="_blank"> Ve comenta y reacciona </a>
                      </div>
                   </td>
                 </tr>
@@ -176,14 +179,14 @@
           </tr>
           <tr>
            
-            <td style="padding:30px; background:#131535;">
+            <td style="padding:30px; background-color:#EF464B;">
               <table role="presentation" style="width:100%; border-collapse:collapse; border:0; border-spacing:0; font-size:9px; font-family:Arial,sans-serif;">
                 <tr>
                   <td style="padding:0;width:50%;" align="left">
                     <a href="https://www.evolucion.co/" target="_blank" style="margin:0; font-size:14px; line-height:16px; font-family:Arial,sans-serif; color:white;">
                       &reg; Evolución, 2024<br/>
                    </a>
-                   <label style="margin:0; font-size:14px; line-height:16px; font-family:Arial,sans-serif; color:white;" >{{date ('Y-m-d', strtotime($datos['fecha']))}}</label>
+                   <label style="margin:0; font-size:14px; line-height:16px; font-family:Arial,sans-serif; color:white;" >@if(isset($datos)){{date ('Y-m-d', strtotime($datos['fecha']))}}@endif</label>
                   </td>
                 </tr>
               </table>

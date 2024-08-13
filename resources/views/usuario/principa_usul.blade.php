@@ -7,17 +7,43 @@
   <link rel="icon" href="{{asset('dist/img/favicon.png')}}">
   @include('usuario.stylecss')
   @include('usuario.letras')
+  <style>
+        .info-contenedor {
+            border: 2px solid #032F5B; /* Cambia el color del borde según tu preferencia */
+            box-shadow: 2px 2px 5px 1px rgba(213, 214, 215, 0.4); /* Sombra */
+            border-radius: 7px; /* Opcional: Bordes redondeados */
+            padding: 0px; /* Opcional: Espaciado interior */
+            margin: 0px; /* Opcional: Espaciado exterior */
+        }
+  </style>
+  <?php
+    use App\Models\RecibeCatMoldel\RecibirCat;
+    use App\Models\Reconocimientos\ReconocimientosModal;
+
+    $idusu = Auth::user()->id;
+    $totreconocimiento = RecibirCat::where('id_user_recibe', '=', $idusu)->count(); //total de reconocimientos
+    
+    $totrecom = ReconocimientosModal::where('id_usuario', '=', $idusu)->count(); // insignias obtenidas
+
+    $valor = RecibirCat::where('id_user_recibe', '=', $idusu)->selectRaw('SUM(puntos) as p')->get();
+
+    if(empty($valor[0]->p)){
+      $totpuntos = 0;
+    }else{
+      $totpuntos = $valor[0]->p;
+    }
+
+  ?>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
-
   <!-- Preloader -->
   <!--<div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="{{ asset('dist/img/logo_evo.png')}}" alt="cargando ..." height="60" width="60">
   </div>-->
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background-color:#BDCDD0;">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -81,15 +107,17 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar elevation-3" style="background-color:#082e41;">
     <!-- Brand Logo -->
+    <!--
     <a href="#" class="brand-link">
       <img src="{{ asset('dist/img/logo_evo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
       <span class="brand-text font-weight-light"><h3 style="color:white; font-weight: bold;">Evolución</h3></span>
-    </a>
+    </a>-->
+    <img src="{{ asset('dist/img/logoas.png')}}" class="img-thumbnail" style="background-color:transparent; border-color:transparent;" alt="Cargando imagen ...">
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="user-panel mt-3 pb-3 d-flex">
         <div class="image">
           @if(Auth::user()->imagen)
           <img src="{{asset('dist/imgperfil/'.Auth::user()->imagen)}}" class="img-circle elevation-2" alt="User Image" alt="....">
@@ -99,10 +127,38 @@
           <a href="/perfil" class="d-block" style="color:#FFFFFF;">{{Auth::user()->name}} {{ Auth::user()->apellido }}</a>
         </div>
       </div>
-
       <!-- SidebarSearch Form -->
-      <div class="form-inline">
+      @if(Auth::user()->id_rol!=1)
+      <div class="info-contenedor mb-3">
+        <div class="row mt-1">
+          <div class="col-lg-4 col-md-4 col-xs-4 col-4 text-center">
+          <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Reconocimientos recibidos">
+            <i class="fas fa-award" style="color:#ffbd03; font-size:24px;"></i><br>
+              <span class="badge badge-info text-left" style="color:black; font-size: 0.875em;"> 
+                {{$totreconocimiento}}
+              </span>   
+           </button>                             
+          </div>
+          <div class="col-lg-4 col-md-4 col-xs-4 col-4 text-center">
+          <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Recompensas">
+             <i class="fas fa-trophy" style="color:#ffbd03; font-size:24px;"></i><br>
+                <span class="badge badge-info text-left" style="color:black; font-size: 0.875em;"> 
+                  {{$totrecom}}
+                </span>  
+            </button>    
+          </div>
+          <div class="col-lg-4 col-md-4 col-xs-4 col-4 text-center">
+           <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Puntos">
+             <i class="fas fa-star" style="color:#ffbd03; font-size:24px;"></i><br>
+               <span class="badge badge-info text-left" style="color:black; font-size: 0.875em;"> 
+                {{$totpuntos}}
+               </span>  
+              </button>    
+          </div>
+        </div>
       </div>
+      @endif
+      
       <div class="letra2">
       @if(Auth::user()->id_rol==1) <!--Logeado como administrador-->
           @include('admin.menuadmin')
@@ -139,11 +195,11 @@
   </div>
 
   <!-- /.content-wrapper -->
-  <footer class="main-footer letra1 text-left">
-    <strong>Copyright &copy; 2024 <a href="#" style="color:black;">Evolución</a>.</strong>
-    <b>Todos los derechos reservados</b>
+  <footer class="main-footer letra1 text-left" style="background-color:#BDCDD0; color:black;">
+    <strong>Copyright &copy; 2024 <a href="https://evolucion.co/" target="_blank">Evolución</a>.</strong>
+    <span><b>Todos los derechos reservados</b></span>
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 1.0.0
+      <span style="color:black;"><b>Version</b> 2.0.0</span>
     </div>
   </footer>
 

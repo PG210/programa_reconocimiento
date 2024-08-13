@@ -12,8 +12,11 @@ class Importacion extends Controller
 {
     public function archivoimpor(Request $request){
         $file = $request->file('archivosubido');
-        $var = Excel::import(new UsersImport, $file);
-        return $var;
-        return back();
+        try {
+            Excel::import(new UsersImport, $file);
+            return back()->with('success', 'Archivo importado exitosamente.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al importar el archivo: ' . $e->getMessage());
+        }
     }
 }

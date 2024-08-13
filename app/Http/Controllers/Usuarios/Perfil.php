@@ -8,6 +8,7 @@ use App\Models\Usuarios\Usuarios;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image; // optimizar las imagenes
 use Session;
 
 class Perfil extends Controller
@@ -80,8 +81,22 @@ class Perfil extends Controller
                $file = $request->file('img');
                $val = "perfil".time().".".$file->guessExtension();
                $ruta = public_path("dist/imgperfil/".$val);
-              // if($file->guessExtension()=="pdf"){
-               copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
+
+               // Crear una instancia de la imagen y redimensionarla si es necesario
+               $img = Image::make($file->getRealPath());
+
+               // Redimensionar la imagen si es necesario
+               $img->resize(200, 200, function ($constraint) {
+                  $constraint->aspectRatio();
+                  $constraint->upsize();
+               });
+
+               // Optimizar la imagen ajustando la calidad (70% en este ejemplo) y manteniendo la extensión original
+               $img->encode($file->guessExtension(), 80);
+
+               // Guardar la imagen optimizada en la ruta especificada
+               $img->save($ruta);
+
                $es->imagen= $val;//ingresa el nombre de la ruta a la base de datos
               }
             //#######end imagen

@@ -15,7 +15,7 @@
         form {
           padding: 1em;
           border: 1px solid #c1c1c1;
-          background-color:#D1FFF8;
+          background-color:#ECE9E9;
           margin-top: 2rem;
           max-width: 600px;
           margin-left: auto;
@@ -86,7 +86,7 @@
     }
     /*Boton de enviar reconocimiento */
     .botonclase {
-      background-color: #04AA6D; /* Green */
+      background-color: #EF464B; /* Green */
       border: none;
       color: white;
       border-radius: 10px;
@@ -119,17 +119,17 @@
       <td align="center" style="padding:0;">
         <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
           <tr>
-            <td align="center" style="padding:20px 0 20px 0;background:#08FFD5;">
-             <!-- <img src="https://assets.codepen.io/210284/h1.png" alt="" width="300" style="height:auto;display:block;" />-->
-             <h1 style="font-size:24px;margin:0 0 20px 0;font-family:Arial,sans-serif;">¡Felicidades! <span style="color:#Ffbd03;">{{$datosrec->nomrecibe}} {{$datosrec->aperecibe}}</span></h1>
+            <td align="center" style="padding:10px 0 10px 0; background:#6D7274;">
+             <img src="https://asareconoser.evolucion.co/dist/img/logoas.png" alt="Cargando imagen ..." style="height:auto;display:block;" />
+             <h1 style="font-size:24px;margin:0 0 10px 0;font-family:Arial,sans-serif; color:white;">¡Felicidades! <span style="color:white;">  @if(isset($datosrec)) {{$datosrec->nomrecibe}} {{$datosrec->aperecibe}} @endif</span></h1>
             </td>
           </tr>
           <tr>
-            <td style="padding:36px 30px 42px 30px;">
+            <td style="padding:20px 30px 42px 30px;">
               <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;">    
                 <tr>
-                  <td style="padding:0 0 36px 0;color:#153643;">
-                    <h1 style="font-size:18px;margin:0 0 15px 0;font-family:Arial,sans-serif;"><span style="color:#Ffbd03;"> {{$datosrec->nomenvia}} {{$datosrec->apenvia}} </span> Te acaba de enviar un reconocimiento.</h1>
+                  <td style="padding:0 0 10px 0;color:#153643;">
+                    <h1 style="font-size:18px;margin:0 0 15px 0;font-family:Arial,sans-serif;"><span style="color:#Ffbd03;"> @if(isset($datosrec)) {{$datosrec->nomenvia}} {{$datosrec->apenvia}}@endif </span> Te acaba de enviar un reconocimiento.</h1>
                   </td>
                 </tr>
                 <tr>
@@ -143,29 +143,30 @@
                          <form class="form1 letraform" style="font-size:14px;font-family:Arial,sans-serif; text-align: justify;">
                            <div class="container">
                             <label for="firstName" class="first-name">Detalle: </label>
-                            <label for="firstName" class="first-name">{{$datosrec->detalle}}</label>
+                            <label for="firstName" class="first-name">@if(isset($datosrec)){{$datosrec->detalle}}@endif</label>
                             <br>
                           </div>
                           <hr>
                           <div class="container">
                              <label for="lastName" class="last-name">Categoría: </label>  <!-- rutaimagen-->
-                             <label for="lastName" class="last-name">{{$datosrec->categoria}}</label> 
+                             <label for="lastName" class="last-name">@if(isset($datosrec)){{$datosrec->categoria}}@endif</label> 
                              <br>
                           </div>
                           <hr>
                           <div class="container">
                             <label for="job">Comportamiento: </label>
-                            <label for="job">{{$datosrec->comportamiento}}</label>
+                            <label for="job">@if(isset($datosrec)){{$datosrec->comportamiento}}@endif</label>
                             <br>
                           </div>
                           <hr>
                           <div class="container">
-                            <label for="age">Peñutes: </label>
-                            <label for="age">{{$datosrec->puntos}}</label>
+                            <label for="age">Puntos: </label>
+                            <label for="age">@if(isset($datosrec)){{$datosrec->puntos}}@endif</label>
                           </div>
                           
                           <hr>
-                        </form>
+                         </form>
+                        
                          <!--end datos-->
                          </p>
                         </td>
@@ -175,7 +176,7 @@
                     <br>
                     <p style="font-size:18px;margin:0 0 15px 0;font-family:Arial,sans-serif; text-align: justify;"><span style="color:black;">Recibir un reconocimiento es premiar tus esfuerzos, espero que esto te siga motivando para lograr nuevos proyectos que te impulsen a avanzar.</p>
                      <div style="text-align:center">
-                      <a class="botonclase boton2" href="/" target="_blank"> Ve y reconoce </a>
+                      <a class="botonclase boton2" href="https://asareconoser.evolucion.co/" target="_blank"> Ve y reconoce </a>
                      </div>
                   </td>
                 </tr>
@@ -184,20 +185,20 @@
           </tr>
           <tr>
            
-            <td style="padding:30px;background:#Ffbd03;">
+            <td style="padding:30px; background:#EF464B;">
               <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
                 <tr>
                   <td style="padding:0;width:50%;" align="left">
-                    <a href="https://www.evolucion.co/" style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:black;">
+                    <a href="https://www.evolucion.co/" style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:black; color:white;">
                       &reg; Evolución, 2024<br/>
                    </a>
-                   <label style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:black;" >{{date ('Y-m-d', strtotime($datosrec->fecha))}}</label>
+                   <label style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:black;" > @if(isset($datosrec)){{date ('Y-m-d', strtotime($datosrec->fecha))}}@endif</label>
                   </td>
                   <td style="padding:0;width:50%;" align="right">
                     <table role="presentation" style="border-collapse:collapse;border:0;border-spacing:0;">
                       <tr>
                         <td style="padding:0 0 0 10px;width:38px;">
-                          <a href="https://www.facebook.com/evolucion.aprendizajedivertido/" style="color:black;"><img src="https://assets.codepen.io/210284/fb_1.png" alt="Facebook" width="38" style="height:auto;display:block;border:0;" /></a>
+                         
                         </td>
                       </tr>
                     </table>

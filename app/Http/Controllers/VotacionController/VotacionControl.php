@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\EstadoVotModel\EstavotModel;
 use Illuminate\Support\Facades\Auth;
 use App\Models\EstadoVotModel\RegVotoModel;
+use Maatwebsite\Excel\Facades\Excel; //excel votos
+use App\Exports\VotosExcel; // excel votos
+use App\Exports\VotosPendientes; //vtos pendientes
+use App\Models\Usuarios\Usuarios; // para ver usuarios
+use App\Models\Categorias\Comportamiento; // para categorias
 use Carbon\Carbon;
 use DB;
 use Session;
@@ -19,11 +24,15 @@ class VotacionControl extends Controller
         $total = DB::table('estavotacion')->where('estado', '=', 1)->count();
         $cat = DB::table('comportamiento_categ')->select('comportamiento_categ.descripcion', 'comportamiento_categ.id as idcat')->get();
         //verificar si hay votos 
-        //$val = DB::table('postulado')->count();
+        $users = Usuarios::join('cargo', 'users.id_cargo', '=', 'cargo.id')
+                 ->select('users.id as idusu', 'name', 'apellido', 'cargo.nombre as cargo', 'postulado')
+                 ->where('users.id', '!=', '1')
+                 ->OrderBy('name', 'ASC')
+                 ->get();
         //obtner las fechas (anio)
         $date = Carbon::now();
         $anio = $date->format('Y');
-        return view('admin.votaciones')->with('cat', $cat)->with('es', $es)->with('anio', $anio)->with('total', $total)->with('esfil', $esfil);
+        return view('admin.votaciones')->with('cat', $cat)->with('es', $es)->with('anio', $anio)->with('total', $total)->with('esfil', $esfil)->with('users', $users);
     }
 
     public function vista_user(){
@@ -31,7 +40,9 @@ class VotacionControl extends Controller
         //consultar a la tabla votaciones
         $vot = DB::table('estavotacion')->where('estado', '=', 1)->select('estavotacion.id as idvot', 'periodo', 'anio')->first();
         //end votaciones
-        $usu=DB::table('users')->where('id_rol', '!=', 1)->where('users.id', '!=', $idlog)
+        $usu=Usuarios::where('id_rol', '!=', 1)
+             ->where('users.id', '!=', $idlog)
+             ->where('users.postulado', '1')
              ->join('roles', 'users.id_rol', '=', 'roles.id')
              ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
              ->join('area', 'cargo.id_area', '=', 'area.id')
@@ -103,8 +114,9 @@ class VotacionControl extends Controller
 
     public function buscar(Request $request){
         $idlog= auth()->user()->id;
-        $usu=DB::table('users')->where('id_rol', '!=', 1)->where('users.id', '!=', $idlog)
+        $usu=Usuarios::where('id_rol', '!=', 1)->where('users.id', '!=', $idlog)
              ->where('users.name', 'like', $request->dato)
+             ->where('users.postulado', '1')
              ->join('roles', 'users.id_rol', '=', 'roles.id')
              ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
              ->join('area', 'cargo.id_area', '=', 'area.id')
@@ -171,53 +183,55 @@ class VotacionControl extends Controller
                     $reg->save();
                     // print $dato[$i];
                 }
+            $tvotos = Comportamiento::count();
+            $tvotados = RegVotoModel::where('id_estado', $request->idvot)
+                            ->where('id_votante', $idlog)
+                            ->count();
+            $total = $tvotos-$tvotados; //calcular el total de votos pendientes
+
+            Session::flash('error_voto', '¡Su voto ha sido registrado satisfactoriamente! votos pendientes: '.$total);
         }else{
             Session::flash('error_voto', 'Selecciona una casilla de votación.');
         }
-        
         return back();
     }
 
     //filtrar votos
     public function filtrar(Request $request){
-        $con = DB::table('estavotacion')->where('anio', $request->aniofil)->where('periodo', $request->peri)->select('estavotacion.id as idestado')->count();
+
+        $con = EStaVotModel::where('anio', $request->aniofil)->where('periodo', $request->peri)->count();
         if($con!=0){
-            $filtrarval = DB::table('estavotacion')->where('anio', $request->aniofil)->where('periodo', $request->peri)->select('estavotacion.id as idestado')->get();
-             $votoscon = DB::table('postulado')->where('postulado.id_estado', $filtrarval[0]->idestado)->count();
+            $filtrarval = EStaVotModel::where('anio', $request->aniofil)->where('periodo', $request->peri)->select('estavotacion.id as idestado')->get();
+             $votoscon = RegVotoModel::where('postulado.id_estado', $filtrarval[0]->idestado)->count();
             if($votoscon!=0){
-                $es = DB::table('estavotacion')->select('estado', 'estavotacion.id as ides', 'periodo', 'anio')->where('estado', '=', 1)->get();
-                $esfil = DB::table('estavotacion')->select('anio')->distinct()->get();
-                $total = DB::table('estavotacion')->where('estado', '=', 1)->count();
-                //verificar si hay votos 
-                //$val = DB::table('postulado')->count();
-                $votos = DB::table('postulado')
-                                ->where('postulado.id_estado', $filtrarval[0]->idestado)
+                $es = EStaVotModel::select('estado', 'estavotacion.id as ides', 'periodo', 'anio')->where('estado', '=', 1)->first();
+                
+                $votos = RegVotoModel::where('postulado.id_estado', $filtrarval[0]->idestado)
                                 ->join('users','postulado.id_postulado', '=', 'users.id')
                                 ->join('comportamiento_categ','postulado.id_votocat', '=', 'comportamiento_categ.id')
                                 ->join('roles','users.id_rol', '=', 'roles.id')
                                 ->join('cargo','users.id_cargo', '=', 'cargo.id')
                                 ->join('area','cargo.id_area', '=', 'area.id')
-                                ->join('estavotacion', 'postulado.id_estado', '=', 'estavotacion.id')
-                                ->selectRaw('users.id as idusu, users.name, estavotacion.anio,  estavotacion.periodo, users.apellido, users.imagen, roles.descripcion as rol,
+                                ->selectRaw('users.id as idusu, users.name, users.apellido, users.imagen, roles.descripcion as rol,
                                             cargo.nombre as cargos, area.nombre as areas, count(postulado.id_votocat) as total')
                                 ->groupBy('users.name')
                                 ->orderBy('total','desc')
                                 ->get();
+                    
                     $cat = RegVotoModel::where('postulado.id_estado', $filtrarval[0]->idestado)//se debe validar el periodo de votacion 
                             ->join('users','postulado.id_postulado', '=', 'users.id')
-                        ->join('comportamiento_categ','postulado.id_votocat', '=', 'comportamiento_categ.id')
-                        ->join('roles','users.id_rol', '=', 'roles.id')
-                        ->join('cargo','users.id_cargo', '=', 'cargo.id')
-                        ->join('area','cargo.id_area', '=', 'area.id')
-                        ->select('id_postulado', 'id_votocat', 'comportamiento_categ.descripcion as categoria', 'users.name', 
-                                    DB::raw( 'COUNT(postulado.id_votocat) as total'))
-                        ->groupBy('id_postulado')
-                        ->groupBy('id_votocat')
-                        ->get();
-                //obtner las fechas (anio)
-                $date = Carbon::now();
-                $anio = $date->format('Y');
-                return view('admin.listavot')->with('votos', $votos)->with('cat', $cat);
+                            ->join('comportamiento_categ','postulado.id_votocat', '=', 'comportamiento_categ.id')
+                            ->join('roles','users.id_rol', '=', 'roles.id')
+                            ->join('cargo','users.id_cargo', '=', 'cargo.id')
+                            ->join('area','cargo.id_area', '=', 'area.id')
+                            ->select('id_postulado', 'id_votocat', 'comportamiento_categ.descripcion as categoria', 'users.name', 
+                                        DB::raw( 'COUNT(postulado.id_votocat) as total'))
+                            ->groupBy('id_postulado', 'id_votocat')
+                            ->orderBy('id_votocat', 'ASC')
+                            ->get();
+                $categorias = Comportamiento::OrderBy('id', 'ASC')->get();
+                // consulta unida
+                return view('admin.listavot')->with('categorias', $categorias)->with('votos', $votos)->with('cat', $cat)->with('es', $es);
             }else{
                 Session::flash('errorfitrar', 'No se encontraron registros para la busqueda.');
                 return back();
@@ -256,5 +270,53 @@ class VotacionControl extends Controller
                 ->groupBy('id_votocat')
 
         */
+    }
+    //=============== votaciones down ==========
+    public function excelVotos(Request $request){
+      $anio = $request->aniovot;
+      $per = $request->pervot;
+      $estadovot = $request->usuarios;
+      $mensajeEx = '';
+      if ($estadovot == 1){
+         $tval1 =  RegVotoModel::join('users','postulado.id_postulado', '=', 'users.id')
+                    ->join('estavotacion','postulado.id_estado', '=', 'estavotacion.id')
+                    ->where('estavotacion.anio', $anio)//se debe validar el periodo de votacion 
+                    ->where('estavotacion.periodo', $per)
+                    ->count();
+        if ($tval1 != 0)
+        return Excel::download(new VotosExcel($anio, $per, $estadovot), 'usuarios_recibieron_votos.xlsx');
+      }
+      elseif ($estadovot == 2){
+        $tcat = Comportamiento::count();
+        $tval2 = RegVotoModel::join('users','postulado.id_votante', '=', 'users.id')
+                        ->join('estavotacion','postulado.id_estado', '=', 'estavotacion.id')
+                        ->where('estavotacion.anio', $anio)
+                        ->where('estavotacion.periodo', $per)->count();
+        if($tval2)
+          return Excel::download(new VotosPendientes($anio, $per, $tcat), 'usuarios_que_votaron.xlsx');
+      }
+      elseif ($estadovot == 3){
+        $estado = EstavotModel::where('anio',  $anio)->where('periodo', $per)->first();
+        if($estado)
+          return Excel::download(new VotosExcel($anio, $per, $estadovot), 'usuarios_que_no_votaron.xlsx');          
+        }
+        Session::flash('mensajeEx', '¡Lo sentimos!, no hay información para la solicitud.');
+        return back();
+    }
+
+    // postular a los usuarios para votacion 
+    public function postularVot(Request $request){
+        $validatedData = $request->validate([
+            'user' => 'required|array',
+            'user.*' => 'required|integer|exists:users,id'
+        ]);
+
+        // Obtiene el array de IDs de usuarios  
+        $userIds = $validatedData['user'];
+        Usuarios::whereIn('id', $userIds)->update(['postulado' => 1]);
+        // Actualiza el campo 'postulado' a 0 para todos los usuarios cuyos IDs no están en el array
+        Usuarios::whereNotIn('id', $userIds)->update(['postulado' => 0]);
+
+        return back();
     }
 }

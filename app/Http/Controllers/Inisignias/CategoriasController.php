@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Categorias\Comportamiento;
 use App\Models\Categorias\Categoria_reco;
+use Intervention\Image\Facades\Image; // optimizar las imagenes
 use Session;
 
 class CategoriasController extends Controller
@@ -21,7 +22,21 @@ class CategoriasController extends Controller
             $file = $request->file('imagen');
             $val = "imgcat".time().".".$file->guessExtension();
             $ruta = public_path("imgpremios/".$val);
-            copy($file, $ruta);
+            // Crear una instancia de la imagen y redimensionarla si es necesario
+            $img = Image::make($file->getRealPath());
+
+            // Redimensionar la imagen si es necesario
+            $img->resize(700, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+
+            // Optimizar la imagen ajustando la calidad (70% en este ejemplo) y manteniendo la extensión original
+            $img->encode($file->guessExtension(), 80);
+
+            // Guardar la imagen optimizada en la ruta especificada
+            $img->save($ruta);
+
             $category = new Comportamiento();
             $category->descripcion = $request->input('descrip');
             $category->puntos = 0;
@@ -77,19 +92,35 @@ class CategoriasController extends Controller
     }
         
     public function actualizar(Request $request, $id){
+         //=========buscar el id para actualizar                 
+         $categoria = Comportamiento::findOrfail($id);
+
         if($request->hasFile('imagen')){
             $file = $request->file('imagen');
             $val = "imgcat".time().".".$file->guessExtension();
             $ruta = public_path("imgpremios/".$val);
-            copy($file, $ruta);
-            //=========buscar el id para actualizar                 
-            $categoria = Comportamiento::findOrfail($id);
-            $categoria->descripcion = $request->input('des');
-            $categoria->puntos = 0;
+
+            // Crear una instancia de la imagen y redimensionarla si es necesario
+            $img = Image::make($file->getRealPath());
+
+            // Redimensionar la imagen si es necesario
+            $img->resize(700, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            
+            // Optimizar la imagen ajustando la calidad (70% en este ejemplo) y manteniendo la extensión original
+            $img->encode($file->guessExtension(), 80);
+ 
+            // Guardar la imagen optimizada en la ruta especificada
+            $img->save($ruta);
+
             $categoria->rutaimagen = $val;
-            $categoria->save();
-            Session::flash('actualizado', 'Categoria Actualizada Correctamente!');
         }
+        $categoria->descripcion = $request->input('des');
+        $categoria->puntos = 0;
+        $categoria->save();
+        Session::flash('actualizado', 'Categoria Actualizada Correctamente!');
         return back();
     }
 }

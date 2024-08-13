@@ -36,14 +36,13 @@
             <div class="col-md-12">
                 <select id="categor" class="form-control" name="categor" data-step="1">
                   <option value=" ">Elegir...</option>
-                    @if($b==0)
-                    <option>Sin Categoría</option>
-                    @endif
-                    @if($b==1)
+                  @if($categoria->isEmpty())
+                      <option>Sin Categoría</option>
+                  @else
                       @foreach($categoria as $cate)
-                      <option value="{{$cate->id}}">{{$cate->descripcion}}</option>
+                          <option value="{{ $cate->id }}">{{ e($cate->descripcion) }}</option>
                       @endforeach
-                    @endif
+                  @endif
                 </select>
               </div>
               <!--end seleccionar--->
@@ -68,7 +67,17 @@
         </form>
       </div>
       <!--mensaje de recomendacion-->
-      <br><br>
+      <button type="button" id="botoncolab" class="btn btn-outline-primary mt-4 letraform" data-toggle="modal" data-target="#listaUsers" data-step="3">
+        <i class="fas fa-users"></i>  Colaboradores
+      </button>
+      <!---=======Personas seleccionadas==========-->
+      <div class="row mb-3 mt-4" id="colab" style="display:none;">
+          <div class="col-md-12 textotarjeta letraform">
+             <label>&nbsp;&nbsp;Colaboradores elegidos</label>
+          </div>
+      </div>
+      <div id="seleccionados"></div>
+      <!---=============-->
     <div class="row letraform">
       <div class="col-md-12">
       <div id="sugerir"></div>
@@ -96,13 +105,10 @@
                <div class="user-panel d-flex"> 
                  <!--modal para elegir los usuarios-->
                     <!-- Button trigger modal -->
-                      <button type="button" id="botoncolab" class="btn btn-outline-primary  letraform" data-toggle="modal" data-target="#listaUsers" data-step="3">
-                      <i class="fas fa-users"></i> Puntos
-                      </button>
-                 
+
                       <!-- Modal -->
                       <div class="modal fade" id="listaUsers" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-dialog modal-dialog-scrollable modal-lg">
                           <div class="modal-content">
                             <div class="modal-header" style="background-color:#15AFBA; color:white;">
                               <h5 class="modal-title letraform" id="exampleModalLabel">ELEGIR COLABORADORES</h5>
@@ -112,25 +118,25 @@
                             </div>
                             <div class="modal-body letraform">
                               <!--listado de usuarios-->
+                              <!--================================-->
                               <div class="row">
                                 <div class="col-12 text-end">
                                     <input type="text" class="form-control" id="searchTerm" onkeyup="doSearch()" placeholder="Buscar...">
                                 </div>
                               </div>
-                              <!--================================-->
                               <div class="table-responsive">
                               <table class="table" id="tablaDate">
                                 <thead>
                                   <tr>
                                     <th></th>
                                     <th>Nombres</th>
-                                    <th>imagen</th>
+                                    <th>Perfil</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   @foreach($usu as $usuario)
                                   <tr>
-                                    <td><input type="checkbox" name="usuariosSel[]" value="{{ $usuario->id }}" aria-label="Checkbox for following text input"></td>
+                                    <td><input type="checkbox" class="persona" name="usuariosSel[]" value="{{ $usuario->id }}" atrib-name="{{ $usuario->name }} {{ $usuario->apellido }}"></td>
                                     <td>{{ $usuario->name }} {{ $usuario->apellido }}</td>
                                     <td>
                                     <div class="user-panel mt-0 pb-0 mb-0 d-flex">
@@ -155,7 +161,7 @@
                               <!--lista users-->
                             </div>
                             <div class="modal-footer">
-                              <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i>Aceptar</button>
+                              <button type="button" class="btn btn-warning" data-dismiss="modal" id="mostrarSeleccionados"><i class="fas fa-sign-out-alt"></i>Aceptar</button>
                             </div>
                           </div>
                         </div>
@@ -256,5 +262,26 @@ document.addEventListener('DOMContentLoaded', function() {
         ]
     }).start();
 });
+</script>
+<script>
+     $(document).ready(function() {
+            $('#mostrarSeleccionados').click(function() {
+                var seleccionados = [];
+                $('input.persona:checked').each(function() {
+                    seleccionados.push($(this).attr('atrib-name'));
+                });
+                // imprimir los datos
+                $('#seleccionados').empty(); // Limpiar contenido previo
+                $.each(seleccionados, function(index, nombre) {
+                    $('#seleccionados').append('<h5><b>' + nombre + '<b></h5>');
+                });
+                // validar el label
+                if (seleccionados.length > 0) {
+                    $('#colab').show();
+                } else {
+                    $('#colab').hide();
+                }
+            });
+        });  
 </script>
 @endsection

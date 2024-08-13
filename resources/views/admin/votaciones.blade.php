@@ -1,20 +1,96 @@
 @extends('usuario.principa_usul')
 @section('content')
+
 <div class="accordion" id="accordionExample">
   <div class="card" >
     <div class="card-header" id="headingOne" style="background-color#1BF9CD;">
     <div class="row">
+       @if(Session::has('mensajeEx'))
+       <div class="col-12 letraform">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong> {{ Session::get('mensajeEx') }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+        </div>
+        @endif
+      
         <div class="col-8">
-                <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filtrarcat">
-                       <i class="fas fa-list-alt" style="font-size:23px;"></i>
-                    </button>
-                    <!--end buton-->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filtrarvotos">
-                        <i class="fas fa-filter" style="font-size:22px;"></i> 
-                    </button>
-
-                 <form action="{{route('filtrarVotos')}}" method="POST">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filtrarcat">
+                <i class="fas fa-list-alt" style="font-size:23px;"></i>
+            </button>
+            <!--end buton-->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filtrarvotos">
+                <i class="fas fa-filter" style="font-size:22px;"></i> 
+            </button>
+            <!--generar excel de los datos -->
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#excel">
+               <i class="fas fa-file-excel" style="color: white; font-size:22px;"></i>
+            </button>
+            <!--modal para reportes de excel-->
+            <div class="modal fade" id="excel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header titulo" style="background-color:#e6e3e3; ">
+                        <h5 class="modal-title" id="exampleModalLabel">Generar reportes de votación</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{route('excelVotos')}}" method="POST">
+                    @csrf
+                    <div class="modal-body letraform">
+                      <!---inputs-->
+                      <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Año</label>
+                                <select class="form-control" id="aniovot" name="aniovot">
+                                   @foreach($esfil as $fil)
+                                        @if(isset($fil->anio))
+                                            <option val="{{$fil->anio}}">{{$fil->anio}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div> 
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">Periodo</label>
+                                <select class="form-control" id="pervot" name="pervot">
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                </select>
+                            </div>
+                        </div> 
+                      </div>
+                      <!--seleccion-->
+                      <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="usuarios">Seleccionar estado de votación</label>
+                                <select class="form-control" id="usuarios" name="usuarios">
+                                    <option value="1">Total de votos recibidos</option>
+                                    <option value="2">Usuarios que han votado</option>
+                                    <option value="3">Usuarios que no han votado</option>
+                                </select>
+                            </div>
+                        </div> 
+                       </div>
+                      <!--end inputs-->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn confirmar"><i class="fas fa-download" style="font-size:15px;"></i>&nbsp;Descargar</button>
+                        <button type="button" class="btn salir" data-dismiss="modal">Salir</button>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+            </div>
+            <!--- end reporte-->
+            <form action="{{route('filtrarVotos')}}" method="post">
                 @csrf
                 <!-- Modal -->
                 <div class="modal fade" id="filtrarvotos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -280,9 +356,58 @@
        @endif
     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
-
+      <!---Aqui generar los usuarios que han votado -->
+       <h5 class="letraform mb-2">Postular Colaboradores</h5>
+       <div class="row">
+         <div class="col-lg-12">
+          <input class="form-control mr-sm-4" type="text" id="search" placeholder="Buscar por nombres...">
+         </div>
+       </div>
+       <form action="{{route('postularVot')}}" method="POST">
+       @csrf
+        <div class="table-responsive">
+        <table class="table" id="votacion01">
+            <thead>
+                <tr>
+                <th scope="col">No</th>
+                <th scope="col">Nombres</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">
+                  <div class="text-center">
+                  <button type="submit" class="btn btn-info btn-sm"><i class="fas fa-hand-pointer"></i> Postular</button>
+                  </div>
+                </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($users as $usu)
+                <tr>
+                <th scope="row">{{ $loop->iteration }}</th>
+                <td>{{$usu->name}} {{$usu->apellido}}</td>
+                <td>{{$usu->cargo}}</td>
+                <td>
+                   <div class="form-check text-center">
+                      <input class="form-check-input" type="checkbox" value="{{$usu->idusu}}" id="defaultCheck1{{$usu->idusu}}" name="user[]" @if($usu->postulado == '1') checked @endif>
+                    </div>
+                </td>
+                </tr>
+                @endforeach
+            </tbody>
+            </table>
+            </div>
+          </form>
+      <!--end votos-->
       </div>
     </div>
   </div>
 </div>
+<script>
+    // Función para filtrar la tabla en base al input de búsqueda
+    $('#search').on('keyup', function() {
+        var value = $(this).val().toLowerCase();
+        $('#votacion01 tbody tr').filter(function() {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+    });
+</script>
 @endsection

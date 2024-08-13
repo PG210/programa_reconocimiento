@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Categorias\ImagenesModal;
 use App\Models\Categorias\TablaImagenModal;
 use App\Models\Categorias\Premios;
+use Intervention\Image\Facades\Image; // optimizar las imagenes
+
 
 
 class ImagenesController extends Controller
@@ -45,8 +47,22 @@ class ImagenesController extends Controller
             $file = $request->file('img');
             $val = "premio".time().".".$file->guessExtension();
             $ruta = public_path("imgpremios/".$val);
-           // if($file->guessExtension()=="pdf"){
-            copy($file, $ruta);//ccopia el archivo de una ruta cualquiera a donde este
+            
+            // Crear una instancia de la imagen y redimensionarla si es necesario
+            $img = Image::make($file->getRealPath());
+            
+            // Redimensionar la imagen si es necesario
+            $img->resize(400, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+            
+            // Optimizar la imagen ajustando la calidad (70% en este ejemplo) y manteniendo la extensión original
+            $img->encode($file->guessExtension(), 80);
+            
+            // Guardar la imagen optimizada en la ruta especificada
+            $img->save($ruta);
+            
             $category->rutaimagen = $val;//ingresa el nombre de la ruta a la base de datos
             $category->name = $request->input('nombre');
             $category->descripcion = $request->input('des'); 
