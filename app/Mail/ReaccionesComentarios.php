@@ -12,14 +12,16 @@ class ReaccionesComentarios extends Mailable
     use Queueable, SerializesModels;
     public $subject="Nueva Notificación";
     public $datos;
+    public $val;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($datos)
+    public function __construct($datos, $val)
     {
         $this->datos = $datos;
+        $this->val = $val; /*identifica a quien dirije el mensaje */
     }
 
     /**
@@ -29,6 +31,9 @@ class ReaccionesComentarios extends Mailable
      */
     public function build()
     {
-        return $this->view('correos.notificacion');
+        return $this->view('correos.notificacion')->with([
+            'datos' => $this->datos,
+            'val' => $this->val,
+        ]);
     }
 }

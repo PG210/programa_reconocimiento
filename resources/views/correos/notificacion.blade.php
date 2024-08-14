@@ -129,18 +129,42 @@
                 <tr>
                   <td style="color:#153643;">
                     <h1 style="font-size:18px; font-family: Arial,sans-serif;">
-                    ¡Genial noticia! 🎉 <span style="color:#Ffbd03;"> @if(isset($datos)) {{ $datos['nomrecibe'] }} {{ $datos['aperecibe'] }} @endif</span>
+                    ¡Genial noticia! 🎉 <span style="color:#Ffbd03;">
+                       @if(isset($datos)) 
+                          @if($val == '1') 
+                              {{ $datos['nomrecibe'] }} {{ $datos['aperecibe'] }}
+                          @else
+                               {{ $datos['nomenvio'] }} {{ $datos['apenvio'] }}
+                          @endif 
+                       @endif</span>
                    </h1>
                    <h1 style="font-size:18px; margin:0 0 5px 0; font-family: Arial,sans-serif;">
-                      <span style="color:#Ffbd03;"> @if(isset($datos)){{ $datos['nombre'] }} {{ $datos['apellido'] }} @endif</span> <span style="color:black;">
-                      ha @if(isset($datos))
-                          @if($datos['estado'] == 1) 
-                            reaccionado {{$datos['emoticon']}} 
-                          @elseif($datos['estado'] == 2)
-                            comentado {{$datos['emoticon']}},
+                      <span style="color:#Ffbd03;"> @if(isset($datos)){{ $datos['nombre'] }} {{ $datos['apellido'] }} @endif</span> 
+                      <span>
+                        ha @if(isset($datos))
+                            @if($datos['estado'] == 1) 
+                              reaccionado: {{$datos['emoticon']}} 
+                            @elseif($datos['estado'] == 2)
+                              comentado: <em> {{$datos['emoticon']}}, </em>
+                            @endif
+                          @endif
+                      </span>
+                     <!----validar la parte del mensaje -->
+                     <span>
+                        @if($val == '1') 
+                          @if($datos['emailusulog'] != $datos['emailenvia'])
+                               a tu reconocimiento hecho por: <span style="color:#Ffbd03;">{{ $datos['nomenvio'] }} {{ $datos['apenvio'] }}</span>
+                          @else
+                              a tu reconocimiento.
+                          @endif
+                        @else
+                          @if($datos['emailusulog'] != $datos['emailrecibe'])
+                             en el reconocimiento que realizaste a:  <span style="color:#Ffbd03;">{{ $datos['nomrecibe'] }} {{ $datos['aperecibe'] }}.</span>
+                          @else
+                            en el reconocimiento que realizaste.
                           @endif
                         @endif
-                     a tu reconocimiento.</span>
+                      </span>
                    </h1>
                   </td>
                 </tr>

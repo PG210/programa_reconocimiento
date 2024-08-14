@@ -423,8 +423,9 @@ nombre
     // buscar el reconocimiento
     $reconocimiento = DB::table('catrecibida')
                       ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
+                      ->join('users as userenvia', 'catrecibida.id_user_envia', '=', 'userenvia.id')
                       ->where('catrecibida.id', $res2)
-                      ->select('catrecibida.detalle', 'catrecibida.created_at as fecha', 'users.name as nombre', 'users.apellido', 'users.email')->first();
+                      ->select('catrecibida.detalle', 'catrecibida.created_at as fecha', 'users.name as nombre', 'users.apellido', 'users.email', 'userenvia.email as emailenvia', 'userenvia.name as nomenvio', 'userenvia.apellido as apenvio')->first();
     $data = [
         'usu' => $usu,
         'nombre' => $nombre,
@@ -438,16 +439,29 @@ nombre
     $datos = [
         'nombre' => $nombre,
         'apellido' => $apellido,
+        'emailusulog' => $emailusulog,
         'emoticon' =>  $res,
         'detalle' => $reconocimiento->detalle,
         'nomrecibe' =>  $reconocimiento->nombre,
         'aperecibe' =>  $reconocimiento->apellido,
+        'emailrecibe' => $reconocimiento->email,
         'estado' => '1',
         'fecha' => $reconocimiento->fecha,
-    ];
+        'nomenvio' => $reconocimiento->nomenvio,
+        'apenvio' => $reconocimiento->apenvio,
+        'emailenvia' => $reconocimiento->emailenvia,
 
-    if(strtolower($emailusulog) != strtolower($reconocimiento->email))
-       Mail::to($reconocimiento->email)->queue(new ReaccionesComentarios($datos)); //envia mensajes
+    ];
+     // validar que el correo no sea de la misma persona que reacciona
+     if(strtolower($emailusulog) != strtolower($reconocimiento->email)){
+        $val = 1;
+        Mail::to($reconocimiento->email)->queue(new ReaccionesComentarios($datos, $val)); //envia mensajes
+     }
+     
+     if(strtolower($emailusulog) != strtolower($reconocimiento->emailenvia)){ //enviar correo a la persona que envio el reconocimiento
+        $val = 2;
+        Mail::to($reconocimiento->emailenvia)->queue(new ReaccionesComentarios($datos, $val));  
+     }
     return response()->json($data);
   }
 
@@ -460,11 +474,11 @@ nombre
      $emailusulog = auth()->user()->email; // email del usuario que esta logeado
      $valor = $request->valorInput;
      //guardar los datos
-            $category = new Comentarios();
-            $category->comentario = $request->contenido;
-            $category->idusu= $usu;
-            $category->idrec = $valor;
-            $category->save();
+     $category = new Comentarios();
+     $category->comentario = $request->contenido;
+     $category->idusu= $usu;
+     $category->idrec = $valor;
+     $category->save();
      // retornar el id que debe levantar
      $detalle = $this->detallecate();
      $emoticones = $this->emoticonesTot();
@@ -483,25 +497,35 @@ nombre
                     'users.name as nombre', 
                     'users.apellido', 
                     'users.email', 
-                    'userenvia.email as emailenvia')
+                    'userenvia.email as emailenvia', 'userenvia.name as nomenvio', 'userenvia.apellido as apenvio'
+                    )
             ->first();
      //enviar correo
      $datos = [
         'nombre' => $nombre,
         'apellido' => $apellido,
+        'emailusulog' => $emailusulog,
         'emoticon' =>  $request->contenido,
         'detalle' => $reconocimiento->detalle,
         'nomrecibe' =>  $reconocimiento->nombre,
         'aperecibe' =>  $reconocimiento->apellido,
+        'emailrecibe' => $reconocimiento->email,
         'estado' => '2',
         'fecha' => $reconocimiento->fecha,
+        'nomenvio' => $reconocimiento->nomenvio,
+        'apenvio' => $reconocimiento->apenvio,
+        'emailenvia' => $reconocimiento->emailenvia,
         ];
      // validar que el correo no sea de la misma persona que reacciona
-     if(strtolower($emailusulog) != strtolower($reconocimiento->email))
-         Mail::to($reconocimiento->email)->queue(new ReaccionesComentarios($datos)); //envia mensajes
+     if(strtolower($emailusulog) != strtolower($reconocimiento->email)){
+        $val = 1;
+        Mail::to($reconocimiento->email)->queue(new ReaccionesComentarios($datos, $val)); //envia mensajes
+     }
      
-     //if(strtolower($emailusulog) != strtolower($reconocimiento->emailenvia)) //enviar correo a la persona que envio el reconocimiento
-     //    Mail::to($reconocimiento->emailenvia)->queue(new ReaccionesComentarios($datos));  
+     if(strtolower($emailusulog) != strtolower($reconocimiento->emailenvia)){ //enviar correo a la persona que envio el reconocimiento
+        $val = 2;
+        Mail::to($reconocimiento->emailenvia)->queue(new ReaccionesComentarios($datos, $val));  
+     }
      //======== para imagenes de carrucel
      $images = ComunicacionModel::orderBy('posicion', 'asc')->get();
      $estadoimg = ComunicacionModel::where('posicion', 1)->select('estado')->first();

@@ -172,8 +172,15 @@ class VotacionControl extends Controller
             $idlog= auth()->user()->id;
             $dato = $request->datos;
             $tam = count($dato);
-            //validar votos
-                for ($i = 0; $i < $tam; ++$i){
+    
+            //==== validado la parte de votacion ===========
+            for ($i = 0; $i < $tam; ++$i) {
+                // Verificar si la combinación ya existe
+                $existe = RegVotoModel::where('id_votante', $idlog)
+                            ->where('id_votocat', $dato[$i])
+                            ->exists();
+            
+                if (!$existe) {
                     $reg = new RegVotoModel();
                     $reg->id_postulado = $request->idpos;
                     $reg->id_votante = $idlog;
@@ -181,8 +188,12 @@ class VotacionControl extends Controller
                     $reg->fecha_voto = $date;
                     $reg->id_estado = $request->idvot;
                     $reg->save();
-                    // print $dato[$i];
+                } else {
+                    // continuar al siguiente elemento del array sin guardar
+                    continue;
                 }
+            }
+            //============================================
             $tvotos = Comportamiento::count();
             $tvotados = RegVotoModel::where('id_estado', $request->idvot)
                             ->where('id_votante', $idlog)
@@ -207,18 +218,26 @@ class VotacionControl extends Controller
                 $es = EStaVotModel::select('estado', 'estavotacion.id as ides', 'periodo', 'anio')->where('estado', '=', 1)->first();
                 
                 $votos = RegVotoModel::where('postulado.id_estado', $filtrarval[0]->idestado)
-                                ->join('users','postulado.id_postulado', '=', 'users.id')
-                                ->join('comportamiento_categ','postulado.id_votocat', '=', 'comportamiento_categ.id')
-                                ->join('roles','users.id_rol', '=', 'roles.id')
-                                ->join('cargo','users.id_cargo', '=', 'cargo.id')
-                                ->join('area','cargo.id_area', '=', 'area.id')
-                                ->selectRaw('users.id as idusu, users.name, users.apellido, users.imagen, roles.descripcion as rol,
-                                            cargo.nombre as cargos, area.nombre as areas, count(postulado.id_votocat) as total')
-                                ->groupBy('users.name')
-                                ->orderBy('total','desc')
-                                ->get();
+                        ->join('users', 'postulado.id_postulado', '=', 'users.id')
+                        ->join('comportamiento_categ', 'postulado.id_votocat', '=', 'comportamiento_categ.id')
+                        ->join('roles', 'users.id_rol', '=', 'roles.id')
+                        ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
+                        ->join('area', 'cargo.id_area', '=', 'area.id')
+                        ->selectRaw('
+                            users.id as idusu, 
+                            users.name, 
+                            users.apellido, 
+                            users.imagen, 
+                            roles.descripcion as rol,
+                            cargo.nombre as cargos, 
+                            area.nombre as areas, 
+                            COUNT(postulado.id_votocat) as total
+                        ')
+                        ->groupBy('users.id', 'users.name', 'users.apellido', 'users.imagen', 'roles.descripcion', 'cargo.nombre', 'area.nombre')
+                        ->orderBy('total', 'desc')
+                        ->get();
                     
-                    $cat = RegVotoModel::where('postulado.id_estado', $filtrarval[0]->idestado)//se debe validar el periodo de votacion 
+                $cat = RegVotoModel::where('postulado.id_estado', $filtrarval[0]->idestado)//se debe validar el periodo de votacion 
                             ->join('users','postulado.id_postulado', '=', 'users.id')
                             ->join('comportamiento_categ','postulado.id_votocat', '=', 'comportamiento_categ.id')
                             ->join('roles','users.id_rol', '=', 'roles.id')
@@ -229,6 +248,7 @@ class VotacionControl extends Controller
                             ->groupBy('id_postulado', 'id_votocat')
                             ->orderBy('id_votocat', 'ASC')
                             ->get();
+
                 $categorias = Comportamiento::OrderBy('id', 'ASC')->get();
                 // consulta unida
                 return view('admin.listavot')->with('categorias', $categorias)->with('votos', $votos)->with('cat', $cat)->with('es', $es);

@@ -43,7 +43,8 @@ class VotosExcel implements FromQuery,  WithHeadings, WithEvents
                 ->where('estavotacion.periodo', $this->per)
                 ->select('users.name', 'users.apellido', 'users.email', 'estavotacion.anio', 'estavotacion.periodo',  
                             DB::raw( 'COUNT(postulado.id_votocat) as total'))
-                ->groupBy('users.name', 'users.apellido', 'users.email', 'estavotacion.anio', 'estavotacion.periodo');
+                ->groupBy('users.name', 'users.apellido', 'users.email', 'estavotacion.anio', 'estavotacion.periodo')
+                ->orderBy('total', 'desc');
                
         }elseif( $this->estadovot == 3){
             //=========== se realizo interacción con los modelos ====
