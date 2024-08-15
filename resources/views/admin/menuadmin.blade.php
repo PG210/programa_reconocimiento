@@ -100,7 +100,7 @@
             <a href="{{route('habilitar_votacion')}}" class="nav-link @if(Request::is('admin/votacion')) active @endif">
             <i class="nav-icon fas fa-vote-yea"></i>
               <p>
-                Votación
+               Control de votaciones
               </p>
             </a>
           </li>

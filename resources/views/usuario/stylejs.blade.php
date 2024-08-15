@@ -34,9 +34,9 @@
 <!-- AdminLTE for demo purposes -->
 
 <!--mensajes infor-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{{ asset('dist/js/toastr.min.js')}}"></script>
 <!--datatables-->
 
 <!---para intro de los mensajes -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.0.0/intro.min.js"></script>
+<script src="{{ asset('dist/js/intro.min.js')}}"></script>
 

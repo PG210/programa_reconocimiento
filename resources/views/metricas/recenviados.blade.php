@@ -9,10 +9,11 @@
   <thead class="tablaheader">
     <tr>
       <th scope="col">No</th>
-      <th scope="col">Nombre</th>
-      <th scope="col">Fecha</th>
+      <th scope="col">Nombres</th>
+      <th scope="col"></th>
+      <!--<th scope="col">Fecha</th>-->
       <th scope="col">Categoría</th>
-      <th scope="col">Comportamiento</th>
+     <!-- <th scope="col">Comportamiento</th>-->
       <th scope="col">Detalle</th>
       <th scope="col">Peñutes</th>
     </tr>
@@ -27,10 +28,10 @@
       </tr>
       @foreach ($registros as $info)
         <tr>
-          <td colspan="2"></td> 
-          <td>{{ date('Y-m-d', strtotime($info->fecha)) }}</td>
+          <td colspan="3"></td> 
+          <!--<td>{{ date('Y-m-d', strtotime($info->fecha)) }}</td>-->
           <td>{{ $info->cate }}</td>
-          <td>{{ $info->comportamiento }}</td>
+          <!--<td>{{ $info->comportamiento }}</td>-->
           <td>{{ $info->detalle }}</td>
           <td>{{ $info->puntaje }}</td>
         </tr>

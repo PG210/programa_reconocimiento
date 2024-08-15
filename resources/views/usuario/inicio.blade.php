@@ -1,6 +1,7 @@
 @extends('usuario.principa_usul')
 @section('content')
-<link href="https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.min.css" rel="stylesheet">
+
+<link href="{{ asset('css/emojionearea.min.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/emoticones.css')}}">
 <script src="{{ asset('js/emoticones.js')}}"></script>
      <!-- Carga jQuery primero -->
@@ -250,7 +251,8 @@
   </div>
 </div>
 @endif
-<script type="text/javascript" src="https://rawgit.com/mervick/emojionearea/master/dist/emojionearea.js"></script>
+
+<script type="text/javascript" src="{{ asset('dist/js/emojionearea.js')}}"></script>
 <script>
   $('textarea[class*="contenido"]').emojioneArea({
       pickerPosition: "bottom"

@@ -54,7 +54,7 @@
                 <div class="row mt-3">
                 <div class="col-lg-1 col-md-1 col-sm-12 text-center">
                   <div class="bg-warning py-2 text-white text-center" style="border-radius:10px;  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);">
-                  <span> <i class="fas fa-medal"></i> {{count($detalle)}} </span>
+                  <span> <i class="fas fa-medal"></i> @if(is_countable($detalle) && count($detalle) > 0) {{count($detalle)}} @else 0 @endif  </span>
                   </div>
                     <span class="badge badge-primary" style="white-space:normal;">Total</span>
                 </div>
@@ -140,8 +140,21 @@
                         </div>
                       </div>
                       <div class="col-lg-9">
-                        <h6>{{$det->det}}</h6>
-                        <p class="text-muted small">Por: {{$det->nomenvia}} {{$det->apenvia}}</p>
+                        <!-- validar que solamente aparezcan 15 palabras -->
+                        @php
+                            $descripcion = $det->det;
+                            $palabras = explode(' ', $descripcion);
+                            $idcat = $det->idcat;
+                        @endphp
+                        @if(count($palabras) > 15)
+                            <h6 id="descripcion-corta{{$idcat}}">{{ implode(' ', array_slice($palabras, 0, 15)) }}...</h6>
+                            <h6 id="descripcion-completa{{$idcat}}" class="d-none">{{ $descripcion }}</h6>
+                           
+                            <a id="toggle-text{{ $idcat }}" onclick="toggleText({{ $idcat }})" class="btn btn-link p-0 text-sm">Ver más</a>
+                        @else
+                            <h6> {{ $descripcion }} </h6>
+                        @endif
+                        <p class="text-muted small mt-1">Por: {{$det->nomenvia}} {{$det->apenvia}}</p>
                       </div>
                     </div>
                     <!---emoticones -->
@@ -228,6 +241,7 @@
                     </div>
                     <!------------->
                   </div>
+                 
                   <div class="card-footer">
                     <small class="text-muted">{{ \Carbon\Carbon::parse($det->fecha)->locale('es')->translatedFormat('j \\d\\e F \\d\\e Y, g:i a') }}</small>
                   </div>
@@ -374,66 +388,12 @@
     <!------------------------------------------end navegacion-------------------------------->
   </div>
 <!------##############script para que funcione el html en toottips#############-->
+
 <script> 
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
   </script>
-<!---script para cards--->
-<script>
-    $(document).ready(function() {
-      const cards = $('.card-group .card');
-      let currentIndex = 0;
-      const cardsPerPage = getCardsPerPage();
+<script src="{{ asset('js/cards.js')}}"></script>
 
-      /*Tamanio de la pantalla*/
-      function getCardsPerPage() {
-            const width = $(window).width();
-            if (width >= 992) { // Pantallas grandes (>= 992px)
-                return 3;
-            } else { // Pantallas medianas y pequeñas
-                return 2;
-            }
-        }
-
-      function updateCards() {
-        cards.removeClass('show').hide();
-        for (let i = currentIndex; i < currentIndex + cardsPerPage; i++) {
-          if (i < cards.length) {
-            $(cards[i]).addClass('show').fadeIn();
-          }
-        }
-        $('#prev').prop('disabled', currentIndex <= 0);
-        $('#next').prop('disabled', currentIndex + cardsPerPage >= cards.length);
-      }
-
-      $('#next').click(function() {
-        if (currentIndex + cardsPerPage < cards.length) {
-          currentIndex += cardsPerPage;
-          updateCards();
-        }
-      });
-
-      $('#prev').click(function() {
-        if (currentIndex - cardsPerPage >= 0) {
-          currentIndex -= cardsPerPage;
-          updateCards();
-        }
-      });
-      /*Detecta la pantalla cambia de tamanio */
-      $(window).resize(function() {
-            cardsPerPage = getCardsPerPage();
-            currentIndex = 0; // Reiniciar a la primera página
-            updateCards();
-        });
-
-      updateCards();
-    });
-  </script>
-   <script>
-        document.getElementById('fecini').addEventListener('change', function() {
-            var fecini = document.getElementById('fecini').value;
-            document.getElementById('fecfin').min = fecini;
-        });
-    </script>
 @endsection

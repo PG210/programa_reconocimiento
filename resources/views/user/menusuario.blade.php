@@ -48,7 +48,7 @@
             <a href="{{route('votacion_user')}}" class="nav-link @if(Request::is('vista/votacion')) active @endif">
             <i class="nav-icon fas fa-vote-yea"></i>
               <p>
-                Votación
+                Participar en votación
               </p>
             </a>
           </li>

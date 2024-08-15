@@ -142,10 +142,12 @@ class ReconocimientosController extends Controller
         $esta=0;
         $recibidos="sin datos";
         $categoria="sin datos";
-        $detalle="sin datos";
+        $detalle=[];
         $puntos="sin datos";
         $comentarios = '';
         $usureac = '';
+        $emoticones = '';
+        $rmes = '';
         // retornar las recompensas 
         $reconocimientosquery = $this->reporte_reconocimiento($idlog, $mesActual, $anioActual);
         $reconocimientos = $reconocimientosquery['rec'];
