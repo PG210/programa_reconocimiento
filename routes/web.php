@@ -17,6 +17,7 @@ use App\Http\Controllers\VotacionController\VotacionControl;
 use App\Http\Controllers\ImportacionController\Importacion;
 use App\Http\Controllers\MensajesController\MensajesControl;
 use App\Http\Controllers\Comunicacion\ComunicacionController; //ruta para comunicacion
+use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -226,7 +227,7 @@ Route::get('/reacciones', [Inicio::class, 'reacciones'])->name('reacciones')->mi
 Route::any('/comentario', [Inicio::class, 'comentario'])->name('comentario')->middleware(['auth']);
 
 Route::get('/correo/not', function () {
-    return view('correos.notificacion');
+    return view('correos.reconocimiento');
 });
 
 //================== reporte de votaciones =========
@@ -240,3 +241,14 @@ Route::resource('comunicacion', ComunicacionController::class)->middleware(['aut
 Route::get('/publicar', [ComunicacionController::class, 'publicar'])->name('publicar')->middleware(['auth']);
 require __DIR__.'/auth.php';
 
+// eliminar usuario
+Route::get('/users/delete/{id}', [Inicio::class, 'eliminaruser'])->middleware(['auth', 'admin'])->name('eliminaruser');
+
+//================== manejo de correo microsoft =================0
+Route::get('/redirect-to-microsoft', [MailController::class, 'redirectToMicrosoft']);
+Route::get('/oauth/callback', [MailController::class, 'handleMicrosoftCallback']);
+Route::post('/send-mail', [MailController::class, 'sendMail']);
+
+Route::get('/forprueba', function () {
+    return view('formprueba');
+});

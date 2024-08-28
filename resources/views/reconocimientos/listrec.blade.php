@@ -142,10 +142,10 @@
                                     <div class="user-panel mt-0 pb-0 mb-0 d-flex">
                                       <div class="image">
                                         @if($usuario->imagen!=null && $usuario->imagen != 'ruta')
-                                          <img src="{{asset('dist/imgperfil/'.$usuario->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
+                                          <img data-src="{{asset('dist/imgperfil/'.$usuario->imagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
                                         @endif
                                         @if($usuario->imagen==null || $usuario->imagen == 'ruta')
-                                        <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
+                                        <img data-src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;" >
                                         @endif
                                         </div>
                                       </div>
@@ -230,6 +230,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="{{ asset('js/formulario.js')}}"></script>
 <script src="{{ asset('js/buscador.js')}}"></script>
+<script src="{{ asset('dist/js/lazy.js')}}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     introJs().setOptions({

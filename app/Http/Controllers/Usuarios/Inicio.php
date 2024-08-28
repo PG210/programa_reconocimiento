@@ -18,12 +18,46 @@ use App\Mail\ReaccionesComentarios; //instanciar para enviar correos
 use Illuminate\Support\Facades\Mail; // enviar mails
 use Session;
 use App\Models\Comunicacion\ComunicacionModel;
+// librerias para eliminar
+use App\Models\RecibeCatMoldel\RecibirCat;
+use App\Models\Reconocimientos\ReconocimientosModal;
+use App\Models\JefesModal\JefesM;
+use App\Models\ModelNotify\Notificacion;
+use App\Models\ModelNotify\InsigniaNoti;
+use App\Models\EstadoVotModel\RegVotoModel;
+
 #use Illuminate\Support\Facades\Cache;
+use App\Services\MicrosoftGraphService;
+use App\Models\Token;
 //==========
 use App\Models\User;
+use App\Jobs\SendMailJob; // Importa el job
+
 
 class Inicio extends Controller
 {
+    
+    protected $graphService;
+
+    public function __construct(MicrosoftGraphService $graphService)
+    {
+        $this->graphService = $graphService;
+    }
+
+    //funcion para enviar los mensajes
+    // funcion para enviar correos y reutilizar
+    private function sendMail($destino, $data, $descrip, $valor){
+        // Renderiza la vista Blade con el contenido HTML
+        $content = view('correos.notificacion', [  
+              'datos' => $data, // valores para la vista de correo
+              'val' => $valor
+             ])->render();
+       
+         // Despacha el job a la cola
+        SendMailJob::dispatch($descrip, $content, $destino);
+
+        return true; // Puedes ajustar la respuesta según necesites
+    }
      //manejar sin cache
      private function detallecate(){
         $detalle = DB::table('catrecibida')
@@ -391,7 +425,7 @@ nombre
   }
 
   //============= reacciones =======
-  public function reacciones(Request $request){
+public function reacciones(Request $request){
     $usu = auth()->user()->id;
     $nombre = auth()->user()->name;
     $apellido = auth()->user()->apellido;
@@ -455,14 +489,23 @@ nombre
      // validar que el correo no sea de la misma persona que reacciona
      if(strtolower($emailusulog) != strtolower($reconocimiento->email)){
         $val = 1;
-        Mail::to($reconocimiento->email)->queue(new ReaccionesComentarios($datos, $val)); //envia mensajes
+        $descrip = "Nueva notificación";
+        $respuesta = $this->sendMail($reconocimiento->email, $datos, $descrip, $val);
+        //Mail::to($reconocimiento->email)->queue(new ReaccionesComentarios($datos, $val)); //envia mensajes
      }
      
      if(strtolower($emailusulog) != strtolower($reconocimiento->emailenvia)){ //enviar correo a la persona que envio el reconocimiento
         $val = 2;
-        Mail::to($reconocimiento->emailenvia)->queue(new ReaccionesComentarios($datos, $val));  
+        $descrip = "Nueva notificación";
+        $respuesta = $this->sendMail($reconocimiento->emailenvia, $datos, $descrip, $val);
+        //Mail::to($reconocimiento->emailenvia)->queue(new ReaccionesComentarios($datos, $val));  
      }
-    return response()->json($data);
+    return response()->json(
+        [
+            'data' => $data,
+            'respuesta' => $respuesta
+        ]
+    );
   }
 
   //========== comentario del history ======
@@ -519,12 +562,16 @@ nombre
      // validar que el correo no sea de la misma persona que reacciona
      if(strtolower($emailusulog) != strtolower($reconocimiento->email)){
         $val = 1;
-        Mail::to($reconocimiento->email)->queue(new ReaccionesComentarios($datos, $val)); //envia mensajes
+        $descrip = "Nueva notificación";
+        $respuesta = $this->sendMail($reconocimiento->email, $datos, $descrip, $val);
+        //Mail::to($reconocimiento->email)->queue(new ReaccionesComentarios($datos, $val)); //envia mensajes
      }
      
      if(strtolower($emailusulog) != strtolower($reconocimiento->emailenvia)){ //enviar correo a la persona que envio el reconocimiento
         $val = 2;
-        Mail::to($reconocimiento->emailenvia)->queue(new ReaccionesComentarios($datos, $val));  
+        $descrip = "Nueva notificación";
+        $respuesta = $this->sendMail($reconocimiento->emailenvia, $datos, $descrip, $val);
+        //Mail::to($reconocimiento->emailenvia)->queue(new ReaccionesComentarios($datos, $val));  
      }
      //======== para imagenes de carrucel
      $images = ComunicacionModel::orderBy('posicion', 'asc')->get();
@@ -538,7 +585,8 @@ nombre
         'users' => $users,
         'comentarios' => $comentarios,
         'valor' => $valor,
-        'estadoimg' => $estadoimg
+        'estadoimg' => $estadoimg,
+        'respuesta' => $respuesta
     ]);
      
     }else{
@@ -548,6 +596,49 @@ nombre
     //=========== aqui termina la validacion ===
 
   }
+
+  //==================== eliminar usuario =========
+public function eliminaruser($id){
+    //return $id;
+        $datosusu = Usuarios::find($id); // buscar datos del usuario
+        // Eliminar las notificaciones 
+        $notificacionesIds = Notificacion::join('catrecibida', 'notificaciones.idnotifi', '=', 'catrecibida.id')
+                     ->where('catrecibida.id_user_recibe', $id)
+                     ->Orwhere('catrecibida.id_user_envia', $id)
+                     ->pluck('notificaciones.idnotifi');
+        Notificacion::whereIn('idnotifi', $notificacionesIds)->delete();
+        // eliminar las notifiaciones de insignias recibidas 
+        $notinsigIds = InsigniaNoti::join('insignia_obtenida', 'noti_insignia.id_insignoti', '=', 'insignia_obtenida.id')
+                        ->where('insignia_obtenida.id_usuario', $id)
+                        ->pluck('noti_insignia.id_insignoti');
+        InsigniaNoti::whereIn('id_insignoti', $notinsigIds)->delete();
+        // eliminar votos
+        $idsvoto =RegVotoModel::where('id_postulado', $id)->Orwhere('id_votante', $id)->pluck('id');
+        RegVotoModel::whereIn('id', $idsvoto)->delete();
+        // eliminar  el grupo
+        UserGrupoModel::where('idusu', $id)->delete();
+        // eliminar los comentarios y reacciones que hizo el usuario sobre otros reconocimientos
+        Comentarios::where('idusu', $id)->delete();
+        Emoticones::where('iduser', $id)->delete();
+        // eliminar todos los reconocimientos obtenidos
+        $recibidos = RecibirCat::where('id_user_recibe', $id)
+                     ->Orwhere('id_user_envia', $id)
+                     ->pluck('catrecibida.id');
+        
+         // Elminar comentarios y emoticones de los reconociminetos que recibio el usuario
+        Comentarios::whereIn('idrec', $recibidos)->delete();
+        Emoticones::whereIn('idrec', $recibidos)->delete();
+        
+        RecibirCat::whereIn('id', $recibidos)->delete();
+        //======================================================
+        ReconocimientosModal::where('id_usuario', $id)->delete();
+        JefesM::where('id_jefe', $id)->delete();
+        JefesM::where('id_reporta', $id)->delete();
+        // Luego, eliminar el usuario en la tabla Users (por ejemplo)
+        Usuarios::where('id', $id)->delete();
+    Session::flash('regexit', 'El Colaborador: ' . $datosusu->name . ' '. $datosusu->apellido . ', ha sido eliminado de manera exitosa.');  
+   return back();
+}
 
 }
 

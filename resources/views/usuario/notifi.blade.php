@@ -111,10 +111,10 @@
                                   <div class="col-3">
                                     <div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">
                                     @if($n->imagen!=null)
-                                      <img src="{{asset('dist/imgperfil/'.$n->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
+                                      <img data-src="{{asset('dist/imgperfil/'.$n->imagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
                                     @endif
                                     @if($n->imagen == null)
-                                       <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
+                                       <img data-src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;" >
                                     @endif
                                     <br>
                                    </div>
@@ -142,7 +142,7 @@
                                   <h6 style="padding-left:20px;" style="color:#FFFFFF;"><i class="fas fa-award mr-2" style="color:#ffbd03"></i> Recibiste un reconocimiento</h6>
                                 </div>
                                 <div class="col-6 text-right">
-                                  <img src="{{asset('imgpremios/'.$n->rutaimagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;
+                                  <img data-src="{{asset('imgpremios/'.$n->rutaimagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;
                                   <span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;"> {{$n->catpuntos}}</span>
                                 
                                 </div>
@@ -198,7 +198,7 @@
                               <div class="row">
                                   <div class="col-3">
                                     <div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">
-                                     <img src="{{asset('imgpremios/'.$in->imginsig)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
+                                     <img data-src="{{asset('imgpremios/'.$in->imginsig)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
                                     <br>
                                    </div>
                                   </div>
@@ -225,7 +225,7 @@
                                   <h6 style="padding-left:20px;" style="color:#FFFFFF;"><i class="fas fa-gift mr-2" style="color:#ffbd03"></i> Recibiste una Recompensa</h6>
                                 </div>
                                 <div class="col-6 text-right">
-                                  <img src="{{asset('imgpremios/'.$in->preimagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;
+                                  <img data-src="{{asset('imgpremios/'.$in->preimagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;
                                   <span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;"> {{$in->insigpuntos}}</span>
                                 
                                 </div>
@@ -291,10 +291,10 @@
                                  <div class="col-3">
                                    <div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">
                                    @if($le->imagen!=NULL)
-                                    <img src="{{asset('dist/imgperfil/'.$le->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
+                                    <img data-src="{{asset('dist/imgperfil/'.$le->imagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
                                    @endif
                                    @if($le->imagen==NULL)
-                                   <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
+                                   <img data-src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;" >
                                    @endif
                                    <br>
                                   </div>
@@ -322,7 +322,7 @@
                                  <h6 style="padding-left:20px;" style="color:#FFFFFF;"><i class="fas fa-award mr-2" style="color:#ffbd03"></i> Recibiste un reconocimiento</h6>
                                </div>
                                <div class="col-6 text-right">
-                                 <img src="{{asset('imgpremios/'.$le->rutaimagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;
+                                 <img data-src="{{asset('imgpremios/'.$le->rutaimagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;
                                  <span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;"> {{$le->catpuntos}}</span>
                                
                                </div>
@@ -383,7 +383,7 @@
                               <div class="row">
                                   <div class="col-3">
                                     <div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">
-                                     <img src="{{asset('imgpremios/'.$i->imginsig)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
+                                     <img data-src="{{asset('imgpremios/'.$i->imginsig)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
                                     <br>
                                    </div>
                                   </div>
@@ -410,7 +410,7 @@
                                   <h6 style="padding-left:20px;" style="color:#FFFFFF;"><i class="fas fa-gift mr-2" style="color:#ffbd03"></i> Recibiste una Recompensa</h6>
                                 </div>
                                 <div class="col-6 text-right">
-                                  <img src="{{asset('imgpremios/'.$i->preimagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;
+                                  <img data-src="{{asset('imgpremios/'.$i->preimagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;
                                   <span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;"> {{$i->insigpuntos}}</span>
                                 
                                 </div>
@@ -476,6 +476,7 @@
 <!-- Button trigger modal -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js"></script>
+
 <script>
 
 function test(id){

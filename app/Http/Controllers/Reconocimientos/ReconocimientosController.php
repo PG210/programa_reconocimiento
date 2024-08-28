@@ -22,9 +22,22 @@ use App\Models\RecibeCatMoldel\Comentarios;
 use App\Models\RecibeCatMoldel\Emoticones;
 use App\Models\Insignias\InsigniasModel; 
 use  Session;
+//========== librerias para el servicio 
+use App\Services\MicrosoftGraphService;
+use App\Models\Token;
+
+use App\Jobs\SendMailJob; // Importa el job
+
 
 class ReconocimientosController extends Controller
 {
+    protected $graphService;
+
+    public function __construct(MicrosoftGraphService $graphService)
+    {
+        $this->graphService = $graphService;
+    }
+    //============================================
     public function enviar(){
       return redirect('/reconocimientos/usuario');
     }
@@ -215,46 +228,6 @@ public function filtrarReconocimientos(Request $request){
   return back();
 }
    
- /* public function listarrec(){
-      $valcateg=Comportamiento::count();
-      $nompuntos = PuntosModel::findOrFail(1); // nombre para los puntos
-      $uselogeado=auth()->id(); 
-      if($valcateg){//valida que por lo menos haya 5 categorias registradas puesto que las tablas donde se asignan los puntos a categoria solamente esta para 5 campos
-              $v=Comportamiento::count();
-            if($v>1){
-              $b=1;
-              $categoria=Comportamiento::where('comportamiento_categ.descripcion', '!=', 'Default')->get();
-            }else{
-              $b=0;
-              $categoria=Comportamiento::get();
-            }
-            $usuarios=Usuarios::where('users.id', '!=', $uselogeado)->where('users.id_rol', '!=', 1)->get();
-            //$cat = DB::table('categoria_reconoc')->get();
-            /////################################################
-            //$contarusu=DB::table('users')->MAX('users.id');
-            //$rand = range(2, $contarusu); //obtiene numeros sin repetirse
-            //shuffle($rand); //intercala los numeros sin repetirse
-            //$totdatos = DB::table('users')->count(); //contar los datos para iterar nuevo random
-            //$totdatos = $totdatos-1;
-            //$posrand = rand(0, $totdatos);
-            //$numberid = $rand[0];         
-            //$numberid = mt_Rand(1, $contarusu);
-            //$val=DB::table('users')->where('users.id', '=', $numberid)->count();
-            //if($val != 0){
-            //      $c=1;
-             //     $usuazar=DB::table('users')->where('users.id', '=', $numberid)->where('users.id', '!=', $uselogeado)->get();
-             // }else{
-             // $c=0;
-             // $usuazar="sin datos";
-          // }
-          return view('reconocimientos.listrec')->with('usu', $usuarios)->with('categoria', $categoria)->with('b', $b)->with('nompuntos', $nompuntos);
-            /////##############################################
-      }else{//sino hay mas de 5 registros solamente retornara un mensaje registre categorias 
-        Session::flash('messajeinfo', 'Por Favor Registre Almenos Cinco Categorias!'); 
-        return back();
-      }     
-  }  */
-
 public function listarrec(){
       $valcateg = Comportamiento::count();
       $nompuntos = PuntosModel::findOrFail(1); // nombre para los puntos
@@ -293,6 +266,61 @@ public function listarrec(){
                             'comportamiento_categ.descripcion as catinsig')
                     ->first();
   }
+
+// funcion para enviar correos y reutilizar
+/*
+private function sendMail($destino, $data, $descrip, $valor){
+      $ultimoToken = Token::latest()->first(); //token desde la base de datos
+      $accessToken = $ultimoToken->access_token; //recuperar token
+      if (!$accessToken) {
+          //refrescar token
+          return false;
+      }
+      // Renderiza la vista Blade con el contenido HTML
+      if($valor == 1){
+        $content = view('correos.reconocimiento', [
+            'datosrec' => $data, // valores para la vista de correo
+        ])->render();
+      }elseif($valor == 2){
+        $content = view('correos.insignias', [  
+            'datosin' => $data, // valores para la vista de correo
+        ])->render();
+      }
+      // enviar correo
+      $result = $this->graphService->sendMail(
+          $descrip,
+          $content,
+          $destino
+      );
+      if($result['status'] === 'success') {
+          return true;
+      } else {
+          return false;
+      }
+  }*/
+
+ 
+
+// Función para enviar correos y reutilizar
+private function sendMail($destino, $data, $descrip, $valor)
+{
+    // Renderiza la vista Blade con el contenido HTML
+    if ($valor == 1) {
+        $content = view('correos.reconocimiento', [
+            'datosrec' => $data, // valores para la vista de correo
+        ])->render();
+    } elseif ($valor == 2) {
+        $content = view('correos.insignias', [  
+            'datosin' => $data, // valores para la vista de correo
+        ])->render();
+    }
+
+    // Despacha el job a la cola
+    SendMailJob::dispatch($descrip, $content, $destino);
+
+    return true; // Puedes ajustar la respuesta según necesites
+}
+
 
   public function recocatguardar(Request $request){
           #======== tener en cuenta las categorias puesto que solamente pueden guardar hasta 5 
@@ -345,7 +373,9 @@ public function listarrec(){
                         'catrecibida.puntos', 'categoria_reconoc.nombre as comportamiento', 'categoria_reconoc.rutaimagen', 
                         'envia.name as nomenvia', 'envia.apellido as apenvia', 'recibe.name as nomrecibe', 'recibe.apellido as aperecibe', 'recibe.email as correocibe')
                         ->first();
-              Mail::to($datosrec->correocibe)->queue(new Reconocimiento($datosrec)); //envia mensajes
+              // Mail::to($datosrec->correocibe)->queue(new Reconocimiento($datosrec)); //envia mensajes
+              $descrip = "Nuevo reconocimiento";
+             $respuesta = $this->sendMail($datosrec->correocibe, $datosrec, $descrip, 1);
           }
           //==================aqui se debe verificar si gano una insignia========================================
       
@@ -389,7 +419,9 @@ public function listarrec(){
                 //enviar correo si gano una insignia
                $datosin = $this->obtenerInsig($inobtenida->id);
     
-               Mail::to($datosin->correocibe)->queue(new InsigniaEmail($datosin)); //envia mensajes   
+              // Mail::to($datosin->correocibe)->queue(new InsigniaEmail($datosin)); //envia mensajes
+              $descrip = "Ganaste una insignia";
+              $this->sendMail($datosin->correocibe, $datosin, $descrip, 2);
 
           }
             
@@ -423,8 +455,9 @@ public function listarrec(){
                                                 'insignia.puntos as insigpuntos', 'insignia.rutaimagen as imginsig', 'premios.name as premionom', 'premios.descripcion as predes',
                                                 'premios.rutaimagen as preimagen', 'insignia_obtenida.fecha', 'users.name as nomrecibe', 'users.apellido as aperecibe', 'users.email as correocibe')
                                         ->first();
-    
-               Mail::to($datosinsigniapuntos->correocibe)->queue(new InsigniaEmail($datosinsigniapuntos)); //envia mensajes
+              $descrip = "Ganaste una insignia";
+              $this->sendMail($datosinsigniapuntos->correocibe, $datosinsigniapuntos, $descrip, 2);
+              //Mail::to($datosinsigniapuntos->correocibe)->queue(new InsigniaEmail($datosinsigniapuntos)); //envia mensajes
             }
           }
         }
@@ -438,7 +471,13 @@ public function listarrec(){
                     ->limit(2)
                     ->get(); 
         }
-      return response(json_decode($usuazar),200)->header('Content-type', 'text/plain');
+        return response()->json(
+          [
+              'usuazar' => $usuazar,
+              'respuesta' => $respuesta
+          ]
+      );
+      // return response(json_decode(['usuazar' => $usuazar, 'respuesta' => $respuesta]),200)->header('Content-type', 'text/plain');
       //return back();
     }
 

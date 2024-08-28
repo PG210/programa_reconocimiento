@@ -20,10 +20,17 @@
         detexto:detexto,
         _token:_token
       }, 
-        success:function(response){
-          var dat = JSON.parse(response);
-          $("#sugerir").empty();
-          if(dat.length!=0){
+      dataType: 'json', //debe agregar para ver el tipo de dato a recibir
+        success:function(response){ 
+        let dat = response['usuazar'];
+        let respuesta = response['respuesta'];
+        
+        if(!respuesta){
+          window.alert('Correo no enviado, por favor notifica al administrador.');
+        }
+         
+        $("#sugerir").empty();
+        if(dat.length!=0){
           $('#formudatos')[0].reset();
           toastr.success('El envió de reconocimiento fue exitosó', 'Nuevo Reconocimiento', {timeOut:3000});
           //setTimeout(refrescar, 2000);

@@ -106,7 +106,6 @@ class Notificar extends Controller
    }
 
   public function correo(){
-          
             $datosin =  DB::table('insignia_obtenida')
             ->join('insignia', 'insignia_obtenida.id_insignia', '=', 'insignia.id')
             ->join('premios', 'insignia.id_premio', '=', 'premios.id')
@@ -120,6 +119,7 @@ class Notificar extends Controller
             ->first();
 
            Mail::to($datosin->correocibe)->send(new InsigniaEmail($datosin)); //envia mensajes
+
            return new InsigniaEmail($datosin);
   }
 }

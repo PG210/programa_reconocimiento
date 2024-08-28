@@ -92,8 +92,8 @@
       <td align="center" style="padding:0;">
         <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
           <tr>
-            <td align="center" style="padding:5px 0 5px 0;background:#6D7274;">
-             <img src="https://asareconoser.evolucion.co/dist/img/logoas.png" alt="Cargando imagen ..." style="height:auto;display:block;" />
+            <td align="center" style="padding:5px 0 5px 0;background:#DEA064;">
+             <img src="https://ubuntu.evolucion.co/dist/img/logo_evo.png" alt="Cargando imagen ..." style="width:50px; display:block;" />
              <h1 style="font-size:24px;margin:0 0 10px 0;font-family:Arial,sans-serif; color:white;">¡Felicidades! <span style="color:white;">@if(isset($datosin)){{$datosin->nomrecibe}} {{$datosin->aperecibe}}@endif</span></h1>
             </td>
           </tr>
@@ -152,11 +152,11 @@
             </td>
           </tr>
           <tr>
-            <td style="padding:30px; background:#EF464B;">
+            <td style="padding:30px; background:#DEA064;">
               <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
                 <tr>
                   <td style="padding:0; width:50%;" align="left">
-                    <a href="https://www.evolucion.co/" target="_blank" style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:white;">
+                    <a href="https://www.evolucion.co/" target="_blank" style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:black;">
                       &reg; Evolución, 2024<br/>
                    </a>
                    <label style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:black;" >@if(isset($datosin)){{date ('Y-m-d', strtotime($datosin->fecha))}}@endif</label>

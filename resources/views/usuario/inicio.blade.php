@@ -12,7 +12,7 @@
         <div class="col-lg-3 col-md-3">
             <!---banner lateral-->
             @if(!empty($estadoimg->estado) && $estadoimg->estado == '1')
-            <img src="{{ asset('dist/img/enviare.jpg')}}" class="card-img-top d-none d-sm-block" alt="Cargando imagen ..." style="border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
+            <img data-src="{{ asset('dist/img/enviare.jpg')}}" class="card-img-top d-none d-sm-block lazy-load" alt="Cargando imagen ..." style="border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
             @endif
             <div class="card-body">
               <h5 class="text-center letra1 mb-2"><b>Envia Reconocimientos</b></h5>
@@ -37,7 +37,7 @@
                       <div class="carousel-inner carousel-fade">
                           @foreach($images as $index => $imgs)
                               <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                  <img src="{{ asset('dist/carrucel/' . $imgs->imagen) }}" class="d-block w-100" alt="...">
+                                  <img data-src="{{ asset('dist/carrucel/' . $imgs->imagen) }}" class="d-block w-100 lazy-load" alt="...">
                                   <div class="carousel-caption d-none d-md-block">
                                       <h5 style="color: {{ $imgs->colorletra ?? '#000000' }}; background-color:{{ $imgs->colorfondo ?? 'transparent' }}; border-radius:10px; opacity:0.7;">{{ $imgs->descrip }}</h5>
                                   </div>
@@ -54,7 +54,7 @@
                       </button>
                   </div>
                   @else
-                    <img src="{{ asset('dist/img/enviare.jpg')}}" class="card-img-top" alt="Cargando imagen ..." style="border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
+                    <img data-src="{{ asset('dist/img/enviare.jpg')}}" class="card-img-top lazy-load" alt="Cargando imagen ..." style="border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
                     <div class="card-body">
                       <h5 class="text-center letra1 mb-2"><b>Envia Reconocimientos</b></h5>
                       <p class="card-text" style="text-align: center;"><a href="{{route('listareconocer')}}" type="button" class="btn confirmar letraform">Ingresar</a></p>
@@ -73,10 +73,22 @@
            <!--card-->
           <!--end carrucel-->
         </div>
-        <div class="col-lg- col-md-2"></div>
+        <div class="col-md-2"></div>
      </div>
      <!-----================================================================--->
      <div class="row mt-3">
+        <div class="col-lg-12 col-md-12 col-12 text-center">
+          @if(isset($respuesta))
+            @if($respuesta == false)
+            <script>
+                window.alert('Correo no enviado, por favor notifica al administrador.');
+            </script>
+            @endif
+          @endif
+        </div>
+     </div>
+     <div class="row">
+     <!---mensaje--->
       <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-10 col-md-10 col-sm-12 col-12" style="border: 1px solid #ccc; box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2); padding: 10px;">
               <div class="container scrolly" style=" border: 2px; border-radius: 25px; background-color:white;">
@@ -93,16 +105,16 @@
                 <div class="card mb-3 mt-3">
                   <div class="row no-gutters">
                   <div class="col-md-4 col-lg-4">
-                      <img src="{{asset('imgpremios/'.$det->img)}}" class="img-thumbnail"  alt="Cargando imagen ...">
+                      <img data-src="{{asset('imgpremios/'.$det->img)}}" class="img-thumbnail lazy-load"  alt="Cargando imagen ...">
                     </div>
                     <div class="col-md-8 col-lg-8">
                       <div class="card-body">
                           <!--foto de perfil -->
                           <div  class="user-panel mt-0 pb-0 mb-0" style="white-space: normal;">
                             @if($det->imagenenv != 'ruta' && $det->imagenenv != '' )
-                              <img src="{{asset('dist/imgperfil/'.$det->imagenenv)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
+                              <img data-src="{{asset('dist/imgperfil/'.$det->imagenenv)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
                             @else
-                              <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
+                              <img data-src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;" >
                             @endif
                             <span> <b>&nbsp;&nbsp;{{ $det->nomenvia }} {{ $det->apenvia }}</b>&nbsp; reconocio a &nbsp;<b>{{ $det->nomrecibe }} {{ $det->aperecibe }}</b></span>
                             <p class="card-text mx-2"><small class="text-muted">{{ date('j F, Y', strtotime($det->fecha)) }}</small></p>
@@ -226,7 +238,7 @@
 @if(Auth::user()->id_rol==1) <!--Logeado como administrador-->
 <div class="card-deck">
   <div class="card" style=" border: 2px; border-radius: 25px; background-color:white;">
-    <img src="{{ asset('dist/img/enviare.jpg')}}" class="card-img-top "  alt="..." style="border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
+    <img data-src="{{ asset('dist/img/enviare.jpg')}}" class="card-img-top lazy-load"  alt="..." style="border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
     <div class="card-body">
       <p class="card-text letra1" style="text-align: center;">
       <b>Categorias</b><br><br>
@@ -234,7 +246,7 @@
     </div>
   </div>
   <div class="card" style=" border: 2px; border-radius: 25px; background-color:white;">
-    <img src="{{ asset('dist/img/ganareco.jpg')}}" class="card-img-top img-fluid d-none d-sm-none d-md-block" alt="..."  style="height: 75%; border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
+    <img data-src="{{ asset('dist/img/ganareco.jpg')}}" class="card-img-top img-fluid d-none d-sm-none d-md-block lazy-load" alt="..."  style="height: 75%; border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
     <div class="card-body">
       <p class="card-text letra1" style="text-align: center;">
       <b>Insignias</b><br><br>
@@ -242,7 +254,7 @@
     </div>
   </div>
   <div class="card" style=" border: 2px; border-radius: 25px; background-color:white;">
-    <img src="{{ asset('dist/img/ganains.jpg')}}" class="card-img-top img-fluid" style="border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
+    <img data-src="{{ asset('dist/img/ganains.jpg')}}" class="card-img-top img-fluid lazy-load" style="border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
     <div class="card-body">
       <p class="card-text letra1" style="text-align: center;">
        <b>Empresa</b><br><br>
@@ -252,7 +264,7 @@
 </div>
 @endif
 
-<script type="text/javascript" src="{{ asset('dist/js/emojionearea.js')}}"></script>
+<script type="text/javascript" src="{{asset('dist/js/emojionearea.js')}}"></script>
 <script>
   $('textarea[class*="contenido"]').emojioneArea({
       pickerPosition: "bottom"

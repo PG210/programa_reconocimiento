@@ -194,6 +194,8 @@
                         <a type="button" data-toggle="modal" data-target="#cambiarPro{{ $c->id }}" data-placement="bottom" title="{{ $c->esta == 'habilitado' ? 'Deshabilitar' : 'Habilitar' }}">
                                 <i class="nav-icon fas fa-toggle-{{ $c->esta == 'habilitado' ? 'on' : 'off' }}" style="color: {{ $c->esta == 'habilitado' ? '#64e108' : '#9cbe82' }}; font-size:20px;"></i>
                         </a>
+                        <!--eliminar -->
+                        <a href="{{route('eliminaruser',$c->id)}}" data-toggle="tooltip" data-placement="bottom"  title="Eliminar" onclick="return confirm('¿Realmente desea eliminar este usuario?');"><i class="nav-icon fas fa-trash" style="color:red; font-size:20px;" ></i></a>
                         @endif
                         <!-- Ventana modal para deshabilitar -->
                         <div class="modal fade" id="cambiarPro{{ $c->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

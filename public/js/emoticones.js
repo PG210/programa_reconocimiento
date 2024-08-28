@@ -11,8 +11,14 @@
         },
         dataType: 'json', //debe agregar para ver el tipo de dato a recibir
         success:function(data){
-        //console.log("datos", data);
-         mostrarDatos(data, idc);
+        // console.log("res", data['respuesta']);
+         let datos = data['data'];
+         let validar = data['respuesta'];
+         mostrarDatos(datos, idc);
+         //enviar mensaje si existe error
+         if(!validar){
+           window.alert('Correo no enviado, por favor notifica al administrador.');            
+         }
         },
         error:function(error){
             console.log("Error en la solicitud");
