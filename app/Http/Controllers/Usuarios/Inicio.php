@@ -42,7 +42,6 @@ use App\Models\Eventos\HolidaysModel;
 
 class Inicio extends Controller
 {
-
     protected $graphService;
 
     public function __construct(MicrosoftGraphService $graphService)

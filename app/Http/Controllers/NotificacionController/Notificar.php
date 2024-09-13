@@ -149,8 +149,8 @@ class Notificar extends Controller
             )
             ->first();
 
-        Mail::to($datosin->correocibe)->send(new InsigniaEmail($datosin)); //envia mensajes
+           Mail::to($datosin->correocibe)->send(new InsigniaEmail($datosin)); //envia mensajes
 
-        return new InsigniaEmail($datosin);
-    }
+           return new InsigniaEmail($datosin);
+  }
 }
