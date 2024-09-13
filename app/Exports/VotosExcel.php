@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Concerns\Exportable;
 
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class VotosExcel implements FromQuery,  WithHeadings, WithEvents
 {
@@ -23,6 +23,9 @@ class VotosExcel implements FromQuery,  WithHeadings, WithEvents
     * @return \Illuminate\Support\Collection
     */
     use Exportable;
+    public $anio;
+    public $per;
+    public $estadovot;
 
     public function __construct($anio, $per, $estadovot)
     {

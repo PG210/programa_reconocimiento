@@ -51,15 +51,33 @@
     <!---carga-->
         <!-- Button trigger modal -->
         <div class="row mt-1">
-           <div class="col-md-12 col-lg-4">
-            <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#carga"><i class="fas fa-file-excel"></i>&nbsp;Carga masiva</button>
-                <!---boton registro individual-->
-                <a class="btn btn-outline-success" data-toggle="collapse" href="#regusuarioindi" role="button" aria-expanded="false" aria-controls="collapseExample">
-                  <i class="fas fa-user-plus"></i>&nbsp;Usuario 
-                </a>
-                <!---==========================--->
-            </div>
+           <div class="col-md-10 col-lg-10 col-sm-6 col-6">
+            @if(empty($licencias))
+             <p class="letraform bg-info py-2">&nbsp;Para proceder con el registro de usuarios, por favor solicita las licencias al administrador.</p>
+            @else
+              @if($totaluser < $licencias->numlicencia)
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#carga"><i class="fas fa-file-excel"></i>&nbsp;Carga masiva</button>
+                    <!---boton registro individual-->
+                    <button type="button" class="btn btn-outline-success" data-toggle="collapse" href="#regusuarioindi" role="button" aria-expanded="false" aria-controls="collapseExample" >
+                    <i class="fas fa-user-plus"></i>&nbsp;Usuario 
+                    </button>
+                    <!---==========================--->
+                </div>
+              @else
+                <p class="letraform">&nbsp;Las licencias se han agotado. Para registrar más usuarios, por favor solicita nuevas licencias al administrador.</p>
+              @endif
+            @endif
+            <!---mensaje-->
+            @if($deshab == 1)
+               <span class="badge badge-danger letraform">Licencias vencidas el día: {{$fecha}} </span>
+            @endif
+           </div>
+           <div class="col-md-2 col-lg-2 col-sm-6 col-6 letraform">
+            @if(isset($licencias->numlicencia))
+              <h3 class="text-left badge badge-pill badge-info">Licencias</h3>
+              <h4 class="text-left badge badge-pill badge-primary">{{$totaluser}} / {{ $licencias->numlicencia }}</h4>
+            @endif
            </div>
             <!---=============================-->
             <div class="collapse mt-2" id="regusuarioindi">
@@ -191,9 +209,15 @@
                          <a href="{{route('actualizaruser',$c->id)}}" data-toggle="tooltip" data-placement="bottom"  title="Editar"><i class="nav-icon fas fa-edit" style="color:  #e1b308; font-size:20px;" ></i></a>
                         <!--#######################################3-->
                         @if($c->rol != 'admin')
-                        <a type="button" data-toggle="modal" data-target="#cambiarPro{{ $c->id }}" data-placement="bottom" title="{{ $c->esta == 'habilitado' ? 'Deshabilitar' : 'Habilitar' }}">
-                                <i class="nav-icon fas fa-toggle-{{ $c->esta == 'habilitado' ? 'on' : 'off' }}" style="color: {{ $c->esta == 'habilitado' ? '#64e108' : '#9cbe82' }}; font-size:20px;"></i>
-                        </a>
+                            @if($deshab != 1)
+                                <a type="button" data-toggle="modal" data-target="#cambiarPro{{ $c->id }}" data-placement="bottom" title="{{ $c->esta == 'habilitado' ? 'Deshabilitar' : 'Habilitar' }}">
+                                        <i class="nav-icon fas fa-toggle-{{ $c->esta == 'habilitado' ? 'on' : 'off' }}" style="color: {{ $c->esta == 'habilitado' ? '#64e108' : '#9cbe82' }}; font-size:20px;"></i>
+                                </a>
+                            @else
+                               <i class="nav-icon fas fa-toggle-off" style="color: #9cbe82, font-size:20px;"></i>
+                            @endif
+                        <!--eliminar -->
+                        <a href="{{route('eliminaruser',$c->id)}}" data-toggle="tooltip" data-placement="bottom"  title="Eliminar" onclick="return confirm('¿Realmente desea eliminar este usuario?');"><i class="nav-icon fas fa-trash" style="color:red; font-size:20px;" ></i></a>
                         @endif
                         <!-- Ventana modal para deshabilitar -->
                         <div class="modal fade" id="cambiarPro{{ $c->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

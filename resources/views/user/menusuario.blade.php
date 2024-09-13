@@ -4,7 +4,6 @@
   $es = DB::table('estavotacion')->where('estado', '=', 1)->select('estado')->get();
 
 ?>
-
 <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class

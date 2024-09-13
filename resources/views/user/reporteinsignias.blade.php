@@ -1,32 +1,41 @@
 @extends('usuario.principa_usul')
 @section('content')
 <style>
-      .tooltip-inner {
-        color: #ffffff; /* Cambia el color del texto del tooltip */
-        background-color: #333333; /* Cambia el color de fondo del tooltip */
-        border-radius: 5px; /* Opcional: redondea los bordes del tooltip */
-        padding: 10px; /* Opcional: agrega espacio interno al tooltip */
-      }
-      .carousel-control-prev,
-      .carousel-control-next {
-            position: absolute;
-            top: 80%;
-            width: auto;
-            height: auto;
-            color: black;
-        }
+  .tooltip-inner {
+    color: #ffffff; /* Cambia el color del texto del tooltip */
+    background-color: #333333; /* Cambia el color de fondo del tooltip */
+    border-radius: 5px; /* Opcional: redondea los bordes del tooltip */
+    padding: 10px; /* Opcional: agrega espacio interno al tooltip */
+  }
+  .carousel-control-prev,
+  .carousel-control-next {
+        position: absolute;
+        top: 80%;
+        width: auto;
+        height: auto;
+        color: black;
+    }
 
-        .carousel-control-prev {
-            left: 10px;
-        }
+    .carousel-control-prev {
+        left: 10px;
+    }
 
-        .carousel-control-next {
-            right: 10px;
-        }
+    .carousel-control-next {
+        right: 10px;
+    }
 
-        .dropright .dropdown-toggle::after {
-          display:none;
-        }
+    .dropright .dropdown-toggle::after {
+      display:none;
+    }
+  /*Mostrar la carga del icono*/
+  .lazy-load {
+      filter: blur(5px);
+      transition: filter 0.3s;
+  }
+
+  .lazy-load.loaded {
+      filter: blur(0);
+  }
 </style>
 <!---####################collapsed--->
   @if($esta==0)
@@ -111,7 +120,14 @@
                 </div>
                 <!--end puntos-->
             </div>
-            <div id="collapseTree" class="collapse show" aria-labelledby="headingTree" data-parent="#accordionExample">
+            <!---====================spiner===========--->
+            <div class="text-center">
+              <div id="loader" class="spinner-border text-primary text-center mt-3 mb-3" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+            <!---====================================--->
+            <div id="collapseTree" class="collapse show" aria-labelledby="headingTree" data-parent="#accordionExample" style="display: none;">
               <div class="card-body letraform">
                 <!--################-->
                 <div class="card-group">
@@ -126,7 +142,7 @@
                         </span>
                       </div>
                       <div class="col-lg-4 text-right">
-                        <img src="{{asset('imgpremios/'.$det->img)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">
+                        <img data-src="{{asset('imgpremios/'.$det->img)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">
                       </div>
                     </div>
                   </div>
@@ -135,7 +151,7 @@
                       <div class="col-lg-3">
                         <div class="user-panel mt-3 pb-3 d-flex">
                           <div class="image">
-                            <img src="{{asset('dist/imgperfil/'.$det->fperfil)}}" class="img-circle elevation-2" alt="User Image">
+                            <img data-src="{{asset('dist/imgperfil/'.$det->fperfil)}}" class="img-circle elevation-2 lazy-load" alt="User Image">
                           </div>
                         </div>
                       </div>
@@ -218,7 +234,7 @@
                                   <div class="image-container py-3 text-black text-center">
                                   <div data-toggle="tooltip" data-html="true" title="<div><span class='font-italic'> {{ $comen->nombre }} {{ $comen->apellido }}: </span><strong> {{$comen->comentario}}</strong></div>">
                                     <span class="text-sm text-wrap">{{ explode(' ', trim($comen->nombre))[0] }}</span><br>
-                                    <img src="{{asset('dist/imgperfil/'.$comen->imagen)}}" class="img-circle elevation-1 img-hover" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">
+                                    <img data-src="{{asset('dist/imgperfil/'.$comen->imagen)}}" class="img-circle elevation-1 img-hover lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">
                                   </div>
                                   </div>
                                 </div>
@@ -308,7 +324,7 @@
                             <tbody>
                               @foreach($insobtener as $ins)
                               <tr>
-                                <td><img src="{{asset('imgpremios/'.$ins->imgin)}}" class="img-responsive" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;"></td>
+                                <td><img data-src="{{asset('imgpremios/'.$ins->imgin)}}" class="img-responsive lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;"></td>
                                 <td>{{$ins->name}}</td>
                                 <td>{{$ins->descripcion}}</td>
                                 <td>{{$ins->puntos}}</td>
@@ -347,7 +363,7 @@
                       </span>
                     </div>
                     <div class="col-lg-4 text-right">
-                      <img src="{{asset('imgpremios/'.$r->imginsig)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">
+                      <img data-src="{{asset('imgpremios/'.$r->imginsig)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">
                     </div>
                   </div>
                 </div>
@@ -356,7 +372,7 @@
                  <!---card contenido -->
                    <div class="row">
                       <div class="col-lg-5">
-                        <img src="{{asset('imgpremios/'.$r->imgpremio)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;"> 
+                        <img data-src="{{asset('imgpremios/'.$r->imgpremio)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;"> 
                         <span class="badge badge-warning text-left" style="color:black;"> 
                           Puntos: {{$r->puntosin}}</span>
                       </div>
@@ -395,5 +411,15 @@
     });
   </script>
 <script src="{{ asset('js/cards.js')}}"></script>
+<script>
+    window.onload = function() {
+        setTimeout(function() {
+            // Ocultar el loader
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('collapseTree').style.display = 'block';
+            
+        }, 1000); // Tiempo de espera en milisegundos (3 segundos)
 
+    };
+</script>
 @endsection

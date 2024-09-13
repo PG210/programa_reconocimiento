@@ -53,10 +53,11 @@
                         <div class="form-group">
                            <input id="remember_me" type="checkbox" name="remember">&nbsp;Recordar contraseña
                         </div>
+
                         @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}">
+                           {{--<a href="{{ route('password.request') }}">
                             <u> Olvidó su contraseña?</u>
-                            </a>
+                            </a>--}}
                         @endif
                         <button type="submit" class="btn float-right boton" style="background-color:#15AFBA; color:white;">
                         <i class="bi bi-arrow-right-square-fill"></i>&nbsp;Entrar

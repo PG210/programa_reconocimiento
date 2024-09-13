@@ -6,35 +6,36 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Area\AreaModel;
 use App\Models\Area\CargoModel;
-use DB;
-use Session;
+use App\Models\Licencias\LicenciasModel;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
+use App\Models\Usuarios\Usuarios;
+use App\Models\Eventos\AntiguedadModel; // para antiguedad
+use App\Models\Eventos\CumpleModel; // cumpleanios
+use Intervention\Image\Facades\Image; // optimizar las imagenes
 
 
 class AreasController extends Controller
 {
     public function index(){
-        return view('admin.areas');
+        $areas = AreaModel::all();
+        $licencias = LicenciasModel::first();
+        $date = Carbon::now()->format('Y-m-d');
+        $totaluser = DB::table('users')->where('id_rol', '!=', '1')->count();
+        return view('admin.areas')->with('areas', $areas)->with('licencias', $licencias)->with('date', $date)->with('totaluser', $totaluser);
     }
 
     public function registrar(Request $request){
-        $nom=$request->nombre;
-        $val=DB::table('area')->where('nombre', '=', $nom)->count();
-        if($val==0){
 
+        $nom = strtolower($request->nombre);
+        $val = DB::table('area')->whereRaw('LOWER(nombre) = ?', [$nom])->count();
+        if($val==0){
             $category= new AreaModel();
             $category->nombre = $request->input('nombre');
-            $category->save();
-            //return back();
-            $info=DB::table('area')->get();
-            return response(json_decode($info),200)->header('Content-type', 'text/plain');
-
-        }else{
-
-            return \Response::json([
-                'error'  => 'Error datos'
-            ],422);
-           
+            $category->save();   
         }
+        return back();
        
     }
 
@@ -117,5 +118,141 @@ class AreasController extends Controller
         return back();
 
     }
+
+    //funcion para registrar licencias
+    public function reglicencias(Request $request){
+        $val = LicenciasModel::all();
+     
+        if(count($val) != 0){
+            $licencia = LicenciasModel::first();
+            $licencia->numlicencia = $request->asig;
+            $licencia->vencimiento = $request->vencimiento; 
+            $licencia->save();
+            
+        }else{
+            $licencia = new LicenciasModel();
+            $licencia->numlicencia = $request->asig;
+            $licencia->vencimiento = $request->vencimiento; 
+            $licencia->save();
+        }
+
+        // actualizar la fecha de las licencias
+        $licencias = LicenciasModel::first();
+        $datehoy = Carbon::now(); //fecha actual
+        $datevence = Carbon::parse($licencias->vencimiento); //fecha de vencimiento de la db
+        
+        if($datehoy->isSameDay($datevence)){
+            // Actualizar el estado a 1 para esos usuarios
+            Usuarios::where('id_estado', 1)->where('id_rol', '!=', 1)
+                    ->update(['id_estado' => 2]);
+        }else{
+            Usuarios::where('id_estado', 2)->where('id_rol', '!=', 1)
+                     ->update(['id_estado' => 1]);
+        }
+        
+       return back();
+    }
+
+  //==========================
+  public function eventos(){
+    $cumple = CumpleModel::first();
+    $ant = AntiguedadModel::all();
+    $monthup = Carbon::now()->month; //fecha actual
+    $monthName = ucfirst(Carbon::now()->translatedFormat('F'));
+    $datehoy = Carbon::now()->format('Y-m-d'); //fecha actual
    
+    $usuarios = Usuarios::whereMonth('fecna', $monthup)
+                ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
+                ->join('area', 'cargo.id_area', '=', 'area.id')
+                ->select('users.id', 'users.name', 'users.apellido', 'users.imagen', 
+                        DB::raw("DATE_FORMAT(fecna, CONCAT(YEAR(CURDATE()), '-%m-%d')) as fecha_cumple"), 
+                        'cargo.nombre as cargo', 'area.nombre as area', DB::raw('1 as estado'))
+                ->get(); //estado 1 para cumpleanios
+    
+    //consulta para aniversarios
+    $aniversario = Usuarios::whereMonth('fecingreso', $monthup)
+                    ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
+                    ->join('area', 'cargo.id_area', '=', 'area.id')
+                    ->select('users.id', 'users.name', 'users.apellido', 'users.imagen', 
+                        DB::raw("DATE_FORMAT(fecingreso, CONCAT(YEAR(CURDATE()), '-%m-%d')) as fecha_aniversario"), 
+                        DB::raw("TIMESTAMPDIFF(YEAR, fecingreso, CURDATE()) as total_anios"),
+                        'cargo.nombre as cargo', 'area.nombre as area', DB::raw('2 as estado'))->get();
+
+    return view('admin.eventos', compact('cumple', 'ant', 'usuarios', 'monthName', 'aniversario', 'datehoy'));
+  }
+
+  public function happybirthday(Request $request){
+     $val = '';
+     if($request->hasFile('file')){                 
+        $file = $request->file('file');
+        $val = "imgcumple".time().".".$file->guessExtension(); // este se debe guardar
+        $ruta = public_path("dist/eventos/".$val);
+        // Crear una instancia de la imagen y redimensionarla si es necesario
+        $img = Image::make($file->getRealPath());
+
+        // Redimensionar la imagen si es necesario
+        $img->resize(700, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        // Optimizar la imagen ajustando la calidad (70% en este ejemplo) y manteniendo la extensión original
+        $img->encode($file->guessExtension(), 80);
+        // Guardar la imagen optimizada en la ruta especificada
+        $img->save($ruta);
+        }
+        //===========================================
+        $validar = CumpleModel::first();
+        if(isset($validar->imagen)){
+            $datos = CumpleModel::first();
+            if(!empty($val)){
+              $datos->imagen = $val;
+            }
+            $datos->descrip = $request->descrip;
+            $datos->save();
+        }else{
+            $category = new CumpleModel();
+            $category->imagen = $val;
+            $category->descrip = $request->descrip;
+            $category->save();
+        }
+       
+    return back();
+  }
+
+  public function antique(Request $request){
+    if($request->hasFile('imagen')){                 
+        $file = $request->file('imagen');
+        $val = "imgantiguedad".time().".".$file->guessExtension(); // este se debe guardar
+        $ruta = public_path("dist/eventos/".$val);
+        // Crear una instancia de la imagen y redimensionarla si es necesario
+        $img = Image::make($file->getRealPath());
+        // Redimensionar la imagen si es necesario
+        $img->resize(700, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+        // Optimizar la imagen ajustando la calidad (70% en este ejemplo) y manteniendo la extensión original
+        $img->encode($file->guessExtension(), 80);
+        // Guardar la imagen optimizada en la ruta especificada
+        $img->save($ruta);
+        //===========================================
+        $category = new AntiguedadModel();
+        $category->imagen = $val;
+        $category->descrip = $request->des;
+        $category->tiempo = $request->tem;
+        $category->nombre = $request->nom;
+        $category->save();
+    }
+    return back();
+  }
+   
+  //eliminar datos
+  public function deletevento($id){
+    $antiguedad = AntiguedadModel::find($id);
+    if ($antiguedad) {
+        $antiguedad->delete();
+    }
+    return back();
+  }
 }
+ 

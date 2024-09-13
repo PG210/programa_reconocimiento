@@ -29,6 +29,9 @@ return new class extends Migration
             $table->string('password');
             $table->unsignedBigInteger('id_estado'); //aqui se registra el cargo al cual pertenece ventas, atencion al cliente
             $table->foreign('id_estado')->references('id')->on('estado');//llave foranea para referenciar a la tabla cargo            
+            $table->date('fecna')->nullable();
+            $table->date('fecingreso')->nullable();
+            $table->integer('superadmin')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

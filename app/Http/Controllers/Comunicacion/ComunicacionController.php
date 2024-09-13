@@ -23,7 +23,7 @@ class ComunicacionController extends Controller
         //obtener todas las imagenes ===
         $images = ComunicacionModel::orderBy('posicion', 'asc')->get();
         $estadoimg = ComunicacionModel::where('posicion', 1)->select('estado')->first();
-        return view('admin.comunicacion')->with(['imagen1'=>$imagen1, 'imagen2'=>$imagen2, 'imagen3'=>$imagen3, 'imagen4'=>$imagen4, 'images'=>$images, 'estadoimg'=>$estadoimg]);
+        return view('admin.comunicacion')->with(['imagen1' => $imagen1, 'imagen2' => $imagen2, 'imagen3' => $imagen3, 'imagen4' => $imagen4, 'images' => $images, 'estadoimg' => $estadoimg]);
     }
 
     /**
@@ -31,10 +31,7 @@ class ComunicacionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        
-    }
+    public function create() {}
 
     /**
      * Store a newly created resource in storage.
@@ -45,10 +42,10 @@ class ComunicacionController extends Controller
     public function store(Request $request)
     {
         //========== imagenes =====
-        if($request->hasFile('imgone')){                 
+        if ($request->hasFile('imgone')) {
             $file = $request->file('imgone');
-            $val = "imgcarrucel".time().".".$file->guessExtension(); // este se debe guardar
-            $ruta = public_path("dist/carrucel/".$val);
+            $val = "imgcarrucel" . time() . "." . $file->guessExtension(); // este se debe guardar
+            $ruta = public_path("dist/carrucel/" . $val);
             // Crear una instancia de la imagen y redimensionarla si es necesario
             $img = Image::make($file->getRealPath());
 
@@ -78,9 +75,8 @@ class ComunicacionController extends Controller
         $images = ComunicacionModel::orderBy('posicion', 'asc')->get();
         //estado de las imagenes
         $estadoimg = ComunicacionModel::where('posicion', 1)->select('estado')->first();
-        
-        return back()->with(['imagen1'=>$imagen1, 'imagen2'=>$imagen2, 'imagen3'=>$imagen3, 'imagen4'=>$imagen4, 'images'=>$images, 'estadoimg'=>$estadoimg]);
 
+        return back()->with(['imagen1' => $imagen1, 'imagen2' => $imagen2, 'imagen3' => $imagen3, 'imagen4' => $imagen4, 'images' => $images, 'estadoimg' => $estadoimg]);
     }
 
     /**
@@ -102,7 +98,7 @@ class ComunicacionController extends Controller
      */
     public function edit($id)
     {
-       // return $id;
+        // return $id;
     }
 
     /**
@@ -117,13 +113,12 @@ class ComunicacionController extends Controller
         //actualizar datos
         $imagen = ComunicacionModel::findOrFail($id);
         $imagen->colorletra = $request->colorletra;
-        if($request->has('checkfondo') && $request->checkfondo == '1')
-          $imagen->colorfondo = '';
+        if ($request->has('checkfondo') && $request->checkfondo == '1')
+            $imagen->colorfondo = '';
         else
-          $imagen->colorfondo = $request->colorfondo;
+            $imagen->colorfondo = $request->colorfondo;
         $imagen->save();
         return back();
-
     }
 
     /**
@@ -138,16 +133,16 @@ class ComunicacionController extends Controller
         $imagen->delete();
         return back()->with('success', 'Imagen eliminada exitosamente.');
     }
- 
-    // publicar
-    public function publicar(){
-        $estadoim = ComunicacionModel::where('posicion', 1)->first();   
-        if($estadoim->estado == 2)
-           $estadoim->estado = 1;
-        else
-           $estadoim->estado = 2;
-        $estadoim->save(); 
-       return back();   
-    }
 
+    // publicar
+    public function publicar()
+    {
+        $estadoim = ComunicacionModel::where('posicion', 1)->first();
+        if ($estadoim->estado == 2)
+            $estadoim->estado = 1;
+        else
+            $estadoim->estado = 2;
+        $estadoim->save();
+        return back();
+    }
 }

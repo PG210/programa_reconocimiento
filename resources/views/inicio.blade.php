@@ -33,7 +33,7 @@
         Lo curioso es que a las personas se les dificulta (por diferentes razones) reconocer las cosas buenas de sus compañeros de trabajo, es más fácil evidenciar en que ha fallado y hacérselo saber de todas las maneras posibles, que decirle todo lo bueno que hace.
        </p>
        <p class="text-justify letrarob">
-        ReconoSER es una plataforma (virtual y presencial) que le ayudará a su organización a que las personas reconozcan de una manera divertida los comportamientos, competencias y/o valores de sus compañeros. Lo verán como un juego, con actividades a través del tiempo que ayudarán a consolidar en el día a día una cultura de reconocimiento, apalancando el fortalecimiento del clima organizacional de la organización.
+        AsaReconoce es una plataforma virtual que le ayudará a su organización a que las personas reconozcan de una manera divertida los comportamientos, competencias y/o valores de sus compañeros. Lo verán como un juego, con actividades a través del tiempo que ayudarán a consolidar en el día a día una cultura de reconocimiento, apalancando el fortalecimiento del clima organizacional de la organización.
       </p>
     </div>
   </div>

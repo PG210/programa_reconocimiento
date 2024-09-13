@@ -17,6 +17,7 @@ use App\Http\Controllers\VotacionController\VotacionControl;
 use App\Http\Controllers\ImportacionController\Importacion;
 use App\Http\Controllers\MensajesController\MensajesControl;
 use App\Http\Controllers\Comunicacion\ComunicacionController; //ruta para comunicacion
+use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -126,6 +127,7 @@ Route::get('/areas/empresa', [AreasController::class, 'index'])->middleware(['au
 Route::post('/areas/empresa', [AreasController::class, 'registrar'])->middleware(['auth', 'admin'])->name('guardararea');
 Route::get('/eliminar/area/{id}', [AreasController::class, 'eliminar'])->middleware(['auth', 'admin']);
 Route::post('/consultar/area', [AreasController::class, 'consultar'])->middleware(['auth', 'admin'])->name('consultararea');
+Route::post('/areas/empresa/licencias', [AreasController::class, 'reglicencias'])->middleware(['auth', 'admin'])->name('reglicencias');
 //cargos
 Route::get('/cargo/view', [AreasController::class, 'vistacar'])->middleware(['auth', 'admin'])->name('vistacargo');
 Route::post('/registrar/cargo', [AreasController::class, 'regcargo'])->middleware(['auth', 'admin'])->name('guardarcargo');
@@ -221,12 +223,12 @@ Route::get('/reconocimientos/enviados/admin', [ReconocimientosController::class,
 
 //============= reacciones ============
 Route::get('/reacciones', [Inicio::class, 'reacciones'])->name('reacciones')->middleware(['auth']);
-
+Route::get('/reacciones/holidays', [Inicio::class, 'reaccionesaniv'])->name('reaccionesaniv')->middleware(['auth']);
 //============= comentario  ============
 Route::any('/comentario', [Inicio::class, 'comentario'])->name('comentario')->middleware(['auth']);
 
 Route::get('/correo/not', function () {
-    return view('correos.notificacion');
+    return view('correos.antiguedad');
 });
 
 //================== reporte de votaciones =========
@@ -238,5 +240,24 @@ Route::post('/postular/usuarios', [VotacionControl::class, 'postularVot'])->name
 Route::resource('comunicacion', ComunicacionController::class)->middleware(['auth']);
 // ruta para publicar
 Route::get('/publicar', [ComunicacionController::class, 'publicar'])->name('publicar')->middleware(['auth']);
+
 require __DIR__.'/auth.php';
 
+// eliminar usuario
+Route::get('/users/delete/{id}', [Inicio::class, 'eliminaruser'])->middleware(['auth', 'admin'])->name('eliminaruser');
+
+//================== manejo de correo microsoft =================0
+Route::get('/redirect-to-microsoft', [MailController::class, 'redirectToMicrosoft']);
+Route::get('/oauth/callback', [MailController::class, 'handleMicrosoftCallback']);
+Route::post('/send-mail', [MailController::class, 'sendMail']);
+
+//=================== manejo de eventos ==============
+Route::get('/empresa/eventos', [AreasController::class, 'eventos'])->middleware(['auth', 'admin'])->name('eventos');
+Route::post('/empresa/eventos/happy', [AreasController::class, 'happybirthday'])->middleware(['auth', 'admin'])->name('happybirthday');
+Route::post('/empresa/eventos/antique', [AreasController::class, 'antique'])->middleware(['auth', 'admin'])->name('antique');
+Route::get('/empresa/eventos/{id}', [AreasController::class, 'deletevento'])->middleware(['auth', 'admin'])->name('deletevento');
+
+
+Route::get('/forprueba', function () {
+    return view('formprueba');
+});

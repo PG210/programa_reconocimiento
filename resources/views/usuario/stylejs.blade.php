@@ -40,3 +40,5 @@
 <!---para intro de los mensajes -->
 <script src="{{ asset('dist/js/intro.min.js')}}"></script>
 
+<!---script para la carga lazy de imagenes-->
+<script src="{{ asset('dist/js/lazy.js')}}"></script>

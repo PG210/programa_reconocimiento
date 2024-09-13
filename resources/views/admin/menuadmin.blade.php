@@ -122,8 +122,15 @@
               </p>
             </a>
           </li>
-            <!-- <li class="nav-header">EXAMPLES</li>
-          <li class="nav-header">MISCELLANEOUS</li>-->
-          
+          <!---mdoludo de eventos--->
+          <li class="nav-item">
+            <a href="{{route('eventos')}}" class="nav-link @if(Request::is('empresa/eventos')) active @endif">
+            &nbsp;<i class="fas fa-calendar-alt"></i>
+              <p>
+                &nbsp;&nbsp;Eventos
+              </p>
+            </a>
+          </li>
+          <!---end eventos--->
         </ul>
       </nav>

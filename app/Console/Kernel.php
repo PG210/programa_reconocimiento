@@ -16,7 +16,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
             // Opcionalmente si queremos reinicar la cola cada 10 minutos
-            $schedule->command('queue:work --daemon')->everyMinute();
+            // $schedule->command('queue:work --daemon')->everyFiveMinutes();
+             $schedule->command('queue:restart')->everyTenMinutes();
+             $schedule->command('dispatch:birthday-emails')->daily(); //mensajes de felicitaciones
     }
 
     /**

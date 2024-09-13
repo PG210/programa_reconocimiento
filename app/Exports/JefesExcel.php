@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use DB;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Reconocimientos\ReconocimientosModal;
 
@@ -24,6 +24,7 @@ class JefesExcel implements FromView
     * @return \Illuminate\Support\Collection
     */
     public $j;
+    public $id;
     public function __construct($id, $j)
     {
             $this->id = $id;

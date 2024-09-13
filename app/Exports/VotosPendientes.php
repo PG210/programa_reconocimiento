@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\Exportable;
 
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class VotosPendientes implements FromQuery,  WithHeadings, WithEvents
 {

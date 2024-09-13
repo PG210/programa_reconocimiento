@@ -1,27 +1,69 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert text-center titulo" role="alert">
- <h3>GESTIÓN DE AREAS Y CARGOS </h3>
+<style>
+  .placa {
+    background-color:#e0e0e0; /* Gris claro */
+    border: 1px solid #dee2e6; /* Borde gris claro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+    border-radius: 5px; /* Bordes redondeados (opcional) */
+}
+</style>
+<div class="text-center titulo placa mb-3">
+   <h3>ORGANIZACIÓN</h3>
 </div>
-<div class="row letraform">
-   <div class="col-md-5">
-     <button type="button" class="btn" data-toggle="modal" data-target="#staticBackdrop" style="background-color:#5959D1; color:#FFF;">
-        <i class="fas fa-pen-alt"></i>&nbsp;Areas
-    </button>
+@if(Auth::user()->superadmin!=0)
+<!---licencias-->
+<div class="container" style="background-color:#e0dede;">     
+    <div class="row letraform mb-3">
+      <div class="col-lg-12">
+      <form action="{{route('reglicencias')}}" method="post">
+        @csrf
+          <div class="form-row">
+            <div class="form-group col-md-2">
+              <h5 class="text-left titulo mb-3 mt-3 badge badge-pill badge-info" style="b">Licencias</h5>
+              @if(isset($licencias->numlicencia))
+                <h6 class="text-left badge badge-pill badge-primary">{{$totaluser}} / {{ $licencias->numlicencia }}</h6>
+              @endif
+            </div>
+            <div class="form-group col-md-2">
+              <label for="inputPassword4">Ocupadas</label>
+              <input type="number" min="0" value="{{$totaluser}}" class="form-control" id="ocupadas" name="ocupadas" readonly>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Asignadas</label>
+              <input type="number" min="{{$totaluser}}" value="{{ $licencias->numlicencia ?? '' }}" class="form-control" id="asig" name="asig" required>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="vencimiento">Vencimiento </label>
+              <input type="date" class="form-control" min="{{$date}}" value="{{ \Carbon\Carbon::parse($licencias->vencimiento ?? '')->format('Y-m-d') }}" id="vencimiento" name="vencimiento" required>
+            </div>
+            <div class="form-group col-md-2 mt-4">
+              <button type="submit"  class="btn btn-primary">Modificar</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="col-md-3">
-      <a type="button" href="{{route('vistacargo')}}" class="btn float-none" style="margin-top:3px; background-color:#FFBD03; color:#FFF;"> <i class="fas fa-pen-alt"></i>&nbsp;Cargos</a>
+</div>
+<!-- end licencias -->
+ @endif
+<div class="container row letraform">
+    <!---- buttons group -->
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn" data-toggle="modal" data-target="#staticBackdrop" style="background-color:#5959D1; color:#FFF;">
+          <i class="fas fa-pen-alt"></i>&nbsp;Areas
+      </button>
+      <a type="button" href="{{route('vistacargo')}}" class="btn" style="background-color:#FFBD03; color:#FFF;"> <i class="fas fa-pen-alt"></i>&nbsp;Cargos</a>
+      <a type="button" href="{{route('vincular_jefes')}}" class="btn btn-info" style="color:white;"><i class="fas fa-users"></i>&nbsp;Vincular Jefes</a>
     </div>
-    <div class="col-md-4">
-      <a type="button" href="{{route('vincular_jefes')}}" class="btn float-right" style="background-color:#5959D1; color:white;"><i class="fas fa-users"></i>&nbsp;Vincular Jefes</a>
-    </div>
+    <!--- end buttons group---->
 </div>
 <div class="row">
     <div class="col-md-12">
        <!---#################-->
           <!-- Button trigger modal -->
                 <!-- Modal -->
-                <form id="formulario" method="post">
+                <form action="{{route('guardararea')}}" method="post">
                 @csrf
                 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -37,7 +79,7 @@
                             
                             <div class="form-row">
                                 <div class="col">
-                                <input type="text" id="nombre" class="form-control" placeholder="Nombre" required> 
+                                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" required> 
                                 </div>
                             </div>
                         <!----############--->
@@ -51,7 +93,6 @@
                 </div>
                 </form>
        <!--##################--->
-      <br>
       @if(Session::has('mensaje'))
         <br>
         <div class="alert alert-info alert-dismissible fade show letraform" role="alert">
@@ -70,110 +111,26 @@
         </button>
         </div>
         @endif
-      <br>
-      <table class="table letraform">
+      <table class="table letraform mt-3">
         <thead class="tablaheader">
             <tr>
             <th scope="col">No</th>
             <th scope="col">Area</th>
             <th scope="col">Acción</th>
-            <th scope="col">
-                <form id="listar" method="post">
-                @csrf
-                <input type="text" id="infor" value="1" hidden>
-                <button type="submit"><i class="fas fa-list"></i></button>
-                <form>
-            </th>
             </tr>
         </thead>
-        <tbody id="datos">
-        </tbody>
-        <tbody id="datosdos">
+        <tbody>
+          @foreach($areas as $area)
+            <tr>
+              <td>{{$area->id}}</td>
+              <td>{{$area->nombre}}</td>
+              <td>
+                 <a href="/eliminar/area/{{$area->id}}" type="submit" class="btn btn-danger"> <i class="fas fa-trash-alt"></i></a>
+              </td>
+            </tr>
+          @endforeach
         </tbody>
         </table>
-      <div id="table" class="letraform"> </div>
     </div>
 </div>
-
-<!--instanciar el ajax para quitar el error no definido-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<script>
-  /*tomamos la información del formulario y la enviamos a la ruta y de la ruta al controlador*/
-  $('#formulario').submit(function(e){
-    e.preventDefault();
-    var nombre=$('#nombre').val();
-    var cur=$('#datos').val();
-    var _token = $('input[name=_token]').val();
-
-    $.ajax({
-      url:"{{route('guardararea')}}",
-      type: "POST",
-      data:{
-        nombre:nombre,
-        _token:_token
-      }, 
-      success:function(response){
-        if(response){
-          $('#formulario')[0].reset();
-          toastr.success('El registro se ingreso correctamente.', 'Nuevo Registro', {timeOut:3000});
-          //setTimeout(refrescar, 1000);
-        }
-      },
-      error:function(jqXHR, response){
-        if(jqXHR.status==422){
-          toastr.warning('Datos Repetidos!.', 'Area ya está registrada!', {timeOut:3000});
-        }
-     }
-    }).done(function(res){
-      var arreglo = JSON.parse(res);
-      var conta=0;
-      $("#datosdos").empty();
-      $("#datos").empty();
-     for(var x=0; x<arreglo.length; x++){
-        conta+=1;
-        var valor = '<tr>' +
-        '<td>' + conta +'</td>' +
-        '<td>' +  arreglo[x].nombre + '</td>' +
-        '<td><a href="/eliminar/area/' + arreglo[x].id + '" type="submit" id="eliminar" class="btn btn-danger"> <i class="fas fa-trash-alt"></i></a></td>' +
-        '</tr>';
-        $('#datos').append(valor);
-      }
-
-    });
-  });
- </script> 
- <script>
-  /*tomamos la información del formulario y la enviamos a la ruta y de la ruta al controlador*/
-  $('#listar').submit(function(e){
-    e.preventDefault();
-    var infor=$('#infor').val();
-    var _token = $('input[name=_token]').val();
-
-    $.ajax({
-      url:"{{route('consultararea')}}",
-      type: "POST",
-      data:{
-        infor:infor,
-        _token:_token
-      }, 
-    }).done(function(res){
-      
-      var arreglo = JSON.parse(res);
-      var conta=0;
-      $("#datosdos").empty();
-      $("#datos").empty();
-     for(var x=0; x<arreglo.length; x++){
-        conta+=1;
-        var valor = '<tr>' +
-        '<td>' + conta +'</td>' +
-        '<td>' +  arreglo[x].nombre + '</td>' +
-        '<td><a href="/eliminar/area/' + arreglo[x].id + '" type="submit" id="eliminar" class="btn btn-danger"> <i class="fas fa-trash-alt"></i></a></td>' +
-        '</tr>';
-        $("#datosdos").append(valor);
-      }
-
-    });
-  });
-
- </script> 
 @endsection

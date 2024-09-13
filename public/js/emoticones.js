@@ -11,8 +11,14 @@
         },
         dataType: 'json', //debe agregar para ver el tipo de dato a recibir
         success:function(data){
-        //console.log("datos", data);
-         mostrarDatos(data, idc);
+        // console.log("res", data['respuesta']);
+         let datos = data['data'];
+         let validar = data['respuesta'];
+         mostrarDatos(datos, idc);
+         //enviar mensaje si existe error
+         if(!validar){
+           window.alert('Correo no enviado, por favor notifica al administrador.');            
+         }
         },
         error:function(error){
             console.log("Error en la solicitud");
@@ -69,18 +75,3 @@ function closeDropdowns(event) {
 }
 // Escuchar clics en el documento
 document.addEventListener('click', closeDropdowns);
-// funcion para filtrar
-function filterFunction(idc) {
-  const input = document.getElementById("myInput"+idc);
-  const filter = input.value.toUpperCase();
-  const div = document.getElementById("myDropdown"+idc);
-  const a = div.getElementsByTagName("a");
-  for (let i = 0; i < a.length; i++) {
-    txtValue = a[i].textContent || a[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      a[i].style.display = "";
-    } else {
-      a[i].style.display = "none";
-    }
-  }
-}

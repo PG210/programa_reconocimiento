@@ -5,15 +5,23 @@ namespace App\Imports;
 use App\Models\User;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Illuminate\Support\Facades\Hash;
-use DB;
+use Maatwebsite\Excel\Concerns\WithLimit; // para limitar las filas a importar
+use Illuminate\Support\Facades\DB;
 
-class UsersImport implements ToModel
+class UsersImport implements ToModel, WithLimit
 {
     /**
     * @param array $row
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
+    private $limit;
+
+    public function __construct($limit)
+    {
+        $this->limit = $limit;
+    }
+
     public function model(array $row)
     {
         if (empty($row[0]) || empty($row[1]) || empty($row[2]) || empty($row[3]) || empty($row[4]) || empty($row[5]) || empty($row[6]) || empty($row[7])) {
@@ -45,5 +53,10 @@ class UsersImport implements ToModel
     
             return $user;
         }
+    }
+
+    public function limit(): int
+    {
+        return $this->limit;
     }
 }
