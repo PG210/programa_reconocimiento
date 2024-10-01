@@ -38,6 +38,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Eventos\CumpleModel; // cumpleanios
 use App\Models\Eventos\AntiguedadModel; // para antiguedad
 use App\Models\Eventos\HolidaysModel;
+use App\Models\Eventos\ComentarHolidayModel; // guardar los comentarios de los usuarios
+use App\Models\Eventos\EstadoEventosModel;
 
 
 class Inicio extends Controller
@@ -61,7 +63,17 @@ class Inicio extends Controller
 
         // Despacha el job a la cola
         SendMailJob::dispatch($descrip, $content, $destino);
-
+        return true; // Puedes ajustar la respuesta según necesites
+    }
+    // funcion para  enviar correos de holidays
+    private function sendMailHolidays($destino, $data, $descrip)
+    {
+        // Renderiza la vista Blade con el contenido HTML
+        $content = view('correos.holidays', [
+            'datos' => $data, // valores para la vista de correo
+        ])->render();
+        // Despacha el job a la cola
+        SendMailJob::dispatch($descrip, $content, $destino);
         return true; // Puedes ajustar la respuesta según necesites
     }
     //manejar sin cache
@@ -213,21 +225,62 @@ class Inicio extends Controller
 
     //personas que reaccionaron a los holidays
     private function usuariosReaccionesHol()
-    {
-        $res = HolidaysModel::join('users', 'holidays.useraccion', '=', 'users.id')
+    {  
+        $anioActual = Carbon::now()->year;
+        $res = HolidaysModel::whereYear('holidays.created_at', $anioActual)
+            ->join('users', 'holidays.useraccion', '=', 'users.id')
             ->select('holidays.iduser', 'holidays.idemot', 'holidays.emoticon', 'users.name', 'users.apellido', 'holidays.estado')
             ->orderBy('iduser')
             ->get();
         return $res;
     }
 
+    private function infoComentarios(){
+        $anioActual = Carbon::now()->year;
+        $data = ComentarHolidayModel::whereYear('comentarholiday.created_at', $anioActual)
+                ->join('users as u', 'comentarholiday.useraccion', '=', 'u.id')
+                ->select('comentarholiday.iduser', 'comentarholiday.useraccion', 'comentarholiday.comentario', 'comentarholiday.tipo', 'comentarholiday.created_at as fecha', 'u.name as nombre', 'u.apellido', 'u.imagen')
+                ->orderBy('iduser')
+                ->get();
+        return $data;
+    }
+    
+    private function fechasProxi(){
+        $monthup = Carbon::now()->month; //fecha actual
+        $monthName = ucfirst(Carbon::now()->translatedFormat('F'));
+        $datehoy = Carbon::now()->format('Y-m-d'); //fecha actual
+        $usuarios = Usuarios::whereMonth('fecna', $monthup)
+                    ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
+                    ->join('area', 'cargo.id_area', '=', 'area.id')
+                    ->select('users.id', 'users.name', 'users.apellido', 'users.imagen', 
+                            DB::raw("DATE_FORMAT(fecna, CONCAT(YEAR(CURDATE()), '-%m-%d')) as fecha_cumple"), 
+                            'cargo.nombre as cargo', 'area.nombre as area', DB::raw('1 as estado'))
+                    ->orderBy('fecha_cumple', 'DESC')
+                    ->get(); //estado 1 para cumpleanios
+        //consulta para aniversarios
+        $aniversario = Usuarios::whereMonth('fecingreso', $monthup)
+                        ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
+                        ->join('area', 'cargo.id_area', '=', 'area.id')
+                        ->select('users.id', 'users.name', 'users.apellido', 'users.imagen', 
+                            DB::raw("DATE_FORMAT(fecingreso, CONCAT(YEAR(CURDATE()), '-%m-%d')) as fecha_aniversario"), 
+                            DB::raw("TIMESTAMPDIFF(YEAR, fecingreso, CURDATE()) as total_anios"),
+                            'cargo.nombre as cargo', 'area.nombre as area', DB::raw('2 as estado'))
+                        ->orderBy('fecha_aniversario', 'DESC')
+                        ->get();
+        $data = [
+            'usuarioscum' => $usuarios,
+            'aniversario' => $aniversario,
+            'mes' => $monthName,
+            'datehoy' => $datehoy
+            ];
+       return $data;
+    }
     // dashboard principal
     public function dash()
     {
         $userId = Auth::user()->id_rol; //usuario logeado
         $valor = 0;
         if ($userId != 1) {
-
             $detalle = $this->detallecate();
             $emoticones = $this->emoticonesTot();
             $emoticonuser = $this->emoticonUser();
@@ -240,8 +293,10 @@ class Inicio extends Controller
             $emotholys = $this->emotholys(); //cumpleanios y aniversario
             $useremotholys = $this->useremotholys(); //usuario logeado con emoticones
             $usuariosReaccioneshol = $this->usuariosReaccionesHol(); //usuarios que reaccionaron a holidays
+            $infoComentarios = $this->infoComentarios(); //informacion de comentarios
+            $fechasProxi = $this->fechasProxi(); //fechas proximas
+            $estado =  EstadoEventosModel::first(); //estado de eventos cumpleanios
             //return data for view
-            
             return view('usuario.inicio', [
                 'detalle' => $detalle,
                 'emoticonCounts' => $emoticones,
@@ -257,6 +312,12 @@ class Inicio extends Controller
                 'emotholys' => $emotholys,
                 'useremotholys' => $useremotholys,
                 'usuariosReaccioneshol' => $usuariosReaccioneshol,
+                'infoComentarios' => $infoComentarios,
+                'usuarios' => $fechasProxi['usuarioscum'],
+                'aniversario' => $fechasProxi['aniversario'],
+                'datehoy' => $fechasProxi['datehoy'],
+                'monthName' => $fechasProxi['mes'],
+                'estado' => $estado,
             ]);
         } else {
             $licencias = LicenciasModel::first();
@@ -349,6 +410,8 @@ class Inicio extends Controller
                 'users.direccion',
                 'users.telefono',
                 'users.email',
+                'users.fecna',
+                'users.fecingreso',
                 'cargo.nombre',
                 'roles.descripcion',
                 'estado.descrip',
@@ -652,6 +715,7 @@ nombre
     public function reaccionesaniv(Request $request){
         $useraccion = auth()->user()->id;
         $anioActual = Carbon::now()->year;
+        $emailusulog = auth()->user()->email; // correo de la persona logeada
         // save data
         $validar = HolidaysModel::where('useraccion', $useraccion)->where('iduser', $request->iduser)->where('estado', $request->tipo)->whereYear('created_at', $anioActual)->count();
         if($validar == 0){ //validar que solamente reaccione una vez en el año
@@ -686,12 +750,36 @@ nombre
                ->where('holidays.id', '=', $holiday->id)
                ->select('holidays.iduser', 'holidays.useraccion', 'holidays.idemot', 'holidays.emoticon', 'holidays.comentario', 'holidays.estado as tipo', 'u.name as nombre', 'u.apellido')
                ->first();
+               
+        $usuarioCongratu = Usuarios::findOrFail($request->iduser); //usuario al que se hace la reaccion
+        if($request->tipo == '1')
+           $mensaje = "a tu cumpleaños,";
+        else
+           $mensaje = "a tu aniversario laboral,";
+
         $total = [
             'likes' => $likes,
             'ilove' => $ilove,
             'surprised' => $surprised,
             'hug' => $hug,
         ];
+
+        $datos = [
+            'nombre' => $data->nombre,
+            'apellido' => $data->apellido,
+            'detalle' => $request->emoticon,
+            'nomrecibe' => $usuarioCongratu->name,
+            'aperecibe' => $usuarioCongratu->apellido,
+            'tipo' => '1',
+            'mensaje' => $mensaje,
+            'fecha' => $holiday->created_at,
+        ];
+        //enviar correos al usuario
+        if (strtolower($emailusulog) != strtolower($usuarioCongratu->email)) {
+            $descrip = "Nueva notificación";
+            $respuesta = $this->sendMailHolidays($usuarioCongratu->email, $datos, $descrip);
+        }
+
        return response()->json(['data' => $data, 'total' => $total], 200);
        
     }
@@ -718,7 +806,14 @@ nombre
             $datosem = json_decode(json_encode($emoticonuser));
             $users = $this->usuariosReacciones();
             $comentarios = $this->com();
-            // data para el correo
+            $estado =  EstadoEventosModel::first(); //estado de eventos cumpleanios
+            // data para aniversarios
+            $holidays = $this->holidays();
+            $emotholys = $this->emotholys(); //cumpleanios y aniversario
+            $useremotholys = $this->useremotholys(); //usuario logeado con emoticones
+            $usuariosReaccioneshol = $this->usuariosReaccionesHol(); //usuarios que reaccionaron a holidays
+            $infoComentarios = $this->infoComentarios(); //informacion de comentarios
+            $fechasProxi = $this->fechasProxi(); //fechas proximas
 
             $reconocimiento = DB::table('catrecibida')
                 ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
@@ -778,7 +873,19 @@ nombre
                 'comentarios' => $comentarios,
                 'valor' => $valor,
                 'estadoimg' => $estadoimg,
-                'respuesta' => $respuesta
+                'respuesta' => $respuesta,
+                'usershappy' => $holidays['usershappy'],
+                'usuanviersario' => $holidays['usuanviersario'],
+                'cumple' => $holidays['cumple'],
+                'emotholys' => $emotholys,
+                'useremotholys' => $useremotholys,
+                'usuariosReaccioneshol' => $usuariosReaccioneshol,
+                'infoComentarios' => $infoComentarios,
+                'usuarios' => $fechasProxi['usuarioscum'],
+                'aniversario' => $fechasProxi['aniversario'],
+                'datehoy' => $fechasProxi['datehoy'],
+                'monthName' => $fechasProxi['mes'],
+                'estado' => $estado,
             ]);
         } else {
             // lógica para otros métodos
@@ -830,5 +937,45 @@ nombre
         Usuarios::where('id', $id)->delete();
         Session::flash('regexit', 'El Colaborador: ' . $datosusu->name . ' ' . $datosusu->apellido . ', ha sido eliminado de manera exitosa.');
         return back();
+    }
+
+    //comentarios para holidays, fechas de cumpleanios y aniversarios
+    public function comentariosholdays(Request $request){
+        $emailusulog = auth()->user()->email; // correo de la persona logeada
+        $anioActual = Carbon::now()->year;
+        $idlog = auth()->user()->id; //usuario logeado
+        $iduser = $request->valorInputhappy; //valor id del usuario a felicitar
+        $descrip = $request->contenidohappy;
+        $tipo = $request->tipohappy;
+        //guardar los datos
+            $Comentario = new ComentarHolidayModel();
+            $Comentario->comentario = $descrip;
+            $Comentario->iduser = $iduser;
+            $Comentario->useraccion = $idlog;
+            $Comentario->tipo = $tipo;
+            $Comentario->save();
+        //retornar toda la info al front
+        $data = ComentarHolidayModel::where('comentarholiday.tipo', $tipo)
+               ->where('comentarholiday.iduser', $iduser)->whereYear('comentarholiday.created_at', $anioActual)
+               ->join('users as u', 'comentarholiday.useraccion', '=', 'u.id')
+               ->select('comentarholiday.iduser', 'comentarholiday.useraccion', 'comentarholiday.comentario', 'comentarholiday.tipo', 'comentarholiday.created_at as fecha', 'u.name as nombre', 'u.apellido', 'u.imagen')
+               ->get();
+        
+        $usuarioCongratu = Usuarios::findOrFail($iduser);
+         // validar que el correo no sea de la misma persona que reacciona
+         $datos = [
+            'nombre' => auth()->user()->name,
+            'apellido' => auth()->user()->apellido,
+            'detalle' => $descrip,
+            'nomrecibe' =>  $usuarioCongratu->name,
+            'aperecibe' =>  $usuarioCongratu->apellido,
+            'tipo' => '2',
+            'fecha' => $Comentario->created_at,
+        ];
+        if (strtolower($emailusulog) != strtolower($usuarioCongratu->email)) {
+            $descrip = "Nueva notificación";
+            $respuesta = $this->sendMailHolidays($usuarioCongratu->email, $datos, $descrip);
+        }
+        return response()->json(['data' => $data, 'tipo' => $tipo], 200);
     }
 }

@@ -92,7 +92,7 @@
      <!---mensaje--->
       <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-10 col-md-10 col-sm-12 col-12" style="border: 1px solid #ccc; box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.2); padding: 10px;">
-              <div class="container scrolly" style=" border: 2px; border-radius: 25px; background-color:white;">
+              <div class="container scrolly" style=" border: 2px;  background-color:white;">
                 <!---card-->
                 @php
                 $emoticones = [
@@ -102,373 +102,504 @@
                       ['emoticon' => '🤗', 'descrip' => 'Abrazo', 'cod'=> '4'],
                   ];
                 @endphp
-                <!---data holidays --->
-                @foreach($usershappy as $happy)
-                <div class="card mb-3 mt-3">
-                  <div class="row no-gutters">
-                  <div class="col-md-4 col-lg-4">
-                      <img data-src="{{asset('dist/eventos/'.$cumple->imagen)}}" class="img-thumbnail lazy-load"  alt="Cargando imagen ...">
-                    </div>
-                    <div class="col-md-8 col-lg-8">
-                      <div class="card-body">
-                          <!--foto de perfil -->
-                          <div class="user-panel mt-0 pb-0 mb-0" style="white-space: normal;">
-                              <img data-src="{{asset('dist/imgperfil/'.$happy->imagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
-                            <span> <b>&nbsp;&nbsp;{{ $happy->name }} {{ $happy->apellido }}</b>&nbsp; está celebrando su cumpleaños.</span>
-                            <p class="card-text mx-2"><small class="text-muted">{{ date('j F, Y', strtotime($happy->fecha_cumple)) }}</small></p>
+                <!---tabs for happy birthday and anniversary--->
+                <ul class="nav nav-tabs letraform" id="myTab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Muro</button>
+                  </li>
+                  @if($estado->estado == 1)
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Cumpleaños y quinquenios</button>
+                  </li>
+                  @endif
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                  <!--- here happy birthday -->
+                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  @foreach($detalle as $det)
+                    <div class="card mb-3 mt-3">
+                      <div class="row no-gutters">
+                      <div class="col-md-4 col-lg-4">
+                          <img data-src="{{asset('imgpremios/'.$det->img)}}" class="img-thumbnail lazy-load"  alt="Cargando imagen ...">
                         </div>
-                        <p class="card-text m-2">Únete a la celebración y comparte un mensaje especial. 🎉🎂</p>
-                        <!---reacciones-->
-                        <div id="reachappy{{$happy->id}}"></div>
-                        <div id="reaccionesPHPhappy{{$happy->id}}"> 
-                        <!--total de reacciones -->
-                        @foreach($emotholys as $emohap)
-                          @if($happy->id == $emohap->iduser &&  $emohap->estado == '1')
-                            @if($emohap->idemot == 1)
-                            👍<span class="badge badge-light">{{$emohap->count}}</span>
-                            @elseif($emohap->idemot == 2)
-                            😍<span class="badge badge-light">{{$emohap->count}}</span>
-                            @elseif($emohap->idemot == 3)
-                            😲<span class="badge badge-light">{{$emohap->count}}</span>
-                            @elseif($emohap->idemot == 4)
-                            🤗<span class="badge badge-light">{{$emohap->count}}</span>
-                            @endif
-                          @endif
-                        @endforeach
-                        <!--end total de reacciones-->
-                        </div>
-                        <!---===========-->
-                        <button class="btn_reaccion mt-2" id="btnhappy{{$happy->id}}">
-                        <span style="color:black;" id="texthappy{{$happy->id}}">
-                           <!---emoticon marcado por el usuario-->
-                           @php 
-                              $emotmarcadoh = false; 
-                           @endphp
-                            @foreach($useremotholys as $uemh)
-                                @if($happy->id == $uemh->iduser && $uemh->estado == '1')
-                                    @if($uemh->idemot >= 1 && $uemh->idemot <= 4)
-                                        {{$uemh->emoticon}}
-                                        @php 
-                                          $emotmarcadoh = true; 
-                                        @endphp
-                                    @endif
-                                    @php break; @endphp
+                        <div class="col-md-8 col-lg-8">
+                          <div class="card-body">
+                              <!--foto de perfil -->
+                              <div  class="user-panel mt-0 pb-0 mb-0" style="white-space: normal;">
+                                @if($det->imagenenv != 'ruta' && $det->imagenenv != '' )
+                                  <img data-src="{{asset('dist/imgperfil/'.$det->imagenenv)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
+                                @else
+                                  <img data-src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;" >
                                 @endif
-                            @endforeach
-
-                            {{-- Si no se encontró un emoticón marcado por el usuario, muestra el icono de "like" gris --}}
-                            @if (!$emotmarcadoh)
-                                <i class="fas fa-thumbs-up" style="color:gray;"></i>
-                            @endif
-                           <!--end emoticon marcado por el usuario-->
-                        </span>      
-                        
-                        <!---listado de emoticones realizados -->  
-                        <div class="reacciones">
-                          @foreach($emoticones as $emot)
-                              <div class="reaccion"> 
-                                @php   
-                                $iduser= $happy->id;
-                                $emoticon = $emot['emoticon'];
-                                $idemot = $emot['cod'];
-                                @endphp
-                                  <a id="btnhappy{{$happy->id}}"  onclick="emotAniversario('<?= $iduser ?>', '<?= $emoticon ?>', '<?= $idemot ?>', '', '1');"><i style="font-style: normal!important;">{{$emot['emoticon']}}</i></a>
-                                  <span style="padding:3px; border-radius: 10px; background-color:white;">{{$emot['descrip']}}</span>
-                              </div>
-                          @endforeach 
-                        <!--- end listado de emoticones -->           
-                        </button>
-                        <!--end reacciones-->
-                        <!---obtener las personas que reaccionaron-->
-                        <div class="dropdownnew">
-                            <a type="button" onclick="happyReaccion('<?= $happy->id ?>')"><i class="fas fa-ellipsis-h"></i></a>
-                            <div id="myDropdownhappy{{$happy->id}}" class="dropdownnew-content">
-                              <!--- aqui las personas que reaccionan-->
-                              <a id="emhappy{{$happy->id}}"></a>
-                              @foreach($usuariosReaccioneshol as $ush)
-                                  @if($happy->id == $ush->iduser && $ush->estado == '1')
-                                  <a href="#" id="usuariohappy{{$happy->id}}"> {{$ush->emoticon}} {{$ush->name}} {{$ush->apellido}}</a>
-                                  @endif
-                               @endforeach
-                              <!--- end personas reaccionaron-->
+                                <span> <b>&nbsp;&nbsp;{{ $det->nomenvia }} {{ $det->apenvia }}</b>&nbsp; reconocio a &nbsp;<b>{{ $det->nomrecibe }} {{ $det->aperecibe }}</b></span>
+                                <p class="card-text mx-2"><small class="text-muted">{{ date('j F, Y', strtotime($det->fecha)) }}</small></p>
                             </div>
-                          </div>
-                        <!---===================comentarios=================-->
-                        <a data-toggle="collapse" href="#comentariosCollapsehappy{{$happy->id}}" role="button" aria-expanded="false" aria-controls="comentariosCollapsehappy{{$happy->id}}">
-                        &nbsp;Comentarios
-                        </a>
-                      <div class="collapse" id="comentariosCollapsehappy{{$happy->id}}">
-                        <div class="card card-body mt-2">
-                        <!---aqui van los comentarios-->
-                        <!---end comentarios-->
-                        <!-------------- formulario ----->
-                        <div class="mt-3">
-                        <form method="POST" action="#">
-                            @csrf
-                            <div class="form-group">
-                              <label for="contenidohappy{{$happy->id}}">Comentario</label>
-                              <input type="text" class="form-control valorInput" name="valorInputhappy" id='valorInputhappy{{$happy->id}}' value="{{$happy->id}}" hidden>
-                              <textarea type="text" class="form-control limpiararea contenido" name="contenidohappy" id='contenidohappy{{$happy->id}}' required></textarea>
-                            </div>
-                              <button type="submit" class="btn btn-warning float-right">Enviar</button>
-                          </form>
-                          </div>
-                          <!---end formulario --->
-                      </div>
-                      </div>
-                        <!---=====================================-->
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                @endforeach
-                <!---end data holidays-->
-                  <!---data aniversario --->
-                @foreach($usuanviersario as $aniver)
-                <div class="card mb-3 mt-3">
-                  <div class="row no-gutters">
-                  <div class="col-md-4 col-lg-4">
-                      <img data-src="{{asset('dist/eventos/'.$aniver['imganiv'])}}" class="img-thumbnail lazy-load"  alt="Cargando imagen ...">
-                    </div>
-                    <div class="col-md-8 col-lg-8">
-                      <div class="card-body">
-                          <!--foto de perfil -->
-                          <div class="user-panel mt-0 pb-0 mb-0" style="white-space: normal;">
-                              <img data-src="{{asset('dist/imgperfil/'.$aniver['perfil'])}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
-                            <span> <b>&nbsp;&nbsp;{{ $aniver['name'] }} {{ $aniver['apellido'] }}</b>&nbsp; Celebra <strong>{{$aniver['anios']}}</strong> año(s) en la empresa.</span>
-                            <p class="card-text mx-2"><small class="text-muted">{{ date('j F, Y', strtotime($aniver['fecaniv'])) }}</small></p>
-                        </div>
-                        <p class="card-text m-2">¡Únete a su celebración y comparte un mensaje lleno de buenos deseos!</p>
-                        <!---reacciones-->
-                        <div id="reacaniver{{$aniver['id']}}"></div>
-                        <div id="reaccionesPHPaniver{{$aniver['id']}}"> 
-                        <!--total de reacciones -->
-                        @foreach($emotholys as $emotan)
-                          @if($aniver['id'] == $emotan->iduser &&  $emotan->estado == '2')
-                            @if($emotan->idemot == 1)
-                            👍<span class="badge badge-light">{{$emotan->count}}</span>
-                            @elseif($emotan->idemot == 2)
-                            😍<span class="badge badge-light">{{$emotan->count}}</span>
-                            @elseif($emotan->idemot == 3)
-                            😲<span class="badge badge-light">{{$emotan->count}}</span>
-                            @elseif($emotan->idemot == 4)
-                            🤗<span class="badge badge-light">{{$emotan->count}}</span>
-                            @endif
-                          @endif
-                        @endforeach
-                        <!--end total de reacciones-->
-                        </div>
-                        <!---===========-->
-                        <button class="btn_reaccion mt-2" id="btnaniver{{$aniver['id']}}">
-                        <span style="color:black;" id="textaniver{{$aniver['id']}}">
-                           <!---emoticon marcado por el usuario-->
-                           @php 
-                              $emotmarcado = false; 
-                           @endphp
-                            @foreach($useremotholys as $uem)
-                                @if($aniver['id'] == $uem->iduser && $uem->estado == '2')
-                                    @if($uem->idemot >= 1 && $uem->idemot <= 4)
-                                        {{$uem->emoticon}}
-                                        @php 
-                                           $emotmarcado = true; 
-                                        @endphp
-                                    @endif
-                                    @php break; @endphp
+                            <p class="card-text m-2">{{ $det->det }} </p>
+                            <!---reacciones-->
+                            <div id="reac{{$det->idcat}}"></div>
+                            <div id="reaccionesPHP{{$det->idcat}}"> 
+                            @foreach($emoticonCounts as $emti)
+                              @if($det->idcat == $emti->idrec)
+                                @if($emti->idemot == 1)
+                                👍<span class="badge badge-light">{{$emti->count}}</span>
+                                @elseif($emti->idemot == 2)
+                                😍<span class="badge badge-light">{{$emti->count}}</span>
+                                @elseif($emti->idemot == 3)
+                                😲<span class="badge badge-light">{{$emti->count}}</span>
+                                @elseif($emti->idemot == 4)
+                                🤗<span class="badge badge-light">{{$emti->count}}</span>
                                 @endif
+                              @endif
                             @endforeach
-
-                            {{-- Si no se encontró un emoticón marcado por el usuario, muestra el icono de "like" gris --}}
-                            @if (!$emotmarcado)
-                                <i class="fas fa-thumbs-up" style="color:gray;"></i>
-                            @endif
-                           <!--end emoticon marcado por el usuario-->
-                        </span>      
-                        
-                        <!---listado de emoticones realizados --> 
-                        <div class="reacciones">
-                        @foreach($emoticones as $emot)
-                            <div class="reaccion"> 
-                              @php   
-                              $iduser= $aniver['id'];
-                              $emoticon = $emot['emoticon'];
-                              $idemot = $emot['cod'];
-                              @endphp
-                                <a id="btnaniversario{{$aniver['id']}}"  onclick="emotAniversario('<?= $iduser ?>', '<?= $emoticon ?>', '<?= $idemot ?>', '', '2');"><i style="font-style: normal!important;">{{$emot['emoticon']}}</i></a>
-                                <span style="padding:3px; border-radius: 10px; background-color:white;">{{$emot['descrip']}}</span>
                             </div>
-                        @endforeach   
-                        <!--- end listado de emoticones -->           
-                        </button>
-                        <!--end reacciones-->
-                        <!---obtener las personas que reaccionaron-->
-                        <div class="dropdownnew">
-                            <a type="button" onclick="userReaccion('<?= $aniver['id'] ?>')"><i class="fas fa-ellipsis-h"></i></a>
-                            <div id="myDropdownaniver{{$aniver['id']}}" class="dropdownnew-content">
-                              <!--- aqui las personas que reaccionan-->
-                              <a id="emaniver{{$aniver['id']}}"></a>
-                               @foreach($usuariosReaccioneshol as $us)
-                                  @if($aniver['id'] == $us->iduser && $us->estado == '2')
-                                  <a href="#" id="usuarioaniver{{$aniver['id']}}"> {{$us->emoticon}} {{$us->name}} {{$us->apellido}}</a>
-                                  @endif
-                               @endforeach
-                              <!--- end personas reaccionaron-->
-                            </div>
-                          </div>
-                        <!---===================comentarios=================-->
-                        <a data-toggle="collapse" href="#comentariosCollapseaniver{{$aniver['id']}}" role="button" aria-expanded="false" aria-controls="comentariosCollapseaniver{{$aniver['id']}}">
-                        &nbsp;Comentarios
-                        </a>
-                      <div class="collapse" id="comentariosCollapseaniver{{$aniver['id']}}">
-                        <div class="card card-body mt-2">
-                        <!---aqui van los comentarios-->
-                        <!---end comentarios-->
-                        <!-------------- formulario ----->
-                        <div class="mt-3">
-                        <form method="POST" action="#">
-                            @csrf
-                            <div class="form-group">
-                              <label for="contenidoaniver{{$aniver['id']}}">Comentario</label>
-                              <input type="text" class="form-control valorInput" name="valorInputaniver" id="valorInputaniver{{$aniver['id']}}" value="{{$aniver['id']}}" hidden>
-                              <textarea type="text" class="form-control limpiararea contenido" name="contenidohappy" id="contenidoaniver{{$aniver['id']}}" required></textarea>
-                            </div>
-                              <button type="submit" class="btn btn-warning float-right">Enviar</button>
-                          </form>
-                          </div>
-                          <!---end formulario --->
-                      </div>
-                      </div>
-                        <!---=====================================-->
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                @endforeach
-                <!---end data aniversario-->
-                @foreach($detalle as $det)
-                <div class="card mb-3 mt-3">
-                  <div class="row no-gutters">
-                  <div class="col-md-4 col-lg-4">
-                      <img data-src="{{asset('imgpremios/'.$det->img)}}" class="img-thumbnail lazy-load"  alt="Cargando imagen ...">
-                    </div>
-                    <div class="col-md-8 col-lg-8">
-                      <div class="card-body">
-                          <!--foto de perfil -->
-                          <div  class="user-panel mt-0 pb-0 mb-0" style="white-space: normal;">
-                            @if($det->imagenenv != 'ruta' && $det->imagenenv != '' )
-                              <img data-src="{{asset('dist/imgperfil/'.$det->imagenenv)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
-                            @else
-                              <img data-src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;" >
-                            @endif
-                            <span> <b>&nbsp;&nbsp;{{ $det->nomenvia }} {{ $det->apenvia }}</b>&nbsp; reconocio a &nbsp;<b>{{ $det->nomrecibe }} {{ $det->aperecibe }}</b></span>
-                            <p class="card-text mx-2"><small class="text-muted">{{ date('j F, Y', strtotime($det->fecha)) }}</small></p>
-                        </div>
-                        <p class="card-text m-2">{{ $det->det }} </p>
-                        <!---reacciones-->
-                        <div id="reac{{$det->idcat}}"></div>
-                        <div id="reaccionesPHP{{$det->idcat}}"> 
-                        @foreach($emoticonCounts as $emti)
-                          @if($det->idcat == $emti->idrec)
-                            @if($emti->idemot == 1)
-                            👍<span class="badge badge-light">{{$emti->count}}</span>
-                            @elseif($emti->idemot == 2)
-                            😍<span class="badge badge-light">{{$emti->count}}</span>
-                            @elseif($emti->idemot == 3)
-                            😲<span class="badge badge-light">{{$emti->count}}</span>
-                            @elseif($emti->idemot == 4)
-                            🤗<span class="badge badge-light">{{$emti->count}}</span>
-                            @endif
-                          @endif
-                        @endforeach
-                        </div>
-                        <!---===========-->
-                        <button class="btn_reaccion mt-2" id="btn{{$det->idcat}}">
-                        <span style="color:black;" id="text{{$det->idcat}}">
-                            @php $usuarioMarcado = false; @endphp
-                            @foreach($emoticonuser as $emtic)
-                                @if($det->idcat == $emtic->idrec)
-                                    @if($emtic->idemot >= 1 && $emtic->idemot <= 4)
-                                        {{$emtic->emoticon}}
-                                        @php $usuarioMarcado = true; @endphp
+                            <!---===========-->
+                            <button class="btn_reaccion mt-2" id="btn{{$det->idcat}}">
+                            <span style="color:black;" id="text{{$det->idcat}}">
+                                @php $usuarioMarcado = false; @endphp
+                                @foreach($emoticonuser as $emtic)
+                                    @if($det->idcat == $emtic->idrec)
+                                        @if($emtic->idemot >= 1 && $emtic->idemot <= 4)
+                                            {{$emtic->emoticon}}
+                                            @php $usuarioMarcado = true; @endphp
+                                        @endif
+                                        @php break; @endphp
                                     @endif
-                                    @php break; @endphp
-                                @endif
-                            @endforeach
-
-                            {{-- Si no se encontró un emoticón marcado por el usuario, muestra el icono de "like" gris --}}
-                            @if (!$usuarioMarcado)
-                                <i class="fas fa-thumbs-up" style="color:gray;"></i>
-                            @endif
-                        </span>      
-          
-                        <div class="reacciones">
-                        @foreach($emoticones as $emot)
-                            <div class="reaccion"> 
-                              @php   
-                              $idc= $det->idcat;
-                              $emoticon = $emot['emoticon'];
-                              $idemot = $emot['cod'];
-                              @endphp
-                                <a id="btnr{{$det->idcat}}"  onclick="selecEmot('<?= $idc ?>', '<?= $emoticon ?>', '<?= $idemot ?>');"><i style="font-style: normal!important;">{{$emot['emoticon']}}</i></a>
-                                <span style="padding:3px; border-radius: 10px; background-color:white;">{{$emot['descrip']}}</span>
-                            </div>
-                        @endforeach              
-                        </button>
-                        <!--end reacciones-->
-                        <!---obtener las personas que reaccionaron-->
-                        <div class="dropdownnew">
-                            <a type="button" onclick="myFunction('<?= $idc ?>')"><i class="fas fa-ellipsis-h"></i></a>
-                            <div id="myDropdown{{$det->idcat}}" class="dropdownnew-content">
-                              <a id="em{{$det->idcat}}"></a>
-                                @foreach($users as $usu)
-                                  @if($det->idcat == $usu->idrec)
-                                  <a href="#" id="usuario{{$det->idcat}}{{$usu->iduser}}"> {{$usu->emoticon}} {{$usu->name}} {{$usu->apellido}}</a>
-                                  @endif
                                 @endforeach
-                            </div>
-                          </div>
-                        <!---===================comentarios=================-->
-                        <a data-toggle="collapse" href="#comentariosCollapse{{$det->idcat}}" role="button" aria-expanded="false" aria-controls="comentariosCollapse{{$det->idcat}}">
-                        &nbsp;Comentarios
-                        </a>
-                      <div class="collapse" id="comentariosCollapse{{$det->idcat}}">
-                        <div class="card card-body mt-2">
 
-                        @foreach($comentarios as $comentario)
-                          @if($det->idcat == $comentario->idrec)
-                              <div  class="user-panel mt-3 pb-0 mb-0" style="white-space: normal;">
-                                  @if($comentario->imagen != 'ruta' && $comentario->imagen != '' )
-                                    <img src="{{asset('dist/imgperfil/'.$comentario->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
-                                  @else
-                                    <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
-                                  @endif
-                                  <span> <b>&nbsp;&nbsp;{{ $comentario->nombre }} {{ $comentario->apellido }}:</b>&nbsp;</b></span>
-                                  {{$comentario->comentario}}
-                                  <p class="card-text mx-2"><small class="text-muted">{{ date('j F, Y', strtotime($comentario->fecha)) }}</small></p>
+                                {{-- Si no se encontró un emoticón marcado por el usuario, muestra el icono de "like" gris --}}
+                                @if (!$usuarioMarcado)
+                                    <i class="fas fa-thumbs-up" style="color:gray;"></i>
+                                @endif
+                            </span>      
+              
+                            <div class="reacciones">
+                            @foreach($emoticones as $emot)
+                                <div class="reaccion"> 
+                                  @php   
+                                  $idc= $det->idcat;
+                                  $emoticon = $emot['emoticon'];
+                                  $idemot = $emot['cod'];
+                                  @endphp
+                                    <a id="btnr{{$det->idcat}}"  onclick="selecEmot('<?= $idc ?>', '<?= $emoticon ?>', '<?= $idemot ?>');"><i style="font-style: normal!important;">{{$emot['emoticon']}}</i></a>
+                                    <span style="padding:3px; border-radius: 10px; background-color:white;">{{$emot['descrip']}}</span>
                                 </div>
-                          @endif
-                        @endforeach
-                        <!-------------- formulario ----->
-                        <div class="mt-3">
-                        <form method="POST" action="{{route('comentario')}}">
-                            @csrf
-                            <div class="form-group">
-                              <label for="contenido{{$det->idcat}}">Comentario</label>
-                              <input type="text" class="form-control valorInput" name="valorInput" id='valorInput{{$det->idcat}}' value="{{$det->idcat}}" hidden>
-                              <textarea type="text" class="form-control limpiararea contenido" name="contenido" id='contenido{{$det->idcat}}' required></textarea>
-                            </div>
-                              <button type="submit" class="btn btn-warning float-right">Enviar</button>
-                          </form>
+                            @endforeach              
+                            </button>
+                            <!--end reacciones-->
+                            <!---obtener las personas que reaccionaron-->
+                            <div class="dropdownnew">
+                                <a type="button" onclick="myFunction('<?= $idc ?>')"><i class="fas fa-ellipsis-h"></i></a>
+                                <div id="myDropdown{{$det->idcat}}" class="dropdownnew-content">
+                                  <a id="em{{$det->idcat}}"></a>
+                                    @foreach($users as $usu)
+                                      @if($det->idcat == $usu->idrec)
+                                      <a href="#" id="usuario{{$det->idcat}}{{$usu->iduser}}"> {{$usu->emoticon}} {{$usu->name}} {{$usu->apellido}}</a>
+                                      @endif
+                                    @endforeach
+                                </div>
+                              </div>
+                            <!---===================comentarios=================-->
+                            <a data-toggle="collapse" href="#comentariosCollapse{{$det->idcat}}" role="button" aria-expanded="false" aria-controls="comentariosCollapse{{$det->idcat}}">
+                            &nbsp;Comentarios
+                            </a>
+                          <div class="collapse" id="comentariosCollapse{{$det->idcat}}">
+                            <div class="card card-body mt-2">
+
+                            @foreach($comentarios as $comentario)
+                              @if($det->idcat == $comentario->idrec)
+                                  <div  class="user-panel mt-3 pb-0 mb-0" style="white-space: normal;">
+                                      @if($comentario->imagen != 'ruta' && $comentario->imagen != '' )
+                                        <img src="{{asset('dist/imgperfil/'.$comentario->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
+                                      @else
+                                        <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
+                                      @endif
+                                      <span> <b>&nbsp;&nbsp;{{ $comentario->nombre }} {{ $comentario->apellido }}:</b>&nbsp;</b></span>
+                                      {{$comentario->comentario}}
+                                      <p class="card-text mx-2"><small class="text-muted">{{ date('j F, Y', strtotime($comentario->fecha)) }}</small></p>
+                                    </div>
+                              @endif
+                            @endforeach
+                            <!-------------- formulario ----->
+                            <div class="mt-3">
+                            <form method="POST" action="{{route('comentario')}}">
+                                @csrf
+                                <div class="form-group">
+                                  <label for="contenido{{$det->idcat}}">Comentario</label>
+                                  <input type="text" class="form-control valorInput" name="valorInput" id='valorInput{{$det->idcat}}' value="{{$det->idcat}}" hidden>
+                                  <textarea type="text" class="form-control limpiararea contenido" name="contenido" id='contenido{{$det->idcat}}' required></textarea>
+                                </div>
+                                  <button type="submit" class="btn btn-warning float-right">Enviar</button>
+                              </form>
+                              </div>
+                              <!---end formulario --->
                           </div>
-                          <!---end formulario --->
-                      </div>
-                      </div>
-                        <!---=====================================-->
+                          </div>
+                            <!---=====================================-->
+                          </div>
+                        </div>
                       </div>
                     </div>
+                    @endforeach
+                    {{ $detalle->links() }}
                   </div>
+                  <!---end happy and start anniversari--->
+                  @if($estado->estado == '1')
+                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <!---data holidays --->
+                    @foreach($usershappy as $happy)
+                    <div class="card mb-3 mt-3">
+                      <div class="row no-gutters">
+                      <div class="col-md-4 col-lg-4">
+                          <img data-src="{{asset('dist/eventos/'.$cumple->imagen)}}" class="img-thumbnail lazy-load"  alt="Cargando imagen ...">
+                        </div>
+                        <div class="col-md-8 col-lg-8">
+                          <div class="card-body">
+                              <!--foto de perfil -->
+                              <div class="user-panel mt-0 pb-0 mb-0" style="white-space: normal;">
+                                  <img data-src="{{asset('dist/imgperfil/'.$happy->imagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
+                                <span> <b>&nbsp;&nbsp;{{ $happy->name }} {{ $happy->apellido }}</b>&nbsp; está celebrando su cumpleaños.</span>
+                                <p class="card-text mx-2"><small class="text-muted">{{ date('j F, Y', strtotime($happy->fecha_cumple)) }}</small></p>
+                            </div>
+                            <p class="card-text m-2">Únete a la celebración y comparte un mensaje especial. 🎉🎂</p>
+                            <!---reacciones-->
+                            <div id="reachappy{{$happy->id}}"></div>
+                            <div id="reaccionesPHPhappy{{$happy->id}}"> 
+                            <!--total de reacciones -->
+                            @foreach($emotholys as $emohap)
+                              @if($happy->id == $emohap->iduser &&  $emohap->estado == '1')
+                                @if($emohap->idemot == 1)
+                                👍<span class="badge badge-light">{{$emohap->count}}</span>
+                                @elseif($emohap->idemot == 2)
+                                😍<span class="badge badge-light">{{$emohap->count}}</span>
+                                @elseif($emohap->idemot == 3)
+                                😲<span class="badge badge-light">{{$emohap->count}}</span>
+                                @elseif($emohap->idemot == 4)
+                                🤗<span class="badge badge-light">{{$emohap->count}}</span>
+                                @endif
+                              @endif
+                            @endforeach
+                            <!--end total de reacciones-->
+                            </div>
+                            <!---===========-->
+                            <button class="btn_reaccion mt-2" id="btnhappy{{$happy->id}}">
+                            <span style="color:black;" id="texthappy{{$happy->id}}">
+                              <!---emoticon marcado por el usuario-->
+                              @php 
+                                  $emotmarcadoh = false; 
+                              @endphp
+                                @foreach($useremotholys as $uemh)
+                                    @if($happy->id == $uemh->iduser && $uemh->estado == '1')
+                                        @if($uemh->idemot >= 1 && $uemh->idemot <= 4)
+                                            {{$uemh->emoticon}}
+                                            @php 
+                                              $emotmarcadoh = true; 
+                                            @endphp
+                                        @endif
+                                        @php break; @endphp
+                                    @endif
+                                @endforeach
+
+                                {{-- Si no se encontró un emoticón marcado por el usuario, muestra el icono de "like" gris --}}
+                                @if (!$emotmarcadoh)
+                                    <i class="fas fa-thumbs-up" style="color:gray;"></i>
+                                @endif
+                              <!--end emoticon marcado por el usuario-->
+                            </span>      
+                            
+                            <!---listado de emoticones realizados -->  
+                            <div class="reacciones">
+                              @foreach($emoticones as $emot)
+                                  <div class="reaccion"> 
+                                    @php   
+                                    $iduser= $happy->id;
+                                    $emoticon = $emot['emoticon'];
+                                    $idemot = $emot['cod'];
+                                    @endphp
+                                      <a id="btnhappy{{$happy->id}}"  onclick="emotAniversario('<?= $iduser ?>', '<?= $emoticon ?>', '<?= $idemot ?>', '', '1');"><i style="font-style: normal!important;">{{$emot['emoticon']}}</i></a>
+                                      <span style="padding:3px; border-radius: 10px; background-color:white;">{{$emot['descrip']}}</span>
+                                  </div>
+                              @endforeach 
+                            <!--- end listado de emoticones -->           
+                            </button>
+                            <!--end reacciones-->
+                            <!---obtener las personas que reaccionaron-->
+                            <div class="dropdownnew">
+                                <a type="button" onclick="happyReaccion('<?= $happy->id ?>')"><i class="fas fa-ellipsis-h"></i></a>
+                                <div id="myDropdownhappy{{$happy->id}}" class="dropdownnew-content">
+                                  <!--- aqui las personas que reaccionan-->
+                                  <a id="emhappy{{$happy->id}}"></a>
+                                  @foreach($usuariosReaccioneshol as $ush)
+                                      @if($happy->id == $ush->iduser && $ush->estado == '1')
+                                      <a href="#" id="usuariohappy{{$happy->id}}"> {{$ush->emoticon}} {{$ush->name}} {{$ush->apellido}}</a>
+                                      @endif
+                                  @endforeach
+                                  <!--- end personas reaccionaron-->
+                                </div>
+                              </div>
+                            <!---===================comentarios=================-->
+                            <a data-toggle="collapse" href="#comentariosCollapsehappy{{$happy->id}}" role="button" aria-expanded="false" aria-controls="comentariosCollapsehappy{{$happy->id}}">
+                            &nbsp;Comentarios
+                            </a>
+                          <div class="collapse" id="comentariosCollapsehappy{{$happy->id}}">
+                            <div class="card card-body mt-2">
+                            <!---aqui van los comentarios-->
+                            <div id="responsehappy{{$happy->id}}">
+                            <!---end comentarios-->
+                            @foreach($infoComentarios as $comcumple)
+                              @if($happy->id == $comcumple->iduser && $comcumple->tipo == '1')
+                                  <div  class="user-panel mt-3 pb-0 mb-0" style="white-space: normal;">
+                                      <img src="{{asset('dist/imgperfil/'.$comcumple->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
+                                      <span> <b>&nbsp;&nbsp;{{ $comcumple->nombre }} {{ $comcumple->apellido }}:</b>&nbsp;</b></span>
+                                      {{$comcumple->comentario}}
+                                      <p class="card-text mx-2"><small class="text-muted">{{ date('j F, Y', strtotime($comcumple->fecha)) }}</small></p>
+                                    </div>
+                              @endif
+                            @endforeach
+                            </div>
+                            <!-------------- formulario ----->
+                            <div class="mt-3">
+                            <form method="POST" class="formholidays" id="{{$happy->id}}">
+                                @csrf
+                                <div class="form-group">
+                                  <label for="contenidohappy{{$happy->id}}">Comentario</label>
+                                  <input type="text" class="form-control valorInput" name="valorInputhappy" id='valorInputhappy{{$happy->id}}' value="{{$happy->id}}" hidden>
+                                  <input type="text" class="form-control valorInput" name="tipohappy" id='tipohappy{{$happy->id}}' value="1" hidden>
+                                  <textarea type="text" class="form-control limpiararea contenido" name="contenidohappy" id='contenidohappy{{$happy->id}}' required></textarea>
+                                </div>
+                                  <button type="submit" class="btn btn-warning float-right">Enviar</button>
+                              </form>
+                            </div>
+                            <!---end formulario --->
+                          </div>
+                          </div>
+                            <!---=====================================-->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    @endforeach
+                    <!---end data holidays-->
+                    <!---data aniversario --->
+                    @foreach($usuanviersario as $aniver)
+                    <div class="card mb-3 mt-3">
+                      <div class="row no-gutters">
+                      <div class="col-md-4 col-lg-4">
+                          <img data-src="{{asset('dist/eventos/'.$aniver['imganiv'])}}" class="img-thumbnail lazy-load"  alt="Cargando imagen ...">
+                        </div>
+                        <div class="col-md-8 col-lg-8">
+                          <div class="card-body">
+                              <!--foto de perfil -->
+                              <div class="user-panel mt-0 pb-0 mb-0" style="white-space: normal;">
+                                  <img data-src="{{asset('dist/imgperfil/'.$aniver['perfil'])}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
+                                <span> <b>&nbsp;&nbsp;{{ $aniver['name'] }} {{ $aniver['apellido'] }}</b>&nbsp; Celebra <strong>{{$aniver['anios']}}</strong> año(s) en la empresa.</span>
+                                <p class="card-text mx-2"><small class="text-muted">{{ date('j F, Y', strtotime($aniver['fecaniv'])) }}</small></p>
+                            </div>
+                            <p class="card-text m-2">¡Únete a su celebración y comparte un mensaje lleno de buenos deseos!</p>
+                            <!---reacciones-->
+                            <div id="reacaniver{{$aniver['id']}}"></div>
+                            <div id="reaccionesPHPaniver{{$aniver['id']}}"> 
+                            <!--total de reacciones -->
+                            @foreach($emotholys as $emotan)
+                              @if($aniver['id'] == $emotan->iduser &&  $emotan->estado == '2')
+                                @if($emotan->idemot == 1)
+                                👍<span class="badge badge-light">{{$emotan->count}}</span>
+                                @elseif($emotan->idemot == 2)
+                                😍<span class="badge badge-light">{{$emotan->count}}</span>
+                                @elseif($emotan->idemot == 3)
+                                😲<span class="badge badge-light">{{$emotan->count}}</span>
+                                @elseif($emotan->idemot == 4)
+                                🤗<span class="badge badge-light">{{$emotan->count}}</span>
+                                @endif
+                              @endif
+                            @endforeach
+                            <!--end total de reacciones-->
+                            </div>
+                            <!---===========-->
+                            <button class="btn_reaccion mt-2" id="btnaniver{{$aniver['id']}}">
+                            <span style="color:black;" id="textaniver{{$aniver['id']}}">
+                              <!---emoticon marcado por el usuario-->
+                              @php 
+                                  $emotmarcado = false; 
+                              @endphp
+                                @foreach($useremotholys as $uem)
+                                    @if($aniver['id'] == $uem->iduser && $uem->estado == '2')
+                                        @if($uem->idemot >= 1 && $uem->idemot <= 4)
+                                            {{$uem->emoticon}}
+                                            @php 
+                                              $emotmarcado = true; 
+                                            @endphp
+                                        @endif
+                                        @php break; @endphp
+                                    @endif
+                                @endforeach
+
+                                {{-- Si no se encontró un emoticón marcado por el usuario, muestra el icono de "like" gris --}}
+                                @if (!$emotmarcado)
+                                    <i class="fas fa-thumbs-up" style="color:gray;"></i>
+                                @endif
+                              <!--end emoticon marcado por el usuario-->
+                            </span>      
+                            
+                            <!---listado de emoticones realizados --> 
+                            <div class="reacciones">
+                            @foreach($emoticones as $emot)
+                                <div class="reaccion"> 
+                                  @php   
+                                  $iduser= $aniver['id'];
+                                  $emoticon = $emot['emoticon'];
+                                  $idemot = $emot['cod'];
+                                  @endphp
+                                    <a id="btnaniversario{{$aniver['id']}}"  onclick="emotAniversario('<?= $iduser ?>', '<?= $emoticon ?>', '<?= $idemot ?>', '', '2');"><i style="font-style: normal!important;">{{$emot['emoticon']}}</i></a>
+                                    <span style="padding:3px; border-radius: 10px; background-color:white;">{{$emot['descrip']}}</span>
+                                </div>
+                            @endforeach   
+                            <!--- end listado de emoticones -->           
+                            </button>
+                            <!--end reacciones-->
+                            <!---obtener las personas que reaccionaron-->
+                            <div class="dropdownnew">
+                                <a type="button" onclick="userReaccion('<?= $aniver['id'] ?>')"><i class="fas fa-ellipsis-h"></i></a>
+                                <div id="myDropdownaniver{{$aniver['id']}}" class="dropdownnew-content">
+                                  <!--- aqui las personas que reaccionan-->
+                                  <a id="emaniver{{$aniver['id']}}"></a>
+                                  @foreach($usuariosReaccioneshol as $us)
+                                      @if($aniver['id'] == $us->iduser && $us->estado == '2')
+                                      <a href="#" id="usuarioaniver{{$aniver['id']}}"> {{$us->emoticon}} {{$us->name}} {{$us->apellido}}</a>
+                                      @endif
+                                  @endforeach
+                                  <!--- end personas reaccionaron-->
+                                </div>
+                              </div>
+                            <!---===================comentarios=================-->
+                            <a data-toggle="collapse" href="#comentariosCollapseaniver{{$aniver['id']}}" role="button" aria-expanded="false" aria-controls="comentariosCollapseaniver{{$aniver['id']}}">
+                            &nbsp;Comentarios
+                            </a>
+                          <div class="collapse" id="comentariosCollapseaniver{{$aniver['id']}}">
+                            <div class="card card-body mt-2">
+                            <!---aqui van los comentarios-->
+                            <div id="responseaniver{{$aniver['id']}}">
+                            <!---end comentarios-->
+                            @foreach($infoComentarios as $comaniv)
+                              @if($aniver['id'] == $comaniv->iduser && $comaniv->tipo == '2')
+                                  <div  class="user-panel mt-3 pb-0 mb-0" style="white-space: normal;">
+                                      <img src="{{asset('dist/imgperfil/'.$comaniv->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
+                                      <span> <b>&nbsp;&nbsp;{{ $comaniv->nombre }} {{ $comaniv->apellido }}:</b>&nbsp;</b></span>
+                                      {{$comaniv->comentario}}
+                                      <p class="card-text mx-2"><small class="text-muted">{{ date('j F, Y', strtotime($comaniv->fecha)) }}</small></p>
+                                    </div>
+                              @endif
+                            @endforeach
+                            </div>
+                            <!-------------- formulario ----->
+                            <div class="mt-3">
+                            <form method="POST" class="formholidays" id="{{$aniver['id']}}">
+                                @csrf
+                                <div class="form-group">
+                                  <label for="contenidoaniver{{$aniver['id']}}">Comentario</label>
+                                  <input type="text" class="form-control valorInput" name="valorInputhappy" id="valorInputaniver{{$aniver['id']}}" value="{{$aniver['id']}}" hidden>
+                                  <input type="text" class="form-control valorInput" name="tipohappy" id="tipohappy{{$aniver['id']}}" value="2" hidden>
+                                  <textarea type="text" class="form-control limpiararea contenido" name="contenidohappy" id="contenidoaniver{{$aniver['id']}}" required></textarea>
+                                </div>
+                                  <button type="submit" class="btn btn-warning float-right">Enviar</button>
+                              </form>
+                              </div>
+                              <!---end formulario --->
+                          </div>
+                          </div>
+                            <!---=====================================-->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    @endforeach
+                    <!---end data aniversario-->
+                    <!--- proximas fechas especiales--->
+                      <div class="mt-2 letraform mb-2 col-lg-12 col-md-12 col-sm-12 col-12 text-center" style="background-color:#dfe3e3;">
+                        <h4 class="p-1" style="border-radius:10px;">Celebraciones en: {{$monthName}} </h4>
+                      </div>
+                      <div class="container row letraform">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 mt-2">
+                        <div class="letraform placa mt-2 mb-3">
+                          <span class="badge-info p-1" style="border-radius:10px;">Cumpleaños</span>
+                        </div>
+                          <!--- iterar-->
+                        @foreach($usuarios as $usu)
+                        <div class="user-panel pb-3 d-flex">
+                              <div class="image">
+                                <img src="{{ asset('dist/imgperfil/' . $usu->imagen) }}" class="img-circle elevation-2" alt="User Image">
+                              </div>
+                              <div class="info">
+                                <a type="button" class="d-block text-black" data-toggle="tooltip" data-html="true" title="
+                                <div class='card bg-blue'>
+                                  <div class='card-body'>
+                                    <h6 class='card-text text-left'>Cargo: {{$usu->cargo}} </h6>
+                                    <h6 class='card-text text-left'>Area: {{$usu->area}}</h6>
+                                  </div>
+                                </div>
+                                ">
+                                  {{$usu->name}} {{$usu->apellido}} @if($usu->estado == 1) <i class="fas fa-birthday-cake" style="color: #FFD700;"></i> @endif
+                                </a>
+                                <span class="text-sm">
+                                  @if($datehoy < $usu->fecha_cumple)
+                                    Próximo 
+                                  @elseif($datehoy == $usu->fecha_cumple)
+                                    Hoy
+                                  @else
+                                    Pasado
+                                  @endif
+                                  {{ \Carbon\Carbon::parse($usu->fecha_cumple ?? '')->isoFormat('dddd, D [de] MMMM') }}
+                                </span>
+                              </div>
+                            </div>
+                          @endforeach
+                            <!---end iteracion-->
+                            <div class="letraform placa mt-2 mb-3">
+                              <span class="badge-info p-1" style="border-radius:10px;">Aniversarios Laborales</span>
+                            </div>
+                            <!--- iteracion para aniversarios -->
+                          @foreach($aniversario as $aniv)
+                        <div class="user-panel pb-3 d-flex">
+                              <div class="image">
+                                <img src="{{ asset('dist/imgperfil/' . $aniv->imagen) }}" class="img-circle elevation-2" alt="User Image">
+                              </div>
+                              <div class="info">
+                                <a type="button" class="d-block text-black" data-toggle="tooltip" data-html="true" title="
+                                <div class='card bg-blue'>
+                                  <div class='card-body'>
+                                    <h6 class='card-text text-left'>Cargo: {{$aniv->cargo}} </h6>
+                                    <h6 class='card-text text-left'>Area: {{$aniv->area}}</h6>
+                                  </div>
+                                </div>
+                                ">
+                                  {{$aniv->name}} {{$aniv->apellido}} <i class="fas fa-gift" style="font-size: 24px; color: #ff0000;"></i> 
+                                  @if($datehoy < $aniv->fecha_aniversario)
+                                      {{$aniv->total_anios + 1}} Año(s) en la empresa.
+                                  @else
+                                      {{$aniv->total_anios}} Año(s) en la empresa.
+                                  @endif
+                                </a>
+                                <span class="text-sm">
+                                  @if($datehoy < $aniv->fecha_aniversario)
+                                    Próximo 
+                                  @elseif($datehoy ==  $aniv->fecha_aniversario)
+                                    Hoy
+                                  @else
+                                    Pasado
+                                  @endif
+                                  {{ \Carbon\Carbon::parse($aniv->fecha_aniversario ?? '')->isoFormat('dddd, D [de] MMMM') }}
+                                </span>
+                              </div>
+                            </div>
+                          @endforeach
+                            <!--- end iteracion --->
+                        </div>
+
+                      </div>
+                    <!-- end proximas fechas-->
+                  </div>
+                  @endif
                 </div>
-                @endforeach
-                {{ $detalle->links() }}
+                <!--end tabs--->
                 <!--end card-->
             </div>
         </div>
@@ -523,6 +654,7 @@
 @endif
 
 <script type="text/javascript" src="{{asset('dist/js/emojionearea.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/comentarioant.js')}}"></script>
 <script>
   $('textarea[class*="contenido"]').emojioneArea({
       pickerPosition: "bottom"
@@ -539,4 +671,9 @@
       }
   });
 </script>
+<script> 
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
 @endsection

@@ -43,7 +43,7 @@
   </div>-->
 
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background-color:#DEA064;">
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="background-color:#FFFFFF;">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -107,11 +107,12 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar elevation-3" style="background-color:#082e41;">
     <!-- Brand Logo -->
-    
+  
     <a href="#" class="brand-link">
       <img src="{{ asset('dist/img/logo_evo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
-      <span class="brand-text font-weight-light"><h3 style="color:white; font-weight: bold;">Ubuntu</h3></span>
+      <span class="brand-text font-weight-light"><h3 style="color:white; font-weight: bold;">Evolución</h3></span>
     </a>
+
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
@@ -193,7 +194,7 @@
   </div>
 
   <!-- /.content-wrapper -->
-  <footer class="main-footer letra1 text-left" style="background-color:#DEA064; color:black;">
+  <footer class="main-footer letra1 text-left" style="background-color:#FFFFFF; color:black;">
     <strong>Copyright &copy; 2024 <a href="https://evolucion.co/" target="_blank">Evolución</a>.</strong>
     <span><b>Todos los derechos reservados</b></span>
     <div class="float-right d-none d-sm-inline-block">

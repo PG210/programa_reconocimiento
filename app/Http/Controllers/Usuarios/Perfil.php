@@ -15,16 +15,13 @@ class Perfil extends Controller
 {
     public function index(){
         $usu= auth()->user()->id;
-        $usuarios = Usuarios::findOrFail($usu)->first();//variable retorna todos los valores a la vista
-        
+
         $users = DB::table('users')
             ->join('roles', 'users.id_rol', '=', 'roles.id')
             ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
             ->join('estado', 'users.id_estado', '=', 'estado.id')
             ->where('users.id', '=', $usu)
             ->get();
-
-           $d=$users->filter()->all();
        
            return view('usuario.perfil')->with('dat', $users);
     }
@@ -76,6 +73,8 @@ class Perfil extends Controller
             $es->id_rol = $es->id_rol;
             $es->id_cargo = $es->id_cargo;
             $es->id_estado = $es->id_estado;
+            $es->fecna = $request->inputfechan; 
+            $es->fecingreso = $request->inputfechanv;
             //#######imagen
             if($request->hasFile('img')){                 
                $file = $request->file('img');
@@ -101,7 +100,7 @@ class Perfil extends Controller
               }
             //#######end imagen
             $es->save(); 
-            Session::flash('mensaje', 'El usuario ha sido actualizado!'); 
+            Session::flash('mensaje', '¡Datos actualizados de manera exitosa!'); 
            
           }   
           return back();

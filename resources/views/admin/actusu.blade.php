@@ -45,6 +45,18 @@
       <input type="text" class="form-control" id="inputPassword4" name="telf"  value="{{$dat[0]->telefono}}">
     </div>
   </div>
+   <!---fechas -->
+   <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputfechan">Fecha de nacimiento</label>
+      <input type="date" class="form-control" id="inputfechan" readonly="readonly" value="{{$dat[0]->fecna}}">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputfechanv">Fecha de ingreso a la empresa</label>
+      <input type="date" class="form-control" id="inputfechanv"  readonly="readonly" value="{{$dat[0]->fecingreso}}">
+    </div>
+  </div>
+  <!--- end fechas-->
   <div class="form-row">
    <div class="form-group col-md-6">
     <label for="inputAddress">Email</label>

@@ -29,6 +29,8 @@ class User extends Authenticatable
         'id_cargo',
         'imagen',
         'id_estado',
+        'fecna',
+        'fecingreso',
     ];
 
     /**

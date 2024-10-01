@@ -14,6 +14,7 @@ use App\Models\Usuarios\Usuarios;
 use App\Models\Eventos\AntiguedadModel; // para antiguedad
 use App\Models\Eventos\CumpleModel; // cumpleanios
 use Intervention\Image\Facades\Image; // optimizar las imagenes
+use App\Models\Eventos\EstadoEventosModel;
 
 
 class AreasController extends Controller
@@ -160,6 +161,7 @@ class AreasController extends Controller
     $monthup = Carbon::now()->month; //fecha actual
     $monthName = ucfirst(Carbon::now()->translatedFormat('F'));
     $datehoy = Carbon::now()->format('Y-m-d'); //fecha actual
+    $estado =  EstadoEventosModel::first();
    
     $usuarios = Usuarios::whereMonth('fecna', $monthup)
                 ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
@@ -178,7 +180,7 @@ class AreasController extends Controller
                         DB::raw("TIMESTAMPDIFF(YEAR, fecingreso, CURDATE()) as total_anios"),
                         'cargo.nombre as cargo', 'area.nombre as area', DB::raw('2 as estado'))->get();
 
-    return view('admin.eventos', compact('cumple', 'ant', 'usuarios', 'monthName', 'aniversario', 'datehoy'));
+    return view('admin.eventos', compact('cumple', 'ant', 'usuarios', 'monthName', 'aniversario', 'datehoy', 'estado'));
   }
 
   public function happybirthday(Request $request){
@@ -254,5 +256,17 @@ class AreasController extends Controller
     }
     return back();
   }
+
+  //activar o desactivar eventos
+  public function activeCumple(Request $request){
+    
+     $estado = $request->estado;
+     #== actualizar estado
+     $createEstado = EstadoEventosModel::findOrFail(1); // Cambiado a findOrFail
+     $createEstado->estado = $estado;
+     $createEstado->save();
+     return back();
+  }
+
 }
  

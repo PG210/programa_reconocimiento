@@ -15,7 +15,6 @@
         form {
           padding: 1em;
           border: 1px solid #c1c1c1;
-          background-color:#ECE9E9;
           margin-top: 2rem;
           max-width: 600px;
           margin-left: auto;
@@ -119,8 +118,8 @@
       <td align="center" style="padding:0;">
         <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
           <tr>
-            <td align="center" style="padding:10px 0 10px 0;background:#DEA064;">
-            <img src="https://ubuntu.evolucion.co/dist/img/logo_evo.png" alt="Cargando imagen ..." style="width:50px; display:block;" />
+            <td align="center" style="padding:10px 0 10px 0; background:#131535;">
+              <img src="https://reconoser.evolucion.co/dist/img/logo_evo.png" alt="Cargando imagen ..." style="width:50px; display:block;" />
             </td>
           </tr>
           <tr>
@@ -178,7 +177,7 @@
                         
                          <p style="margin:0 0 12px 0;">
                          <!--Datos de la categoria y comportamiento-->
-                         <form class="form1" style="font-size:16px; font-family:Arial,sans-serif; text-align: justify; border-radius:10px;">
+                         <form class="letraform" style="text-align: justify; border-radius:10px;">
                            <div class="container">
                             <label for="firstName" class="first-name">Reconocimiento: </label>
                             <label for="firstName" class="first-name">@if(isset($datos)){{ $datos['detalle'] }}@endif</label>
@@ -193,10 +192,10 @@
                       </tr>
                     </table>
                      <div style="text-align:center">
-                     <h1 style="font-size:18px; margin:0 0 5px 0; font-family: Arial,sans-serif; color:black;">
+                     <h1 class="letraform" style=" margin:0 0 5px 0; color:black; text-align:center;">
                         ¡Tu esfuerzo ha sido notado y apreciado!
                      </h1>
-                      <a class="botonclase boton2" href="https://ubuntu.evolucion.co/" target="_blank"> Ve comenta y reacciona </a>
+                      <a class="botonclase boton2" href="https://reconoser.evolucion.co/" target="_blank"> Ve comenta y reacciona </a>
                      </div>
                   </td>
                 </tr>
@@ -205,11 +204,11 @@
           </tr>
           <tr>
            
-            <td style="padding:30px; background-color:#DEA064;">
+            <td style="padding:30px; background:#EDAA27;">
               <table role="presentation" style="width:100%; border-collapse:collapse; border:0; border-spacing:0; font-size:9px; font-family:Arial,sans-serif;">
                 <tr>
                   <td style="padding:0;width:50%;" align="left">
-                    <a href="https://www.evolucion.co/" target="_blank" style="margin:0; font-size:14px; line-height:16px; font-family:Arial,sans-serif; color:black;">
+                    <a href="https://www.evolucion.co/" target="_blank" style="margin:0; font-size:14px; line-height:16px; font-family:Arial,sans-serif; color:white;">
                       &reg; Evolución, 2024<br/>
                    </a>
                    <label style="margin:0; font-size:14px; line-height:16px; font-family:Arial,sans-serif; color:white;" >@if(isset($datos)){{date ('Y-m-d', strtotime($datos['fecha']))}}@endif</label>

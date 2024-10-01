@@ -1,6 +1,5 @@
 
   function emotAniversario(iduser, emoticon, idemot, comentario, tipo){
-    console.log('user', iduser, 'emoticon', emoticon, 'idemot', idemot, 'comentario', comentario, 'tipo', tipo);
     //========== ajax ============
     $.ajax({
         url: "/reacciones/holidays",

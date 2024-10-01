@@ -33,14 +33,14 @@
       <td align="center" style="padding:0;">
         <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
           <tr>
-            <td align="center" style="padding:10px 0 10px 0; background:#6D7274;">
-             <img src="https://asareconoser.evolucion.co/dist/img/logoas.png" alt="Cargando imagen ..." style="height:auto;display:block;" />
+            <td align="center" style="padding:10px 0 10px 0; background:#131535;">
+            <img src="https://reconoser.evolucion.co/dist/img/logo_evo.png" alt="Cargando imagen ..." style="width:50px; display:block;" />
             </td>
           </tr>
           <tr>
             <td style="padding:20px;">
                <p class="texto2"> Estimado/a, @if(isset($usuario->name))<strong>{{$usuario->name}} {{$usuario->apellido}}</strong>@endif</p>
-               <p class="texto2">¡Hoy es un día muy especial para todos nosotros en Asa Seguros!. Nos complace celebrar tu <strong> @if(isset($usuario->anios)) {{$usuario->anios}}º </strong> @endif aniversario con nosotros.</p> 
+               <p class="texto2">¡Hoy es un día muy especial para todos nosotros en Evolución!. Nos complace celebrar tu <strong> @if(isset($usuario->anios)) {{$usuario->anios}}º </strong> @endif aniversario con nosotros.</p> 
                <div align="center">
                  @if(isset($datos->imagen))
                   <img src="{{asset('/dist/eventos/'.$datos->imagen)}}" alt="Cargando imagen ..." style="display:block; width:60%;" /><br>
@@ -50,7 +50,7 @@
             </td>
           </tr>
           <tr>
-            <td style="padding:30px; background:#EF464B;">
+            <td style="padding:30px; background:#EDAA27;">
               <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
                 <tr>
                   <td style="padding:0;width:50%;" align="left">

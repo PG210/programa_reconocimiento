@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="x-apple-disable-message-reformatting">
-  <title>Feliz Cumpleaños</title>
+  <title>Notificación</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;500;700&display=swap" rel="stylesheet">
   <style>
     table, td, div, h1, p {font-family: 'Roboto Slab', serif;}
@@ -34,18 +34,20 @@
         <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
           <tr>
             <td align="center" style="padding:10px 0 10px 0; background:#131535;">
-            <img src="https://reconoser.evolucion.co/dist/img/logo_evo.png" alt="Cargando imagen ..." style="width:50px; display:block;" />
+              <img src="https://reconoser.evolucion.co/dist/img/logo_evo.png" alt="Cargando imagen ..." style="width:50px; display:block;" />
             </td>
           </tr>
           <tr>
             <td style="padding:20px;">
-               <p class="texto1" style="text-align:center;"> ¡Feliz cumpleaños, @if(isset($usuario->name))<strong>{{$usuario->name}} {{$usuario->apellido}}</strong>@endif!</p>
-                <div align="center">
-                 @if(isset($datos->imagen))
-                  <img src="{{asset('/dist/eventos/'.$datos->imagen)}}" alt="Cargando imagen ..." style="display:block; width:60%;" /><br>
-                 @endif
-                </div>
-               <p class="texto2"> @if(isset($datos->descrip)) {{$datos->descrip}} @endif</p>
+              @if(isset($datos['tipo']))
+                @if($datos['tipo'] == '2')
+                  <p class="texto1" style="text-align:center;"> ¡Genial noticia! 🎉, @if(isset($datos['nomrecibe']))<strong>{{ $datos['nomrecibe'] }} {{ $datos['aperecibe'] }}</strong> tienes un nuevo comentario de: @endif</p>
+                  <p class="texto2"> @if(isset($datos['detalle'])) <strong>{{ $datos['nombre'] }} {{ $datos['apellido'] }}:</strong> "{{$datos['detalle']}}." @endif</p>
+                @else
+                  <p class="texto1" style="text-align:left;"> ¡Genial noticia! 🎉, @if(isset($datos['nomrecibe']))<strong>{{ $datos['nomrecibe'] }} {{ $datos['aperecibe'] }}</strong> tienes una reacción {{$datos['mensaje']}} de: @endif</p>
+                  <p class="texto2"> @if(isset($datos['detalle'])) <strong>{{ $datos['nombre'] }} {{ $datos['apellido'] }}:</strong> "{{$datos['detalle']}}"@endif</p>
+                @endif
+              @endif
             </td>
           </tr>
           <tr>
@@ -56,6 +58,7 @@
                     <a href="https://www.evolucion.co/" style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:black; color:white;">
                       &reg; Evolución, 2024<br/>
                    </a>
+                   <label style="margin-top:2px;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:white;" > @if(isset($datos['fecha'])){{date ('Y-m-d', strtotime($datos['fecha']))}}@endif</label>
                   </td>
                 </tr>
               </table>

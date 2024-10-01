@@ -6,10 +6,37 @@
     border: 1px solid #dee2e6; /* Borde gris claro */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
     border-radius: 5px; /* Bordes redondeados (opcional) */
-}
+  }
+
+  .buttonAct {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #04AA6D;
+  }
 </style>
-<div class="text-center titulo placa mb-3">
-   <h3>CELEBRACIONES ESPECIALES</h3>
+<div class="row placa mb-3">
+  <div class="col-lg-2 col-md-2 col-sm-2 col-2">
+  </div>
+  <div class="col-lg-8 col-md-8 col-sm-8 col-8">
+      <div class="text-center titulo">
+        <span> <h3>CELEBRACIONES ESPECIALES</h3></span>
+      </div>
+  </div>
+  <div class="col-lg-2 col-md-2 col-sm-2 col-2 text-center letraform">
+  @if(isset($estado))
+    <form action="{{route('activeCumple')}}" method="POST" onsubmit="return confirm('¿Estás seguro que desea cambiar el estado de la vista?');">
+        @csrf
+        <input type="hidden" name="estado" id="estado" value="@if($estado->estado == 1) 0 @else 1 @endif">
+        <button class="buttones buttonAct" type="submit" class="mt-2" data-toggle="tooltip" data-placement="top" title="Activar o desactivar la visualización de cumpleaños y quinquenios en la vista de usuario.">
+          @if($estado->estado == 1) 
+           <span> <i class="fas fa-toggle-on" style="font-size: 1.5em; color:green;"></i> Activado </span>
+          @else
+          <span> <i class="fas fa-toggle-off" style="font-size: 1.5em; color:gray;"></i> Desactivado </span>
+          @endif
+        </button>
+    </form>
+    @endif
+  </div>
 </div>
 
 <div class="container row letraform">
@@ -30,7 +57,9 @@
           </div>
           <div class="form-group col-md-6">
             <label for="descrip">Descripción</label>
-            <textarea class="form-control text-sm" id="descrip" name="descrip" rows="7" required>{{$cumple->descrip}} </textarea>
+            @if(isset($cumple->descrip))
+             <textarea class="form-control text-sm" id="descrip" name="descrip" rows="7" required>{{$cumple->descrip}} </textarea>
+            @endif
           </div>
         </div>
         <button type="submit" class="btn btn-primary btn-sm float-right mt-2"><i class="fas fa-save"></i> Guardar</button>
@@ -90,8 +119,7 @@
             <!-- end antiguedad-->
             </div>
         </div>
-        </div>
-          
+        </div>        
         <!---=============================--->
         <br>
         <div class="row">

@@ -226,9 +226,11 @@ Route::get('/reacciones', [Inicio::class, 'reacciones'])->name('reacciones')->mi
 Route::get('/reacciones/holidays', [Inicio::class, 'reaccionesaniv'])->name('reaccionesaniv')->middleware(['auth']);
 //============= comentario  ============
 Route::any('/comentario', [Inicio::class, 'comentario'])->name('comentario')->middleware(['auth']);
+//============ comentarios para holidays =======
+Route::post('/comentario/holidays', [Inicio::class, 'comentariosholdays'])->middleware(['auth']);
 
 Route::get('/correo/not', function () {
-    return view('correos.antiguedad');
+    return view('correos.reconocimiento');
 });
 
 //================== reporte de votaciones =========
@@ -256,7 +258,7 @@ Route::get('/empresa/eventos', [AreasController::class, 'eventos'])->middleware(
 Route::post('/empresa/eventos/happy', [AreasController::class, 'happybirthday'])->middleware(['auth', 'admin'])->name('happybirthday');
 Route::post('/empresa/eventos/antique', [AreasController::class, 'antique'])->middleware(['auth', 'admin'])->name('antique');
 Route::get('/empresa/eventos/{id}', [AreasController::class, 'deletevento'])->middleware(['auth', 'admin'])->name('deletevento');
-
+Route::post('/empresa/eventos/active', [AreasController::class, 'activeCumple'])->middleware(['auth', 'admin'])->name('activeCumple');
 
 Route::get('/forprueba', function () {
     return view('formprueba');
