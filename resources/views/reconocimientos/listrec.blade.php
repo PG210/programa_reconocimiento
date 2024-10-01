@@ -142,10 +142,10 @@
                                     <div class="user-panel mt-0 pb-0 mb-0 d-flex">
                                       <div class="image">
                                         @if($usuario->imagen!=null && $usuario->imagen != 'ruta')
-                                          <img data-src="{{asset('dist/imgperfil/'.$usuario->imagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
+                                          <img src="{{asset('dist/imgperfil/'.$usuario->imagen)}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">
                                         @endif
                                         @if($usuario->imagen==null || $usuario->imagen == 'ruta')
-                                        <img data-src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;" >
+                                        <img src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >
                                         @endif
                                         </div>
                                       </div>
