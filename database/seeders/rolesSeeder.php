@@ -24,6 +24,9 @@ class rolesSeeder extends Seeder
             ],
             [
              'descripcion' => 'jefe'  
+            ],
+            [
+             'descripcion' => 'gerente'  
             ]
 
         ];

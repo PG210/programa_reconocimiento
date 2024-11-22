@@ -21,8 +21,6 @@ return new class extends Migration
             $table->String('estado');//estado puede ser 1 o 0 dependiendo si esta leido o no
             $table->unsignedBigInteger('idnotifi');//usuario a quien le pertenece la notificacion
             $table->foreign('idnotifi')->references('id')->on('catrecibida');
-           // $table->unsignedBigInteger('id_user');//usuario a quien le pertenece la notificacion
-           // $table->foreign('id_user')->references('id')->on('users');
             $table->timestamps();
         });
     }

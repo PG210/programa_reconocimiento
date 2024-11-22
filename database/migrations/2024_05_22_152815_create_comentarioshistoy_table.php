@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('comentarioshistoy', function (Blueprint $table) {
             $table->id();
-            $table->string('comentario');
+            $table->text('comentario');
             $table->unsignedBigInteger('idrec');
             $table->foreign('idrec')->references('id')->on('catrecibida');
             $table->unsignedBigInteger('idusu');

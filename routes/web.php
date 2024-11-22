@@ -260,6 +260,15 @@ Route::post('/empresa/eventos/antique', [AreasController::class, 'antique'])->mi
 Route::get('/empresa/eventos/{id}', [AreasController::class, 'deletevento'])->middleware(['auth', 'admin'])->name('deletevento');
 Route::post('/empresa/eventos/active', [AreasController::class, 'activeCumple'])->middleware(['auth', 'admin'])->name('activeCumple');
 
+//======================== download excel ======
+Route::post('/download/excel/appreciation', [ReconocimientosController::class, 'downloadGet'])->middleware(['auth'])->name('downloadGet');
+Route::post('/download/excel/give', [ReconocimientosController::class, 'downloadgive'])->middleware(['auth'])->name('downloadgive');
+
+//======================= filtros para metricas ==================
+Route::post('/filter/reconocimiento', [ReconocimientosController::class, 'filterReconocimientoTotal'])->middleware(['auth'])->name('filterReconocimientoTotal');
+Route::post('/filter/reconocimiento/enviado', [ReconocimientosController::class, 'filterReconocimientoEnviadoTotal'])->middleware(['auth'])->name('filterReconocimientoEnviadoTotal');
+
+
 Route::get('/forprueba', function () {
     return view('formprueba');
 });

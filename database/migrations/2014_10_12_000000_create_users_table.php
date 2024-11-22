@@ -32,6 +32,7 @@ return new class extends Migration
             $table->date('fecna')->nullable();
             $table->date('fecingreso')->nullable();
             $table->integer('superadmin')->default(0);
+            $table->integer('postulado')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -22,6 +22,9 @@ use App\Models\RecibeCatMoldel\Comentarios;
 use App\Models\RecibeCatMoldel\Emoticones;
 use App\Models\Insignias\InsigniasModel;
 use Illuminate\Support\Facades\Session;
+//=======================================
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RecObtenidos;
 //========== librerias para el servicio 
 use App\Services\MicrosoftGraphService;
 use App\Models\Token;
@@ -572,17 +575,25 @@ private function sendMail($destino, $data, $descrip, $valor){
   }
 
   //================ metricas ===================================
-  private function obtenerPuntos($users)
+  private function obtenerPuntos($users, $fecini = null, $fecfin = null)
   {
     $recibidos = [];
     foreach ($users as $usu) {
-      $info_usuario = DB::table('catrecibida')
-        ->where('catrecibida.id_user_recibe', '=', $usu->id)
-        ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
-        ->selectRaw('catrecibida.id_user_recibe, users.name as nombre, users.apellido as ape, 
-                    SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5, SUM(cat1+cat2+cat3+cat4+cat5) AS tot')
-        ->get();
+      $query = DB::table('catrecibida')
+              ->where('catrecibida.id_user_recibe', '=', $usu->id)
+              ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
+              ->selectRaw('catrecibida.id_user_recibe, users.name as nombre, users.apellido as ape, 
+                          SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5, SUM(cat1+cat2+cat3+cat4+cat5) AS tot');
       // Agregar la información del usuario al array $recibidos
+      // Agregar condiciones de fecha si existen
+      if ($fecini) {
+        $query->whereDate('catrecibida.created_at', '>=', $fecini);
+      }
+      if ($fecfin) {
+            $query->whereDate('catrecibida.created_at', '<=', $fecfin);
+      }
+      // Obtener los datos
+      $info_usuario = $query->get();
       $recibidos[] = $info_usuario;
     }
     if (!empty($recibidos)) {
@@ -593,21 +604,48 @@ private function sendMail($destino, $data, $descrip, $valor){
     }
     return $recibidos;
   }
-  //============== metricas delñ ranking administrador ===============
-  public function metricasranking()
-  {
-    $categoria = DB::table('comportamiento_categ')->select('id', 'descripcion')->get();
-    $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
-
+  //============== funcion para retornar insignias ===================
+  private function insigRecibidas($fecini = null, $fecfin = null){
     //============ contar la informacion de insignias obtenidas
-    $insig_recibidas = DB::table('insignia_obtenida')
+    $query = DB::table('insignia_obtenida')
       ->join('users', 'insignia_obtenida.id_usuario', '=', 'users.id')
       ->join('insignia', 'insignia_obtenida.id_insignia', '=', 'insignia.id')
-      ->select('insignia_obtenida.id_usuario', 'users.name as nombre', 'users.apellido as ape', 'insignia.id as idinsig', 'insignia.descripcion as des', 'insignia.name as insignom')
-      ->get();
+      ->select('insignia_obtenida.id_usuario', 'users.name as nombre', 'users.apellido as ape', 'insignia.id as idinsig', 'insignia.descripcion as des', 'insignia.name as insignom');
+    
+    // Agregar condiciones de fecha si existen
+    if ($fecini) {
+      $query->whereDate('insignia_obtenida.created_at', '>=', $fecini);
+    }
+    if ($fecfin) {
+        $query->whereDate('insignia_obtenida.created_at', '<=', $fecfin);
+    }
+
+    // Ejecutar la consulta y obtener los resultados
+    $insig_recibidas = $query->get();
+
+    return $insig_recibidas;
+  }
+  //============== metricas del ranking administrador ===============
+  public function metricasranking()
+  {
+    $fecini = '';
+    $fecfin = '';
+    $fecha = Carbon::now()->format('Y-m-d');
+    $categoria = DB::table('comportamiento_categ')->select('id', 'descripcion')->get();
+    $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
+    //========== llamar a la funcion ============
+    $insig_recibidas = $this->insigRecibidas();
     //============ llamar  a la funcion de puntos ============
     $recibidos = $this->obtenerPuntos($users);
-    return  view('metricas.avance')->with('recibidos', $recibidos)->with('categoria', $categoria)->with('insignias', $insig_recibidas)->with('users', $users);
+    return  view('metricas.avance')->with([
+            'recibidos' => $recibidos,
+            'categoria' => $categoria,
+            'insignias' => $insig_recibidas,
+            'users' => $users,
+            'fecini' => $fecini,
+            'fecfin' => $fecfin,
+            'fecha'  => $fecha,
+        ]);
   }
   //===============================
   private function cambiarDatos($datos_iniciales)
@@ -675,19 +713,28 @@ private function sendMail($destino, $data, $descrip, $valor){
   }
 
   //===================== reconocimientos enviados admin===========================
-  private function obtenerPuntosEnvia($users)
+  private function obtenerPuntosEnvia($users, $fecini = null, $fecfin = null)
   {
     $recibidos = [];
     foreach ($users as $usu) {
-      $info_usuario = DB::table('catrecibida')
-        ->where('catrecibida.id_user_envia', '=', $usu->id)
-        ->join('users', 'catrecibida.id_user_envia', '=', 'users.id')
-        ->selectRaw('catrecibida.id_user_envia, users.name as nombre, users.apellido as ape, 
-                  SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5, SUM(cat1+cat2+cat3+cat4+cat5) AS tot')
-        ->get();
-      // Agregar la información del usuario al array $recibidos
+      $query = DB::table('catrecibida')
+                     ->where('catrecibida.id_user_envia', '=', $usu->id)
+                     ->join('users', 'catrecibida.id_user_envia', '=', 'users.id')
+                     ->selectRaw('catrecibida.id_user_envia, users.name as nombre, users.apellido as ape, 
+                     SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5, SUM(cat1+cat2+cat3+cat4+cat5) AS tot');
+      // Agregar condiciones de fecha si existen
+      if ($fecini) {
+          $query->whereDate('catrecibida.created_at', '>=', $fecini);
+      }if ($fecfin) {
+          $query->whereDate('catrecibida.created_at', '<=', $fecfin);
+      }
+
+      // Obtener los datos
+      $info_usuario = $query->get();
+  
       $recibidos[] = $info_usuario;
     }
+
     if (!empty($recibidos)) {
       $recibidos = collect($recibidos);
       $recibidos = $recibidos->sortByDesc(function ($usuario) {
@@ -699,11 +746,113 @@ private function sendMail($destino, $data, $descrip, $valor){
   //=============================================
   public function metricasEnvio()
   {
+    $fecini = '';
+    $fecfin = '';
+    $fecha = Carbon::now()->format('Y-m-d');
+
     $categoria = Comportamiento::all();
     $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
 
     $recibidos = $this->obtenerPuntosEnvia($users);
-    return view('metricas.adminenviados')->with('categoria', $categoria)->with('recibidos', $recibidos);
+    
+    return view('metricas.adminenviados')->with([
+            'categoria' => $categoria,
+            'recibidos' => $recibidos,
+            'fecini' => $fecini,
+            'fecfin' => $fecfin,
+            'fecha'  => $fecha,
+        ]);
+
   }
-  //============================================
+   //==================== funcion para el reposte de categorias ===============
+  public function nomCate(){
+    $categorias = DB::table('comportamiento_categ')->select('descripcion')->get();
+    $dataArray = $categorias->pluck('descripcion')->toArray();
+    $newItems = ["Nombre", "Apellido", "Total"];
+    $datcate = array_merge($newItems, $dataArray); // Combinar
+    return $datcate;
+  } 
+  //================= Descarga de excel con reporte total de reconocimientos recibidos por cada colaborador ===========================
+  public function downloadGet(Request $request){
+      //obtener las fechas inicial y final
+      $fecini = $request->fecinifil;
+      $fecfin = $request->fecfinfil;
+      //retornar los usuarios
+      $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
+      //validar si las fechas tiene valores
+      if ($fecini && $fecfin)
+          $data = $this->obtenerPuntos($users, $fecini, $fecfin);
+      else
+          $data = $this->obtenerPuntos($users);
+
+      //verificar si existe informacion en la data
+      if (!empty($data)){
+        $datcate = $this->nomCate();
+        return Excel::download(new RecObtenidos($data, $datcate), 'reporte_reconocimientos_obtenidos.xlsx');
+      }else
+          return redirect('/metricas/ranking');
+    }
+  //================Reconocimientos que han enviado los usuarios======================
+  public function downloadgive(Request $request){
+      //obtener las fechas inicial y final
+      $fecini = $request->fecinifil;
+      $fecfin = $request->fecfinfil;
+      //usuarios que enviaron puntos
+      $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
+      //validar si las fechas tiene valores
+      if ($fecini && $fecfin)
+          $data = $this->obtenerPuntosEnvia($users, $fecini, $fecfin);
+      else
+          $data = $this->obtenerPuntosEnvia($users);
+  
+      // validar si existe información de datos
+      if (!empty($data)){
+        $datcate = $this->nomCate();
+        return Excel::download(new RecObtenidos($data, $datcate), 'reporte_reconocimientos_enviados.xlsx');
+      }else
+        return redirect('/reconocimientos/enviados/admin');
+    }
+  //===================== Filtro para reconocimientos obtenidos =======================
+  public function filterReconocimientoTotal(Request $request){
+    $fecini = $request->fecini;
+    $fecfin = $request->fecfin;
+    $fecha = Carbon::now()->format('Y-m-d');
+    $categoria = DB::table('comportamiento_categ')->select('id', 'descripcion')->get();
+    $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
+    //============ llamar  a la funcion de puntos ============
+    $recibidos = $this->obtenerPuntos($users, $fecini, $fecfin);
+    //========== llamar a la funcion ============
+    $insig_recibidas = $this->insigRecibidas($fecini, $fecfin);
+    
+    return  view('metricas.avance')->with([
+            'recibidos' => $recibidos,
+            'categoria' => $categoria,
+            'insignias' => $insig_recibidas,
+            'users' => $users,
+            'fecini' => $fecini,
+            'fecfin' => $fecfin,
+            'fecha'  => $fecha,
+        ]);
+  }
+  //==========================funcion para filtrar el total de recibidos===========================
+  public function filterReconocimientoEnviadoTotal(Request $request){
+    $fecini = $request->fecini;
+    $fecfin = $request->fecfin;
+    $fecha = Carbon::now()->format('Y-m-d');
+
+    $categoria = Comportamiento::all();
+    $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
+
+    $recibidos = $this->obtenerPuntosEnvia($users, $fecini, $fecfin);
+    
+    //retorno de los datos
+    return  view('metricas.adminenviados')->with([
+                'categoria' => $categoria,
+                'recibidos' => $recibidos,
+                'fecini' => $fecini,
+                'fecfin' => $fecfin,
+                'fecha'  => $fecha,
+            ]);
+
+  }
 }
