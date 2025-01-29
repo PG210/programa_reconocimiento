@@ -75,10 +75,10 @@
         <!---###modal----->
           <!-- Button trigger modal -->
           <a type="button" class="nav-link" data-toggle="modal" data-target="#exampleModal" onclick="sonido()">
-             <i class="far fa-bell fa-lg" style="color:black;"></i>
+             <i class="far fa-bell"></i>
              <div id="nnoti2">
               @if($val!=0 || $insignoti!=0)
-              <span class="badge badge-success navbar-badge" style="color:white; font-size: 0.875em;"> 
+              <span class="badge badge-warning navbar-badge"> 
               {{$val + $insignoti}} <!---suma las notificaciones-->
              </span>
               @endif
@@ -90,8 +90,8 @@
           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable">
               <div class="modal-content">
-                <div class="modal-header" style="background-color:#1ED5F4; color:white;">
-                  <h5 class="modal-title titulo" id="exampleModalLabel"><span >NOTIFICACIONES</span></h5>
+                <div class="modal-header">
+                  <h4 class="modal-title titulo" id="exampleModalLabel">Notificaciones</h4>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -108,15 +108,15 @@
                             <button class="btn btn-link btn-block text-left collapsed" type="submit" data-toggle="collapse" data-target="#collapseTwo{{$n->id}}" aria-expanded="false" aria-controls="collapseTwo{{$n->id}}"  onclick="test('{{$n->id}}')">
                               <!---imagen-->
                               <div class="row">
-                                  <div class="col-3">
-                                    <div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">
+                                  <div class="col-2">
+                                    <div  class="user-panel mt-0 pb-0 mb-0 d-flex">
                                     @if($n->imagen!=null)
-                                      <img data-src="{{asset('dist/imgperfil/'.$n->imagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
+                                      <img data-src="{{asset('dist/imgperfil/'.$n->imagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" >
                                     @endif
                                     @if($n->imagen == null)
-                                       <img data-src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;" >
+                                       <img data-src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1 lazy-load" alt="User Image" >
                                     @endif
-                                    <br>
+                                     
                                    </div>
                                   </div>
                                   <div class="col-6 letraform">
@@ -124,8 +124,8 @@
                                      {{$n->name}}  {{$n->apellido}} 
                                     </div>
                                   </div>
-                                  <div class="col-3">
-                                     <span class="float-right text-muted text-sm">{{date('Y-m-d', strtotime($n->fecha))}}</span>
+                                  <div class="col-4">
+                                     <span class="float-right text-muted text-sm dropdown-toggle">{{date('Y-m-d', strtotime($n->fecha))}}</span>
                                   </div>
                               </div>
                               <!---end imagen-->
@@ -134,38 +134,38 @@
                           </h2>
                         </div>
                         <div id="collapseTwo{{$n->id}}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                          <div class="card-body letra2" style="background-color:#08FFD5;">
+                          <div class="card-body letra2">
                           <!---Cuerpo del mensaje-->
                               <div class="container-flex">
                               <div class="row">
                                 <div class="col-6">
-                                  <h6 style="padding-left:20px;" style="color:#FFFFFF;"><i class="fas fa-award mr-2" style="color:#ffbd03"></i> Recibiste un reconocimiento</h6>
+                                  <h6><i class="fas fa-award mr-2"></i> Recibiste un reconocimiento</h6>
                                 </div>
                                 <div class="col-6 text-right">
-                                  <img data-src="{{asset('imgpremios/'.$n->rutaimagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;
-                                  <span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;"> {{$n->catpuntos}}</span>
+                                  <img data-src="{{asset('imgpremios/'.$n->rutaimagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image">&nbsp;&nbsp;
+                                  <span class="badge badge-warning navbar-badge"> {{$n->catpuntos}}</span>
                                 
                                 </div>
                               </div>
-                              <br>
+                               
                               <div class="row">
                                 <div class="col-12">
                                   <hr>
-                                  <h6 style="padding-left:20px;"><b> Por: </b>&nbsp;<span style="color:#5D5D5D;">{{$n->notides}}</span></h6>
+                                  <h6><b> Por: </b>&nbsp;<span>{{$n->notides}}</span></h6>
                                   <hr>
                                 </div>
                                 </div>
-                                <br>
+                                 
                               <div class="row">
                                 <div class="col-12">
-                                <h6 style="padding-left:20px;"><b>Comportamiento:</b>&nbsp;<span style="color:#5D5D5D;">{{$n->comportamiento}}</span></h6>
+                                <h6><b>Comportamiento:</b>&nbsp;<span>{{$n->comportamiento}}</span></h6>
                                   <hr>
                                 </div>
                                 </div>
-                                <br>
+                                 
                               <div class="row">
                                 <div class="col-12">
-                                <h6 style="padding-left:20px;"><b>Categoria:</b>&nbsp;<span style="color:#5D5D5D;">{{$n->categoria}}</span></h6>
+                                <h6><b>Categoria:</b>&nbsp;<span>{{$n->categoria}}</span></h6>
                                     <hr>
                                 </div>
                                 </div>
@@ -196,10 +196,10 @@
                             <button class="btn btn-link btn-block text-left collapsed" type="submit" data-toggle="collapse" data-target="#collapseTwo{{$in->idnotinsig}}" aria-expanded="false" aria-controls="collapseTwo{{$in->idnotinsig}}" onclick="insignialeer('{{$in->idnotinsig}}')">
                               <!---imagen-->
                               <div class="row">
-                                  <div class="col-3">
-                                    <div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">
-                                     <img data-src="{{asset('imgpremios/'.$in->imginsig)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
-                                    <br>
+                                  <div class="col-2">
+                                    <div  class="user-panel mt-0 pb-0 mb-0 d-flex">
+                                     <img data-src="{{asset('imgpremios/'.$in->imginsig)}}" class="img-circle elevation-1 lazy-load" alt="User Image">
+                                     
                                    </div>
                                   </div>
                                   <div class="col-6">
@@ -207,8 +207,8 @@
                                      Felicidades Ganaste una Insignia
                                     </div>
                                   </div>
-                                  <div class="col-3">
-                                     <span class="float-right text-muted text-sm">{{date('Y-m-d', strtotime($in->fecha))}}</span>
+                                  <div class="col-4">
+                                     <span class="float-right text-muted text-sm dropdown-toggle">{{date('Y-m-d', strtotime($in->fecha))}}</span>
                                   </div>
                               </div>
                               <!---end imagen-->
@@ -217,38 +217,38 @@
                           </h2>
                         </div>
                         <div id="collapseTwo{{$in->idnotinsig}}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                          <div class="card-body" style="background-color:#08FFD5;">
+                          <div class="card-body">
                           <!---Cuerpo del mensaje-->
                               <div class="container-flex">
                               <div class="row">
                                 <div class="col-6">
-                                  <h6 style="padding-left:20px;" style="color:#FFFFFF;"><i class="fas fa-gift mr-2" style="color:#ffbd03"></i> Recibiste una Recompensa</h6>
+                                  <h6><i class="fas fa-gift mr-2"></i> Recibiste una Recompensa</h6>
                                 </div>
                                 <div class="col-6 text-right">
-                                  <img data-src="{{asset('imgpremios/'.$in->preimagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;
-                                  <span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;"> {{$in->insigpuntos}}</span>
+                                  <img data-src="{{asset('imgpremios/'.$in->preimagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image">&nbsp;&nbsp;
+                                  <span class="badge badge-warning navbar-badge"> {{$in->insigpuntos}}</span>
                                 
                                 </div>
                               </div>
-                              <br>
+                               
                               <div class="row">
                                 <div class="col-12">
                                   <hr>
-                                  <h6 style="padding-left:20px;"><b>Insignia: </b>&nbsp;<span style="color:#5D5D5D;">{{$in->name}}</span></h6>
+                                  <h6><b>Insignia: </b>&nbsp;<span>{{$in->name}}</span></h6>
                                   <hr>
                                 </div>
                                 </div>
-                                <br>
+                                 
                               <div class="row">
                                 <div class="col-12">
-                                <h6 style="padding-left:20px;"><b>Nivel:</b>&nbsp;<span style="color:#5D5D5D;">{{$in->nivel}}</span></h6>
+                                <h6><b>Nivel:</b>&nbsp;<span>{{$in->nivel}}</span></h6>
                                   <hr>
                                 </div>
                                 </div>
-                                <br>
+                                 
                               <div class="row">
                                 <div class="col-12">
-                                <h6 style="padding-left:20px;"><b>Recompensa:</b>&nbsp;<span style="color:#5D5D5D;">{{$in->predes}}</span></h6>
+                                <h6><b>Recompensa:</b>&nbsp;<span>{{$in->predes}}</span></h6>
                                     <hr>
                                 </div>
                                 </div>
@@ -274,7 +274,7 @@
 
                 <!---Notificaciones leidas-->
                 <div class="dropdown-divider"></div>
-                <h6 class="letraform" style="background-color:#1ED5F4; color:white; padding-top:10px; padding-bottom:10px;">&nbsp;<i class="fas fa-check"></i>&nbsp;Notificaciones leidas</h6>
+                <h6 class="letraform">&nbsp;<i class="fas fa-check"></i>&nbsp;Notificaciones leidas</h6>
                 <div class="dropdown-divider"></div>
                 <!--colapsed para todas las notificaciones-->
                 <div id="datosuno">
@@ -288,24 +288,24 @@
                         
                          <!---imagen-->
                          <div class="row">
-                                 <div class="col-3">
-                                   <div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">
+                                 <div class="col-2">
+                                   <div  class="user-panel mt-0 pb-0 mb-0 d-flex">
                                    @if($le->imagen!=NULL)
-                                    <img data-src="{{asset('dist/imgperfil/'.$le->imagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
+                                    <img data-src="{{asset('dist/imgperfil/'.$le->imagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image">
                                    @endif
                                    @if($le->imagen==NULL)
-                                   <img data-src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;" >
+                                   <img data-src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1 lazy-load" alt="User Image" >
                                    @endif
-                                   <br>
+                                    
                                   </div>
                                  </div>
-                                 <div class="col-5 letraform">
+                                 <div class="col-6 letraform">
                                    <div class="info">
                                     {{$le->name}}  {{$le->apellido}} 
                                    </div>
                                  </div>
                                  <div class="col-4 letraform">
-                                    <span class="float-right text-muted text-sm">{{date('Y-m-d', strtotime($le->fecha))}}</span>
+                                    <span class="float-right text-muted text-sm dropdown-toggle">{{date('Y-m-d', strtotime($le->fecha))}}</span>
                                  </div> 
                              </div>
                              <!---end imagen-->
@@ -314,46 +314,46 @@
                       </h2>
                     </div>
                     <div id="collapseThree{{$le->id}}" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                      <div class="card-body letra2" style="background-color:#08FFD5;">
+                      <div class="card-body letra2">
                          <!---Cuerpo del mensaje-->
                          <div class="container-flex">
                              <div class="row">
                                <div class="col-6">
-                                 <h6 style="padding-left:20px;" style="color:#FFFFFF;"><i class="fas fa-award mr-2" style="color:#ffbd03"></i> Recibiste un reconocimiento</h6>
+                                 <h6><i class="fas fa-award mr-2"></i> Recibiste un reconocimiento</h6>
                                </div>
                                <div class="col-6 text-right">
-                                 <img data-src="{{asset('imgpremios/'.$le->rutaimagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;
-                                 <span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;"> {{$le->catpuntos}}</span>
+                                 <img data-src="{{asset('imgpremios/'.$le->rutaimagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image">&nbsp;&nbsp;
+                                 <span class="badge badge-warning navbar-badge"> {{$le->catpuntos}}</span>
                                
                                </div>
                              </div>
-                             <br>
+                              
                              <div class="row">
                                <div class="col-12">
                                  <hr>
-                                 <h6 style="padding-left:20px;"><b> Por: </b>&nbsp;<span style="color:#5D5D5D;">{{$le->notides}}</span></h6>
+                                 <h6><b> Por: </b>&nbsp;<span>{{$le->notides}}</span></h6>
                                  <hr>
                                </div>
                                </div>
-                               <br>
+                                
                              <div class="row">
                                <div class="col-12">
-                               <h6 style="padding-left:20px;"><b>Comportamiento:</b>&nbsp;<span style="color:#5D5D5D;">{{$le->comportamiento}}</span></h6>
+                               <h6><b>Comportamiento:</b>&nbsp;<span>{{$le->comportamiento}}</span></h6>
                                  <hr>
                                </div>
                                </div>
-                               <br>
+                                
                              <div class="row">
                                <div class="col-12">
-                               <h6 style="padding-left:20px;"><b>Categoria:</b>&nbsp;<span style="color:#5D5D5D;">{{$le->categoria}}</span></h6>
+                               <h6><b>Categoria:</b>&nbsp;<span>{{$le->categoria}}</span></h6>
                                    <hr>
                                </div>
                                </div>
                                <!--botones-->
                                <div class="row">
                                <div class="col-12">
-                                 <a  onclick="eliminar('{{$le->id}}')"  type="button" class="float-right"> &nbsp;&nbsp;<i class="fas fa-trash-restore-alt fa-lg" style="color:#EC4857;"></i></a>
-                                 <a href="/reporte/insignias" type="button" class="float-right" style="color:blue;">&nbsp;&nbsp;<i class="fas fa-eye  fa-lg"></i></a>
+                                 <a  onclick="eliminar('{{$le->id}}')"  type="button" class="float-right"> &nbsp;&nbsp;<i class="fas fa-trash-restore-alt fa-lg"></i></a>
+                                 <a href="/reporte/insignias" type="button" class="btn btn-warning  float-right"><i class="fas fa-eye"></i> Ver </a>
                                </div>
                                </div>
                                <!--end -- botones-->
@@ -381,10 +381,10 @@
                             <button class="btn btn-link btn-block text-left collapsed" type="submit" data-toggle="collapse" data-target="#collapseTwo{{$i->idnotinsig}}" aria-expanded="false" aria-controls="collapseTwo{{$i->idnotinsig}}">
                               <!---imagen-->
                               <div class="row">
-                                  <div class="col-3">
-                                    <div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">
-                                     <img data-src="{{asset('imgpremios/'.$i->imginsig)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px;">
-                                    <br>
+                                  <div class="col-2">
+                                    <div  class="user-panel mt-0 pb-0 mb-0 d-flex">
+                                     <img data-src="{{asset('imgpremios/'.$i->imginsig)}}" class="img-circle elevation-1 lazy-load" alt="User Image">
+                                     
                                    </div>
                                   </div>
                                   <div class="col-6">
@@ -392,8 +392,8 @@
                                      Felicidades Ganaste una Insignia
                                     </div>
                                   </div>
-                                  <div class="col-3">
-                                     <span class="float-right text-muted text-sm">{{date('Y-m-d', strtotime($i->fecha))}}</span>
+                                  <div class="col-4">
+                                     <span class="float-right text-muted text-sm dropdown-toggle">{{date('Y-m-d', strtotime($i->fecha))}}</span>
                                   </div>
                               </div>
                               <!---end imagen-->
@@ -402,46 +402,46 @@
                           </h2>
                         </div>
                         <div id="collapseTwo{{$i->idnotinsig}}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                          <div class="card-body" style="background-color:#08FFD5;">
+                          <div class="card-body">
                           <!---Cuerpo del mensaje-->
                               <div class="container-flex">
                               <div class="row">
                                 <div class="col-6">
-                                  <h6 style="padding-left:20px;" style="color:#FFFFFF;"><i class="fas fa-gift mr-2" style="color:#ffbd03"></i> Recibiste una Recompensa</h6>
+                                  <h6><i class="fas fa-gift mr-2"></i> Recibiste una Recompensa</h6>
                                 </div>
                                 <div class="col-6 text-right">
-                                  <img data-src="{{asset('imgpremios/'.$i->preimagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;
-                                  <span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;"> {{$i->insigpuntos}}</span>
+                                  <img data-src="{{asset('imgpremios/'.$i->preimagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image">&nbsp;&nbsp;
+                                  <span class="badge badge-warning navbar-badge"> {{$i->insigpuntos}}</span>
                                 
                                 </div>
                               </div>
-                              <br>
+                               
                               <div class="row">
                                 <div class="col-12">
                                   <hr>
-                                  <h6 style="padding-left:20px;"><b>Insignia: </b>&nbsp;<span style="color:#5D5D5D;">{{$i->name}}</span></h6>
+                                  <h6><b>Insignia: </b>&nbsp;<span>{{$i->name}}</span></h6>
                                   <hr>
                                 </div>
                                 </div>
-                                <br>
+                                 
                               <div class="row">
                                 <div class="col-12">
-                                <h6 style="padding-left:20px;"><b>Nivel:</b>&nbsp;<span style="color:#5D5D5D;">{{$i->nivel}}</span></h6>
+                                <h6><b>Nivel:</b>&nbsp;<span>{{$i->nivel}}</span></h6>
                                   <hr>
                                 </div>
                                 </div>
-                                <br>
+                                 
                               <div class="row">
                                 <div class="col-12">
-                                <h6 style="padding-left:20px;"><b>Recompensa:</b>&nbsp; <span style="color:#5D5D5D;">{{$i->predes}}</span></h6>
+                                <h6><b>Recompensa:</b>&nbsp; <span>{{$i->predes}}</span></h6>
                                     <hr>
                                 </div>
                                 </div>
                                 <!--botones-->
                                 <div class="row">
                                 <div class="col-12">
-                                  <a  onclick="eliminarinsig('{{$i->idnotinsig}}')"  type="button" class="float-right"> &nbsp;&nbsp;<i class="fas fa-trash-restore-alt fa-lg" style="color:#EC4857;"></i></a>
-                                  <a href="/reconocimientos/listar" type="button" class="float-right" style="color:blue;">&nbsp;&nbsp;<i class="fas fa-eye  fa-lg"></i></a>
+                                  <a  onclick="eliminarinsig('{{$i->idnotinsig}}')"  type="button" class="float-right"> &nbsp;&nbsp;<i class="fas fa-trash-restore-alt fa-lg"></i></a>
+                                  <a href="/reconocimientos/listar" type="button" class="btn btn-warning  float-right"><i class="fas fa-eye"></i> Ver </a>
                                 </div>
                                 </div>
                                 <!--end -- botones-->
@@ -492,7 +492,7 @@ function test(id){
           var r=response;
           $("#nnoti1").empty();
           $("#nnoti2").hide();
-          var valor = '<span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;">'+r+'</span>';
+          var valor = '<span class="badge badge-warning navbar-badge">'+r+'</span>';
           $('#nnoti1').append(valor);
         
           //setTimeout(refrescar, 1000);
@@ -526,63 +526,63 @@ function eliminar(id){
                       '<h2 class="mb-0">'+
                        '<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree'+arreglo[x].id+'" aria-expanded="false" aria-controls="collapseThree'+arreglo[x].id+'">'+
                          '<div class="row">'+
-                                 '<div class="col-3">'+
-                                   '<div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">'+
-                                   '<img src="/dist/imgperfil/perfil_no_borrar.jpeg" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >'+
-                                   '<br>'+
+                                 '<div class="col-2">'+
+                                   '<div  class="user-panel mt-0 pb-0 mb-0 d-flex">'+
+                                   '<img src="/dist/imgperfil/perfil_no_borrar.jpeg" class="img-circle elevation-1" alt="User Image" >'+
+                                   ' '+
                                   '</div>'+
                                  '</div>'+
-                                 '<div class="col-5">'+
+                                 '<div class="col-6">'+
                                    '<div class="info">'+
                                     arreglo[x].name+ ' ' +arreglo[x].apellido+
                                    '</div>'+
                                  '</div>'+
                                  '<div class="col-4">'+
-                                    '<span class="float-right text-muted text-sm">' + arreglo[x].fecha +'</span>'+
+                                    '<span class="float-right text-muted text-sm dropdown-toggle">' + arreglo[x].fecha +'</span>'+
                                  '</div>'+ 
                              '</div>'+
                         '</button>'+                               
                       '</h2>'+
                     '</div>'+
                     '<div id="collapseThree'+arreglo[x].id+'" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">'+
-                    '<div class="card-body" style="background-color:#08FFD5;">'+
+                    '<div class="card-body">'+
                          '<div class="container-flex">'+
                              '<div class="row">'+
                                '<div class="col-6">'+
-                                 '<h6 style="padding-left:20px;" style="color:#FFFFFF;"><i class="fas fa-award mr-2" style="color:#ffbd03"></i> Recibiste un reconocimiento</h6>'+
+                                 '<h6><i class="fas fa-award mr-2"></i> Recibiste un reconocimiento</h6>'+
                                '</div>'+
                                '<div class="col-6 text-right">'+
-                               '<img src="imgpremios/'+arreglo[x].rutaimagen+ ' " class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;'+
-                               '<span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;"> '+arreglo[x].catpuntos+'</span>'+
+                               '<img src="imgpremios/'+arreglo[x].rutaimagen+ ' " class="img-circle elevation-1" alt="User Image" >&nbsp;&nbsp;'+
+                               '<span class="badge badge-warning navbar-badge"> '+arreglo[x].catpuntos+'</span>'+
                                
                                '</div>'+
                                '</div>'+
-                               '<br>'+
+                               ' '+
                                '<div class="row">'+
                                '<div class="col-12">'+
                                '<hr>'+
-                               '<h6 style="padding-left:20px;"><b> Por: </b>&nbsp; <span style="color:#5D5D5D;">'+arreglo[x].notides+'</span></h6>'+
+                               '<h6><b> Por: </b>&nbsp; <span >'+arreglo[x].notides+'</span></h6>'+
                                '<hr>'+
                                '</div>'+
                                '</div>'+
-                               '<br>'+
+                               ' '+
                                '<div class="row">'+
                                '<div class="col-12">'+
-                               '<h6 style="padding-left:20px;"><b>Comportamiento:</b>&nbsp; <span style="color:#5D5D5D;">'+arreglo[x].comportamiento+'</span> </h6>'+
+                               '<h6><b>Comportamiento:</b>&nbsp; <span>'+arreglo[x].comportamiento+'</span> </h6>'+
                                '<hr>'+
                                '</div>'+
                                '</div>'+
-                               '<br>'+
+                               ' '+
                                '<div class="row">'+
                                '<div class="col-12">'+
-                               '<h6 style="padding-left:20px;"><b>Categoria:</b>&nbsp; <span style="color:#5D5D5D;">'+arreglo[x].categoria+'</span> </h6>'+
+                               '<h6><b>Categoria:</b>&nbsp; <span>'+arreglo[x].categoria+'</span> </h6>'+
                                '<hr>'+
                                '</div>'+
                                '</div>'+
                                '<div class="row">'+
                                '<div class="col-12">'+
-                               '<a onclick="eliminar('+arreglo[x].id+')"  type="button" class="float-right"> &nbsp;&nbsp;<i class="fas fa-trash-restore-alt fa-lg" style="color:#EC4857;"></i></a>'+
-                               '<a href="/reporte/insignias" type="button" class="float-right" style="color:blue;">&nbsp;&nbsp;<i class="fas fa-eye  fa-lg"></i></a>'+
+                               '<a onclick="eliminar('+arreglo[x].id+')"  type="button" class="float-right"> &nbsp;&nbsp;<i class="fas fa-trash-restore-alt fa-lg"></i></a>'+
+                               '<a href="/reporte/insignias" type="button" class="btn btn-warning  float-right"><i class="fas fa-eye"></i> Ver </a>'+
                                '</div>'+
                                '</div>'+
                              '</div>'+
@@ -599,63 +599,63 @@ function eliminar(id){
                       '<h2 class="mb-0">'+
                        '<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree'+arreglo[x].id+'" aria-expanded="false" aria-controls="collapseThree'+arreglo[x].id+'">'+
                          '<div class="row">'+
-                                 '<div class="col-3">'+
-                                   '<div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">'+
-                                   '<img src="/dist/imgperfil/'+arreglo[x].imagen+ '" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;" >'+
-                                   '<br>'+
+                                 '<div class="col-2">'+
+                                   '<div  class="user-panel mt-0 pb-0 mb-0 d-flex">'+
+                                   '<img src="/dist/imgperfil/'+arreglo[x].imagen+ '" class="img-circle elevation-1" alt="User Image"  >'+
+                                   ' '+
                                   '</div>'+
                                  '</div>'+
-                                 '<div class="col-5">'+
+                                 '<div class="col-6">'+
                                    '<div class="info">'+
                                     arreglo[x].name+ ' ' +arreglo[x].apellido+
                                    '</div>'+
                                  '</div>'+
                                  '<div class="col-4">'+
-                                    '<span class="float-right text-muted text-sm">' + arreglo[x].fecha +'</span>'+
+                                    '<span class="float-right text-muted text-sm dropdown-toggle">' + arreglo[x].fecha +'</span>'+
                                  '</div>'+ 
                              '</div>'+
                         '</button>'+                               
                       '</h2>'+
                     '</div>'+
                     '<div id="collapseThree'+arreglo[x].id+'" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">'+
-                    '<div class="card-body" style="background-color:#08FFD5;">'+
+                    '<div class="card-body" >'+
                          '<div class="container-flex">'+
                              '<div class="row">'+
                                '<div class="col-6">'+
-                                 '<h6 style="padding-left:20px;" style="color:#FFFFFF;"><i class="fas fa-award mr-2" style="color:#ffbd03"></i> Recibiste un reconocimiento</h6>'+
+                                 '<h6><i class="fas fa-award mr-2"></i> Recibiste un reconocimiento</h6>'+
                                '</div>'+
                                '<div class="col-6 text-right">'+
-                               '<img src="/imgpremios/'+arreglo[x].rutaimagen+ ' " class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;'+
-                               '<span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;"> '+arreglo[x].catpuntos+'</span>'+
+                               '<img src="/imgpremios/'+arreglo[x].rutaimagen+ ' " class="img-circle elevation-1" alt="User Image" >&nbsp;&nbsp;'+
+                               '<span class="badge badge-warning navbar-badge"> '+arreglo[x].catpuntos+'</span>'+
                                
                                '</div>'+
                                '</div>'+
-                               '<br>'+
+                               ' '+
                                '<div class="row">'+
                                '<div class="col-12">'+
                                '<hr>'+
-                               '<h6 style="padding-left:20px;"><b> Por: </b>&nbsp; <span style="color:#5D5D5D;">'+arreglo[x].notides+'</span> </h6>'+
+                               '<h6><b> Por: </b>&nbsp; <span>'+arreglo[x].notides+'</span> </h6>'+
                                '<hr>'+
                                '</div>'+
                                '</div>'+
-                               '<br>'+
+                               ' '+
                                '<div class="row">'+
                                '<div class="col-12">'+
-                               '<h6 style="padding-left:20px;"><b>Comportamiento:</b>&nbsp; <span style="color:#5D5D5D;">'+arreglo[x].comportamiento+'</span> </h6>'+
+                               '<h6><b>Comportamiento:</b>&nbsp; <span>'+arreglo[x].comportamiento+'</span> </h6>'+
                                '<hr>'+
                                '</div>'+
                                '</div>'+
-                               '<br>'+
+                               ' '+
                                '<div class="row">'+
                                '<div class="col-12">'+
-                               '<h6 style="padding-left:20px;"><b>Categoria:</b>&nbsp; <span style="color:#5D5D5D;">'+arreglo[x].categoria+'</span> </h6>'+
+                               '<h6><b>Categoria:</b>&nbsp; <span>'+arreglo[x].categoria+'</span> </h6>'+
                                '<hr>'+
                                '</div>'+
                                '</div>'+
                                '<div class="row">'+
                                '<div class="col-12">'+
-                               '<a onclick="eliminar('+arreglo[x].id+')"  type="button" class="float-right"> &nbsp;&nbsp;<i class="fas fa-trash-restore-alt fa-lg" style="color:#EC4857;"></i></a>'+
-                               '<a href="/reporte/insignias" type="button" class="float-right" style="color:blue;">&nbsp;&nbsp;<i class="fas fa-eye  fa-lg"></i></a>'+
+                               '<a onclick="eliminar('+arreglo[x].id+')"  type="button" class="float-right"><i class="fas fa-trash-restore-alt fa-lg"></i></a>'+
+                               '<a href="/reporte/insignias" type="button" class="btn btn-warning  float-right"><i class="fas fa-eye"></i> Ver </a>'+
                                '</div>'+
                                '</div>'+
                              '</div>'+
@@ -697,7 +697,7 @@ function insignialeer(id){
          var res=response;
           $("#nnoti1").empty();
           $("#nnoti2").hide();
-          var val = '<span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;">'+res+'</span>';
+          var val = '<span class="badge badge-warning navbar-badge">'+res+'</span>';
           $('#nnoti1').append(val);
          // console.log(r);
           //setTimeout(refrescar, 1000);
@@ -727,10 +727,10 @@ function eliminarinsig(id){
                                   '<h2 class="mb-0">'+
                                     '<button class="btn btn-link btn-block text-left collapsed" type="submit" data-toggle="collapse" data-target="#collapseTwo'+arr[x].idnotinsig+'" aria-expanded="false" aria-controls="collapseTwo'+arr[x].idnotinsig+'">'+
                                       '<div class="row">'+
-                                          '<div class="col-3">'+
-                                            '<div  class="user-panel mt-0 pb-0 mb-0 d-flex" style="padding-left:5px;">'+
-                                            '<img src="/imgpremios/'+ arr[x].imginsig +'" class="img-circle elevation-1" alt=" Image insignia" style="padding-bottom:2px;">'+
-                                            '<br>'+
+                                          '<div class="col-2">'+
+                                            '<div  class="user-panel mt-0 pb-0 mb-0 d-flex">'+
+                                            '<img src="/imgpremios/'+ arr[x].imginsig +'" class="img-circle elevation-1" alt=" Image insignia">'+
+                                            ' '+
                                           '</div>'+
                                           '</div>'+
                                           '<div class="col-6">'+
@@ -738,51 +738,51 @@ function eliminarinsig(id){
                                             'Felicidades Ganaste una Insignia'+
                                             '</div>'+
                                           '</div>'+
-                                          '<div class="col-3">'+
-                                            '<span class="float-right text-muted text-sm">'+ arr[x].fecha +'</span>'+
+                                          '<div class="col-2">'+
+                                            '<span class="float-right text-muted text-sm dropdown-toggle">'+ arr[x].fecha +'</span>'+
                                           '</div>'+
                                       '</div>'+                                                                        
                                     '</button>'+
                                   '</h2>'+
                                 '</div>'+
                                 '<div id="collapseTwo'+ arr[x].idnotinsig +'" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">'+
-                                  '<div class="card-body" style="background-color:#08FFD5;">'+
+                                  '<div class="card-body">'+
                                    '<div class="container-flex">'+
                                       '<div class="row">'+
                                         '<div class="col-6">'+
-                                          '<h6 style="padding-left:20px;" style="color:#FFFFFF;"><i class="fas fa-gift mr-2" style="color:#ffbd03"></i> Recibiste una Recompensa</h6>'+
+                                          '<h6><i class="fas fa-gift mr-2"></i> Recibiste una Recompensa</h6>'+
                                         '</div>'+
                                         '<div class="col-6 text-right">'+
-                                          '<img src="/imgpremios/'+ arr[x].preimagen +'" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">&nbsp;&nbsp;'+
-                                          '<span class="badge badge-warning navbar-badge" style="color:white; font-size: 0.875em;">'+ arr[x].insigpuntos +' </span>'+
+                                          '<img src="/imgpremios/'+ arr[x].preimagen +'" class="img-circle elevation-1" alt="User Image">&nbsp;&nbsp;'+
+                                          '<span class="badge badge-warning navbar-badge">'+ arr[x].insigpuntos +' </span>'+
                                         '</div>'+
                                       '</div>'+
-                                      '<br>'+
+                                      ' '+
                                       '<div class="row">'+
                                         '<div class="col-12">'+
                                           '<hr>'+
-                                          '<h6 style="padding-left:20px;"><b>Insignia: </b>&nbsp; <span style="color:#5D5D5D;">'+arr[x].name+'</span></h6>'+
+                                          '<h6><b>Insignia: </b>&nbsp; <span>'+arr[x].name+'</span></h6>'+
                                           '<hr>'+
                                         '</div>'+
                                         '</div>'+
-                                        '<br>'+
+                                        ' '+
                                       '<div class="row">'+
                                         '<div class="col-12">'+
-                                        '<h6 style="padding-left:20px;"><b>Nivel:</b>&nbsp; <span style="color:#5D5D5D;">'+arr[x].nivel+'</span></h6>'+
+                                        '<h6><b>Nivel:</b>&nbsp; <span >'+arr[x].nivel+'</span></h6>'+
                                           '<hr>'+
                                         '</div>'+
                                         '</div>'+
-                                        '<br>'+
+                                        ' '+
                                       '<div class="row">'+
                                         '<div class="col-12">'+
-                                        '<h6 style="padding-left:20px;"><b>Recompensa:</b>&nbsp; <span style="color:#5D5D5D;">'+arr[x].predes+'</span></h6>'+
+                                        '<h6><b>Recompensa:</b>&nbsp; <span>'+arr[x].predes+'</span></h6>'+
                                             '<hr>'+
                                         '</div>'+
                                         '</div>'+
                                         '<div class="row">'+
                                         '<div class="col-12">'+
-                                          '<a  onclick="eliminarinsig('+arr[x].idnotinsig+')"  type="button" class="float-right"> &nbsp;&nbsp;<i class="fas fa-trash-restore-alt fa-lg" style="color:#EC4857;"></i></a>'+
-                                          '<a href="/reconocimientos/listar" type="button" class="float-right" style="color:blue;">&nbsp;&nbsp;<i class="fas fa-eye  fa-lg"></i></a>'+
+                                          '<a  onclick="eliminarinsig('+arr[x].idnotinsig+')"  type="button" class="float-right"> &nbsp;&nbsp;<i class="fas fa-trash-restore-alt fa-lg"></i></a>'+
+                                          '<a href="/reconocimientos/listar" type="button" class="btn btn-warning  float-right"><i class="fas fa-eye"></i> Ver </a>'+
                                         '</div>'+
                                         '</div>'+
                                       '</div>'+

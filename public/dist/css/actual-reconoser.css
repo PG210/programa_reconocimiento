@@ -1,0 +1,207 @@
+
+      /*se agrega para verificar */
+      * {margin:0; padding:0}
+      /*end verificar */
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      .ir-arriba {
+        display:none;
+        padding:5px;
+        background:#024959;
+        font-size:20px;
+        color:#fff;
+        cursor:pointer;
+        position: fixed;
+        bottom:20px;
+        right:20px;
+        border-radius:10px;
+      }
+
+    
+      @media screen and (min-width: 2400px) {
+        .letrarob {
+          font-family: 'Roboto';
+          font-size: 45px;
+          line-height: 1.6;
+        }
+        
+        .letratitulo{
+          font-family: 'Roboto Slab', serif;
+          font-size: 3rem;
+          font-weight:700;
+        }
+
+        .letratitulofooter{
+          font-family: 'Roboto Slab', serif;
+          font-size: 2rem;
+          font-weight:700;
+        }
+
+        .letrap{
+          font-family: 'Roboto Slab', serif;
+          font-size: 25px;
+          font-weight:400;
+        }
+        
+        .icono{
+          font-size:45px;
+        }
+
+        .ampliar{
+          padding: 6rem !important;
+        }
+
+        .ampliarnav{
+          padding: 2rem !important;
+        }
+
+        .imagenlogin{
+          padding: 17em;
+        }
+        .forms{  
+          max-width: 100%;
+        }
+
+        .centraform{
+          margin-left: 25% !important;
+          font-size:30px;
+        }
+
+        .boton {
+          font-size: 24px;
+         }
+
+        .iconwsp{
+          width: 80px;
+          height: 80px;
+        }
+
+        /*Se agrego estas lineas css */
+
+        .imagenlogo{
+          max-width: 390px !important;
+          height: 145px !important;
+        }
+
+        .container{
+          max-width: 1200px !important;
+        }
+
+        .btningresar{
+          font-size:33px;
+        }
+
+        .iconfont{
+          font-size:30px;
+        }
+        
+      }/*Este rango esta bien para pantallas extragrandes*/
+
+      @media screen and (min-width: 768px) and (max-width: 1059px) {
+        .letrarob {
+          font-family: 'Roboto';
+          font-size: 12px !important;
+          line-height: 1.6;
+        }
+      }
+
+      @media screen and (min-width: 1060px) and (max-width: 1300px) {
+        .letrarob {
+          font-family: 'Roboto';
+          font-size: 1.025rem !important;
+          line-height: 1.6;
+        }
+      }
+     
+      @media screen and (min-width: 1890px) and (max-width: 2400px) {
+        .letrarob {
+          font-family: 'Roboto';
+          font-size: 2rem !important;
+          line-height: 1.6;
+        }
+      }
+
+    
+      @media screen and (min-width: 1430px) and (max-width: 2400px) {
+        .ampliarnav{
+          padding: 2rem !important;
+        }
+        .btningresar{
+          font-size: 1.5rem;
+        }
+        .letrarob {
+          font-family: 'Roboto';
+          font-size: 1.5rem;
+          line-height: 1.6;
+        }
+        .letratitulofooter{
+          font-family: 'Roboto Slab', serif;
+          font-weight:700;
+        }
+
+        .letrap{
+          font-family: 'Roboto Slab', serif;
+          font-size: 1.5rem;
+          font-weight:400;
+        }
+       
+        .icono{
+          font-size:24px;
+        }
+        /*Se agrego esta codigo css */
+         .imagenlogo{
+          height: auto; 
+          width: 80%;
+        }
+
+        .iconfont{
+          font-size:25px;
+        }
+        .p-md-5{
+            padding: 3rem !important;
+        }
+      }/*este rango esta bien para pantallas medianas */
+
+      @media screen and (max-width: 1429px) {
+        .letratitulofooter{
+          font-family: 'Roboto Slab', serif;
+          font-weight:700;
+        }
+
+        .letrap{
+          font-family: 'Roboto Slab', serif;
+          font-weight:400;
+        }
+
+        .icono{
+          font-size:24px;
+        }
+        /*Se agrego esta codigo css */
+        .imagenlogo{
+          height: auto; 
+          width: 80%;
+        }
+
+        .iconfont{
+          font-size:18px;
+        }
+      }/*Este rango para pantallas pequeñas */
+      
+      @media screen and (min-width: 1920px) {
+          .p-md-5{
+            padding: 5rem !important;
+          }
+        }

@@ -1,0 +1,979 @@
+/* 
+  🌟 Proyecto: https://reconoser.evolucion.co/  - ¡Nueva Imagen a la Vista! 🌟
+  💡 Autor: Aleja Tellez
+  🌍 Portafolio: https://www.behance.net/altemi
+  🎨 Versión: 1.0
+  📅 Fecha: 1 de diciembre 2024
+  📝 Descripción: El lugar donde los estilos cobran vida para Reconoser. ¡Listos para brillar! ✨
+  Nota: Si estás leyendo esto, ¡felicidades! 
+        Estás a punto de descubrir un CSS lleno de amor y magia. 💖 
+*/
+
+i.nav-icon {
+    font-size: 1.4rem !important;
+}
+
+.navbar-light .navbar-nav .nav-link i {
+    font-size: 1.2rem;
+}
+
+@font-face {
+    font-family: 'MohrRounded';
+    src: url('font/MohrRounded-Bold.woff2') format('woff2'),
+        url('font/MohrRounded-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'MohrRounded';
+    src: url('font/MohrRounded-Regular.woff2') format('woff2'),
+        url('font/MohrRounded-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+  --blue: #007bff;
+  --indigo: #6610f2;
+  --purple: #6f42c1;
+  --pink: #e83e8c;
+  --red: #dc3545;
+  --orange: #fd7e14;
+  --yellow: #ffc107;
+  --green: #28a745;
+  --teal: #20c997;
+  --cyan: #17a2b8;
+  --white: #fff;
+  --gray: #6c757d;
+  --gray-dark: #343a40;
+  --primary: #5959C8;
+  --secondary: #79D0F0;
+  --success: #439A86;
+  --info: #79D0F0;
+  --warning: #EBB93B;
+  --danger: #DB636B;
+  --light: #fff;
+  --dark: #343434;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --font-family: 'MohrRounded', sans-serif;
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --border-radius-small: 4px;
+  --border-radius-medium: 8px;
+  --border-radius-large: 12px;
+}
+
+nav {
+    font-size: 1rem;
+}
+
+/* Reconocer */
+
+.user-block .username {
+    font-size: 1.7rem !important;
+    font-weight: 600;
+    margin-top: -1px;
+}
+
+
+/* Scrollbar */
+
+/* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
+/** {
+  scrollbar-width: thin;
+  scrollbar-color: #5959C8 #DFE9EB;
+}*/
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
+  *::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: #DFE9EB;
+  }
+  
+  *::-webkit-scrollbar-track:hover {
+    background-color: #B8C0C2;
+  }
+  
+  *::-webkit-scrollbar-track:active {
+    background-color: #B8C0C2;
+  }
+  
+  *::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #5959C8;
+  }
+  
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: #79D0F0;
+  }
+  
+  *::-webkit-scrollbar-thumb:active {
+    background-color: #4E4EB0;
+  }
+
+  
+/* Modal notificaciones */
+
+#exampleModal .card:hover {
+    background: var(--info);
+}
+
+#exampleModal .modal-body h6 {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+#exampleModal .modal-body .card {
+    /*box-shadow: 0px 4px 5px 0px #f0f0f0 !important;*/
+    box-shadow: none !important;
+    margin: 0;
+}
+
+#exampleModal .modal-body .btn {
+    padding: 0;
+}
+
+#exampleModal .modal-body img.img-circle.elevation-1.loaded {
+    /*width: 60%;*/
+}
+
+#exampleModal .modal-body .row {
+    align-items: center;
+}
+
+#exampleModal .modal-body .dropdown-toggle::after {
+    font-size: 1.4rem !important;
+}
+
+#exampleModal .modal-body {
+    padding: 0;
+}
+
+#exampleModal .user-panel {
+    text-align: center;
+    display: flex !important;
+    justify-content: center;
+}
+
+#exampleModal .modal-body .card-body {
+    background: #f0f0f0;
+    padding: 1rem 2.5rem 0.7rem;
+}
+
+#exampleModal .modal-body .card-body h6 {
+    font-size: 0.8rem;
+    padding: 0;
+    line-height: 0.7rem;
+    font-weight: 400;
+}
+
+#exampleModal .modal-body .card-body span {
+    color: #5D5D5D;
+}
+
+#exampleModal .modal-body .card-body .btn {
+    padding: .4rem .7rem .4rem;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+
+
+/* Generales */
+
+.content-wrapper {
+	background-image: radial-gradient(#EDEFF2 2px, transparent 2px);
+	background-size: 27px 27px;
+	background-color: #F4F6F9;
+}
+
+.fade {
+    transition: opacity .15s linear;
+}
+
+.modal-open .modal {
+    background: #000000ba !important;
+}
+
+.info {
+    color: var(--primary) !important;
+}
+
+body {
+    font-family: var(--font-family), sans-serif !important;
+    font-weight: normal;
+    font-style: normal; /* Usará MohrRounded-Regular */
+    color: var(--dark);
+    font-size: 1.1rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family), sans-serif !important;
+    font-weight: bold;
+    font-style: normal; /* Usará MohrRounded-Bold */
+}
+
+.layout-navbar-fixed .wrapper .sidebar-dark-primary .brand-link:not([class*=navbar]) {
+    background-color: var(--primary);
+}
+
+
+.layout-navbar-fixed.sidebar-mini-md.sidebar-collapse .wrapper .brand-link, .layout-navbar-fixed.sidebar-mini-xs.sidebar-collapse .wrapper .brand-link, .layout-navbar-fixed.sidebar-mini.sidebar-collapse .wrapper .brand-link {
+    height: auto !important;
+}
+
+
+
+/* Gradientes con tus colores */
+.bg-gradient-primary {
+    background: linear-gradient(180deg, var(--secondary), var(--primary)) repeat-x !important;
+}
+
+.bg-gradient-secondary {
+    background: linear-gradient(180deg, var(--primary), var(--secondary)) repeat-x !important;
+}
+
+.bg-gradient-success {
+    background: linear-gradient(180deg, var(--info), var(--success)) repeat-x !important;
+}
+
+.bg-gradient-info {
+    background: linear-gradient(180deg, var(--success), var(--info)) repeat-x !important;
+}
+
+.bg-gradient-warning {
+    background: linear-gradient(180deg, var(--danger), var(--warning)) repeat-x !important;
+}
+
+.bg-gradient-danger {
+    background: linear-gradient(180deg, var(--warning), var(--danger)) repeat-x !important;
+}
+
+.bg-gradient-light {
+    background: linear-gradient(180deg, var(--light), var(--dark)) repeat-x !important;
+}
+
+.bg-gradient-dark {
+    background: linear-gradient(180deg, var(--dark), var(--light)) repeat-x !important;
+}
+
+
+/* Hipervínculos */
+
+a {
+    color: var(--primary);
+}
+a:hover {
+    color: var(--secondary);
+}
+a:focus, a:active {
+    color: var(--danger);
+}
+a:visited {
+    color: var(--info);
+}
+
+
+
+/* form */
+
+.form-control {
+	padding: 10px 10px;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: var(--border-radius-medium);
+	height: auto;
+}	
+
+/* Botones */
+.btn {
+    padding: .6rem .75rem .8rem;
+    font-size: 1rem;
+    line-height: 1;
+    border-radius: var(--border-radius-medium);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--light);
+}
+
+.btn-secondary {
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+    color: var(--light) !important;
+}
+
+.btn-success {
+    background-color: var(--success);
+    border-color: var(--success);
+    color: var(--light);
+}
+
+.btn-danger {
+    background-color: var(--danger);
+    border-color: var(--danger);
+    color: var(--light);
+}
+
+.btn-warning {
+    background-color: var(--warning);
+    border-color: var(--warning);
+    color: var(--dark);
+}
+
+.btn-info {
+    background-color: var(--info);
+    border-color: var(--info);
+    color: var(--light);
+}
+
+.btn-light {
+    background-color: var(--light);
+    border-color: var(--light);
+    color: var(--dark);
+}
+
+.btn-dark {
+    background-color: var(--dark);
+    border-color: var(--dark);
+    color: var(--light);
+}
+
+/* Badges */
+.badge-primary {
+    background-color: var(--primary);
+    color: var(--light);
+}
+
+.badge-secondary {
+    background-color: var(--secondary);
+    color: var(--light);
+}
+
+.badge-success {
+    background-color: var(--success);
+    color: var(--light);
+}
+
+.badge-danger {
+    background-color: var(--danger);
+    color: var(--light);
+}
+
+.badge-warning {
+    background-color: var(--warning);
+    color: var(--dark);
+}
+
+.badge-info {
+    background-color: var(--info);
+    color: var(--light);
+}
+
+.badge-light {
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+.badge-dark {
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+/* Textos */
+.text-primary {
+    color: var(--primary);
+}
+
+.text-secondary {
+    color: var(--secondary);
+}
+
+.text-success {
+    color: var(--success);
+}
+
+.text-danger {
+    color: var(--danger);
+}
+
+.text-warning {
+    color: var(--warning);
+}
+
+.text-info {
+    color: var(--info);
+}
+
+.text-light {
+    color: var(--light);
+}
+
+.text-dark {
+    color: var(--dark);
+}
+
+/* Fondos */
+.bg-primary {
+    background-color: var(--primary) !important;
+}
+
+.bg-secondary {
+    background-color: var(--secondary) !important;
+}
+
+.bg-success {
+    background-color: var(--success) !important;
+}
+
+.bg-danger {
+    background-color: var(--danger) !important;
+}
+
+.bg-warning {
+    background-color: var(--warning) !important;
+}
+
+.bg-info {
+    background-color: var(--info) !important;
+}
+
+.bg-light {
+    background-color: var(--light) !important;
+}
+
+.bg-dark {
+    background-color: var(--dark) !important;
+}
+
+/* Bordes */
+.border-primary {
+    border-color: var(--primary);
+}
+
+.border-secondary {
+    border-color: var(--secondary);
+}
+
+.border-success {
+    border-color: var(--success);
+}
+
+.border-danger {
+    border-color: var(--danger);
+}
+
+.border-warning {
+    border-color: var(--warning);
+}
+
+.border-info {
+    border-color: var(--info);
+}
+
+.border-light {
+    border-color: var(--light);
+}
+
+.border-dark {
+    border-color: var(--dark);
+}
+
+
+/* Navs y Nav-Pills */
+
+.nav-link {
+    color: var(--primary);
+}
+.nav-link:hover {
+    color: var(--light);
+}
+.nav-pills .nav-link.active {
+    background-color: var(--primary);
+    color: var(--light);
+}
+
+/* Alertas */
+
+.alert-primary {
+    background-color: var(--primary);
+    color: var(--light);
+}
+.alert-secondary {
+    background-color: var(--secondary);
+    color: var(--light);
+}
+.alert-success {
+    background-color: var(--success);
+    color: var(--light);
+}
+.alert-danger {
+    background-color: var(--danger);
+    color: var(--light);
+}
+.alert-warning {
+    background-color: var(--warning);
+    color: var(--dark);
+}
+.alert-info {
+    background-color: var(--info);
+    color: var(--light);
+}
+.alert-light {
+    background-color: var(--light);
+    color: var(--dark);
+}
+.alert-dark {
+    background-color: var(--dark);
+    color: var(--light);
+}
+
+/* Carrousels  */
+
+.carousel-control-prev, .carousel-control-next {
+    color: var(--primary);
+}
+.carousel-item.active {
+    background-color: var(--info);
+}
+
+/* Modales */
+
+.modal-header {
+    /*background-color: var(--primary);
+    color: var(--light);*/
+}
+.modal-footer .btn-primary {
+    background-color: var(--primary);
+}
+
+/* Forms */
+
+.form-control {
+    border-color: var(--primary);
+}
+.form-control:focus {
+    border-color: var(--info);
+    box-shadow: 0 0 0 0.2rem rgba(var(--info), 0.25);
+}
+
+/* Spinners */
+
+.spinner-border {
+    border-top-color: var(--primary);
+}
+
+/* Toast Notifications */
+
+.toast-header {
+    background-color: var(--success);
+    color: var(--light);
+}
+.toast-body {
+    color: var(--dark);
+}
+
+/* Dropdowns */
+
+.dropdown-item {
+    color: var(--primary);
+}
+.dropdown-item:hover {
+    background-color: var(--secondary);
+    color: var(--light);
+}
+.dropdown-item.active {
+    background-color: var(--primary);
+    color: var(--light);
+}
+
+/* Table */
+
+.table-primary {
+    background-color: var(--primary);
+    color: var(--light);
+}
+.table-secondary {
+    background-color: var(--secondary);
+}
+
+
+/* Barra lateral */
+
+aside.main-sidebar.sidebar-dark-primary {
+    background: var(--primary);
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: var(--danger);
+    color: var(--light);
+}
+
+
+
+/* .page-link - Paginación */
+.page-link {
+    color: var(--primary);
+    background-color: var(--light);
+    border-color: var(--primary);
+}
+
+.page-link:hover {
+    color: var(--light);
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.page-link:focus, .page-link.active {
+    color: var(--light);
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+/* .icheck - Checkboxes e Inputs */
+.icheck-primary input[type="checkbox"]:checked, .icheck-primary input[type="radio"]:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.icheck-primary>input:first-child:checked+input[type=hidden]+label::before, .icheck-primary>input:first-child:checked+label::before{
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+/* .todo-list - Listas de tareas */
+.todo-list .todo-item .text {
+    color: var(--dark);
+}
+
+.todo-list .todo-item.checked .text {
+    color: var(--success);
+}
+
+.todo-list .todo-item .badge {
+    background-color: var(--danger);
+}
+
+/* .direct-chat-primary - Mensajes en el chat */
+.direct-chat-primary .right>.direct-chat-text{
+    background-color: var(--primary);
+    color: var(--light);
+	border-color: var(--secondary);
+}
+
+.direct-chat-primary .right>.direct-chat-text::after, .direct-chat-primary .right>.direct-chat-text::before {
+    border-left-color: var(--secondary);
+}
+
+.direct-chat-primary .direct-chat-name {
+    color: var(--primary);
+}
+
+.direct-chat-primary .direct-chat-timestamp {
+    color: var(--info);
+}
+
+/* .form-control - Campo de formulario */
+.form-control {
+    border-color: var(--primary);
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.2rem rgba(89, 89, 200, 0.25);
+}
+
+/* .form-control.is-warning - Campo de formulario con advertencia */
+.form-control.is-warning {
+    border-color: var(--warning);
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+.form-control.is-warning:focus {
+    border-color: var(--warning);
+    box-shadow: 0 0 0 0.2rem rgba(235, 185, 59, 0.25);
+}
+
+/* .form-control.is-danger - Campo de formulario con error */
+.form-control.is-danger {
+    border-color: var(--danger);
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+.form-control.is-danger:focus {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 0.2rem rgba(219, 99, 107, 0.25);
+}
+
+/* .custom-control-input - Checkbox o radio personalizado */
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: var(--success);
+    border-color: var(--success);
+}
+
+/* .custom-control-input-danger:checked ~ .custom-control-label::before - Checkbox con "danger" */
+.custom-control-input-danger:checked ~ .custom-control-label::before {
+    background-color: var(--danger);
+    border-color: var(--danger);
+}
+
+/* .custom-control-input-info:checked ~ .custom-control-label::before - Checkbox con "info" */
+.custom-control-input-info:checked ~ .custom-control-label::before {
+    background-color: var(--info);
+    border-color: var(--info);
+}
+
+/* .card-header - Encabezado de la tarjeta */
+.card-primary:not(.card-outline)>.card-header {
+    background-color: var(--primary);
+    color: var(--light);
+    border-bottom: 1px solid var(--light);
+}
+
+/* .card-header-secondary - Encabezado de tarjeta secundario */
+.card-header-secondary, .card-secondary:not(.card-outline)>.card-header {
+    background-color: var(--secondary);
+    color: var(--dark);
+    border-bottom: 1px solid var(--dark);
+}
+
+/* .card-header-success - Encabezado de tarjeta de éxito */ 
+.card-header-success, .card-success:not(.card-outline)>.card-header {
+    background-color: var(--success);
+    color: var(--light);
+    border-bottom: 1px solid var(--success);
+}
+
+/* .card-header-warning - Encabezado de tarjeta de advertencia */
+.card-header-warning, .card-warning:not(.card-outline)>.card-header {
+    background-color: var(--warning);
+    color: var(--dark);
+    border-bottom: 1px solid var(--warning);
+}
+
+/* .card-header-danger - Encabezado de tarjeta de peligro */
+.card-header-danger, .card-danger:not(.card-outline)>.card-header {
+    background-color: var(--danger);
+    color: var(--light);
+    border-bottom: 1px solid var(--danger);
+}
+
+/* .card-header-info - Encabezado de tarjeta de info */
+.card-header-info, .card-info:not(.card-outline)>.card-header {
+    background-color: var(--info);
+    color: var(--light);
+    border-bottom: 1px solid var(--info);
+}
+
+/* borde cards */
+
+
+.card-primary.card-outline {
+    border-top: 3px solid var(--primary);
+}
+
+.card-secondary.card-outline {
+    border-top:  3px solid var(--secondary);
+}
+
+.card-success.card-outline {
+    border-top:  3px solid var(--success);
+}
+
+.card-danger.card-outline {
+    border-top:  3px solid var(--danger);
+}
+
+/************animation*****/
+
+.circles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+ 
+}
+.circles li {
+    position: absolute;
+   z-index:9;
+    display: block;
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    animation: animate 25s linear infinite;
+    bottom: -150px;
+}
+.circles li:nth-child(1) {
+    left: 25%;
+    width: 40px;
+    height: 40px;
+    animation-delay: 0s;
+}
+.circles li:nth-child(2) {
+    left: 10%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 2s;
+    animation-duration: 12s;
+}
+.circles li:nth-child(3) {
+    left: 70%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 4s;
+}
+.circles li:nth-child(4) {
+    left: 40%;
+    width: 35px;
+    height: 35px;
+    animation-delay: 0s;
+    animation-duration: 18s;
+}
+.circles li:nth-child(5) {
+    left: 65%;
+    width: 20px;
+    height: 20px;
+    animation-delay: 0s;
+}
+.circles li:nth-child(6) {
+    left: 75%;
+    width: 30px;
+    height: 30px;
+    animation-delay: 3s;
+}
+.circles li:nth-child(7) {
+    left: 35%;
+    width: 35px;
+    height: 35px;
+    animation-delay: 7s;
+}
+.circles li:nth-child(8) {
+    left: 50%;
+    width: 25px;
+    height: 25px;
+    animation-delay: 15s;
+    animation-duration: 45s;
+}
+.circles li:nth-child(9) {
+    left: 20%;
+    width: 15px;
+    height: 15px;
+    animation-delay: 2s;
+    animation-duration: 35s;
+}
+.circles li:nth-child(10) {
+    left: 85%;
+    width: 35px;
+    height: 35px;
+    animation-delay: 0s;
+    animation-duration: 11s;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+
+  100% {
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+}
+/***********************************/
+
+.fondologin {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*background-image: linear-gradient(to right bottom, #5959c8, #4174d9, #2e8be4, #31a1ea, #4bb6ed, #63b7f1, #78b7f3, #8ab8f5, #aba1e8, #ca88cb, #dc719e, #db636b);
+    background-image: linear-gradient(to right top, #5959c8, #3a7cdd, #2d9ae8, #4bb6ed, #79d0f0);*/
+    background-image: linear-gradient(
+    135deg,
+    hsl(196deg 80% 71%) 0%,
+    hsl(198deg 81% 66%) 3%,
+    hsl(200deg 82% 61%) 5%,
+    hsl(202deg 82% 57%) 7%,
+    hsl(205deg 81% 54%) 9%,
+    hsl(209deg 77% 54%) 12%,
+    hsl(216deg 71% 55%) 18%,
+    hsl(225deg 62% 56%) 30%,
+    hsl(240deg 50% 57%) 74%
+  );
+  } 
+
+
+/* login */
+
+.ir-arriba {
+    display: none;
+    padding: 5px;
+    background: var(--primary);
+    font-size: 20px;
+    color: #fff;
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    border-radius: 10px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+  }
+
+  .navbar-login {
+background: rgba(255, 255, 255, 0.28);
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(7.3px);
+-webkit-backdrop-filter: blur(7.3px);
+  }
+
+.frase-login {
+    width: 100%;
+    position: absolute;
+    top: 35vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px 10%;
+}
+
+.frase-login .imagenlogo {
+    width: 75%;
+    margin-bottom: 20px;
+}
+
+
+.user-block .description {
+    color: #6c757d;
+    font-size: 16px;
+    margin-top: -3px;
+}
+
+.emoji-caja {
+    display: contents;
+    flex-direction: row;
+}

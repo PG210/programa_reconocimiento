@@ -1,4 +1,4 @@
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;500;700&display=swap" rel="stylesheet">
+<!--<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;500;700&display=swap" rel="stylesheet">
 <style>
   .letra1{
        font-family: 'Roboto Slab', serif;
@@ -90,4 +90,4 @@
  .colortablas{
      background-color: #F2C93B;
  }
-</style>
+</style> -->

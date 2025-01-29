@@ -13,19 +13,19 @@
 </div>
 <br>
 <!--que es reconocer-->
-<!--linea divisora-->
+<!--linea divisora
 <div class="card-body" style="background-color:#082e41;">
     <h2 class="display-5 text-center letratitulo" style="color:white;">¿POR QUÉ TENER UN PROGRAMA DE RECONOCIMIENTO EN SU EMPRESA?</h2>
   </div>
-<br>
-<!--end - linea divisora-->
+<br>-->
+<!--end - linea divisora
 <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
   <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
     <img src="{{asset('images/demo/parrafo.jpg')}}" class="img-fluid" height="auto" width="100%" alt="Cargando imagen ...">
   </div>
   <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
     <div>
-      <!--<h2 class="display-5">Another headline</h2>-->
+      <!--<h2 class="display-5">Another headline</h2>
       <p class="text-justify letrarob">
         Cuando el ser humano cuenta con sus necesidades básicas satisfechas dentro de una organización, el reconocimiento es el siguiente paso para aumentar su motivación, el sentido de pertenencia y su compromiso.
       </p>
@@ -38,7 +38,7 @@
     </div>
   </div>
 </div>
-<!--end reconocer-->
+<!--end reconocer
 <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
   <div class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden" style="background-color:#004E5A;">
    <img src="{{asset('dist/img/puntos.jpg')}}" class="img-fluid" height="auto" width="100%" alt="Cargando imagen ...">
@@ -47,7 +47,7 @@
     <div class="my-3 p-3">
       <h2 class="display-5 letratitulo" style="color:#004E5A;">PUNTOS</h2>
     </div>
-    <!-- <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">-->
+    <!-- <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 300px; border-radius: 21px 21px 0 0;">
     <div class="mx-auto" style="width: 95%; height: auto; border-radius: 21px;">
     <div class="container">
     <p class="text-justify letrarob">
@@ -123,7 +123,7 @@
     </div> 
   </div>
 </div>
-<!---votación-->
+<!---votación
 <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3">
   <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
     <div class="my-3 p-3">

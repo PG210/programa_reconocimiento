@@ -5,6 +5,7 @@
           <li class="nav-item">
             <a href="{{route('inicio')}}" class="nav-link @if(Request::is('inicio')) active @endif">
               <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-th"></i><ion-icon name="home-outline"></ion-icon>
               <p>
                 Inicio
               </p>
