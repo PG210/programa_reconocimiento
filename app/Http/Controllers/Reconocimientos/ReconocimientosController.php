@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Session;
 //=======================================
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RecObtenidos;
+use App\Exports\PuntosExport;
 //========== librerias para el servicio 
 use App\Services\MicrosoftGraphService;
 use App\Models\Token;
@@ -583,7 +584,7 @@ private function sendMail($destino, $data, $descrip, $valor){
               ->where('catrecibida.id_user_recibe', '=', $usu->id)
               ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
               ->selectRaw('catrecibida.id_user_recibe, users.name as nombre, users.apellido as ape, 
-                          SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5, SUM(cat1+cat2+cat3+cat4+cat5) AS tot');
+                          SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5, SUM(cat1+cat2+cat3+cat4+cat5) AS tot, DATE(MIN(catrecibida.created_at)) as fecmin, DATE(MAX(catrecibida.created_at)) as fecmax');
       // Agregar la información del usuario al array $recibidos
       // Agregar condiciones de fecha si existen
       if ($fecini) {
@@ -721,7 +722,7 @@ private function sendMail($destino, $data, $descrip, $valor){
                      ->where('catrecibida.id_user_envia', '=', $usu->id)
                      ->join('users', 'catrecibida.id_user_envia', '=', 'users.id')
                      ->selectRaw('catrecibida.id_user_envia, users.name as nombre, users.apellido as ape, 
-                     SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5, SUM(cat1+cat2+cat3+cat4+cat5) AS tot');
+                     SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5, SUM(cat1+cat2+cat3+cat4+cat5) AS tot, DATE(MIN(catrecibida.created_at)) as fecmin, DATE(MAX(catrecibida.created_at)) as fecmax');
       // Agregar condiciones de fecha si existen
       if ($fecini) {
           $query->whereDate('catrecibida.created_at', '>=', $fecini);
@@ -743,7 +744,8 @@ private function sendMail($destino, $data, $descrip, $valor){
     }
     return $recibidos;
   }
-  //=============================================
+
+  //===========================================================================
   public function metricasEnvio()
   {
     $fecini = '';
@@ -768,7 +770,7 @@ private function sendMail($destino, $data, $descrip, $valor){
   public function nomCate(){
     $categorias = DB::table('comportamiento_categ')->select('descripcion')->get();
     $dataArray = $categorias->pluck('descripcion')->toArray();
-    $newItems = ["Nombre", "Apellido", "Total"];
+    $newItems = ["Nombre", "Apellido", "F/Inicial", "F/Final", "Total"];
     $datcate = array_merge($newItems, $dataArray); // Combinar
     return $datcate;
   } 
@@ -855,4 +857,86 @@ private function sendMail($destino, $data, $descrip, $valor){
             ]);
 
   }
+    //=========================obtener el total de puntos====================
+    private function puntosTotal($users, $fecini = null, $fecfin = null){
+      $recibidos = [];
+      foreach ($users as $usu) {
+        $query = DB::table('catrecibida')
+                       ->where('catrecibida.id_user_recibe', '=', $usu->id)
+                       ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
+                       ->selectRaw('catrecibida.id_user_recibe, users.name as nombre, users.apellido as ape, 
+                       SUM(puntos) as puntostot, DATE(MIN(catrecibida.created_at)) as fecmin, DATE(MAX(catrecibida.created_at)) as fecmax')
+                       ->orderBy('puntostot', 'desc');
+        // Agregar condiciones de fecha si existen
+        if ($fecini) {
+            $query->whereDate('catrecibida.created_at', '>=', $fecini);
+        }if ($fecfin) {
+            $query->whereDate('catrecibida.created_at', '<=', $fecfin);
+        }
+  
+        // Obtener los datos
+        $info_usuario = $query->get();
+    
+        $recibidos[] = $info_usuario;
+      }
+  
+      return $recibidos;
+    }
+  //=============================== funcion para vista total de puntos ============
+  public function metricasPuntos(){
+    $fecini = '';
+    $fecfin = '';
+    $fecha = Carbon::now()->format('Y-m-d');
+
+    $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
+    $puntos = $this->puntosTotal($users);
+    //return $puntos;
+    return view('metricas.puntos')->with([
+      'recibidos' => $puntos,
+      'fecini' => $fecini,
+      'fecfin' => $fecfin,
+      'fecha'  => $fecha
+    ]);
+  }
+
+  //=================== filtrar la info en puntos obtenidos ======
+  public function filterPuntos(Request $request){
+    $fecini = $request->fecini;
+    $fecfin = $request->fecfin;
+    $fecha = Carbon::now()->format('Y-m-d');
+
+    $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
+    $puntos = $this->puntosTotal($users, $fecini, $fecfin);
+    //return $puntos;
+    return view('metricas.puntos')->with([
+      'recibidos' => $puntos,
+      'fecini' => $fecini,
+      'fecfin' => $fecfin,
+      'fecha'  => $fecha
+    ]);
+     
+  }
+
+  //==================== download puntos ========================
+  public function downloadPuntos(Request $request){
+    $fecini = $request->fecinifil;
+    $fecfin = $request->fecfinfil;
+    $fecha = Carbon::now()->format('Y-m-d');
+    //return $request;
+
+    $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
+    
+     //validar si las fechas tiene valores
+    if ($fecini && $fecfin)
+       $data = $this->puntosTotal($users, $fecini, $fecfin);
+    else
+        $data = $this->puntosTotal($users);
+    //validar si existen datos
+    if (!empty($data))
+      return Excel::download(new PuntosExport($data), 'reporte_total_puntos.xlsx');
+    else
+      return redirect('/metricas/puntos');
+    
+  }
+
 }

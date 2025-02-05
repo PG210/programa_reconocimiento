@@ -5,14 +5,14 @@
         <div class="col-lg-4 col-md-4 col-sm-4 col-12">
             <h2 class="mb-0">
               <button class="btn btn-block text-left  titulo" type="button" data-toggle="collapse" data-target="#collapseOne_reconocimientos" aria-expanded="true" aria-controls="collapseOne_reconocimientos">
-                  Colaboradores que han enviado reconocimientos
+                  Puntos obtenidos
                </button>
             </h2>
         </div>
           <!---filtro -->
           <div class="col-lg-6 col-md-6 col-sm-6 col-10">
             <!---filtros de busqueda -->
-            <form action="{{route('filterReconocimientoEnviadoTotal')}}" method="POST">
+            <form action="{{route('filterPuntos')}}" method="POST">
                 @csrf
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -26,7 +26,7 @@
         </div>
         <!--end filter -->
         <div class="col-lg-2 col-md-2 col-sm-2 col-2 text-right">
-            <form action="{{route('downloadgive')}}" method="POST">
+            <form action="{{route('downloadPuntos')}}" method="POST">
                 @csrf
                 <input type="date" aria-label="First name" class="form-control" name="fecinifil" id="fecinifil" max="{{ $fecha }}" value="{{ $fecini }}" hidden>
                 <input type="date" aria-label="Last name" class="form-control" name="fecfinfil" id="fecfinfil" max="{{ $fecha }}" value="{{ $fecfin }}" hidden>
@@ -50,13 +50,10 @@
   <thead class="tablaheader">
     <tr>
       <th scope="col">No</th>
-      <th scope="col">Nombres</th>
+      <th scope="col">Nombre</th>
       <th scope="col">F/Inicial</th>
       <th scope="col">F/Final</th>
-      <th scope="col">Cantidad</th>
-      @foreach($categoria as $cat)
-       <th scope="col">{{$cat->descripcion}}</th>
-      @endforeach
+      <th scope="col">Puntos</th>
     </tr>
   </thead>
   <tbody>
@@ -73,10 +70,7 @@
                 <td>{{ $usuario->nombre }} {{ $usuario->ape }}</td>
                 <td>{{ $usuario->fecmin ?? '--' }} </td>
                 <td>{{ $usuario->fecmax ?? '--' }} </td>
-                <td>{{ $usuario->tot ?? 0 }} | @if($usuario->tot != 0) 100% @else 0% @endif</td>
-                @foreach($categoria as $cate)
-                    <td>{{ $usuario->{'c' . $cate->id} ?? 0 }} |  @if($usuario->tot != 0) {{round($usuario->{'c' . $cate->id}*100/$usuario->tot, 1)}}% @else 0%  @endif</td>
-                @endforeach
+                <td>{{ $usuario->puntostot ?? 0 }} </td>
             </tr>
                 @endforeach
             @endif

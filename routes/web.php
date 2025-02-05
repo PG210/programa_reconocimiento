@@ -263,11 +263,14 @@ Route::post('/empresa/eventos/active', [AreasController::class, 'activeCumple'])
 //======================== download excel ======
 Route::post('/download/excel/appreciation', [ReconocimientosController::class, 'downloadGet'])->middleware(['auth'])->name('downloadGet');
 Route::post('/download/excel/give', [ReconocimientosController::class, 'downloadgive'])->middleware(['auth'])->name('downloadgive');
+Route::post('/download/excel/puntos', [ReconocimientosController::class, 'downloadPuntos'])->middleware(['auth'])->name('downloadPuntos');
 
 //======================= filtros para metricas ==================
 Route::post('/filter/reconocimiento', [ReconocimientosController::class, 'filterReconocimientoTotal'])->middleware(['auth'])->name('filterReconocimientoTotal');
 Route::post('/filter/reconocimiento/enviado', [ReconocimientosController::class, 'filterReconocimientoEnviadoTotal'])->middleware(['auth'])->name('filterReconocimientoEnviadoTotal');
-
+//========================= metricas de puntos ==========================
+Route::get('/metricas/puntos', [ReconocimientosController::class, 'metricasPuntos'])->middleware(['auth'])->name('metricasPuntos');
+Route::post('/filter/puntos', [ReconocimientosController::class, 'filterPuntos'])->middleware(['auth'])->name('filterPuntos');
 
 Route::get('/forprueba', function () {
     return view('formprueba');

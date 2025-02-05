@@ -57,7 +57,8 @@
                 <tr>
                 <th scope="col">No</th>
                 <th scope="col">Nombres</th>
-                <th scope="col">Apellidos</th>
+                <th scope="col">F/Inicial</th>
+                <th scope="col">F/Final</th>
                 @foreach($categoria as $cat)
                 <th scope="col">{{$cat->descripcion}}</th>
                 @endforeach
@@ -73,8 +74,9 @@
                 @foreach ($conjuntoUsuarios as $usuario)
                 <tr>
                     <th scope="row">{{ $contador+=1 }}</th>
-                    <td>{{ $usuario->nombre }}</td>
-                    <td>{{ $usuario->ape }}</td>
+                    <td>{{ $usuario->nombre }} {{ $usuario->ape }}</td>
+                    <td>{{ $usuario->fecmin ?? '--' }} </td>
+                    <td>{{ $usuario->fecmax ?? '--' }} </td>
                     @foreach($categoria as $cate)
                         <td>{{ $usuario->{'c' . $cate->id} ?? 0 }} |  @if($usuario->tot != 0) {{round($usuario->{'c' . $cate->id}*100/$usuario->tot, 1)}}% @else 0%  @endif</td>
                     @endforeach
