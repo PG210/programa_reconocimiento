@@ -13,246 +13,75 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <link href="{{ asset('/layouts_inicio/product.css') }}" rel="stylesheet" type="text/css" media="all">
+    <link rel="stylesheet" href="{{ asset('dist/css/r.css')}}">
     <style>
-      /*se agrega para verificar */
-      * {margin:0; padding:0}
-      /*end verificar */
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-
-      .ir-arriba {
-        display:none;
-        padding:5px;
-        background:#024959;
-        font-size:20px;
-        color:#fff;
-        cursor:pointer;
-        position: fixed;
-        bottom:20px;
-        right:20px;
-        border-radius:10px;
-      }
-
-    
-      @media screen and (min-width: 2400px) {
-        .letrarob {
-          font-family: 'Roboto';
-          font-size: 45px;
-          line-height: 1.6;
-        }
-        
-        .letratitulo{
-          font-family: 'Roboto Slab', serif;
-          font-size: 3rem;
-          font-weight:700;
-        }
-
-        .letratitulofooter{
-          font-family: 'Roboto Slab', serif;
-          font-size: 2rem;
-          font-weight:700;
-        }
-
-        .letrap{
-          font-family: 'Roboto Slab', serif;
-          font-size: 25px;
-          font-weight:400;
-        }
-        
-        .icono{
-          font-size:45px;
-        }
-
-        .ampliar{
-          padding: 6rem !important;
-        }
-
-        .ampliarnav{
-          padding: 2rem !important;
-        }
-
-        .imagenlogin{
-          padding: 17em;
-        }
-        .forms{  
-          max-width: 100%;
-        }
-
-        .centraform{
-          margin-left: 25% !important;
-          font-size:30px;
-        }
-
-        .boton {
-          font-size: 24px;
-         }
-
-        .iconwsp{
-          width: 80px;
-          height: 80px;
-        }
-
-        /*Se agrego estas lineas css */
-
-        .imagenlogo{
-          max-width: 390px !important;
-          height: 145px !important;
-        }
-
-        .container{
-          max-width: 1200px !important;
-        }
-
-        .btningresar{
-          font-size:33px;
-        }
-
-        .iconfont{
-          font-size:30px;
-        }
-        
-      }/*Este rango esta bien para pantallas extragrandes*/
-
-      @media screen and (min-width: 768px) and (max-width: 1059px) {
-        .letrarob {
-          font-family: 'Roboto';
-          font-size: 12px !important;
-          line-height: 1.6;
-        }
-      }
-
-      @media screen and (min-width: 1060px) and (max-width: 1300px) {
-        .letrarob {
-          font-family: 'Roboto';
-          font-size: 1.025rem !important;
-          line-height: 1.6;
-        }
-      }
-     
-      @media screen and (min-width: 1890px) and (max-width: 2400px) {
-        .letrarob {
-          font-family: 'Roboto';
-          font-size: 2rem !important;
-          line-height: 1.6;
-        }
-      }
-
-    
-      @media screen and (min-width: 1430px) and (max-width: 2400px) {
-        .ampliarnav{
-          padding: 2rem !important;
-        }
-        .btningresar{
-          font-size: 1.5rem;
-        }
-        .letrarob {
-          font-family: 'Roboto';
-          font-size: 1.5rem;
-          line-height: 1.6;
-        }
-        .letratitulofooter{
-          font-family: 'Roboto Slab', serif;
-          font-weight:700;
-        }
-
-        .letrap{
-          font-family: 'Roboto Slab', serif;
-          font-size: 1.5rem;
-          font-weight:400;
-        }
-       
-        .icono{
-          font-size:24px;
-        }
-        /*Se agrego esta codigo css */
-         .imagenlogo{
-          height: auto; 
-          width: 80%;
-        }
-
-        .iconfont{
-          font-size:25px;
-        }
-        .p-md-5{
-            padding: 3rem !important;
-        }
-      }/*este rango esta bien para pantallas medianas */
-
-      @media screen and (max-width: 1429px) {
-        .letratitulofooter{
-          font-family: 'Roboto Slab', serif;
-          font-weight:700;
-        }
-
-        .letrap{
-          font-family: 'Roboto Slab', serif;
-          font-weight:400;
-        }
-
-        .icono{
-          font-size:24px;
-        }
-        /*Se agrego esta codigo css */
-        .imagenlogo{
-          height: auto; 
-          width: 80%;
-        }
-
-        .iconfont{
-          font-size:18px;
-        }
-      }/*Este rango para pantallas pequeñas */
-      
-      @media screen and (min-width: 1920px) {
-          .p-md-5{
-            padding: 5rem !important;
-          }
-        }
     </style>
     <!-- Custom styles for this template -->
   </head>
-  <body style="background-color:white;">
-<!--navar-->
-<nav class="navbar navbar-expand-lg navbar-light sticky-top ampliarnav" style="background-color:white; padding:0;">
+  <body>
+<!--navar
+<nav class="navbar-login navbar navbar-expand-lg navbar-light sticky-top ampliarnav">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
   <div class="container d-flex flex-column flex-md-row justify-content-between">
     <a href="#" aria-label="Product">
-      <img src="{{asset('dist/img/evolucion_fondo_2.jpg')}}" class="img-fluid imagenlogo" alt="Cargando imagen ...">
+      <img src="{{asset('dist/img/logo-reconoser-2.png')}}" class="img-fluid imagenlogo" alt="Reconoser Logo">
     </a>
-    <div class="form-inline">
-     <a class="mr-sm-3" href="{{url('/')}}"><i class="bi bi-house-fill iconfont" style="color:#15AFBA;"></i></a>&nbsp;
-      <!--login-->
-      @if (Route::has('login'))
-      @auth
-        <a class="form-control mr-sm-2 btningresar"  href="{{ url('/dashboard') }}" style="background-color:#15AFBA; color:white; text-decoration:none;"><b>Volver</b></a>
-      @else
-       <a class="form-control mr-sm-2 btningresar" href="{{url('/reg') }}" style="background-color:#15AFBA; color:white; text-decoration:none;"><i class="bi bi-arrow-right-square-fill iconfont" style="color:white;"></i> Ingresar</a>
-      @endauth
-    @endif
-    </div>
+    
   </div>
   </div>
-</nav>
-  <span class="ir-arriba"><i class="bi bi-arrow-up-square-fill" style="font-size: 24px; color:white;"></i></span>
-  <!--end navar-->
-        @yield('content')
+</nav>-->
 
-<br>
+<div class="container-fluid vh-100">
+    <div class="row h-100">
+        <!--dust particel-->
+            <ul class="circles"> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> 
+            </ul>
+
+        <!-- Sección de la imagen -->
+        <div class="col-md-4 d-none d-md-block p-0 fondologin" >
+          <div class="frase-login">
+            <a href="#" aria-label="Product">
+            <img src="{{asset('dist/img/logo-reconoser-2.png')}}" class="img-fluid imagenlogo" alt="Reconoser Logo">
+          </a>
+          <blockquote class="blockquote">
+            <p class="mb-0">Ninguno de nosotros es tan bueno como todos nosotros juntos.</p>
+            <footer class="blockquote-footer">Ray Kroc</footer>
+          </blockquote>
+         </div>
+        </div>
+
+        <!-- Sección del formulario -->
+        <div class="col-md-8 d-flex align-items-center justify-content-center">
+        <div style="width: 60%;">
+            
+              <div class="w-100">
+                 @yield('content')
+            </div>
+            <hr>
+            <h2 class="fw-bold mt-4"></h2>
+            <div class="form-inline">
+                <a class="btn btn-secondary btn-block" href="{{url('/')}}"><i class="bi bi-house-fill iconfont"></i><b>Ir al Inicio</b></a>
+                  <!--login-->
+                  @if (Route::has('login'))
+                  @auth
+                    <a class="btn btn-secondary btningresar btn-block"  href="{{ url('/dashboard') }}"><b>Volver</b></a>
+                  @else
+                  <a class="btn btn-secondary btningresar btn-block" href="{{url('/reg') }}"><i class="bi bi-arrow-right-square-fill iconfont" style="color:white;"></i> Ingresar</a>
+                  @endauth
+                @endif
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+<span class="ir-arriba"><i class="bi bi-arrow-up-square-fill"></i></span>
+  <!--end navar-->
+        
+
 <div class="card-footer" style="background-color:#15AFBA; color:white;">
   <footer class="container py-5" >
     <div class="row">

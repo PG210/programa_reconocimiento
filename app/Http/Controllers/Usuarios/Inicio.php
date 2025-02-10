@@ -155,7 +155,19 @@ class Inicio extends Controller
             ->join('users', 'idusu', '=', 'users.id')
             ->select('comentario', 'idrec', 'users.name as nombre', 'users.apellido', 'users.imagen', 'comentarioshistoy.created_at as fecha')
             ->get();
-        return $comentarios;
+
+        $totcomentarios = DB::table('comentarioshistoy')
+            ->join('users', 'idusu', '=', 'users.id')
+            ->select('idrec', DB::raw('COUNT(comentarioshistoy.id) as totalcomentarios'))
+            ->groupBy('idrec')
+            ->get();
+        
+        $data = [
+                'comentarios' => $comentarios,
+                'totcomentarios' => $totcomentarios
+            ];
+
+        return $data;
     }
 
     //reporte de fechas especiales
@@ -286,7 +298,8 @@ class Inicio extends Controller
             $emoticonuser = $this->emoticonUser();
             $datos = json_decode(json_encode($emoticonuser));
             $users = $this->usuariosReacciones();
-            $comentarios = $this->com();
+            $comentarios = $this->com()['comentarios'];
+            $totcomentarios = $this->com()['totcomentarios'];
             $images = ComunicacionModel::orderBy('posicion', 'asc')->get();
             $estadoimg = ComunicacionModel::where('posicion', 1)->select('estado')->first();
             $holidays = $this->holidays();
@@ -296,6 +309,10 @@ class Inicio extends Controller
             $infoComentarios = $this->infoComentarios(); //informacion de comentarios
             $fechasProxi = $this->fechasProxi(); //fechas proximas
             $estado =  EstadoEventosModel::first(); //estado de eventos cumpleanios
+            $totreconocimiento = RecibirCat::where('id_user_recibe', '=', $userId)->count(); //total de reconocimientos obtenidos
+            $totrecom = ReconocimientosModal::where('id_usuario', '=', $userId)->count(); // insignias obtenidas
+            $valorpun = RecibirCat::where('id_user_recibe', '=', $userId)->selectRaw('SUM(puntos) as p')->get(); //puntos obtenidos
+            $totenviados = RecibirCat::where('id_user_envia', '=', $userId)->count(); // total de reconocmientos enviados
             //return data for view
             return view('usuario.inicio', [
                 'detalle' => $detalle,
@@ -304,6 +321,7 @@ class Inicio extends Controller
                 'images' => $images,
                 'users' => $users,
                 'comentarios' => $comentarios,
+                'totcomentarios' => $totcomentarios,
                 'valor' => $valor,
                 'estadoimg' => $estadoimg,
                 'usershappy' => $holidays['usershappy'],
@@ -318,6 +336,11 @@ class Inicio extends Controller
                 'datehoy' => $fechasProxi['datehoy'],
                 'monthName' => $fechasProxi['mes'],
                 'estado' => $estado,
+                'totreconocimiento' => $totreconocimiento,
+                'totrecom' => $totrecom,
+                'valorpun' => $valorpun,
+                'totenviados' => $totenviados
+
             ]);
         } else {
             $licencias = LicenciasModel::first();
@@ -805,7 +828,8 @@ nombre
             $emoticonuser = $this->emoticonUser();
             $datosem = json_decode(json_encode($emoticonuser));
             $users = $this->usuariosReacciones();
-            $comentarios = $this->com();
+            $comentarios = $this->com()['comentarios'];
+            $totcomentarios = $this->com()['totcomentarios'];
             $estado =  EstadoEventosModel::first(); //estado de eventos cumpleanios
             // data para aniversarios
             $holidays = $this->holidays();
@@ -863,6 +887,12 @@ nombre
             //======== para imagenes de carrucel
             $images = ComunicacionModel::orderBy('posicion', 'asc')->get();
             $estadoimg = ComunicacionModel::where('posicion', 1)->select('estado')->first();
+            
+            //======== variables de totalizar =======
+            $totreconocimiento = RecibirCat::where('id_user_recibe', '=', $usu)->count(); //total de reconocimientos obtenidos
+            $totrecom = ReconocimientosModal::where('id_usuario', '=', $usu)->count(); // insignias obtenidas
+            $valorpun = RecibirCat::where('id_user_recibe', '=', $usu)->selectRaw('SUM(puntos) as p')->get(); //puntos obtenidos
+            $totenviados = RecibirCat::where('id_user_envia', '=', $usu)->count(); // total de reconocmientos enviados
 
             return view('usuario.inicio', [
                 'detalle' => $detalle,
@@ -871,6 +901,7 @@ nombre
                 'images' => $images,
                 'users' => $users,
                 'comentarios' => $comentarios,
+                'totcomentarios' => $totcomentarios,
                 'valor' => $valor,
                 'estadoimg' => $estadoimg,
                 'respuesta' => $respuesta,
@@ -886,6 +917,10 @@ nombre
                 'datehoy' => $fechasProxi['datehoy'],
                 'monthName' => $fechasProxi['mes'],
                 'estado' => $estado,
+                'totreconocimiento' => $totreconocimiento,
+                'totrecom' => $totrecom,
+                'valorpun' => $valorpun,
+                'totenviados' => $totenviados
             ]);
         } else {
             // lógica para otros métodos
@@ -977,5 +1012,80 @@ nombre
             $respuesta = $this->sendMailHolidays($usuarioCongratu->email, $datos, $descrip);
         }
         return response()->json(['data' => $data, 'tipo' => $tipo], 200);
+    }
+
+    //comentarios de history 
+    public function comentarioshistory(Request $request){
+        $usu = auth()->user()->id;
+        $nombre = auth()->user()->name;
+        $apellido = auth()->user()->apellido;
+        $emailusulog = auth()->user()->email; // email del usuario que esta logeado
+        $valor = $request->valorInput;
+        //guardar los datos
+        $category = new Comentarios();
+        $category->comentario = $request->contenido;
+        $category->idusu = $usu;
+        $category->idrec = $valor;
+        $category->save();
+        //retornar toda la info al front
+        $data = DB::table('comentarioshistoy')->where('comentarioshistoy.id', '=', $category->id)
+               ->join('users as u', 'comentarioshistoy.idusu', '=', 'u.id')
+               ->select('comentarioshistoy.idrec', 'comentarioshistoy.comentario as com', 'comentarioshistoy.created_at as fecha', 'u.name as nombre', 'u.apellido', 'u.imagen')
+               ->get();
+        //total de comentarios para la fila
+        $totcomentarios = DB::table('comentarioshistoy')
+            ->where('idrec', '=', $valor)
+            ->select(DB::raw('COUNT(comentarioshistoy.id) as totalcomentarios'))
+            ->get();
+
+        //obtener la informacion para enviar por correo
+        $reconocimiento = DB::table('catrecibida')
+                ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
+                ->join('users as userenvia', 'catrecibida.id_user_envia', '=', 'userenvia.id')
+                ->where('catrecibida.id', $valor)
+                ->select(
+                    'catrecibida.detalle',
+                    'catrecibida.created_at as fecha',
+                    'users.name as nombre',
+                    'users.apellido',
+                    'users.email',
+                    'userenvia.email as emailenvia',
+                    'userenvia.name as nomenvio',
+                    'userenvia.apellido as apenvio'
+                )
+                ->first();
+          
+          //enviar correo
+          $datos = [
+                    'nombre' => $nombre,
+                    'apellido' => $apellido,
+                    'emailusulog' => $emailusulog,
+                    'emoticon' =>  $request->contenido,
+                    'detalle' => $reconocimiento->detalle,
+                    'nomrecibe' =>  $reconocimiento->nombre,
+                    'aperecibe' =>  $reconocimiento->apellido,
+                    'emailrecibe' => $reconocimiento->email,
+                    'estado' => '2',
+                    'fecha' => $reconocimiento->fecha,
+                    'nomenvio' => $reconocimiento->nomenvio,
+                    'apenvio' => $reconocimiento->apenvio,
+                    'emailenvia' => $reconocimiento->emailenvia,
+                ];
+        // validar que el correo no sea de la misma persona que reacciona
+         
+        if (strtolower($emailusulog) != strtolower($reconocimiento->email)) {
+            $val = 1;
+            $descrip = "Nueva notificación";
+            $respuesta = $this->sendMail($reconocimiento->email, $datos, $descrip, $val);
+            //Mail::to($reconocimiento->email)->queue(new ReaccionesComentarios($datos, $val)); //envia mensajes
+        }
+
+        if (strtolower($emailusulog) != strtolower($reconocimiento->emailenvia)) { //enviar correo a la persona que envio el reconocimiento
+            $val = 2;
+            $descrip = "Nueva notificación";
+            $respuesta = $this->sendMail($reconocimiento->emailenvia, $datos, $descrip, $val);
+            //Mail::to($reconocimiento->emailenvia)->queue(new ReaccionesComentarios($datos, $val));  
+        }
+        return response()->json(['data' => $data, 'totcomentarios' =>$totcomentarios], 200);
     }
 }

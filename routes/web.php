@@ -228,6 +228,8 @@ Route::get('/reacciones/holidays', [Inicio::class, 'reaccionesaniv'])->name('rea
 Route::any('/comentario', [Inicio::class, 'comentario'])->name('comentario')->middleware(['auth']);
 //============ comentarios para holidays =======
 Route::post('/comentario/holidays', [Inicio::class, 'comentariosholdays'])->middleware(['auth']);
+Route::post('/comentario/history', [Inicio::class, 'comentarioshistory'])->middleware(['auth']);
+
 
 Route::get('/correo/not', function () {
     return view('correos.reconocimiento');

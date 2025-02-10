@@ -1,13 +1,14 @@
 @extends('principal')
 @section('content')
 
-<br>
-<div class="imagenlogin" style="background-image: url('dist/img/fondolog.jpg');  background-position: center; background-repeat: no-repeat;  background-size: cover; position: relative; height:auto; ">
-<br>
-<main role="main" class="container my-auto letrap forms">
-            <div class="row">
-                <div id="login" class=" offset-lg-4 col-md-6 offset-md-3 col-12 centraform" style="background-color:rgba(241,241,241,0.8); padding-top:5px; border-radius:20px;">
-                  <br>  
+
+<div>
+
+<main role="main" class="forms">
+            <div class="">
+            <h1 class="fw-bold">Hola!</h1>
+            <h2 class="fw-bold mb-5">Ingresa a tu cuenta</h2>
+                <div id="login" class="centraform">  
                 <!--<h2 class="text-center">Bienvenido de nuevo</h2>-->
                         <!---errores-->
                            <!-- Session Status -->
@@ -19,7 +20,7 @@
                             <div  style="background-color:#FFE527;">
                             {{Session::get('errorInicio')}}
                             </div>
-                            <br><br>
+                            
                         @endif
                         </div>
                         <!--end -->
@@ -59,17 +60,15 @@
                             <u> Olvidó su contraseña?</u>
                             </a>--}}
                         @endif
-                        <button type="submit" class="btn float-right boton" style="background-color:#15AFBA; color:white;">
+                        <button type="submit" class="btn btn-warning btningresar btn-block">
                         <i class="bi bi-arrow-right-square-fill"></i>&nbsp;Entrar
                         </button>
-                        <br>
                     </form>
-                    <br>
                 </div>
             </div>
         </main>
-        <br></div>
-        <br>
+        </div>
+        
 <script>
 function togglePasswordVisibility() {
     var passwordInput = document.getElementById("password");

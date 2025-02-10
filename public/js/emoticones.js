@@ -29,14 +29,14 @@
   }
   // funcion para mostrar datos
 function mostrarDatos(data, idc){
-  $("#reaccionesPHP"+idc).hide();
+  /*$("#reaccionesPHP"+idc).hide();*/
   $("#text"+idc).html(data.emot);
   $("#usuario"+idc+data.usu).hide();
   $("#em"+idc).html(
     '<span>'+ data.emot + ' ' + data.nombre + ' ' + data.apellido + '</span>'
     );
   // validar que los valores se han mayores a cero
-  $("#reac" + idc).html(function() {
+  $("#reaccionesPHP" + idc).html(function() {
     var contenido = '';
 
     if (data.megusta > 0) {
