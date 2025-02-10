@@ -57,6 +57,7 @@ i.nav-icon {
   --danger: #DB636B;
   --light: #fff;
   --dark: #343434;
+  --text: #716F6E; 
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -64,13 +65,21 @@ i.nav-icon {
   --breakpoint-xl: 1200px;
   --font-family: 'MohrRounded', sans-serif;
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --border-radius-small: 4px;
-  --border-radius-medium: 8px;
-  --border-radius-large: 12px;
+  --border-radius-small: 10px;
+  --border-radius-medium: 20px;
+  --border-radius-large: 30px;
 }
 
 nav {
     font-size: 1rem;
+}
+
+.custom-select {
+    background: #fff url(https://cdn-icons-png.flaticon.com/512/54/54470.png) right 1rem center / 8px 8px no-repeat;
+}
+
+.card-body {
+    padding: 1rem;
 }
 
 /* Reconocer */
@@ -79,6 +88,13 @@ nav {
     font-size: 1.7rem !important;
     font-weight: 600;
     margin-top: -1px;
+}
+
+.table td, .table th {
+    padding: .2rem .8rem;
+    border-top: 1px solid #dee2e6;
+    vertical-align: middle;
+    text-align: center;
 }
 
 
@@ -213,14 +229,66 @@ body {
     font-family: var(--font-family), sans-serif !important;
     font-weight: normal;
     font-style: normal; /* Usará MohrRounded-Regular */
-    color: var(--dark);
-    font-size: 1.1rem;
+    color: var(--text);
+    font-size: 0.9rem;
+    line-height: 1.3rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
     font-family: var(--font-family), sans-serif !important;
     font-weight: bold;
     font-style: normal; /* Usará MohrRounded-Bold */
+    color: var(--dark);
+}
+
+b, strong {
+    color: var(--dark);
+}
+
+.card-primary h3, .card-primary h4  {
+    color: #fff;
+}
+
+.card-outline h3, .card-outline h4  {
+    color: var(--dark);
+}
+
+
+.titulo-reconocimiento {
+    font-size: 1.2rem;
+    margin-top: 5px;
+}
+
+.reconocimientos .card-body {
+    padding: 0.8rem;
+}
+
+.reconocimientos .card {
+    color: var(--text);
+}
+
+.reconocimientos .card:hover {
+    background: #e6e6e6;
+}
+
+.medallas {
+    height: 80px;
+}
+
+.medallas-muro{
+    height: 80px;
+}
+
+
+
+.text-puntos {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.punto {
+    color: var(--warning);
 }
 
 .layout-navbar-fixed .wrapper .sidebar-dark-primary .brand-link:not([class*=navbar]) {
@@ -307,6 +375,11 @@ a:visited {
     background-color: var(--primary);
     border-color: var(--primary);
     color: var(--light);
+}
+
+.btn-outline-primary {
+    color: var(--primary);
+    border-color: var(--primary);
 }
 
 .btn-secondary {
@@ -739,6 +812,10 @@ aside.main-sidebar.sidebar-dark-primary {
     border-color: var(--info);
 }
 
+.card {
+    border-radius: var(--border-radius-medium);
+}
+
 /* .card-header - Encabezado de la tarjeta */
 .card-primary:not(.card-outline)>.card-header {
     background-color: var(--primary);
@@ -904,24 +981,13 @@ aside.main-sidebar.sidebar-dark-primary {
 /***********************************/
 
 .fondologin {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /*background-image: linear-gradient(to right bottom, #5959c8, #4174d9, #2e8be4, #31a1ea, #4bb6ed, #63b7f1, #78b7f3, #8ab8f5, #aba1e8, #ca88cb, #dc719e, #db636b);
-    background-image: linear-gradient(to right top, #5959c8, #3a7cdd, #2d9ae8, #4bb6ed, #79d0f0);*/
-    background-image: linear-gradient(
-    135deg,
-    hsl(196deg 80% 71%) 0%,
-    hsl(198deg 81% 66%) 3%,
-    hsl(200deg 82% 61%) 5%,
-    hsl(202deg 82% 57%) 7%,
-    hsl(205deg 81% 54%) 9%,
-    hsl(209deg 77% 54%) 12%,
-    hsl(216deg 71% 55%) 18%,
-    hsl(225deg 62% 56%) 30%,
-    hsl(240deg 50% 57%) 74%
-  );
+    background-color: var(--primary);
+    background-image: url(https://www.sergiourrego.org/wp-content/themes/sergio-urrego/images/help-bg.svg);
+    background-blend-mode: multiply;
+    color: #fff;
+    background-size: 135%;
+    background-position: 0 16%, 70% 8%, center;
+    background-repeat: repeat;
   } 
 
 
@@ -969,11 +1035,74 @@ backdrop-filter: blur(7.3px);
 
 .user-block .description {
     color: #6c757d;
-    font-size: 16px;
+    font-size: 0.8rem;
     margin-top: -3px;
 }
 
 .emoji-caja {
     display: contents;
     flex-direction: row;
+}
+
+/* para la ayuda */
+
+.introjs-skipbutton {
+    background-color: var(--warning) !important;
+    border-radius: var(--border-radius-medium) !important;
+    color: var(--dark) !important;
+    font-size: 1rem !important;
+    width: 90%;
+    padding: .6rem .75rem .6rem !important;
+    font-family: var(--font-family), sans-serif !important;
+}
+
+.textotarjeta{
+    background-color: var(--dark);
+    color:white;
+    padding: 5px;
+    border-radius: var(--border-radius-medium);
+    font-family: var(--font-family), sans-serif !important;
+  }
+
+  .introjs-tooltipReferenceLayer * {
+    font-family: var(--font-family), sans-serif !important;
+    color: var(--dark) !important;
+}
+
+  .introjs-button {
+    border-radius: var(--border-radius-medium) !important;
+    color: var(--dark) !important;
+    font-size: 0.9rem !important;
+    border-color: var(--dark) !important;
+    padding: .6rem .75rem .6rem !important;
+    font-family: var(--font-family), sans-serif !important;
+}
+
+.introjs-bullets {
+    text-align: center !important;
+    padding-top: 0px !important;
+    padding-bottom: 10px !important;
+}
+
+#seleccionados h5 {
+    font-size: 1rem;
+    font-weight: 300;
+    position: relative;
+    padding-left: 30px; /* Espacio para el ícono */
+    margin-bottom: 5px;
+}
+
+#seleccionados h5::before {
+    content: "\f058"; /* Código Unicode del ícono */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: var(--success); /* Color del ícono */
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+footer.main-footer.letra1.text-left {
+    font-size: 0.8rem;
+    font-weight: 300;
 }

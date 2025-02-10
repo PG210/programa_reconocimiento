@@ -10,8 +10,8 @@
 <!--Logeado como usuario-->
 
 <!-- Content Header (Page header) -->
-<div class="content-header">
-	<div class="container-fluid">
+<div class="">
+	<div class="container">
 		<div class="row mb-2">
 			<div class="col-sm-6">
 				<h1 class="m-0">Hola {{ Auth::user()->name }}!</h1>
@@ -30,9 +30,9 @@
 	<!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
-<div class="">
+<div class="container">
 	<div class="row">
-		<div class="col-md-3">
+		<div class="col-md-4">
     <div class="fixed">
 			<!-- Profile Image -->
 			<div class="card card-primary card-outline">
@@ -68,7 +68,7 @@
 
 
 			<div class="callout callout-warning">
-				<h5>Esta semana no haz reconocido 
+				<h5>Esta semana no has reconocido 
                   a tus compañeros !</h5>
 
 				<p>No te olvides de hacerlo</p>
@@ -96,7 +96,7 @@
 			<!-- /.card -->
 		</div>
     </div>
-		<div class="col-md-9">
+		<div class="col-md-8">
 
 			<!-- Banner -->
 			<!---carrucel -->
@@ -218,7 +218,7 @@
 											<!-- /.card-tools -->
 											<div class="w-100 text-center">
 												<!--<div class="medalla"><img data-src="{{asset('imgpremios/'.$det->img)}}" class="img-thumbnail lazy-load"  alt="Cargando imagen ...">-->
-												<span class="text-center"><h3>🎉 Buen trabajo {{ $det->nomrecibe }} {{ $det->aperecibe }}</h3></span>
+												<span class="text-center"><h4>🎉 Buen trabajo {{ $det->nomrecibe }} {{ $det->aperecibe }}</h4></span>
 											</div>
 											<!-- /.user-block -->
 

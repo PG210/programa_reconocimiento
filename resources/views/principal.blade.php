@@ -42,7 +42,7 @@
             </ul>
 
         <!-- Sección de la imagen -->
-        <div class="col-md-4 d-none d-md-block p-0 fondologin" >
+        <div class="col-md-5 d-none d-md-block p-0 fondologin" >
           <div class="frase-login">
             <a href="#" aria-label="Product">
             <img src="{{asset('dist/img/logo-reconoser-2.png')}}" class="img-fluid imagenlogo" alt="Reconoser Logo">
@@ -55,8 +55,8 @@
         </div>
 
         <!-- Sección del formulario -->
-        <div class="col-md-8 d-flex align-items-center justify-content-center">
-        <div style="width: 60%;">
+        <div class="col-md-7 d-flex align-items-center justify-content-center">
+        <div style="width: 95%;">
             
               <div class="w-100">
                  @yield('content')
