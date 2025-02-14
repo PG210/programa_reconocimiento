@@ -1,6 +1,31 @@
 @extends('usuario.principa_usul')
 @section('content')
 
+<!-- Content Header (Page header) -->
+<div class="content-header">
+	<div class="container">
+		<div class="row mb-2">
+			<div class="col-sm-8">
+				<h1 class="m-0">Control votaciones</h1>
+			</div>
+			<!-- /.col -->
+			<div class="col-sm-4">
+				<ol class="breadcrumb float-sm-right">
+					<li class="breadcrumb-item"><a href="#">Inicio</a></li>
+					<li class="breadcrumb-item active">Control votaciones</li>
+				</ol>
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<div class="container">
+		<div class="row mb-2">
+			<div class="col-sm-12">
 <div class="accordion" id="accordionExample">
   <div class="card" >
     <div class="card-header" id="headingOne" style="background-color#1BF9CD;">
@@ -401,6 +426,12 @@
     </div>
   </div>
 </div>
+</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
 <script>
     // Función para filtrar la tabla en base al input de búsqueda
     $('#search').on('keyup', function() {

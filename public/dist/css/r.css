@@ -9,12 +9,31 @@
         Estás a punto de descubrir un CSS lleno de amor y magia. 💖 
 */
 
+.profile-user-img {
+    width: 100px;
+    height: 100px;
+}
+
 i.nav-icon {
     font-size: 1.4rem !important;
 }
 
 .navbar-light .navbar-nav .nav-link i {
     font-size: 1.2rem;
+}
+
+.info-box-text {
+    text-overflow: clip !important;
+    white-space: normal !important;
+    line-height: 1.3rem;
+}
+
+.filtro-fecha {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 3px;
 }
 
 @font-face {
@@ -276,11 +295,14 @@ b, strong {
     height: 80px;
 }
 
-.medallas-muro{
+.medallas-muro {
     height: 80px;
+    position: absolute;
+    bottom: -30px;
+    right: 0;
 }
 
-
+ 
 
 .text-puntos {
     font-size: 1.2rem;
@@ -656,6 +678,19 @@ a:visited {
 }
 .toast-body {
     color: var(--dark);
+}
+
+.toast.bg-success {
+    background-color: var(--success) !important;
+}
+
+.toast.bg-success .toast-header {
+    background-color: var(--success);
+    color: var(--light) !important;
+}
+
+.toast strong {
+    color: var(--light) !important;
 }
 
 /* Dropdowns */
@@ -1106,3 +1141,37 @@ footer.main-footer.letra1.text-left {
     font-size: 0.8rem;
     font-weight: 300;
 }
+
+/**** TABS ***/
+
+.nav-tabs .nav-link {
+    margin-bottom: -1px;
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+    padding: 10px 25px;
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: var(--dark);
+    background-color: #fff;
+    border-color: transparent;
+}
+
+.nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+    border-color: #e9ecef #e9ecef #dee2e6 !important;
+}
+
+.nav-link:hover {
+    color: var(--light);
+    background: var(--secondary);
+}
+
+.perfil-ok .form-control {
+    background: transparent;
+    border: 0;
+    padding: 10px 0;
+}
+
