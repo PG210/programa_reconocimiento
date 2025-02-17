@@ -194,7 +194,6 @@
                                 <div class="tab-pane fade show active" id="home" role="tabpanel"
                                     aria-labelledby="home-tab">
 
-<<<<<<< HEAD
                                     @foreach($detalle as $det)
                                     <div class="card card-primary card-widget">
                                         <div class="card-header py-4">
@@ -297,122 +296,6 @@
                                                         {{$usu->emoticon}} {{$usu->name}} {{$usu->apellido}}</a> @endif
                                                     @endforeach
                                                 </div>
-=======
-					</div>
-					<div class="col-md-2"></div>
-				</div>
-				<!-----================================================================--->
-				<div class="row mt-3">
-					<div class="col-lg-12 col-md-12 col-12 text-center">
-						@if(isset($respuesta)) @if($respuesta == false)
-						<script>
-							window.alert('Correo no enviado, por favor notifica al administrador.');
-							
-						</script>
-						@endif @endif
-					</div>
-				</div>
-				<div class="">
-					<!---mensaje--->
-					<div class="">
-						<div class="<!--pr-2 scrolly-->">
-							<!---card-->
-							@php $emoticones = [ ['emoticon' => '👍', 'descrip' => 'Me gusta', 'cod'=> '1'], ['emoticon' => '😍', 'descrip' => 'Me encanta', 'cod'=> '2'], ['emoticon' => '😲', 'descrip' => 'Sorprendido', 'cod'=> '3'], ['emoticon' => '🤗', 'descrip' => 'Abrazo', 'cod'=> '4'], ]; @endphp
-							<!---tabs for happy birthday and anniversary--->
-							<ul class="nav nav-tabs letraform" id="myTab" role="tablist">
-								<li class="nav-item" role="presentation">
-									<button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Muro</button>
-								</li>
-								@if($estado->estado == 1)
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Cumpleaños y quinquenios</button>
-								</li>
-								@endif
-							</ul>
-							<div class="tab-content" id="myTabContent">
-								<!--- here happy birthday -->
-								<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-									
-									@foreach($detalle as $det)
-									<div class="card card-primary card-widget">
-										<div class="card-header py-4">
-											<div class="card-tools">
-												<button type="button" class="btn btn-tool" title="Mark as read">
-                                          <i class="far fa-circle"></i>
-                                        </button>
-												<button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                          <i class="fas fa-minus"></i>
-                                        </button>
-												<button type="button" class="btn btn-tool" data-card-widget="remove">
-                                          <i class="fas fa-times"></i>
-                                        </button>
-											</div>
-											<!-- /.card-tools -->
-											<div class="w-100 text-center">
-												<!--<div class="medalla"><img data-src="{{asset('imgpremios/'.$det->img)}}" class="img-thumbnail lazy-load"  alt="Cargando imagen ...">-->
-												<span class="text-center"><h4>🎉 Buen trabajo {{ $det->nomrecibe }} {{ $det->aperecibe }}</h4></span>
-											</div>
-											<!-- /.user-block -->
-
-										</div>
-
-
-										<div class="card-body">
-											<div class="user-block w-100">
-												<!--foto de perfil -->
-												@if($det->imagenenv != 'ruta' && $det->imagenenv != '' )
-												<img data-src="{{asset('dist/imgperfil/'.$det->imagenenv)}}" class="profile-user-img img-circle lazy-load" alt="User Image"> @else
-												<img data-src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="profile-user-img img-circle lazy-load" alt="User Image"> @endif
-
-												<span class="username h4">Empatía y vocación de servicio </span>
-												<span class="description">Por: {{ $det->nomenvia }} {{ $det->apenvia }}  |  {{ date('j F, Y', strtotime($det->fecha)) }} </span>
-											</div>
-
-										</div>
-										<div class="card-body pt-0">
-											<p class="">{{ $det->det }} </p>
-											<hr>
-											<!---reacciones-->
-											<div id="reac{{$det->idcat}}"></div>
-											<div id="reaccionesPHP{{$det->idcat}}" class=" emoji-caja">
-												@foreach($emoticonCounts as $emti) @if($det->idcat == $emti->idrec) @if($emti->idemot == 1) 👍
-												<span class="badge badge-light">{{$emti->count}}</span> @elseif($emti->idemot == 2) 😍
-												<span class="badge badge-light">{{$emti->count}}</span> @elseif($emti->idemot == 3) 😲
-												<span class="badge badge-light">{{$emti->count}}</span> @elseif($emti->idemot == 4) 🤗
-												<span class="badge badge-light">{{$emti->count}}</span> @endif @endif @endforeach
-											</div>
-
-											<!---=boton reacciones=-->
-											<button class="btn_reaccion mt-2" id="btn{{$det->idcat}}">
-                                        <span style="color:black;" id="text{{$det->idcat}}">
-                                            @php $usuarioMarcado = false; @endphp
-                                            @foreach($emoticonuser as $emtic)
-                                                @if($det->idcat == $emtic->idrec)
-                                                    @if($emtic->idemot >= 1 && $emtic->idemot <= 4)
-                                                        {{$emtic->emoticon}}
-                                                        @php $usuarioMarcado = true; @endphp
-                                                    @endif
-                                                    @php break; @endphp
-                                                @endif
-                                            @endforeach
-
-                                            {{-- Si no se encontró un emoticón marcado por el usuario, muestra el icono de "like" gris --}}
-                                            @if (!$usuarioMarcado)
-                                                <i class="fas fa-thumbs-up" style="color:gray;"></i>
-                                            @endif
-                                        </span>      
-                          
-                                        <div class="reacciones">
-                                        @foreach($emoticones as $emot)
-                                            <div class="reaccion"> 
-                                              @php   
-                                              $idc= $det->idcat;
-                                              $emoticon = $emot['emoticon'];
-                                              $idemot = $emot['cod'];
-                                              @endphp
-                                                <a id="btnr{{$det->idcat}}"  onclick="selecEmot('<?= $idc ?>', '<?= $emoticon ?>', '<?= $idemot ?>');"><i style="font-style: normal!important;">{{$emot['emoticon']}}</i></a>
-                                                <span style="padding:3px; border-radius: 10px; background-color:white;">{{$emot['descrip']}}</span>
->>>>>>> 418ed33696f4110b56ae49607d470f8f056daed0
                                             </div>
 
 
