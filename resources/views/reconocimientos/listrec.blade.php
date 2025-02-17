@@ -1,7 +1,7 @@
 @extends('usuario.principa_usul')
 @section('content')
 <!-- Content Header (Page header) -->
-<div class="">
+<div class="content-header">
 	<div class="container">
 		<div class="row mb-2">
 			<div class="col-sm-8">

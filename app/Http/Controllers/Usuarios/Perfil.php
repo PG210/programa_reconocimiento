@@ -100,7 +100,7 @@ class Perfil extends Controller
               }
             //#######end imagen
             $es->save(); 
-            Session::flash('mensaje', '¡Datos actualizados de manera exitosa!'); 
+            Session::flash('mensaje', 'Tus datos se han actualizado con éxito. ¡Gracias por mantenerte al día!'); 
            
           }   
           return back();

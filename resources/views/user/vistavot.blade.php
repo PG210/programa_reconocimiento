@@ -2,9 +2,29 @@
 @section('content')
 @include('usuario.datatables')
 <!----stylos-->
-<div class="container titulo mb-3">
-    <h4 class="text-center"><b>VOTACIONES HABILITADAS PERIODO : {{$vot->anio}} - {{$vot->periodo}}</b></h4>
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+	<div class="container">
+		<div class="row mb-2">
+			<div class="col-sm-8">
+				<h1 class="m-0">Votaciones habilitadas periodo : {{$vot->anio}} - {{$vot->periodo}}</h1>
+			</div>
+			<!-- /.col -->
+			<div class="col-sm-4">
+				<ol class="breadcrumb float-sm-right">
+					<li class="breadcrumb-item"><a href="#">Inicio</a></li>
+					<li class="breadcrumb-item active">Participar en votación</li>
+				</ol>
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.container-fluid -->
 </div>
+<!-- /.content-header -->
+
 <!--mensaje-->
 @if(Session::has('error_voto'))
 <div class="alert alert-dismissible fade show letraform alert-info" role="alert">
@@ -15,7 +35,8 @@
 </div>
 @endif
 <!--end mensaje -->
-<div class="container">
+
+<div class="container card">
 <div class="table-responsive">
         <table class="table letraform" id="votacion">
             <thead class="tablaheader">
