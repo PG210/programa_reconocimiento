@@ -129,43 +129,22 @@
           <h3 class="titulo-reconocimiento"></h3>
           <div class="row reconocimientos">
             <!-- /card -->
-              <a href="#" class="col-6 ">
-              <div class="card card-outline card-primary">
-                <div class="card-body">
-                  <h3 class="titulo-reconocimiento">
-                  Participa
-                  </h3>
-                  Te involucras activamente, colaboras y aportas ideas para el crecimiento del equipo.
-                </div>
-              </div>
-              </a>
-            <!-- /.card -->
-
-            <!-- /card -->
-            <a href="#" class="col-6 ">
-              <div class="card card-outline card-primary">
-                <div class="card-body">
-                  <h3 class="titulo-reconocimiento">
-                  Aprende
-                  </h3>
-                  Buscas mejorar continuamente, compartes conocimientos y te adaptas a nuevos retos.
-                </div>
-              </div>
-              </a>
-            <!-- /.card -->
-
-            <!-- /card -->
-            <a href="#" class="col-6 ">
-              <div class="card card-outline card-primary">
-                <div class="card-body">
-                  <h3 class="titulo-reconocimiento">
-                  Empatía y vocación de servicio
-                  </h3>
-                  Destacas por tu actitud de ayuda, comprensión y disposición para apoyar a los demás.
-                </div>
-              </div>
-              </a>
-            <!-- /.card -->
+            @if($categoria->isEmpty())
+                <option>Sin Categorias</option>
+            @else
+                @foreach($categoria as $cate)
+                  <a href="#" class="col-6 ">
+                    <div class="card card-outline card-primary">
+                      <div class="card-body">
+                        <h3 class="titulo-reconocimiento">
+                        {{ e($cate->descripcion) }} id = {{ $cate->id }}
+                        </h3>
+                       {{ $cate->especificacion }}
+                      </div>
+                    </div>
+                  </a>
+                @endforeach
+            @endif
 
             <!-- /card -->
             <a href="#" class="col-6 ">

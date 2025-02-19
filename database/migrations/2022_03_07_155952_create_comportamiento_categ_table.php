@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('comportamiento_categ', function (Blueprint $table) {
             $table->id();
             $table->string('descripcion');
+            $table->text('especificacion');
             $table->integer('puntos');
             $table->string('rutaimagen')->nullable();
             $table->timestamps();
