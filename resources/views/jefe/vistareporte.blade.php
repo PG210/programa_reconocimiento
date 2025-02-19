@@ -5,14 +5,14 @@
 <div class="content-header">
 	<div class="container">
 		<div class="row mb-2">
-			<div class="col-sm-8">
-				<h1 class="m-0">Mis metricas</h1>
+            <div class="col-sm-8">
+				<h1 class="m-0">Recompensas en ReconoSER</h1>
 			</div>
 			<!-- /.col -->
 			<div class="col-sm-4">
 				<ol class="breadcrumb float-sm-right">
 					<li class="breadcrumb-item"><a href="#">Inicio</a></li>
-					<li class="breadcrumb-item active">Mis metricas</li>
+					<li class="breadcrumb-item active">Recompensas sin entregar</li>
 				</ol>
 			</div>
 			<!-- /.col -->
@@ -24,50 +24,67 @@
 <!-- /.content-header -->
 
 <div class="container">
-		<div class="row mb-2">
-			<div class="col-12">
-<!--collapsed-->
-        <div class="accordion" id="accordionExample">
-        <div class="card">
-            <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-                <div class="row titulo">
-                   <div class="col-3">
-                        <a href="/reporte/recompensas" class="btn btn-link btn-block text-left" type="button">
-                        <i class="fas fa-tasks" style="font-size:22px;"></i>&nbsp;&nbsp;Listado sin entregar
-                        </a>
-                    </div>
-                    <div class="col-3">
-                        <a href="/reporte/insignias/excel/1" class="btn btn-link btn-block text-left" type="button">
-                        <i class="fas fa-file-excel" style="font-size:22px;"></i>&nbsp;&nbsp;Reporte
-                        </a>
-                    </div>
-                    <div class="col-3">
-                       <a href="{{route('entregados')}}" class="btn btn-link btn-block text-right" type="button">
-                       <i class="fas fa-tasks" style="font-size:22px;"></i>&nbsp;&nbsp;Lista entregados
-                        </a>
-                    </div>
-                    <div class="col-3">
-                       <a href="/reporte/insignias/excel/2" class="btn btn-link btn-block text-right" type="button" >
-                         <i class="fas fa-file-excel" style="font-size:22px;"></i>&nbsp;&nbsp;Reporte
-                        </a>
-                    </div>
-               </div>
-            </h2>
-            </div>
+		<div class="row">
+            <div class="col-12 col-md-3">
+            <div class="row">
+                <div class="col-12">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                    
+                    <div class="inner">
+                        <a href="{{route('entregados')}}" type="button" style="color: var(--dark);">
+                        <h3>150</h3>
 
-            <div id="collapseOne" class="collapse show table-responsive letraform" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <div class="card-body">
-        <!--table de informacion-->
-              <!---========= buscador =============-->
-                <div class="row mb-2">
-                    <div class="col-lg-12 col-md-12 text-end">
-                        <input type="text" class="form-control" id="searchTerm" onkeyup="doSearch()" placeholder="Buscar...">
+                        <p>Recompensas entregadas</p>
+                        </a>  
+                    </div>
+                    <div class="icon">
+                        
+                        <i class="fas fa-hand-holding"></i>
+                    </div>
+                    
+                    <a href="/reporte/insignias/excel/2" type="button" class="small-box-footer">Descargar reporte <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <!--====================================-->
+                <!-- ./col -->
+
+                <div class="col-12">
+                    <!-- small box -->
+                    <div class="small-box bg-warning">
+                    <div class="inner">
+                        <a href="/reporte/recompensas" type="button" style="color: var(--dark);">
+                        <h3>150</h3>
+
+                        <p>Recompensas sin entregar</p>
+                        </a>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-exclamation"></i>
+                    </div>
+                    <a href="/reporte/insignias/excel/1" type="button" class="small-box-footer">Descargar reporte <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+            </div>
+            <div class="col-12 col-md-9">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Recompensas sin entregar</h3>
+
+                <div class="card-tools">
+                  <!---========= buscador =============-->
+                  <div class="input-group " style="width: 210px;">
+                    <input type="text" name="table_search" class="form-control" id="searchTerm" onkeyup="doSearch()" placeholder="Buscar...">
+                  </div>
+                  <!---========= / buscador =============-->
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+        <!--table de informacion-->
             <div class="table-responsive">
-            <table class="table table-bordered" id="tablaDate">
+            <table class="table table-hover table-estadisticas" id="tablaDate">
             <thead>
                 <tr>
                 <th scope="col">No</th>
@@ -92,7 +109,7 @@
                 <td>{{$dat->nominsig}}</td>
                 <td>{{$dat->nompre}}</td>
                 <td>{{$dat->despremio}}</td>
-                <td>Sin entregar</td>
+                <td><span class="badge bg-success">Sin entregar</span></td>
                 <td>
                    <!--#######################################3-->
                    <?php
@@ -165,10 +182,13 @@
         </div>
         </div>
 <!---end collapse-->
-</div>
-		<!-- /.row -->
-	</div>
-	<!-- /.container-fluid -->
+            </div>
+		
+
+            
+        <!-- /.row -->    
+	    </div>
+<!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
 <script src="{{ asset('js/buscador.js')}}"></script>

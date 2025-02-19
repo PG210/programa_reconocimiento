@@ -6,7 +6,7 @@
 	<div class="container">
 		<div class="row mb-2">
 			<div class="col-sm-8">
-				<h1 class="m-0">Mis metricas</h1>
+				<h1 class="m-0">Tus Métricas en ReconoSER</h1>
 			</div>
 			<!-- /.col -->
 			<div class="col-sm-4">

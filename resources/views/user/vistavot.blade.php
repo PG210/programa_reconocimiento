@@ -38,7 +38,7 @@
 
 <div class="container card">
 <div class="table-responsive">
-        <table class="table letraform" id="votacion">
+        <table class="table table-hover table-estadisticas letraform" id="votacion">
             <thead class="tablaheader">
                 <tr>
                   <th scope="col">No</th>

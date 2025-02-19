@@ -42,3 +42,93 @@
 
 <!---script para la carga lazy de imagenes-->
 <script src="{{ asset('dist/js/lazy.js')}}"></script>
+
+
+<!-- Script para Gráficos -->
+<script>
+  $(function () {
+    /* ChartJS
+     * -------
+     * Here we will create a few charts using ChartJS
+     */
+
+    //--------------
+    //- AREA CHART -
+    //--------------
+
+    // Get context with jQuery - using jQuery's .get() method.
+    const ctxTimeline = document.getElementById('timelineChart').getContext('2d');
+        new Chart(ctxTimeline, {
+            type: 'line',
+            data: {
+                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
+                datasets: [
+                    {
+                        label               : 'Participar',
+                        backgroundColor     : 'rgba(60,141,188,0.9)',
+                        borderColor         : 'rgba(60,141,188,0.8)',
+                        pointRadius          : 5,
+                        pointColor          : '#3b8bba',
+                        pointStrokeColor    : 'rgba(60,141,188,1)',
+                        pointHighlightFill  : '#fff',
+                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data                : [3, 5, 0, 0, 0, 0, 0]
+                        
+                    },
+                    {
+                        label               : 'Aprender',
+                        backgroundColor     : 'rgba(210, 214, 222, 1)',
+                        borderColor         : 'rgba(210, 214, 222, 1)',
+                        pointRadius         : 5,
+                        pointColor          : 'rgba(210, 214, 222, 1)',
+                        pointStrokeColor    : '#c1c7d1',
+                        pointHighlightFill  : '#fff',
+                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        data                : [0, 1, 0, 0, 0, 0, 0]
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: { display: false }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    //-------------
+    //- DONUT CHART -
+    //-------------
+    // Get context with jQuery - using jQuery's .get() method.
+    var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+    var donutData        = {
+      labels: [
+          'Participar',
+          'Aprender',
+      ],
+      datasets: [
+        {
+          data: [8,1],
+          backgroundColor : ['#439a86', '#ebb93b'],
+        }
+      ]
+    }
+    var donutOptions     = {
+      maintainAspectRatio : false,
+      responsive : true,
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    new Chart(donutChartCanvas, {
+      type: 'doughnut',
+      data: donutData,
+      options: donutOptions
+    })
+
+})
+</script>

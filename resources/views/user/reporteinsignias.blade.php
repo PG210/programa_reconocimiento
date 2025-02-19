@@ -46,11 +46,12 @@
 <div class="content-header">
 	<div class="container">
 		<div class="row mb-2">
-			<div class="col-sm-8">
-				<h1 class="m-0">Mis reconocimientos</h1>
+			<div class="col-sm-9">
+				<h1 class="m-0">Tu Huella en ReconoSER</h1>
+        <span>Cada reconocimiento refleja tu impacto. Descubre cómo contribuyes al equipo y cómo puedes seguir creciendo.</span>
 			</div>
 			<!-- /.col -->
-			<div class="col-sm-4">
+			<div class="col-sm-3">
 				<ol class="breadcrumb float-sm-right">
 					<li class="breadcrumb-item"><a href="#">Inicio</a></li>
 					<li class="breadcrumb-item active">Mis reconocimientos</li>
@@ -59,10 +60,100 @@
 			<!-- /.col -->
 		</div>
 		<!-- /.row -->
+
+    
 	</div>
 	<!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
+
+<div class="container">
+    <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <p class="m-0">Tu categoría más <br>reconocida es:</p>
+                <h5>Empatía y vocación de servicio. </h5>
+                <p class="m-0">¡Sigue brillando!</p>  
+                
+              </div>
+              <div class="icon">
+                <i class="fas fas fa-trophy"></i>
+              </div>
+              <a href="#" class="small-box-footer">Ver más información <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>85% </h3>
+                <p class="m-0">Este mes, recibiste más reconocimientos que el 85% de tus compañeros.</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+              <a href="#" class="small-box-footer">Destaca tu tambien a los demás <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                 <p class="m-0">Tu mayor reconocimiento proviene de</p>
+                <h5>Manuel Apellido</h5>
+                <p class="m-0">¡valora esa conexión!</p>  
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+              <a href="#" class="small-box-footer">Reconocelo ahora <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>20%</h3>
+                <p class="m-0">Te encuentras en el Top 20% de colaboradores más reconocidos este trimestre.</p>  
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+              <a href="#" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+        <!-- /.row -->
+
+		
+    <div class="row mb-3">
+                        <div class="col-md-12">
+                        <!---filtros de busqueda -->
+                        <form action="{{route('filtrarReconocimientos')}}" method="POST">
+                          @csrf
+                          <div class="form-group row m-0" style="display: flex;align-items: center;">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Fecha inicial y final</label>
+                            <div class="col-sm-10 filtro-fecha">
+                              <input type="date" aria-label="First name" class="form-control" name="fecini" id="fecini" max="{{ $fecha }}" value="{{ $fecini }}" required>
+                              <input type="date" aria-label="Last name" class="form-control" name="fecfin" id="fecfin" max="{{ $fecha }}" value="{{ $fecfin }}" required>
+                              <button class="btn btn-primary" role="button" type="submit"> <i class="fas fa-search"></i></button>
+                            </div>
+                            
+                          </div>
+                        </form>
+                        <!--end filtros-->
+                        </div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</div>
+<!-- /.container-fluid -->
 
 <div class="container">
 		<div class="row">
@@ -80,6 +171,9 @@
                     <a class="nav-link" id="nav-profile-tab" data-toggle="tab" data-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
                       Recompensas 
                     </a>
+                  </li>
+                  <li class="pt-2 px-3">
+                    
                   </li>
                 </ul>
               </div>
@@ -160,45 +254,95 @@
                       <!---====================================--->
 
                       <div class="row">
-                        <div class="col-md-12">
-                        <!---filtros de busqueda -->
-                        <form action="{{route('filtrarReconocimientos')}}" method="POST">
-                          @csrf
-                          <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 col-form-label">Fecha inicial y final</label>
-                            <div class="col-sm-10 filtro-fecha">
-                              <input type="date" aria-label="First name" class="form-control" name="fecini" id="fecini" max="{{ $fecha }}" value="{{ $fecini }}" required>
-                              <input type="date" aria-label="Last name" class="form-control" name="fecfin" id="fecfin" max="{{ $fecha }}" value="{{ $fecfin }}" required>
-                              <button class="btn btn-primary" role="button" type="submit"> <i class="fas fa-search"></i></button>
-                            </div>
-                            
+                        <div class="col-12">
+                          <div class="card card-primary">
+                            <div class="card-header " >
+                              <h3 class="card-title">
+                                <i class="fas fa-chart-pie mr-1"></i>
+                                Comparativa de Categorías
+                              </h3>
+                              <div class="card-tools">
+                                <ul class="nav nav-pills ml-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link  active" href="#dona-chart" data-toggle="tab">Gráfica</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" href="#linea-chart" data-toggle="tab">Línea tiempo</a>
+                                  </li>
+                                  
+                                </ul>
+                              </div>
+                            </div><!-- /.card-header -->
+                            <div class="card-body">
+                              <div class="tab-content p-0">
+                                <!-- Morris chart - Sales -->
+                                <div class="chart tab-pane  active" id="dona-chart">
+                                  <div class="row" style="align-items: center;">
+                                    <div class="col-md-4">   
+                                      <canvas id="donutChart" style="min-height: 200px; height: 200px; max-height: 200px; max-width: 100%;"></canvas>
+                                    </div>
+                                    <div class="col-md-8">  
+                                      <!-- Tu Destacado y Tu Próximo Reto -->
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="callout callout-success">
+                                                <strong>Tu Categoría Más Reconocida:</strong>
+                                                <p class="mb-2">Participar con <strong>8 </strong>reconocimientos</p>
+                                                <p>🔥 ¡Eres un referente en colaboración! Tu equipo valora tu compromiso.</p>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-12">
+                                              <div class="callout callout-warning">
+                                                <strong>Tu oportunidad de Brillar Más:</strong>
+                                                <p class="mb-2">Aprender con <strong>1 </strong>reconocimientos</p>
+                                                <p>🚀 Tu equipo reconoce tu colaboración, ¿por qué no sumarle más momentos de aprendizaje?</p>
+                                              </div>
+                                          </div>
+                                      </div> 
+                                    </div>
+                                  </div>  
+                                </div>
+                                <div class="chart tab-pane " id="linea-chart" style="">
+                                  <div class="chart">
+                                    <canvas id="timelineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                  </div>
+                                </div>
+                                
+                              </div>
+                            </div><!-- /.card-body -->
                           </div>
-                        </form>
-                        <!--end filtros-->
                         </div>
-                      </div> 
+                      </div>
+                      
+                      <div class="row"> 
+                        <div class="col-12"> 
+                           <h4 class="mt-4" style="color: var(--dark);">Historial de Reconocimientos</h4>
+                        </div>
+                      </div>
 
                       <div class="row card-group"> 
                       @foreach($detalle as $det)
                         <div class="col-md-4">
                         <div class="card card-primary card-widget show" id="cards{{$det->idcat}}">
-                          <div class="card-header py-2 px-3">
-                            <div class="w-100 text-right text-puntos">
-                            <i class="fas fa-star text-warning"></i><span> {{$nompuntos->descripcion}}: </span><span class="punto">{{$det->puntos}} </span>
-                            </div>	
+                          <div class="card-header py-2 px-3">	
                             <div class="w-100 text-center">
+                              <div class="user-block w-100">
+                                <!--foto de perfil -->
+                                <img class="profile-user-img img-circle loaded" src="{{asset('dist/imgperfil/'.$det->fperfil)}}" alt="User Avatar">
+                                <span class="h6" style="color: #fff;">¡Te reconocio {{$det->nomenvia}} {{$det->apenvia}}!</span>
+                              </div>
                               <!--foto medalla -->
                               <!--<img class="medallas" src="/dist/img/medalla_1.png" alt="medallas">-->
-                              <img data-src="{{asset('imgpremios/'.$det->img)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">
-                              <span class="text-center"><h4 class="nomcate letratarjeta1">{{$det->descat}}<h4></span>
+                              <img data-src="{{asset('imgpremios/'.$det->img)}}" class="medallas-muro img-circle lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">
+                              
                             </div>
                             <!-- /.user-block -->
                           </div>
                           <div class="card-body">
-                              <div class="user-block w-100">
-                                <!--foto de perfil -->
-                                <img class="profile-user-img img-circle loaded" src="{{asset('dist/imgperfil/'.$det->fperfil)}}" alt="User Avatar">
-                                <span class="username h4 nomcate letratarjeta1">
+                          
+                              
+                              <span class="nomcate letratarjeta1">🏆 En la categoría: </br><strong>{{$det->descat}}</strong></span></br> 
+                              <span class="nomcate letratarjeta1">
                                   <!-- validar que solamente aparezcan 15 palabras -->
                                   @php
                                       $descripcion = $det->det;
@@ -211,13 +355,15 @@
                                     
                                       <a id="toggle-text{{ $idcat }}" onclick="toggleText({{ $idcat }})" class="btn btn-link p-0 text-sm">Ver más</a>
                                   @else
-                                      <h6> {{ $descripcion }} </h6>
+                                      <span>🌟 Comportamiento:{{ $descripcion }} </span></br> 
                                   @endif
-                                </span>
-                                <span class="description">Por: {{$det->nomenvia}} {{$det->apenvia}} | {{ \Carbon\Carbon::parse($det->fecha)->locale('es')->translatedFormat('j \\d\\e F \\d\\e Y, g:i a') }} </span>
-                              </div>
-
-                            </div>
+                              </span>
+                              📅 {{ \Carbon\Carbon::parse($det->fecha)->locale('es')->translatedFormat('j \\d\\e F \\d\\e Y, g:i a') }} </br> 
+                              <i class="fas fa-star text-warning"></i><span> {{$nompuntos->descripcion}}: </span><span class="punto">{{$det->puntos}} </span>
+                              <a type="button" class="btn btn-warning w-100">
+                                    Reconoce a {{$det->nomenvia}} 
+                              </a>
+                          </div>
                             <div class="card-body pt-0">
                               <p class="compor letratarjeta1"></p>
                               <!---emoticones -->
@@ -407,20 +553,7 @@
 
                       <div class="row">
                         <div class="col-md-12">
-                        <!---filtros de busqueda -->
-                        <form action="{{route('filtrarReconocimientos')}}" method="POST">
-                          @csrf
-                          <div class="form-group row">
-                            <label for="inputEmail3" class="col-sm-2 col-form-label">Fecha inicial y final</label>
-                            <div class="col-sm-10 filtro-fecha">
-                              <input type="date" aria-label="First name" class="form-control" name="fecini" id="fecini" max="{{ $fecha }}" value="{{ $fecini }}" required>
-                              <input type="date" aria-label="Last name" class="form-control" name="fecfin" id="fecfin" max="{{ $fecha }}" value="{{ $fecfin }}" required>
-                              <button class="btn btn-primary" role="button" type="submit"> <i class="fas fa-search"></i></button>
-                            </div>
-                            
-                          </div>
-                        </form>
-                        <!--end filtros-->
+                        
                         </div>
                       </div> 
 
@@ -583,4 +716,5 @@
 
     };
 </script>
+
 @endsection
