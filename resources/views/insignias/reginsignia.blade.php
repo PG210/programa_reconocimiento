@@ -1,11 +1,55 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert text-center titulo" role="alert">
- <h3>REGISTRO DE INSIGNIAS</h3>
+<!-- Content Header (Page header) -->
+<div class="content-header">
+ <div class="container"> 
+  <div class="row mb-2">
+   <div class="col-sm-8">
+    <h1 class="m-0">Registros de insignias</h1>
+   </div>
+   <!-- /.col -->
+   <div class="col-sm-4">
+    <ol class="breadcrumb float-sm-right">
+     <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+     <li class="breadcrumb-item active">Registros de insignias</li>
+    </ol>
+   </div>
+   <!-- /.col -->
+  </div>
+  <!-- /.row -->
+ </div>
+ <!-- /.container-fluid -->
 </div>
-<br>
+<!-- /.content-header -->
+
+<div class="container">
 <form action="{{route('registroinsignias')}}" method="POST"  enctype="multipart/form-data" class="letraform">
-  @csrf
+@csrf
+<div class="row mb-2">
+<div class="col-md-3">
+    <!-- Profile Image -->
+    <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                      
+                        <p>Opciones</p>
+
+                        
+  <button type="button" class="btn btn-primary w-100  mb-3  ver" data-toggle="modal" data-target="#visualizar">Visualizar</button>
+  <button type="button" class="btn btn-primary w-100  mb-3 " data-toggle="modal" data-target="#puntosconfig">Puntos</button>
+
+                          
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+    </div>
+    </div>
+  <div class="col-md-9">
+    
+  <div class="card card-primary card-outline">
+  <div class="card-body box-profile">
+
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="nombre">Nombre</label>
@@ -46,25 +90,26 @@
   <label for="inputState">Elegir Recompensa</label>
   <div class="accordion" id="accordionExample">
   <div class="card">
-    <div class="card-header" id="headingTwo">
-      <h2 class="mb-0">
+    <div class="card-header p-1" id="headingTwo">
+      <div class="mb-0"> <p class="float-left"></p>
     <a class="btn btn-link btn-block text-right collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
     <i class="fas fa-angle-double-down"></i>
     </a>
-      </h2>
+      </>
     </div>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
       <div class="card-body">
         <!--tabla-->
         <!--tabla para ver los valores-->
-        <table class="table">
+        <div class="table-responsive">
+        <table class="table table-hover table-estadisticas">
               <thead class="tablaheader">
               <tr>
-                <th scope="col">No</th>
+                <th scope="col" class="text-center">No</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Descripción</th>
                 <th scope="col">Imagen</th>
-                <th scope="col">Seleccionar</th>
+                <th scope="col" class="text-center">Seleccionar</th>
               </tr>
             </thead>
             <tbody>
@@ -81,7 +126,7 @@
                     <img src="{{asset('imgpremios/'.$c->rutaimagen)}}" class="rounded" alt="..."  width= "50px" height="50px" >
                   </div>
                 </td>
-                <td>
+                <td class="text-center">
                 <div>
                   <input type="radio" id="contactChoice1" name="premio" value="{{$c->id}}" required>
                   <label for="contactChoice1"> </label>
@@ -94,7 +139,7 @@
              @endforeach
             </tbody>
           </table>
-
+          </div>
         <!--end tabla-->
         <!--end tabla-->
       </div>
@@ -111,17 +156,24 @@
     <input type="file" class="form-control form-control-file" name="img" id="img" required>
   </div>
 
-  <br>
-  <button type="submit" class="btn confirmar">Registrar</button>
-  <button type="button" class="btn ver" data-toggle="modal" data-target="#visualizar">Visualizar</button>
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#puntosconfig">Puntos</button>
+  <button type="submit" class="btn btn-primary w-100  mb-3 confirmar">Registrar</button>
 </form>
-<br>
+
+</div>
+</div>
+   <!-- /.col -->
+  </div>
+  <!-- /.row -->
+ </div>
+ <!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
 <div class="modal fade" id="visualizar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title titulo" id="exampleModalLabel">INSIGNIAS REGISTRADAS</h5>
+        <h5 class="modal-title titulo" id="exampleModalLabel">Insignias Registradas</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -129,17 +181,17 @@
       <div class="modal-body letraform">
         <!--tabla para ver los valores-->
          <div class="table-responsive">
-            <table class="table">
+            <table class="table table-hover table-estadisticas">
               <thead class="tablaheader">
               <tr>
-                <th scope="col">No</th>
+                <th scope="col" class="text-center" style="width: 50px">No</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Nivel</th>
                 <th scope="col">Puntos</th>
                 <th scope="col">Imagen</th>
                 <th scope="col">Recompensa</th>
                 <th scope="col">Tipo</th>
-                <th scope="col">Acción</th>
+                <th scope="col" class="text-center" style="width: 100px">Acción</th>
               </tr>
             </thead>
             <tbody>
@@ -166,17 +218,18 @@
                    <span>Insignia categoría</span>
                  @endif
                  </td>
-                 <td>
+                 <td class="text-center" style="width: 100px">
                   <div class="btn-group" role="group" aria-label="Basic outlined example">
-                    <a type="button" class="btn btn-outline-success" href="{{route('actualizarinsignia',$c->id)}}"><i class="fas fa-edit"></i></a>
-                    <a type="button" class="btn btn-outline-danger" href="{{route('deleteinsignia',$c->id)}}"><i class="fas fa-trash"></i></a>
+                    <a type="button" class="btn btn-outline-primary btn-sm" href="{{route('actualizarinsignia',$c->id)}}"><i class="fas fa-edit"></i></a>
+                    <a type="button" class="btn btn-outline-danger btn-sm" href="{{route('deleteinsignia',$c->id)}}"><i class="fas fa-trash"></i></a>
                   </div>
                 </td>
                 </tr>
              @endforeach
             @else
             <div class="alert alert-warning text-center" role="alert">
-               No Hay Registros
+              ¡Ups! No hay registros disponibles
+              <span>No se encontraron insignias registradas. Por favor, agrega uno nuevo.</span>
             </div>
             @endif
                
@@ -186,7 +239,7 @@
         <!--end tabla-->
       </div>
       <div class="modal-footer  letraform">
-        <button type="button" class="btn salir" data-dismiss="modal">Salir</button>
+        <button type="button" class="btn btn-default salir" data-dismiss="modal">Salir</button>
       </div>
     </div>
   </div>
@@ -196,7 +249,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title titulo" id="exampleModalLabel">CONFIGURAR PUNTOS</h5>
+        <h5 class="modal-title titulo" id="exampleModalLabel">Configurar nombres de los puntos</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -210,9 +263,10 @@
             <input type="text" class="form-control" id="nompunto" name="nompunto" value="{{$nompuntos->descripcion}}" required>
           </div>
       </div>
-      <div class="modal-footer  letraform">
-        <button type="submit" class="btn confirmar">Guardar</button>
-        <button type="button" class="btn salir" data-dismiss="modal">Salir</button>
+      <div class="modal-footer justify-content-between letraform">
+       
+        <button type="button" class="btn btn-default salir" data-dismiss="modal">Salir</button>
+        <button type="submit" class="btn btn-success confirmar">Guardar</button>
       </div>
       </form>
     </div>

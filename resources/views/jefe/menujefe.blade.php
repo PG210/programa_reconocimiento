@@ -10,7 +10,7 @@
                with font-awesome or any other icon font library -->
           <li class="nav-item">
             <a href="{{route('inicio')}}" class="nav-link @if(Request::is('inicio')) active @endif">
-              <i class="nav-icon fas fa-home"></i>
+              <i class="nav-icon fas fa-home"></i> 
               <p>
                 Inicio
               </p>
@@ -35,15 +35,7 @@
               </p>
             </a>
           </li>
-          <li class="nav-header">Administración</li>
-          <li class="nav-item">
-            <a href="{{route('recompensas_obtenidas')}}" class="nav-link @if(Request::is('reporte/recompensas')) active @endif">
-            <i class="nav-icon fas fa-file-excel"></i>
-              <p>
-                Mis metricas
-              </p>
-             </a>
-          </li>
+          
           <li class="nav-header">Votaciones</li>
           <!---===========-->
           <li class="nav-item">
@@ -66,7 +58,17 @@
           </li>
           @endif
           @endif
-          <li class="nav-header">Configuración</li>
+
+          <li class="nav-header">Administración</li>
+          <li class="nav-item">
+            <a href="{{route('recompensas_obtenidas')}}" class="nav-link @if(Request::is('reporte/recompensas')) active @endif">
+            <i class="nav-icon fas fa-file-excel"></i>
+              <p>
+              Recompensas
+              </p>
+             </a>
+          </li>
+          
           <!--==============--> 
             <!--===================metricas ============================= -->
             <li class="nav-item">
@@ -92,6 +94,7 @@
              </li>  
             </ul>
           </li>
+          <li class="nav-header">Configuración</li>
           <li class="nav-item">
             <a href="{{route('perfil')}}" class="nav-link @if(Request::is('perfil')) active @endif">
               <i class="nav-icon ion-ios-body-outline"></i>

@@ -188,8 +188,8 @@
                       <div class="info-box">
                         <span class="info-box-icon bg-danger"><i class="fas fa-medal"></i></span>
                         <div class="info-box-content">
-                          <span class="info-box-text">Total reconocimientos</span>
-                          <span class="info-box-number">@if(is_countable($detalle) && count($detalle) > 0) {{count($detalle)}} @else 0 @endif </span>
+                          <span class="info-box-text">Tienes un total de </span>
+                          <span class="info-box-number">@if(is_countable($detalle) && count($detalle) > 0) {{count($detalle)}} @else 0 @endif reconocimientos</span>
                         </div>
                         <!-- /.info-box-content -->
                       </div>
@@ -235,8 +235,8 @@
                       <div class="info-box">
                         <span class="info-box-icon bg-warning"><i class="fas fa-coins"></i></span>
                         <div class="info-box-content">
-                          <span class="info-box-text">Evos</span>
-                          <span class="info-box-number">1,410</span>
+                          <span class="info-box-text">Has acumulado </span>
+                          <span class="info-box-number">1,410 Evos</span>
                         </div>
                         <!-- /.info-box-content -->
                       </div>
@@ -484,17 +484,16 @@
                               <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                   <div class="modal-header">
+                                    <h4 class="modal-title" style="color: #333333"> Insignias y Recompensas</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
+                                      <span aria-hidden="true">×</span>
                                     </button>
                                   </div>
-                                  <div class="modal-body text-left text-md">
-                                    <!---info ---->
-                                    <h6 class="mb-3">
-                                    Listado de insignias que puedes obtener: Cuantos más puntos acumules, más insignias podrás ganar. Cada insignia está vinculada a una recompensa especial.
-                                    </h6>
+                                  <div class="modal-body">
+                                    <p>Cuantos más puntos acumules, más insignias podrás ganar. Cada insignia representa tu esfuerzo y está vinculada a una recompensa especial. 🚀</p>
+                                  
                                     <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table table-hover table-estadisticas">
                                       <thead class="tablaheader">
                                         <tr>
                                           <th scope="col"></th>
@@ -507,7 +506,7 @@
                                       <tbody>
                                         @foreach($insobtener as $ins)
                                         <tr>
-                                          <td><img data-src="{{asset('imgpremios/'.$ins->imgin)}}" class="img-responsive lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;"></td>
+                                          <td><img data-src="{{asset('imgpremios/'.$ins->imgin)}}" class="profile-user-img img-circle loaded lazy-load" alt="User Image"></td>
                                           <td>{{$ins->name}}</td>
                                           <td>{{$ins->descripcion}}</td>
                                           <td>{{$ins->puntos}}</td>
@@ -517,20 +516,21 @@
                                       </tbody>
                                     </table>
                                   </div>
-                                  <!-------------->
-                                  </div>
-                                  <div class="modal-footer">
-                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Salir</button>
+                                  <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
                                   </div>
                                 </div>
+                                <!-- /.modal-content -->
+                              </div>
+                              
                               </div>
                             </div>
                         <!---end modal -->
                         <div class="info-box">
                         <span class="info-box-icon bg-danger"><i class="fas fa-medal"></i></span>
                         <div class="info-box-content">
-                          <span class="info-box-text">Total recompensas</span>
-                          <span class="info-box-number">{{count($reconocimientos)}} </span>
+                          <span class="info-box-text">Has desbloqueado </span>
+                          <span class="info-box-number">{{count($reconocimientos)}}  insignias </span>
                         </div>
                         <!-- /.info-box-content -->
                       </div>
@@ -546,6 +546,27 @@
                       </div>
                       <!-- /.info-box -->
 
+                      <div class="info-box">
+                        <span class="info-box-icon bg-success"><i class="fas fa-star"></i></span>
+                        <div class="info-box-content">
+                          <span class="info-box-text"> Has acumulado </span>
+                          <span class="info-box-number">1200 puntos</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                      </div>
+                      <!-- /.info-box -->
+
+                     <div class="info-box">
+                        <span class="info-box-icon bg-warning"><i class="fas fa-coins"></i></span>
+                        <div class="info-box-content">
+                          <span class="info-box-text">¡Estás a solo</span>
+                          <span class="info-box-number">300</span>
+                          <span class="info-box-text">puntos de tu próxima recompensa especial!</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                      </div>
+                      <!-- /.info-box -->
+
                     </div>
 
                     <div class="col-md-9">
@@ -556,6 +577,35 @@
                         
                         </div>
                       </div> 
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="card card-primary">
+                            <div class="card-header " >
+                              <h3 class="card-title">
+                                <i class="fas fa-chart-pie mr-1"></i>
+                                Tus insignias 
+                              </h3>
+                              <div class="card-tools">
+                                <ul class="nav nav-pills ml-auto">
+                                  <li class="nav-item">
+                                    <a class="nav-link   active" href="#linea-chart1" data-toggle="tab">Línea tiempo</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div><!-- /.card-header -->
+                            <div class="card-body">
+                              <div class="tab-content p-0">
+                                <div class="chart tab-pane   active" id="linea-chart1" style="">
+                                  <div class="chart">
+                                    <canvas id="timelineChart11" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                  </div>
+                                </div>
+                                
+                              </div>
+                            </div><!-- /.card-body -->
+                          </div>
+                        </div>
+                      </div>
 
                       <div class="row card-group"> 
                       @foreach($reconocimientos as $r)

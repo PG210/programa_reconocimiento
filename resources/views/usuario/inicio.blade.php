@@ -96,8 +96,8 @@
         <div class="col-md-9">
             <!---card--->
             @if(!empty($estadoimg->estado) && $estadoimg->estado == '1')
-            <div class="container card">
-                <div class="card mb-2 mt-2">
+            <div class="container">
+                <div class="card p-0 m-0">
                     @if(!empty($images))
                     <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
                         <ol class="carousel-indicators">
@@ -851,21 +851,186 @@
 @endif @if(Auth::user()->id_rol==1)
 <!--Logeado como administrador-->
 <!--- mensaje ---->
-<div class="container mb-2">
-    <div class="row">
-        <div class="col-4">
-            <h3 class="letraform badge-info py-1 px-2" style="border-radius: 10px;">
-                Licencias activas: {{$totaluser ?? 0}} / {{$licencias->numlicencia ?? 0}}
-            </h3>
-        </div>
-        <div class="col-4">
-            <h3 class="letraform badge-info py-1 px-2" style="border-radius: 10px;">
-                Fecha de Vencimiento: {{$datavence}}
-            </h3>
-        </div>
-    </div>
+<!-- Content Header (Page header) -->
+<div class="content-header">
+	<div class="container">
+		<div class="row mb-2">
+			<div class="col-sm-8">
+				<h1 class="m-0">🎉 ¡Bienvenido a ReconoSER! 🎉</h1> 
+                <p>Estamos muy felices de tenerte como parte de nuestra familia. ¿Qué quieres hacer hoy? 😊</p>
+			</div>
+			<!-- /.col -->
+			<div class="col-sm-4">
+				<ol class="breadcrumb float-sm-right">
+					<li class="breadcrumb-item"><a href="#">Inicio</a></li>
+				</ol>
+			</div>
+			<!-- /.col -->
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.container-fluid -->
 </div>
-<!---end mesnaje -->
+<!-- /.content-header -->
+<div class="container">
+<div class="row">
+          <div class="col-12">
+
+           <!-- small card -->
+           <div class="small-box bg-info">
+              <div class="inner">
+              <h4>🔐 Licencias Activas: 11 / 11</h4>
+              <p>📅 Fecha de Vencimiento: 28 de diciembre de 2024</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+              <a href="#" class="small-box-footer">
+                Más información <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+
+        
+        </div>
+        </div>
+
+<div class="row">
+<div class="col-12"><h3>¿Qué quieres hacer hoy?</h3></div>
+    
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-ligth">
+              <div class="inner">
+              <h5>Recompensas</h5>
+              <p>Configura y administra las recompensas disponibles para los colaboradores.</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-gift"></i>
+              </div>
+              <a href="#" class="bg-warning small-box-footer">
+                Editar <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-ligth">
+              <div class="inner">
+              <h5>Registro de Usuarios</h5>
+              <p>Administra los usuarios y gestiona nuevos registros en la plataforma.</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <a href="#" class="bg-warning small-box-footer">
+              Editar <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-ligth">
+              <div class="inner">
+              <h5> Categorías</h5>
+              <p>Configura y ajusta las categorías de reconocimiento según la cultura de tu empresa.</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-list-alt"></i>
+              </div>
+              <a href="/Categorias/registro" class="bg-warning small-box-footer">
+              Editar <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-ligth">
+              <div class="inner">
+              <h5>Insignias</h5>
+              <p>Personaliza las insignias y sus criterios de obtención.</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-medal"></i>
+              </div>
+              <a href="/registro/insignias" class="bg-warning small-box-footer">
+              Editar <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-ligth">
+              <div class="inner">
+              <h5> Diseño de Banners</h5>
+                <p>Crea y personaliza banners para campañas de reconocimiento.</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-paint-brush"></i>
+              </div>
+              <a href="#" class="bg-warning small-box-footer">
+                Editar <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-ligth">
+              <div class="inner">
+              <h5>Eventos</h5>
+              <p>Programa y gestiona eventos especiales para el equipo.</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+              <a href="#" class="bg-warning small-box-footer">
+              Editar <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-ligth">
+              <div class="inner">
+              <h5> Empresa</h5>
+              <p>Gestiona los detalles y configuración general de la organización.</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-building"></i>
+              </div>
+              <a href="/areas/empresa" class="bg-warning small-box-footer">
+              Editar <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-ligth">
+                <div class="inner">
+                <h5>Control de Votaciones</h5>
+                <p>Gestiona y supervisa las votaciones activas en la plataforma.</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-vote-yea"></i>
+                </div>
+                <a href="/areas/empresa" class="bg-warning small-box-footer">
+                Editar <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+</div>
+<!-- /.content-header -->
+
+<!---end mesnaje 
 <div class="card-deck">
     <div class="card" style=" border: 2px; border-radius: 25px; background-color:white;">
         <img data-src="{{ asset('dist/img/enviare.jpg')}}" class="card-img-top lazy-load" alt="..."
@@ -898,6 +1063,7 @@
             </p>
         </div>
     </div>
+-->
 </div>
 @endif
 

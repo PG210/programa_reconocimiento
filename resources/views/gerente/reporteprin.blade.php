@@ -6,13 +6,13 @@
 	<div class="container">
 		<div class="row mb-2">
 			<div class="col-sm-8">
-				<h1 class="m-0">Tus Métricas en ReconoSER</h1>
+				<h1 class="m-0">Recompensas en ReconoSER</h1> 
 			</div>
 			<!-- /.col -->
 			<div class="col-sm-4">
 				<ol class="breadcrumb float-sm-right">
 					<li class="breadcrumb-item"><a href="#">Inicio</a></li>
-					<li class="breadcrumb-item active">Mis metricas</li>
+					<li class="breadcrumb-item active">Recompensas sin entregar</li>
 				</ol>
 			</div>
 			<!-- /.col -->
@@ -22,42 +22,70 @@
 	<!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
+ 
+<div class="container">
+		<div class="row">
+            <div class="col-12 col-md-3">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- small box -->
+                        <div class="small-box bg-success">
+                        
+                        <div class="inner">
+                            <a href="/gerente/informe/2" type="button" style="color: var(--dark);">
+                            <h3>150</h3>
 
-<!--collapsed-->
-        <div class="accordion" id="accordionExample">
-        <div class="card">
-            <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-                <div class="row titulo">
-                    <div class="col-3">
-                        <a href="/gerente/informe/1" class="btn btn-link btn-block text-left" type="button">
-                        <i class="fas fa-tasks" style="font-size:22px;"></i>&nbsp;&nbsp;Listado sin entregar 
-                        </a>
+                            <p>Recompensas entregadas</p>
+                            </a>  
+                        </div>
+                        <div class="icon">
+                            
+                            <i class="fas fa-hand-holding"></i>
+                        </div>
+                        
+                        <a href="/gerente/insignias/excel/2" type="button" class="small-box-footer">Descargar reporte <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
                     </div>
-                    <div class="col-3">
-                        <a href="/gerente/insignias/excel/1" class="btn btn-link btn-block text-left" type="button">
-                        <i class="fas fa-file-excel" style="font-size:22px;"></i>&nbsp;&nbsp;Reporte
-                        </a>
+                    <!-- ./col -->
+
+                    <div class="col-12">
+                        <!-- small box -->
+                        <div class="small-box bg-warning">
+                        <div class="inner">
+                            <a href="/gerente/informe/1" type="button" style="color: var(--dark);">
+                            <h3>150</h3>
+
+                            <p>Recompensas sin entregar</p>
+                            </a>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-exclamation"></i>
+                        </div>
+                        <a href="/gerente/insignias/excel/1" type="button" class="small-box-footer">Descargar reporte <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
                     </div>
-                    <div class="col-3">
-                       <a href="/gerente/informe/2" class="btn btn-link btn-block text-right" type="button">
-                       <i class="fas fa-tasks" style="font-size:22px;"></i>&nbsp;&nbsp;Lista entregados
-                        </a>
-                    </div>
-                    <div class="col-3">
-                       <a href="/gerente/insignias/excel/2" class="btn btn-link btn-block text-right" type="button" >
-                         <i class="fas fa-file-excel" style="font-size:22px;"></i>&nbsp;Reporte
-                        </a>
-                    </div>
-               </div>
-            </h2>
+                    <!-- ./col -->
+                </div>
             </div>
+            <div class="col-12 col-md-9">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Recompensas</h3>
 
-            <div id="collapseOne" class="collapse show letraform" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <div class="card-body">
-        <!--table de informacion-->
-            <table class="table table-bordered table-responsive">
-            <thead>
+                        <div class="card-tools">
+                        <!---========= buscador =============-->
+                        <div class="input-group " style="width: 210px;">
+                            <input type="text" name="table_search" class="form-control" id="searchTerm" onkeyup="doSearch()" placeholder="Buscar...">
+                        </div>
+                        <!---========= / buscador =============-->
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                    <!--table de informacion-->
+                        <div class="table-responsive">
+                            <table class="table table-hover table-estadisticas">
+                            <thead>
                 <tr>
                 <th scope="col">No</th>
                 <th scope="col">Nombres</th>
@@ -94,11 +122,15 @@
                 @endforeach
                 @endif
             </tbody>
-            </table>
-           <!---end table-->
+                            </tbody>
+                            </table>
+                            <!---end table-->
+                        </div>
+                    </div>
+                </div>
             </div>
-            </div>
+            <!---end collapse-->
         </div>
-        </div>
+    </div>
 <!---end collapse-->
 @endsection

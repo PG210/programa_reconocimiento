@@ -111,10 +111,10 @@
                                   <div class="col-2">
                                     <div  class="user-panel mt-0 pb-0 mb-0 d-flex">
                                     @if($n->imagen!=null)
-                                      <img data-src="{{asset('dist/imgperfil/'.$n->imagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image" >
+                                      <img data-src="{{asset('dist/imgperfil/'.$n->imagen)}}" class="img2 profile-user-img img-fluid img-circle lazy-load" alt="User Image" >
                                     @endif
                                     @if($n->imagen == null)
-                                       <img data-src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img-circle elevation-1 lazy-load" alt="User Image" >
+                                       <img data-src="{{asset('dist/imgperfil/perfil_no_borrar.jpeg')}}" class="img2 profile-user-img img-fluid img-circle lazy-load" alt="User Image" >
                                     @endif
                                      
                                    </div>
@@ -142,7 +142,7 @@
                                   <h6><i class="fas fa-award mr-2"></i> Recibiste un reconocimiento</h6>
                                 </div>
                                 <div class="col-6 text-right">
-                                  <img data-src="{{asset('imgpremios/'.$n->rutaimagen)}}" class="img-circle elevation-1 lazy-load" alt="User Image">&nbsp;&nbsp;
+                                  <img data-src="{{asset('imgpremios/'.$n->rutaimagen)}}" class="img2 profile-user-img img-fluid img-circle lazy-load" alt="User Image">&nbsp;&nbsp;
                                   <span class="badge badge-warning navbar-badge"> {{$n->catpuntos}}</span>
                                 
                                 </div>
