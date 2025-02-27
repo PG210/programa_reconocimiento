@@ -8,7 +8,11 @@
     });
     let idcat=$('#stl-compor').val();
     let detexto = $('#detexto').val();
+    let previewDiv = document.getElementById("preview");
+    let nomcat = document.getElementById("nomcate");
+    let com = document.getElementById("compor");
     let _token = $('input[name=_token]').val(); //token de seguridad
+    
     if(idcat != null && usuariosSel.length != 0){
       $.ajax({
       type: "POST",
@@ -30,6 +34,9 @@
         }
          
         $("#sugerir").empty();
+        previewDiv.textContent = ""; //limpiar el div donde aparece el texto
+        nomcat.textContent = "";
+        com.textContent = "";
         if(dat.length!=0){
           $('#formudatos')[0].reset();
           toastr.success('El envió de reconocimiento fue exitosó', 'Nuevo Reconocimiento', {timeOut:3000});
@@ -60,6 +67,10 @@
                       $('#sugerir').append(er);
 
           }
+          //mostar el modal 
+          setTimeout(function() {
+              $('#modalSugerencia').modal('show'); // Abre el modal después de 3 segundos
+          }, 1000); // 3000 milisegundos = 3 segundos
       }
     }).fail(function(jqXHR, response){
           $("#sugerir").empty();
@@ -87,56 +98,89 @@
     $("form input[type=text],form input[type=number]").each(function() { this.value = '' });
  }
 
- /*Peticion para encontrar categoria */
-   /*tomamos la información del formulario y la enviamos a la ruta y de la ruta al controlador*/
-   $('#categoria').on('change', function(){
-    var idcate=$('#categor').val();
-    var _token = $('input[name=_token]').val(); //token de seguridad
-    var cursos = $("#slt-cursos");
-    $.ajax({
-      type: "POST",
-      url:"/filtrar/categoria/comportamiento",
-      data:{
-        idcate:idcate,
-        _token:_token
-      } 
-    }).done(function(res){
-      cursos.find('option').remove();
-      let arreglo = JSON.parse(res);
-      arreglo.unshift({id: 0, nombre: 'Elegir ...'});//agrega el elegir al inicio
-      for(var x=0; x<arreglo.length; x++){
-          t='<option value="' + arreglo[x].id + '">' + arreglo[x].nombre  + '</option>';
-         cursos.append(t);
-      }
-     
-    });
-  });
+/*Peticion para encontrar categoria */
+/*tomamos la información del formulario y la enviamos a la ruta y de la ruta al controlador*/
+$(document).ready(function() {
+    $('.btn-filtrar').on('click', function(e) {
+        e.preventDefault(); // Evita el comportamiento predeterminado del enlace
+        
+        var idcate = $(this).data('id'); // Obtiene el ID desde el botón
+        var _token = $('input[name=_token]').val(); // Token de seguridad
+        var cursos = $("#slt-cursos");
 
+        $.ajax({
+            type: "POST",
+            url: "/filtrar/categoria/comportamiento",
+            data: {
+                idcate: idcate,
+                _token: _token
+            }
+        }).done(function(res) {
+            cursos.find('option').remove(); // Elimina opciones previas
+            let arreglo = JSON.parse(res);
+            arreglo.unshift({id: 0, nombre: 'Elegir ...'}); // Agrega "Elegir ..." al inicio
+            
+            for (var x = 0; x < arreglo.length; x++) {
+                let t = '<option value="' + arreglo[x].id + '">' + arreglo[x].nombre + '</option>';
+                cursos.append(t);
+            }
+        });
+    });
+});
   /* peticion para encontrar departamentos */
   /*tomamos la información del formulario y la enviamos a la ruta y de la ruta al controlador*/
-  $('#slt-cursos').on('change', function(){
-    let compor= $("#stl-compor");//sirve para almacenar y limpiar el select
-    let imagen = $('#imagen');//sirve para que las imagenes no se junten o dupliquen
-    let idcom=$('#slt-cursos').val();
-    let _token = $('input[name=_token]').val(); //token de seguridad
-  
-    $.ajax({
-      type: "POST",
-      url:"/filtrar/comportamiento",
-      data:{
-        idcom:idcom,
-        _token:_token
-      } 
-    }).done(function(res){
-      let arreglo = JSON.parse(res);
-      compor.find('option').remove();
-      for(var x=0; x<arreglo.length; x++){
-        $('.nomcate').html(arreglo[x].descripcion);
-        $('.compor').html(arreglo[x].nomcat);
-        $('.punto').html('<span>' + arreglo[x].puntos  + '</span>');
-        $('.imagen').html('<img class="card-img-top" src="/imgpremios/' + arreglo[x].rutaimagen + '" >');
-        compor.append('<option value="' + arreglo[x].idcom + '">' +  arreglo[x].idcom + '</option>'); 
-      }
-    });
-  });
+  $(document).ready(function () {
+    $('#slt-cursos').on('change', function () { 
+        let compor = $("#stl-compor"); // Select para comportamientos
+        let imagen = $('.imagen'); // Contenedor para la imagen
+        let imagen2 = $('.imagen2'); // Contenedor para la imagen
+        let idcom = $(this).val(); // Valor seleccionado del curso
+        let _token = $('input[name=_token]').val(); // CSRF Token de Laravel
 
+        if (idcom === "") {
+            compor.empty().append('<option value="">Seleccione un comportamiento</option>');
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/filtrar/comportamiento",
+            data: {
+                idcom: idcom,
+                _token: _token
+            }
+        }).done(function (res) {
+            try {
+                let arreglo = JSON.parse(res);
+                compor.empty(); // Limpiar el select antes de agregar nuevas opciones
+                imagen.empty(); // Evitar duplicaciones de imágenes
+                imagen2.empty(); //limpiar la imagen de visualizar reconocimiento
+                if (arreglo.length > 0) {
+                    for (let x = 0; x < arreglo.length; x++) {
+                        $('.nomcate').text(arreglo[x].descripcion); // Nombre de la categoría
+                        $('.compor').text(arreglo[x].nomcat); // Nombre del comportamiento
+                        $('.punto').html('<span>' + arreglo[x].puntos + '</span>'); // Puntos
+                        imagen.html('<img class="medallas" src="/imgpremios/' + arreglo[x].rutaimagen + '" alt="medalla">');
+                        imagen2.html('<img class="medallas-muro" src="/imgpremios/' + arreglo[x].rutaimagen + '" alt="medalla">');
+                        compor.append('<option value="' + arreglo[x].idcom + '">' + arreglo[x].nomcat + '</option>'); 
+                    }
+                } else {
+                    compor.append('<option value="">No hay datos disponibles</option>');
+                }
+            } catch (e) {
+                console.error("Error al procesar JSON:", e);
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.error("Error en la petición AJAX:", textStatus, errorThrown);
+        });
+    });
+});
+
+/*script para replicar el texto ingresado en el textarea */
+document.getElementById("detexto").addEventListener("input", function() {
+  let texto = this.value;
+  let previewDiv = document.getElementById("preview");
+
+  // Actualizar el contenido del div
+  previewDiv.textContent = texto || "El texto ingresado aparecerá aquí...";
+});

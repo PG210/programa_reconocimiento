@@ -75,6 +75,116 @@ class ReconocimientosController extends Controller
     $detalle = $query->orderBy('catrecibida.fecha', 'DESC')->get();
     return $detalle;
   }
+  //funcion para obtener los reconocimientos recibidos agrupados en mes y categoria
+  private function reconocimientosRecibidosDate($idlog){
+    $anioActual = Carbon::now()->year;
+    $query = RecibirCat::where('catrecibida.id_user_recibe', '=', $idlog)
+            ->whereYear('catrecibida.fecha', $anioActual)
+            ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+            ->select(
+                DB::raw('MONTH(catrecibida.fecha) as mes'),
+                'catrecibida.id_categoria as idcat',
+                'comportamiento_categ.descripcion as descat',
+                DB::raw('COUNT(catrecibida.id_categoria) as total')
+            )
+            ->groupBy('mes', 'idcat', 'descat') // Agrupamos por mes y id_categoria
+            ->orderBy('mes') // ordenar por mes
+            ->get();
+    
+    return $query;
+   
+  }
+  //============== funcion para obtener la categoria mas votada ===========
+  private function moreCat($idlog, $monthStart = null, $monthEnd = null, $quarterStart = null, $quarterEnd = null){
+      //$anio = Carbon::now()->year;
+     
+      $query = DB::table('catrecibida')
+                            ->where('id_user_recibe', '=', $idlog)
+                            ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+                            ->select('id_categoria', 'comportamiento_categ.descripcion as nomcat', DB::raw('COUNT(id_categoria) as total'))
+                            //->whereYear('catrecibida.fecha', $anio)
+                            ->when(!empty($monthStart) && !empty($monthEnd), function ($query) use ($monthStart, $monthEnd) {
+                                  $query->whereBetween('catrecibida.created_at', [$monthStart, $monthEnd]);
+                            })
+                            ->groupBy('id_categoria')
+                            ->orderByDesc('total')
+                            ->first();
+      //buscar la persona que mas te reconocio
+      $userenvia = DB::table('catrecibida')
+                            ->where('id_user_recibe', '=', $idlog)
+                            ->join('users', 'catrecibida.id_user_envia', '=', 'users.id')
+                            ->select('id_user_envia', 'users.name as nombre', 'users.apellido', DB::raw('COUNT(id_user_envia) as total'))
+                            //->whereYear('catrecibida.fecha', $anio)
+                            ->when(!empty($monthStart) && !empty($monthEnd), function ($query) use ($monthStart, $monthEnd) {
+                                  $query->whereBetween('catrecibida.created_at', [$monthStart, $monthEnd]);
+                              })
+                            ->groupBy('id_user_Envia')
+                            ->orderByDesc('total')
+                            ->first();
+
+      //porcentaje de reconocimientos recibidos en el mes
+      if(!$monthStart){
+          //mese actual
+        $monthStart = Carbon::now()->startOfMonth();
+        $monthEnd = Carbon::now()->endOfMonth();
+  
+        //trimestre
+        $quarterStart = Carbon::now()->startOfQuarter(); // Inicio del trimestre
+        $quarterEnd = Carbon::now()->endOfQuarter(); // Fin del trimestre
+      }
+    
+      // Obtener el total de reconocimientos por usuario en el mes actual
+      $users = Usuarios::select('users.id')
+                ->selectRaw('COUNT(catrecibida.id) as totalrec')
+                ->leftJoin('catrecibida', function ($join) use ($monthStart, $monthEnd) {
+                    $join->on('users.id', '=', 'catrecibida.id_user_recibe')
+                        ->whereBetween('catrecibida.created_at', [$monthStart, $monthEnd]);
+                })
+                ->groupBy('users.id')
+                ->orderByDesc('totalrec')
+                ->get();
+      // Convertir en un array indexado para encontrar la posición del usuario
+      $rankUsers = $users->pluck('totalrec', 'id')->toArray();
+      $userPosition = array_search($idlog, array_keys($rankUsers));
+
+      // Calcular el percentil
+      //Solo el (L/N)*100% de los usuarios tienen un valor superior a valor del usuario. Esto indica que un usuario con un valor de x está en una posición relativamente alta en la distribución de los valores.
+      $totalUsers = count($rankUsers);
+      $userPercentil = round(100 - (($userPosition / $totalUsers) * 100), 1);
+      
+      //obtener el top de posicion
+      $usertop = Usuarios::select('users.id')
+                          ->selectRaw('COUNT(catrecibida.id) as totalrec')
+                          ->leftJoin('catrecibida', function ($join) use ($quarterStart, $quarterEnd) {
+                              $join->on('users.id', '=', 'catrecibida.id_user_recibe')
+                                  ->whereBetween('catrecibida.created_at', [$quarterStart, $quarterEnd]);
+                          })
+                          ->groupBy('users.id')
+                          ->orderByDesc('totalrec')
+                          ->get();
+      
+      
+      // Convertir en un array indexado para encontrar la posición del usuario
+      $ranktop = $usertop->pluck('totalrec', 'id')->toArray();
+      $rankedUserIds = array_keys($ranktop); // IDs ordenados
+
+      $userPositionTop = array_search($idlog, $rankedUserIds);
+      $totalUsersTop = count($rankedUserIds);
+
+      // Calcular el percentil
+      $userPercentile = round(100 - (($userPositionTop / $totalUsersTop) * 100), 2);
+      
+      $topX = 100 - floor($userPercentile); //top exacto donde se encuentra para el usuario
+      
+      $datos = [
+        'morecat' => $query,
+        'userenvia' => $userenvia,
+        'percentil' => $userPercentil,
+        'topx' => $topX
+      ];
+      
+      return $datos;
+  }
   //============= filtrar todos los comentarios ========
   private function comentariosEnc($idlog, $fecini = null)
   {
@@ -106,11 +216,14 @@ class ReconocimientosController extends Controller
   public function totreconocimientos($idlog,  $mesActual = null, $anioActual = null)
   {
     $recibidos = RecibirCat::where('catrecibida.id_user_recibe', '=', $idlog)
-      ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
-      ->selectRaw('catrecibida.id_user_recibe, users.name as nombre, users.apellido as ape, 
-                        SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5')
-      ->groupBy('id_user_recibe')
-      ->get();
+                //->when(!empty($mesActual),  function ($query) use ($mesActual, $anioActual) {
+                 //     $query->whereBetween('catrecibida.created_at', [$mesActual, $anioActual]);
+                 //   })
+                ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
+                ->selectRaw('catrecibida.id_user_recibe, users.name as nombre, users.apellido as ape, 
+                                  SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5')
+                ->groupBy('id_user_recibe')
+                ->get();
     //============== reconocimientos recibidos en el mes actual ==============
     $rmes = RecibirCat::where('catrecibida.id_user_recibe', '=', $idlog)
       ->whereMonth('catrecibida.created_at', $mesActual)
@@ -164,13 +277,13 @@ class ReconocimientosController extends Controller
       ->count();
     // =========== insignias a obtener ===================
     $insobtener = InsigniasModel::join('premios', 'id_premio', '=', 'premios.id')
-      ->select('insignia.id', 'insignia.name', 'insignia.descripcion', 'insignia.rutaimagen as imgin', 'insignia.puntos', 'premios.name as despre')
-      ->orderBy('insignia.id', 'ASC')->get();
-    return [
-      'rec' => $rec,
-      'inmes' => $inmes,
-      'insobtener' => $insobtener
-    ];
+        ->select('insignia.id', 'insignia.name', 'insignia.descripcion', 'insignia.rutaimagen as imgin', 'insignia.puntos', 'premios.name as despre')
+        ->orderBy('insignia.id', 'ASC')->get();
+      return [
+        'rec' => $rec,
+        'inmes' => $inmes,
+        'insobtener' => $insobtener
+      ];
   }
   //=========================================
   public function reporteinsig()
@@ -181,7 +294,8 @@ class ReconocimientosController extends Controller
     $anioActual = Carbon::now()->year;
     $fecha = Carbon::now()->format('Y-m-d');
     $idlog = auth()->id();
-    $nompuntos = PuntosModel::findOrFail(1);
+    $nompuntos = PuntosModel::findOrFail(1); //nombre de los puntos
+    //return $nompuntos;
     $fecini = '';
     $fecfin = '';
     //variables 
@@ -189,11 +303,13 @@ class ReconocimientosController extends Controller
     $recibidos = "sin datos";
     $categoria = "sin datos";
     $detalle = [];
-    $puntos = "sin datos";
     $comentarios = '';
     $usureac = '';
     $emoticones = '';
     $rmes = '';
+    $puntos = 0;
+    $rectime = '';
+    $morecat = '';
     // retornar las recompensas 
     $reconocimientosquery = $this->reporte_reconocimiento($idlog, $mesActual, $anioActual);
     $reconocimientos = $reconocimientosquery['rec'];
@@ -215,6 +331,13 @@ class ReconocimientosController extends Controller
       $emoticones = $resultado['emoticones'];
       //========= obtener todas las reacciones ================
       $usureac = $this->usuReacciones($idlog);
+      $puntos = RecibirCat::where('id_user_recibe', '=', $idlog)->selectRaw('SUM(puntos) as p')->first(); //puntos obtenidos
+      $rectime = $this->reconocimientosRecibidosDate($idlog); //reconocimientos recibidos en el tiempo
+      
+      
+      $morecat = $this->moreCat($idlog);
+      //return $morecat;
+
     } //llave cierre del div
     return view('user.reporteinsignias')->with([
       'recibidos' => $recibidos,
@@ -232,7 +355,10 @@ class ReconocimientosController extends Controller
       'rmes' => $rmes,
       'mes' => $mesActualNombre,
       'inmes' => $inmes,
-      'insobtener' => $insobtener
+      'insobtener' => $insobtener,
+      'puntos' => $puntos,
+      'rectime' => $rectime,
+      'morecat' => $morecat
     ]);
   }
 
@@ -259,7 +385,7 @@ class ReconocimientosController extends Controller
     if ($dval != 0) {
       $esta = 1;
       $categoria = Comportamiento::all();
-      $recibidosquery =  $this->totreconocimientos($idlog, $mesActual, $anioActual);
+      $recibidosquery =  $this->totreconocimientos($idlog, $fecini, $fecfin);
       $recibidos = $recibidosquery['recibidos'];
       $rmes = $recibidosquery['rmes'];
       //====================
@@ -269,6 +395,12 @@ class ReconocimientosController extends Controller
       $emoticones = $resultado['emoticones'];
       $usureac = $this->usuReacciones($idlog);
 
+      $puntos = RecibirCat::where('id_user_recibe', '=', $idlog)->selectRaw('SUM(puntos) as p')->first(); //puntos obtenidos
+      $rectime = $this->reconocimientosRecibidosDate($idlog); //reconocimientos recibidos en el tiempo
+     
+      $morecat = $this->moreCat($idlog, $fecini,
+                                $fecfin, $fecini, $fecfin);
+      //return $recibidos;
       return view('user.reporteinsignias')->with([
         'recibidos' => $recibidos,
         'categoria' => $categoria,
@@ -285,7 +417,11 @@ class ReconocimientosController extends Controller
         'rmes' => $rmes,
         'mes' => $mesActualNombre,
         'inmes' => $inmes,
-        'insobtener' => $insobtener
+        'insobtener' => $insobtener,
+        'puntos' => $puntos,
+        'rectime' => $rectime,
+        'morecat' => $morecat
+
       ]);
     }
     return back();
@@ -293,9 +429,13 @@ class ReconocimientosController extends Controller
 
   public function listarrec()
   {
+    setlocale(LC_TIME, 'es_ES');
+
     $valcateg = Comportamiento::count();
     $nompuntos = PuntosModel::findOrFail(1); // nombre para los puntos
     $uselogeado = auth()->id();
+    $fechaActual = Carbon::now()->translatedFormat('d F, Y');
+
     if ($valcateg > 0) { // Validar que haya al menos 5 categorías registradas  
 
       $categoria = Comportamiento::all(); // categorias
@@ -307,7 +447,8 @@ class ReconocimientosController extends Controller
       return view('reconocimientos.listrec')
         ->with('usu', $usuarios)
         ->with('categoria', $categoria)
-        ->with('nompuntos', $nompuntos);
+        ->with('nompuntos', $nompuntos)
+        ->with('fecha', $fechaActual);
     } else {
       // Si no hay más de 5 registros, retorna un mensaje para registrar categorías
       Session::flash('messajeinfo', '¡Por favor registre al menos cinco categorías!');

@@ -64,13 +64,12 @@
             <hr>
             <h2 class="fw-bold mt-4"></h2>
             <div class="form-inline">
-                <a class="btn btn-secondary btn-block" href="{{url('/')}}"><i class="bi bi-house-fill iconfont"></i><b>Ir al Inicio</b></a>
                   <!--login-->
                   @if (Route::has('login'))
                   @auth
                     <a class="btn btn-secondary btningresar btn-block"  href="{{ url('/dashboard') }}"><b>Volver</b></a>
                   @else
-                  <a class="btn btn-secondary btningresar btn-block" href="{{url('/reg') }}"><i class="bi bi-arrow-right-square-fill iconfont" style="color:white;"></i> Ingresar</a>
+                  <a class="btn btn-secondary btningresar btn-block" href="{{url('/reg') }}" @if (Request::is('reg')) style="display:none;"  @endif><i class="bi bi-arrow-right-square-fill iconfont" style="color:white;"></i> Ingresar</a>
                   @endauth
                 @endif
               </div>

@@ -58,67 +58,88 @@
 
     // Get context with jQuery - using jQuery's .get() method.
     const ctxTimeline = document.getElementById('timelineChart').getContext('2d');
-        new Chart(ctxTimeline, {
-            type: 'line',
-            data: {
-                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
-                datasets: [
-                    {
-                        label               : 'Participar',
-                        backgroundColor     : 'rgba(60,141,188,0.9)',
-                        borderColor         : 'rgba(60,141,188,0.8)',
-                        pointRadius          : 5,
-                        pointColor          : '#3b8bba',
-                        pointStrokeColor    : 'rgba(60,141,188,1)',
-                        pointHighlightFill  : '#fff',
-                        pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data                : [3, 5, 0, 0, 0, 0, 0]
-                        
-                    },
-                    {
-                        label               : 'Aprender',
-                        backgroundColor     : 'rgba(210, 214, 222, 1)',
-                        borderColor         : 'rgba(210, 214, 222, 1)',
-                        pointRadius         : 5,
-                        pointColor          : 'rgba(210, 214, 222, 1)',
-                        pointStrokeColor    : '#c1c7d1',
-                        pointHighlightFill  : '#fff',
-                        pointHighlightStroke: 'rgba(220,220,220,1)',
-                        data                : [0, 1, 0, 0, 0, 0, 0]
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        grid: { display: false }
-                    },
-                    y: {
-                        beginAtZero: true
-                    }
+    let rectime = window.rectime;
+    console.log('datos info', rectime);
+
+    // Modificar los campos data
+    let meses = Array.from({ length: 12 }, (v, k) => k + 1); // Meses del 1 al 12
+    let valData = [Array(12).fill(0), Array(12).fill(0), Array(12).fill(0), Array(12).fill(0), Array(12).fill(0)];
+    let descriptions = [null, null, null, null, null];
+
+    rectime.forEach(item => {
+        if (item.idcat >= 1 && item.idcat <= 5) {
+            valData[item.idcat - 1][item.mes - 1] += item.total;
+            descriptions[item.idcat - 1] = item.descat;
+        }
+    });
+
+    // Definir los colores
+    const colors = [
+        { background: 'rgba(60,141,188,0.9)', border: 'rgba(60,141,188,0.8)', point: '#3b8bba' },
+        { background: 'rgba(210,214,222,1)', border: 'rgba(210,214,222,1)', point: 'rgba(210,214,222,1)' },
+        { background: 'rgb(10,231,128)', border: 'rgb(10,231,128)', point: 'rgb(10,231,128)' },
+        { background: 'rgb(255,239,11)', border: 'rgb(255,239,11)', point: 'rgb(255,239,11)' },
+        { background: 'rgb(255,11,214)', border: 'rgb(255,11,214)', point: 'rgb(255,11,214)' }
+    ];
+
+    // Filtrar datasets que tengan valores distintos de 0
+    let datasets = descriptions
+        .map((desc, index) => {
+            if (desc && valData[index].some(value => value !== 0)) {
+                return {
+                    label: desc,
+                    backgroundColor: colors[index].background,
+                    borderColor: colors[index].border,
+                    pointRadius: 5,
+                    pointColor: colors[index].point,
+                    pointStrokeColor: '#c1c7d1',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: colors[index].border,
+                    data: valData[index]
+                };
+            }
+            return null;
+        })
+        .filter(dataset => dataset !== null);
+
+    new Chart(ctxTimeline, {
+        type: 'line',
+        data: {
+            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    grid: { display: false }
+                },
+                y: {
+                    beginAtZero: true
                 }
             }
-        });
+        }
+    });
+
     //-------------
     //- DONUT CHART -
     //-------------
     // Get context with jQuery - using jQuery's .get() method.
     var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+    let datos = window.datos;
+
     var donutData        = {
-      labels: [
-          'Participar',
-          'Aprender',
-      ],
+      labels: datos.map(item => item.descrip), 
+
       datasets: [
         {
-          data: [8,1],
-          backgroundColor : ['#439a86', '#ebb93b'],
+          data: datos.map(item => item.valor), 
+          backgroundColor : ['#439a86', '#ebb93b', '#DB636B', '#5959C8', '#79D0F0'],
         }
       ]
     }
-    var donutOptions     = {
+    var donutOptions   = {
       maintainAspectRatio : false,
       responsive : true,
     }

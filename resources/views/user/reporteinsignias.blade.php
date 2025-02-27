@@ -60,8 +60,6 @@
 			<!-- /.col -->
 		</div>
 		<!-- /.row -->
-
-    
 	</div>
 	<!-- /.container-fluid -->
 </div>
@@ -73,10 +71,15 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <p class="m-0">Tu categoría más <br>reconocida es:</p>
-                <h5>Empatía y vocación de servicio. </h5>
-                <p class="m-0">¡Sigue brillando!</p>  
-                
+                @if(isset($morecat['morecat']->nomcat))
+                  <p class="m-0">Tu categoría más <br>reconocida es:</p>
+                  <h5> {{ $morecat['morecat']->nomcat }}</h5>
+                  <p class="m-0">¡Sigue brillando!</p>  
+                @else
+                  <p class="m-0">Aún no tienes una categoría destacada.</p>
+                  <br>
+                  <p class="m-0">¡Pronto lo lograrás! </p>  
+                @endif
               </div>
               <div class="icon">
                 <i class="fas fas fa-trophy"></i>
@@ -89,8 +92,21 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>85% </h3>
-                <p class="m-0">Este mes, recibiste más reconocimientos que el 85% de tus compañeros.</p>
+                @if(isset($morecat['percentil']))
+                 @if($morecat['percentil'] > 50) 
+                    <h3> {{ $morecat['percentil'] }} % </h3>
+                    <p class="m-0">Este 
+                    @if($fecini && $fecfin)
+                      periodo
+                    @else
+                      mes,
+                    @endif
+                      recibiste más reconocimientos que el {{ $morecat['percentil'] }}% de tus compañeros.</p>
+                 @else
+                    <h3> 0% </h3>
+                    <p class="m-0">Aún no has recibido reconocimientos este mes. ¡Anímate!</p>
+                 @endif
+                @endif
               </div>
               <div class="icon">
                 <i class="ion ion-stats-bars"></i>
@@ -103,9 +119,15 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                 <p class="m-0">Tu mayor reconocimiento proviene de</p>
-                <h5>Manuel Apellido</h5>
+              @if(isset($morecat['userenvia']->nombre)) 
+                <p class="m-0">Tu mayor reconocimiento proviene de</p>
+                <h5>{{ $morecat['userenvia']->nombre }} {{ $morecat['userenvia']->apellido }} </h5>
                 <p class="m-0">¡valora esa conexión!</p>  
+              @else
+                <p class="m-0">Aún no tienes un reconocimiento destacado</p>
+                <br>
+                <p class="m-0">¡Sigue esforzándote, tu trabajo será valorado!</p>  
+              @endif
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
@@ -118,8 +140,22 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>20%</h3>
-                <p class="m-0">Te encuentras en el Top 20% de colaboradores más reconocidos este trimestre.</p>  
+              @if(isset($morecat['topx']))
+                @if($morecat['topx'] > 50)
+                  <h3>0 %</h3>
+                  <p class="m-0">Aún no estás en el Top de colaboradores más reconocidos este trimestre.</p>  
+                @else
+                  <h3>{{ $morecat['topx'] }}%</h3>
+                  <p class="m-0">Te encuentras en el Top {{ $morecat['topx'] }}% de colaboradores más reconocidos 
+                    este
+                    @if($fecini && $fecfin)
+                      periodo
+                    @else
+                      trimestre.
+                    @endif
+                   </p>  
+                @endif
+              @endif
               </div>
               <div class="icon">
                 <i class="ion ion-pie-graph"></i>
@@ -202,21 +238,33 @@
 
                           <!-- Dropdown menu links -->
                           <!--############################################--->
-                            @if($esta != 0)
-                              <ul class="m-0">
+                          @if($esta != 0)
+                            @php
+                                $datosgraf = [];
+                            @endphp
+                            <ul class="m-0">
                                 @foreach($recibidos as $c)
-                                @foreach($categoria as $index => $cat)
-                                  @php
-                                    $attr = 'c' . ($index + 1);
-                                @endphp
-                                  @if(isset($c->$attr))
-                                  <li class="" style="display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #cdcdcd;">{{$cat->descripcion}}: <span class="info-box-number">{{$c->$attr}}</span></li>
-                                  @endif
+                                    @foreach($categoria as $index => $cat)
+                                        @php
+                                            $attr = 'c' . ($index + 1);
+                                        @endphp
+                                        @if(isset($c->$attr))
+                                            @php
+                                                $datosgraf[] = [
+                                                        'descrip' => $cat->descripcion,
+                                                        'valor' => $c->$attr
+                                                    ];
+                                            @endphp
+                                            <li class="" style="display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #cdcdcd;">
+                                                {{$cat->descripcion}}: <span class="info-box-number">{{$c->$attr}}</span>
+                                            </li>
+                                        @endif
+                                    @endforeach
                                 @endforeach
-                                @endforeach
-                              </ul>
-                            @endif
-                            <!---##############################################-->
+                            </ul>
+                    
+                        @endif
+                          <!---##############################################-->
                         </div>
                         <!-- /.info-box-content -->
                       </div>
@@ -235,8 +283,8 @@
                       <div class="info-box">
                         <span class="info-box-icon bg-warning"><i class="fas fa-coins"></i></span>
                         <div class="info-box-content">
-                          <span class="info-box-text">Evos</span>
-                          <span class="info-box-number">1,410</span>
+                          <span class="info-box-text"> @if(isset($nompuntos->descripcion)) {{ $nompuntos->descripcion }} @endif</span>
+                          <span class="info-box-number">@if(isset($puntos->p)) {{ $puntos->p }} @endif</span>
                         </div>
                         <!-- /.info-box-content -->
                       </div>
@@ -279,25 +327,36 @@
                                 <div class="chart tab-pane  active" id="dona-chart">
                                   <div class="row" style="align-items: center;">
                                     <div class="col-md-4">   
-                                      <canvas id="donutChart" style="min-height: 200px; height: 200px; max-height: 200px; max-width: 100%;"></canvas>
+                                     <canvas id="donutChart" style="min-height: 200px; height: 200px; max-height: 200px; max-width: 100%;"></canvas>
                                     </div>
                                     <div class="col-md-8">  
                                       <!-- Tu Destacado y Tu Próximo Reto -->
+                                      @php
+                                          $datosrev = collect($datosgraf);
+                                          //valor máximo y mínimo con description
+                                          if ($datosrev->isNotEmpty()) {
+                                              $max = $datosrev->sortByDesc('valor')->first(); // valor max
+                                              $min = $datosrev->sortBy('valor')->first(); // valor min
+                                          }
+                                      @endphp
                                       <div class="row">
+                                        @if($datosrev->isNotEmpty())
                                           <div class="col-md-12">
                                               <div class="callout callout-success">
                                                 <strong>Tu Categoría Más Reconocida:</strong>
-                                                <p class="mb-2">Participar con <strong>8 </strong>reconocimientos</p>
+                                                <p class="mb-2">{{ $max['descrip'] }} con <strong>{{ $max['valor'] }}</strong> reconocimientos</p>
                                                 <p>🔥 ¡Eres un referente en colaboración! Tu equipo valora tu compromiso.</p>
                                               </div>
                                           </div>
                                           <div class="col-md-12">
                                               <div class="callout callout-warning">
                                                 <strong>Tu oportunidad de Brillar Más:</strong>
-                                                <p class="mb-2">Aprender con <strong>1 </strong>reconocimientos</p>
+                                                <p class="mb-2"> {{ $min['descrip'] }} con <strong>{{ $min['valor'] }}</strong> reconocimientos</p>
                                                 <p>🚀 Tu equipo reconoce tu colaboración, ¿por qué no sumarle más momentos de aprendizaje?</p>
                                               </div>
                                           </div>
+                                        @endif
+
                                       </div> 
                                     </div>
                                   </div>  
@@ -358,7 +417,7 @@
                                       <span>🌟 Comportamiento:{{ $descripcion }} </span></br> 
                                   @endif
                               </span>
-                              📅 {{ \Carbon\Carbon::parse($det->fecha)->locale('es')->translatedFormat('j \\d\\e F \\d\\e Y, g:i a') }} </br> 
+                              📅 {{ \Carbon\Carbon::parse($det->fecha)->format('j/m/Y') }} </br> 
                               <i class="fas fa-star text-warning"></i><span> {{$nompuntos->descripcion}}: </span><span class="punto">{{$det->puntos}} </span>
                               <a type="button" class="btn btn-warning w-100">
                                     Reconoce a {{$det->nomenvia}} 
@@ -550,13 +609,14 @@
 
                     <div class="col-md-9">
                       
-
+                   
                       <div class="row">
                         <div class="col-md-12">
-                        
+                      
                         </div>
                       </div> 
-
+                     
+                     {{--
                       <div class="row card-group"> 
                       @foreach($reconocimientos as $r)
                       <div class="col-4 mb-4">
@@ -604,70 +664,72 @@
                       </div>
                     @endforeach
 
-                      </div>
+                      </div>--}}
 
-                      <div class="row modal-footer justify-content-between px-0">
+                      <!--------------------------end header--->
+                      <div class="container p-3">
+                        <div class="row row-cols-1 row-cols-md-3 letratarjeta3">
+                        @foreach($reconocimientos as $r)
+                          <div class="col mb-4">
+                            <div class="card h-100">
+                            <!---header card -->
+                            <div class="container" style="background-color:#131535; border-top-left-radius: 5px; order-top-right-radius: 5px; padding:1rem;">
+                                <div class="row">
+                                  <div class="col-lg-8">
+                                    <span class="badge badge-info" style="white-space:normal;"><i class="nav-icon fas fa-award"></i>&nbsp;{{$r->catinsign}}</span><br>
+                                    <span class="badge badge-warning text-left" style="color:black;"> 
+                                    {{$r->nominsig}}
+                                    </span>
+                                  </div>
+                                  <div class="col-lg-4 text-right">
+                                    <img data-src="{{asset('imgpremios/'.$r->imginsig)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">
+                                  </div>
+                                </div>
+                              </div>
+                            <!--end header-->
+                              <div class="card-body">
+                              <!---card contenido -->
+                                <div class="row">
+                                    <div class="col-lg-5">
+                                      <img data-src="{{asset('imgpremios/'.$r->imgpremio)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;"> 
+                                      <span class="badge badge-warning text-left" style="color:black;"> 
+                                        Puntos: {{$r->puntosin}}</span>
+                                    </div>
+                                    <div class="col-lg-7">
+                                      <h6>{{$r->nompremio}}</h6>
+                                      @if($r->entregado == 1)
+                                        <span class="badge badge-secondary"> Sin entregar</span>
+                                      @else
+                                        <span class="badge badge-success">Entregado</span>
+                                      @endif
+                                    </div>
+                                </div>
+                              <!--- end card contenido-->
+                              </div>
+                              <!---footer -->
+                              <div class="card-footer">
+                                  <small class="text-muted"> {{ \Carbon\Carbon::parse($r->fecha)->locale('es')->translatedFormat('j \\d\\e F \\d\\e Y, g:i a') }}</small>
+                              </div>
+                              <!---end footer-->
+                            </div>
+                          </div>
+                        @endforeach
+                        <!--------->
+                        </div>
+                      </div>
+                      <!--------------------------------------------end reconocimientos--------------------------->
+
+                      {{--<div class="row modal-footer justify-content-between px-0">
                         <button id="prev" class="btn btn-default" disabled>Atras</button>
                         <button id="next" class="btn btn-primary">Siguiente</button>
-                      </div>
+                      </div>--}}
 
                     </div>
                   </div>
                 </div>  
                   <!--------------------------------------------end reconocimientos--------------------------->
                    
-                  <!--------------------------end header--->
-                  <div class="container p-3">
-                    <div class="row row-cols-1 row-cols-md-3 letratarjeta3">
-                    @foreach($reconocimientos as $r)
-                      <div class="col mb-4">
-                        <div class="card h-100">
-                        <!---header card -->
-                        <div class="container" style="background-color:#131535; border-top-left-radius: 5px; order-top-right-radius: 5px; padding:1rem;">
-                            <div class="row">
-                              <div class="col-lg-8">
-                                <span class="badge badge-info" style="white-space:normal;"><i class="nav-icon fas fa-award"></i>&nbsp;{{$r->catinsign}}</span><br>
-                                <span class="badge badge-warning text-left" style="color:black;"> 
-                                {{$r->nominsig}}
-                                </span>
-                              </div>
-                              <div class="col-lg-4 text-right">
-                                <img data-src="{{asset('imgpremios/'.$r->imginsig)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">
-                              </div>
-                            </div>
-                          </div>
-                        <!--end header-->
-                          <div class="card-body">
-                          <!---card contenido -->
-                            <div class="row">
-                                <div class="col-lg-5">
-                                  <img data-src="{{asset('imgpremios/'.$r->imgpremio)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;"> 
-                                  <span class="badge badge-warning text-left" style="color:black;"> 
-                                    Puntos: {{$r->puntosin}}</span>
-                                </div>
-                                <div class="col-lg-7">
-                                  <h6>{{$r->nompremio}}</h6>
-                                  @if($r->entregado == 1)
-                                    <span class="badge badge-secondary"> Sin entregar</span>
-                                  @else
-                                    <span class="badge badge-success">Entregado</span>
-                                  @endif
-                                </div>
-                            </div>
-                          <!--- end card contenido-->
-                          </div>
-                          <!---footer -->
-                          <div class="card-footer">
-                              <small class="text-muted"> {{ \Carbon\Carbon::parse($r->fecha)->locale('es')->translatedFormat('j \\d\\e F \\d\\e Y, g:i a') }}</small>
-                          </div>
-                          <!---end footer-->
-                        </div>
-                      </div>
-                    @endforeach
-                    <!--------->
-                    </div>
-                  </div>
-                  <!--------------------------------------------end reconocimientos--------------------------->
+                
                 </div>
               </div>
               <!------------------------------------------end navegacion-------------------------------->
@@ -693,16 +755,23 @@
   @endif
 <!---#######################---> 
 <!--- modificaciones -->
+{{-- 
 <div class="card">
-    
-    
-  </div>
+       
+  </div>--}}
 <!------##############script para que funcione el html en toottips#############-->
 
 <script> 
+    let datos = @JSON($datosgraf);
+    window.datos=datos;
+    //reconocimientos en el tiempo
+    let rectime = @JSON($rectime);
+    window.rectime = rectime;
+    
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
     });
+
   </script>
 <script src="{{ asset('js/cards.js')}}"></script>
 <script>

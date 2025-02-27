@@ -290,9 +290,10 @@ class Inicio extends Controller
     // dashboard principal
     public function dash()
     {
-        $userId = Auth::user()->id_rol; //usuario logeado
+        $userol = Auth::user()->id_rol; //usuario logeado
+        $userlog = Auth::user()->id; //usuario logeado
         $valor = 0;
-        if ($userId != 1) {
+        if ($userol != 1) {
             $detalle = $this->detallecate();
             $emoticones = $this->emoticonesTot();
             $emoticonuser = $this->emoticonUser();
@@ -309,11 +310,11 @@ class Inicio extends Controller
             $infoComentarios = $this->infoComentarios(); //informacion de comentarios
             $fechasProxi = $this->fechasProxi(); //fechas proximas
             $estado =  EstadoEventosModel::first(); //estado de eventos cumpleanios
-            $totreconocimiento = RecibirCat::where('id_user_recibe', '=', $userId)->count(); //total de reconocimientos obtenidos
-            $totrecom = ReconocimientosModal::where('id_usuario', '=', $userId)->count(); // insignias obtenidas
-            $valorpun = RecibirCat::where('id_user_recibe', '=', $userId)->selectRaw('SUM(puntos) as p')->get(); //puntos obtenidos
-            $totenviados = RecibirCat::where('id_user_envia', '=', $userId)->count(); // total de reconocmientos enviados
-            //return data for view
+            $totreconocimiento = RecibirCat::where('id_user_recibe', '=', $userlog)->count(); //total de reconocimientos obtenidos
+            $totrecom = ReconocimientosModal::where('id_usuario', '=', $userlog)->count(); // insignias obtenidas
+            $valorpun = RecibirCat::where('id_user_recibe', '=', $userlog)->selectRaw('SUM(puntos) as p')->get(); //puntos obtenidos
+            $totenviados = RecibirCat::where('id_user_envia', '=', $userlog)->count(); // total de reconocmientos enviados
+           
             return view('usuario.inicio', [
                 'detalle' => $detalle,
                 'emoticonCounts' => $emoticones,
