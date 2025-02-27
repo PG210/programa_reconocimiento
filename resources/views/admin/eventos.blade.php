@@ -14,6 +14,35 @@
     border: 2px solid #04AA6D;
   }
 </style>
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+ <div class="container"> 
+  <div class="row mb-2">
+   <div class="col-sm-8"> 
+    <h1 class="m-0">Celebraciones especiales</h1>
+   </div>
+   <!-- /.col -->
+   <div class="col-sm-4">
+    <ol class="breadcrumb float-sm-right">
+     <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+     <li class="breadcrumb-item active">Celebraciones especiales</li>
+    </ol>
+   </div>
+   <!-- /.col -->
+  </div>
+  <!-- /.row -->
+ </div>
+ <!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+
+<div class="container">
+<div class="row mb-2">
+  <div class="col-12">
+  <div class="card card-primary card-outline">
+  <div class="card-body box-profile">
 <div class="row placa mb-3">
   <div class="col-lg-2 col-md-2 col-sm-2 col-2">
   </div>
@@ -27,6 +56,10 @@
     <form action="{{route('activeCumple')}}" method="POST" onsubmit="return confirm('¿Estás seguro que desea cambiar el estado de la vista?');">
         @csrf
         <input type="hidden" name="estado" id="estado" value="@if($estado->estado == 1) 0 @else 1 @endif">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+          <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
+        </div>
         <button class="buttones buttonAct" type="submit" class="mt-2" data-toggle="tooltip" data-placement="top" title="Activar o desactivar la visualización de cumpleaños y quinquenios en la vista de usuario.">
           @if($estado->estado == 1) 
            <span> <i class="fas fa-toggle-on" style="font-size: 1.5em; color:green;"></i> Activado </span>
@@ -218,6 +251,11 @@
       <!--- end iteracion --->
    </div>
 
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <script> 
     $(function () {

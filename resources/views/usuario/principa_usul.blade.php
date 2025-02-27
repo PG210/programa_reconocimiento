@@ -106,10 +106,10 @@
       <div
         class="sidebar os-host os-theme-light os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition os-host-overflow os-host-overflow-y">
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 d-flex">
+        <div class="user-panel mt-2 pb-2 d-flex">
           <div class="image">
             @if(Auth::user()->imagen)
-              <img src="{{asset('dist/imgperfil/' . Auth::user()->imagen)}}" class="img-circle elevation-2" alt="User Image"
+              <img src="{{asset('dist/imgperfil/' . Auth::user()->imagen)}}" class="img-circle" style="width: 3rem; height: 3rem;" alt="User Image"
                 alt="Cargando imagen ....">
             @endif
           </div>

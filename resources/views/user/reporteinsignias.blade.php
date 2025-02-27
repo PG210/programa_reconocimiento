@@ -224,8 +224,8 @@
                       <div class="info-box">
                         <span class="info-box-icon bg-danger"><i class="fas fa-medal"></i></span>
                         <div class="info-box-content">
-                          <span class="info-box-text">Total reconocimientos</span>
-                          <span class="info-box-number">@if(is_countable($detalle) && count($detalle) > 0) {{count($detalle)}} @else 0 @endif </span>
+                          <span class="info-box-text">Tienes un total de </span>
+                          <span class="info-box-number">@if(is_countable($detalle) && count($detalle) > 0) {{count($detalle)}} @else 0 @endif reconocimientos</span>
                         </div>
                         <!-- /.info-box-content -->
                       </div>
@@ -543,17 +543,16 @@
                               <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                   <div class="modal-header">
+                                    <h4 class="modal-title" style="color: #333333"> Insignias y Recompensas</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
+                                      <span aria-hidden="true">×</span>
                                     </button>
                                   </div>
-                                  <div class="modal-body text-left text-md">
-                                    <!---info ---->
-                                    <h6 class="mb-3">
-                                    Listado de insignias que puedes obtener: Cuantos más puntos acumules, más insignias podrás ganar. Cada insignia está vinculada a una recompensa especial.
-                                    </h6>
+                                  <div class="modal-body">
+                                    <p>Cuantos más puntos acumules, más insignias podrás ganar. Cada insignia representa tu esfuerzo y está vinculada a una recompensa especial. 🚀</p>
+                                  
                                     <div class="table-responsive">
-                                    <table class="table">
+                                    <table class="table table-hover table-estadisticas">
                                       <thead class="tablaheader">
                                         <tr>
                                           <th scope="col"></th>
@@ -566,7 +565,7 @@
                                       <tbody>
                                         @foreach($insobtener as $ins)
                                         <tr>
-                                          <td><img data-src="{{asset('imgpremios/'.$ins->imgin)}}" class="img-responsive lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;"></td>
+                                          <td><img data-src="{{asset('imgpremios/'.$ins->imgin)}}" class="profile-user-img img-circle loaded lazy-load" alt="User Image"></td>
                                           <td>{{$ins->name}}</td>
                                           <td>{{$ins->descripcion}}</td>
                                           <td>{{$ins->puntos}}</td>
@@ -576,20 +575,21 @@
                                       </tbody>
                                     </table>
                                   </div>
-                                  <!-------------->
-                                  </div>
-                                  <div class="modal-footer">
-                                    <button type="button" class="btn btn-warning" data-dismiss="modal">Salir</button>
+                                  <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
                                   </div>
                                 </div>
+                                <!-- /.modal-content -->
+                              </div>
+                              
                               </div>
                             </div>
                         <!---end modal -->
                         <div class="info-box">
                         <span class="info-box-icon bg-danger"><i class="fas fa-medal"></i></span>
                         <div class="info-box-content">
-                          <span class="info-box-text">Total recompensas</span>
-                          <span class="info-box-number">{{count($reconocimientos)}} </span>
+                          <span class="info-box-text">Has desbloqueado </span>
+                          <span class="info-box-number">{{count($reconocimientos)}}  insignias </span>
                         </div>
                         <!-- /.info-box-content -->
                       </div>
@@ -600,6 +600,27 @@
                         <div class="info-box-content">
                           <span class="info-box-text">Recompensas de {{ \Carbon\Carbon::parse($mes)->locale('es')->translatedFormat('F') }}</span>
                           <span class="info-box-number">{{$inmes}}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                      </div>
+                      <!-- /.info-box -->
+
+                      <div class="info-box">
+                        <span class="info-box-icon bg-success"><i class="fas fa-star"></i></span>
+                        <div class="info-box-content">
+                          <span class="info-box-text"> Has acumulado </span>
+                          <span class="info-box-number">1200 puntos</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                      </div>
+                      <!-- /.info-box -->
+
+                     <div class="info-box">
+                        <span class="info-box-icon bg-warning"><i class="fas fa-coins"></i></span>
+                        <div class="info-box-content">
+                          <span class="info-box-text">¡Estás a solo</span>
+                          <span class="info-box-number">300</span>
+                          <span class="info-box-text">puntos de tu próxima recompensa especial!</span>
                         </div>
                         <!-- /.info-box-content -->
                       </div>
@@ -616,56 +637,7 @@
                         </div>
                       </div> 
                      
-                     {{--
-                      <div class="row card-group"> 
-                      @foreach($reconocimientos as $r)
-                      <div class="col-4 mb-4">
-                        <div class="card h-100">
-                        <!---header card -->
-                        <div class="container" style="background-color:#131535; border-top-left-radius: 5px; order-top-right-radius: 5px; padding:1rem;">
-                            <div class="row">
-                              <div class="col-lg-8">
-                                <span class="badge badge-info" style="white-space:normal;"><i class="nav-icon fas fa-award"></i>&nbsp;{{$r->catinsign}}</span><br>
-                                <span class="badge badge-warning text-left" style="color:black;"> 
-                                {{$r->nominsig}}
-                                </span>
-                              </div>
-                              <div class="col-lg-4 text-right">
-                                <img data-src="{{asset('imgpremios/'.$r->imginsig)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">
-                              </div>
-                            </div>
-                          </div>
-                        <!--end header-->
-                          <div class="card-body">
-                          <!---card contenido -->
-                            <div class="row">
-                                <div class="col-lg-5">
-                                  <img data-src="{{asset('imgpremios/'.$r->imgpremio)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;"> 
-                                  <span class="badge badge-warning text-left" style="color:black;"> 
-                                    Puntos: {{$r->puntosin}}</span>
-                                </div>
-                                <div class="col-lg-7">
-                                  <h6>{{$r->nompremio}}</h6>
-                                  @if($r->entregado == 1)
-                                    <span class="badge badge-secondary"> Sin entregar</span>
-                                  @else
-                                    <span class="badge badge-success">Entregado</span>
-                                  @endif
-                                </div>
-                            </div>
-                          <!--- end card contenido-->
-                          </div>
-                          <!---footer -->
-                          <div class="card-footer">
-                              <small class="text-muted"> {{ \Carbon\Carbon::parse($r->fecha)->locale('es')->translatedFormat('j \\d\\e F \\d\\e Y, g:i a') }}</small>
-                          </div>
-                          <!---end footer-->
-                        </div>
-                      </div>
-                    @endforeach
-
-                      </div>--}}
-
+                  
                       <!--------------------------end header--->
                       <div class="container p-3">
                         <div class="row row-cols-1 row-cols-md-3 letratarjeta3">
@@ -718,11 +690,6 @@
                         </div>
                       </div>
                       <!--------------------------------------------end reconocimientos--------------------------->
-
-                      {{--<div class="row modal-footer justify-content-between px-0">
-                        <button id="prev" class="btn btn-default" disabled>Atras</button>
-                        <button id="next" class="btn btn-primary">Siguiente</button>
-                      </div>--}}
 
                     </div>
                   </div>

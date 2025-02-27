@@ -8,10 +8,29 @@
     border-radius: 5px; /* Bordes redondeados (opcional) */
 }
 </style>
-  <!-- Button trigger modal -->
-<div class="text-center titulo placa">
- <h3>COMUNICACIÓN </h3>
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+ <div class="container"> 
+  <div class="row mb-2">
+   <div class="col-sm-8"> 
+    <h1 class="m-0">Comunicación</h1>
+   </div>
+   <!-- /.col -->
+   <div class="col-sm-4">
+    <ol class="breadcrumb float-sm-right">
+     <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+     <li class="breadcrumb-item active">Comunicación</li>
+    </ol>
+   </div>
+   <!-- /.col -->
+  </div>
+  <!-- /.row -->
+ </div>
+ <!-- /.container-fluid -->
 </div>
+<!-- /.content-header -->
+ 
 <!-- Mostrar mensajes de éxito -->
 @if(session('success'))
 <div class="alert alert-warning alert-dismissible fade show mt-3 letraform" role="alert">
@@ -21,19 +40,25 @@
   </button>
 </div>
 @endif
- <div class="container p-4 letraform text-md" style="background-color:#f4f4f5;">
+
+<div class="container">
+<div class="row mb-2">
+  <div class="col-12">
+  <div class="card card-primary card-outline">
+  <div class="card-body box-profile">
   <div class="row">
-    <div class="col-lg-6 rounded-bottom rounded-top" style="border: 1px solid gray; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);">
+    <div class="col-lg-6">
+      <p>1. Sube las imagenes para el banner en la pantalla de bienvenida:</p>
     <!---form -->
     @if(empty($imagen1))
     <form action="{{route('comunicacion.store')}}" class="needs-validation" method="POST"  enctype="multipart/form-data" novalidate>
     @csrf
-    <div class="form-row">
-        <div class="col-md-4 mb-3">
-            <label for="validationCustom01">Imagen 1 (Default)</label>
+    <div class=" card card-body"><div class="form-row">
+        <div class="col-md-12 mb-3">
+            <label for="validationCustom01">Imagen 1 (Imagen por defecto)</label>
             <input type="file" class="form-control" id="validationCustom01" name="imgone" accept="image/*" required>
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-11 mb-3">
           <label for="validationCustom02">Descripción: </label>
           <!---radiobutons -->
           <div class="custom-control custom-radio custom-control-inline">
@@ -48,19 +73,29 @@
           <textarea type="text" class="form-control" id="validationCustom02" name="desone"  required></textarea>
           <input type="number" name="posicion" value="1" hidden>
         </div>
-        <div class="col-md-2 mt-5">
+        <div class="col-md-1 mt-5">
             <button type="submit" class="btn btn-info btn-sm" ><i class="fas fa-upload"></i></button>
         </div>
-    </div>
+        <hr>
+    </div></div>
   </form>
   @else
   <!--- aqui imprimir la imagen 01 -->
-  <div class="row">
-    <div class="col-lg-4">
-      <label for="validationCustom01">Imagen 1 (Default)</label><br>
+  <div class="card card-body"><div class="row">
+    <div class="col-lg-11">
+      <label for="validationCustom01">Imagen 1 (Imagen por defecto)</label><br>
       <img src="{{ asset('dist/carrucel/' . $imagen1->imagen) }}" class="img-thumbnail" alt="...">
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-1 mt-5">
+      <form action="{{ route('comunicacion.destroy', $imagen1->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');">
+          <i class="fas fa-trash"></i>
+        </button>
+      </form>
+    </div>
+    <div class="col-lg-11">
       @if($imagen1->descrip)
        <label for="validationCustom02">Descripción</label>
       <p style="color: {{ $imagen1->colorletra ?? '#000000' }};">{{$imagen1->descrip}}</p>
@@ -89,14 +124,6 @@
       <!---end color letra-->
       @endif
     </div>
-    <div class="col-lg-2 mt-5">
-      <form action="{{ route('comunicacion.destroy', $imagen1->id) }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');">
-          <i class="fas fa-trash"></i>
-        </button>
-      </form>
     </div>
   </div>
   <hr>
@@ -105,12 +132,12 @@
   @if(empty($imagen2))
   <form action="{{route('comunicacion.store')}}" class="needs-validation" method="POST" enctype="multipart/form-data" novalidate>
   @csrf
-    <div class="form-row">
-      <div class="col-md-4 mb-3">
+  <div class="card card-body"><div class="form-row">
+      <div class="col-md-12 mb-3">
         <label for="validationCustom03">Imagen 2</label>
         <input type="file" class="form-control" id="validationCustom03" name="imgone" accept="image/*" required @if(!empty($imagen2)) disabled @endif>
       </div>
-      <div class="col-md-6 mb-3">
+      <div class="col-md-11 mb-3">
            <label for="validationCustom04">Descripción:</label>
             <!---radiobutons -->
           <div class="custom-control custom-radio custom-control-inline">
@@ -125,19 +152,28 @@
            <textarea class="form-control" id="validationCustom04" name="desone" required @if(!empty($imagen2)) disabled @endif></textarea>
            <input type="number" name="posicion" value="2" hidden>
        </div>
-      <div class="col-md-2 mt-5">
+      <div class="col-md-1 mt-5">
           <button type="submit" class="btn btn-info btn-sm" @if(!empty($imagen2)) disabled @endif><i class="fas fa-upload"></i></button>
       </div> 
-     </div>
+     </div> </div>
     </form>
   <!--- aqui imprimir la imagen 01 -->
   @else
-  <div class="row">
-    <div class="col-lg-4">
+  <div class="card card-body"><div class="row">
+    <div class="col-lg-11">
     <label for="validationCustom01">Imagen 2</label><br>
     <img src="{{ asset('dist/carrucel/' . $imagen2->imagen) }}" class="img-thumbnail" alt="...">
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-1 mt-5">
+    <form action="{{ route('comunicacion.destroy', $imagen2->id) }}" method="POST">
+      @csrf
+      @method('DELETE')
+      <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');">
+        <i class="fas fa-trash"></i>
+      </button>
+    </form>
+    </div>
+    <div class="col-lg-12">
     @if($imagen2->descrip)
         <label for="validationCustom02">Descripción</label>
         <p style="color: {{ $imagen2->colorletra ?? '#000000' }};">{{$imagen2->descrip}}</p>
@@ -165,28 +201,20 @@
         </form>
         @endif
     </div>
-    <div class="col-lg-2 mt-5">
-    <form action="{{ route('comunicacion.destroy', $imagen2->id) }}" method="POST">
-      @csrf
-      @method('DELETE')
-      <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');">
-        <i class="fas fa-trash"></i>
-      </button>
-    </form>
-    </div>
-  </div>
+    
+  </div> </div>
   <hr>
   @endif
     <!--formulario 3-->
   @if(empty($imagen3))
   <form action="{{route('comunicacion.store')}}" class="needs-validation" method="POST"  enctype="multipart/form-data" novalidate>
    @csrf
-    <div class="form-row">
-        <div class="col-md-4 mb-3">
+   <div class="card card-body"><div class="form-row">
+        <div class="col-md-12 mb-3">
             <label for="validationCustom05">Imagen 3</label>
             <input type="file" class="form-control" id="validationCustom05" accept="image/*" name="imgone" required @if(!empty($imagen3)) disabled @endif>
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-11 mb-3">
           <label for="validationCustom06">Descripción:</label>
            <!---radiobutons -->
            <div class="custom-control custom-radio custom-control-inline">
@@ -201,19 +229,28 @@
           <textarea type="text" class="form-control" id="validationCustom06" name="desone" required @if(!empty($imagen3)) disabled @endif></textarea>
           <input type="number" name="posicion" value="3" hidden>
         </div>
-        <div class="col-md-2 mt-5">
+        <div class="col-md-1 mt-5">
           <button type="submit" class="btn btn-info btn-sm"  @if(!empty($imagen3)) disabled @endif><i class="fas fa-upload"></i></button>
         </div>
-    </div>
+    </div></div>
   </form>
   @else
   <!--- aqui imprimir la imagen 03 -->
-  <div class="row">
-    <div class="col-lg-4">
+  <div class="card card-body"><div class="row">
+    <div class="col-lg-11">
     <label for="validationCustom01">Imagen 3</label><br>
     <img src="{{ asset('dist/carrucel/' . $imagen3->imagen) }}" class="img-thumbnail" alt="..." >
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-1 mt-5">
+      <form action="{{ route('comunicacion.destroy', $imagen3->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');">
+          <i class="fas fa-trash"></i>
+        </button>
+      </form>
+    </div>
+    <div class="col-lg-12">
     @if($imagen3->descrip)
        <label for="validationCustom02">Descripción</label>
        <p style="color: {{ $imagen3->colorletra ?? '#000000' }};">{{$imagen3->descrip}}</p>
@@ -241,28 +278,20 @@
         </form>
         @endif
     </div>
-    <div class="col-lg-2 mt-5">
-      <form action="{{ route('comunicacion.destroy', $imagen3->id) }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');">
-          <i class="fas fa-trash"></i>
-        </button>
-      </form>
-    </div>
-  </div>
+    
+  </div></div>
   <hr>
   @endif
   <!---formulario 4-->
   @if(empty($imagen4))
   <form action="{{route('comunicacion.store')}}" class="needs-validation" method="POST" enctype="multipart/form-data" novalidate>
    @csrf
-    <div class="form-row">
-        <div class="col-md-4 mb-3">
+   <div class="card card-body"><div class="form-row">
+        <div class="col-md-12 mb-3">
             <label for="validationCustom07">Imagen 4</label>
             <input type="file" class="form-control" id="validationCustom07" accept="image/*" name="imgone" required @if(!empty($imagen4)) disabled @endif>
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-11 mb-3">
           <label for="validationCustom08">Descripción:</label>
            <!---radiobutons -->
            <div class="custom-control custom-radio custom-control-inline">
@@ -277,18 +306,27 @@
           <textarea type="text" class="form-control" id="validationCustom08" name="desone" required @if(!empty($imagen4)) disabled @endif></textarea>
           <input type="number" name="posicion" value="4" hidden>
         </div>
-       <div class="col-md-2 mt-5">
+       <div class="col-md-1 mt-5">
          <button type="submit" class="btn btn-info btn-sm"  @if(!empty($imagen4)) disabled @endif><i class="fas fa-upload"></i></button>
        </div>
-       </div>
+       </div></div>
     </form>
   @else
-  <div class="row">
-    <div class="col-lg-4">
+  <div class="card card-body"><div class="row">
+    <div class="col-lg-11">
       <label for="validationCustom01">Imagen 4</label><br>
       <img src="{{ asset('dist/carrucel/' . $imagen4->imagen) }}" class="img-thumbnail" alt="...">
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-1 mt-5">
+      <form action="{{ route('comunicacion.destroy', $imagen4->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');">
+          <i class="fas fa-trash"></i>
+        </button>
+      </form>
+    </div>
+    <div class="col-lg-12">
     @if($imagen4->descrip)
       <label for="validationCustom02">Descripción</label>
       <p style="color: {{ $imagen4->colorletra ?? '#000000' }};">{{$imagen4->descrip}}</p>
@@ -316,23 +354,15 @@
         </form>
         @endif
     </div>
-    <div class="col-lg-2 mt-5">
-      <form action="{{ route('comunicacion.destroy', $imagen4->id) }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');">
-          <i class="fas fa-trash"></i>
-        </button>
-      </form>
-    </div>
-  </div>
+    
+  </div></div>
   <hr>
   @endif
    <!--end forms -->
     </div>
-    <div class="col-lg-6 p-3" style="background-color:#e2e2e4;">
+    <div class="col-lg-6">
+      <p>2. Así se verá tu carrousel:</p>
       <!---carrucel -->
-      <br>
       <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
           <ol class="carousel-indicators">
               @foreach($images as $index => $imgs)
@@ -359,18 +389,24 @@
           </button>
       </div>
       <!---end carrucel-->
-      <div class="container text-center mt-3">
+
+      <div class="container mt-3">
+        <p>3. Publicalo cuando este listo:</p>
         @if(!empty($estadoimg->estado))
             @if($estadoimg->estado == '2')
-              <a href="{{route('publicar')}}" type="button" class="btn confirmar">Publicar <i class="fas fa-paper-plane"></i></a>
+              <a href="{{route('publicar')}}" type="button" class="text-dark w-100 btn btn-warning confirmar"><i class="fas fa-paper-plane"></i>  Publicar </a>
             @else
-              <a href="{{route('publicar')}}" type="button" class="btn btn-warning"> Retirar </a>
+              <a href="{{route('publicar')}}" type="button" class="text-dark w-100 btn btn-danger"> Retirar </a>
             @endif
         @endif
       </div>
       <!---button -->
     </div>
+    </div>
   </div>
+ </div>
+ </div>
+ </div>
  </div>
  <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields
