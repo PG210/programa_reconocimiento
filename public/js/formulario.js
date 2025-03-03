@@ -42,12 +42,9 @@
           toastr.success('El envió de reconocimiento fue exitosó', 'Nuevo Reconocimiento', {timeOut:3000});
           //setTimeout(refrescar, 2000);
           for(var i=0; i<dat.length; i++){
-            var resul= '<div class="alert alert-info alert-dismissible fade show" role="alert">'+
-                '<strong><i class="fas fa-laugh-beam fa-2x" style="color:#FCFF24;"></i> &nbsp;Sugerencia! Reconoce a :'+
-                  '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + dat[i].name + '&nbsp;' + dat[i].apellido + '</strong>'+
-                   '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-                  '<span aria-hidden="true">&times;</span>'+
-                '</button>'+
+            var resul= '<div class="list-group-item list-group-item-action d-flex align-items-center">'+
+                  '<img src="http://127.0.0.1:8000/dist/imgperfil/perfil1740561960.jpg" class="profile-user-img img-fluid img-circle" style="width: 80px; height:80px" alt="'+ dat[i].name +'">'+
+                  '<p style="width: 80%;">' + dat[i].name + '&nbsp;' + dat[i].apellido + '</p>'+
               '</div>';
               $('#sugerir').append(resul);
             }
@@ -57,13 +54,9 @@
               $('#formudatos')[0].reset();
               toastr.success('El envió de reconocimiento fue exitosó', 'Nuevo Reconocimiento', {timeOut:3000});
 
-              var er = '<div class="alert alert-warning alert-dismissible fade show" role="alert">'+
-                        '<strong><i class="fas fa-laugh-beam fa-2x" style="color:#FCFF24;"></i> &nbsp;No hay sugerencias!'+
-                          '<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>'+
-                          '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
-                          '<span aria-hidden="true">&times;</span>'+
-                        '</button>'+
-                      '</div>';
+              var er = '<p class="list-group-item list-group-item-action d-flex align-items-center">'+
+                            '<p> No hay sugerencias por el momento!</p>'+
+                        '</p>';
                       $('#sugerir').append(er);
 
           }

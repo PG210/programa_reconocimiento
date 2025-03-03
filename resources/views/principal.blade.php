@@ -35,52 +35,13 @@
   </div>
 </nav>-->
 
-<div class="container-fluid vh-100">
-    <div class="row h-100">
-        <!--dust particel-->
-            <ul class="circles"> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> 
-            </ul>
+@yield('content')
 
-        <!-- Sección de la imagen -->
-        <div class="col-md-5 d-none d-md-block p-0 fondologin" >
-          <div class="frase-login">
-            <a href="#" aria-label="Product">
-            <img src="{{asset('dist/img/logo-reconoser-2.png')}}" class="img-fluid imagenlogo" alt="Reconoser Logo">
-          </a>
-          <blockquote class="blockquote">
-            <p class="mb-0">Ninguno de nosotros es tan bueno como todos nosotros juntos.</p>
-            <footer class="blockquote-footer">Ray Kroc</footer>
-          </blockquote>
-         </div>
-        </div>
 
-        <!-- Sección del formulario -->
-        <div class="col-md-7 d-flex align-items-center justify-content-center">
-        <div style="width: 95%;">
-            
-              <div class="w-100">
-                 @yield('content')
-            </div>
-            <hr>
-            <h2 class="fw-bold mt-4"></h2>
-            <div class="form-inline">
-                  <!--login-->
-                  @if (Route::has('login'))
-                  @auth
-                    <a class="btn btn-secondary btningresar btn-block"  href="{{ url('/dashboard') }}"><b>Volver</b></a>
-                  @else
-                  <a class="btn btn-secondary btningresar btn-block" href="{{url('/reg') }}" @if (Request::is('reg')) style="display:none;"  @endif><i class="bi bi-arrow-right-square-fill iconfont" style="color:white;"></i> Ingresar</a>
-                  @endauth
-                @endif
-              </div>
-            </div>
-        </div>
-    </div>
-</div>
 <span class="ir-arriba"><i class="bi bi-arrow-up-square-fill"></i></span>
   <!--end navar-->
         
-
+  </div>
 <div class="card-footer" style="background-color:#15AFBA; color:white;">
   <footer class="container py-5" >
     <div class="row">

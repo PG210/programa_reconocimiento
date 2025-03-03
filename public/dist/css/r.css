@@ -8,6 +8,48 @@
   Nota: Si estás leyendo esto, ¡felicidades! 
         Estás a punto de descubrir un CSS lleno de amor y magia. 💖 
 */
+
+.hero {
+    background: url('https://picsum.photos/1600/900?random=1') center/cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+}
+.section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 100px 10%;
+}
+.section img {
+    width: 50%;
+    height: auto;
+    border-radius: 10px;
+}
+.section:nth-child(even) {
+    flex-direction: row-reverse;
+}
+.text {
+    width: 45%;
+}
+.parallax {
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
 .chart-container { width: 100%; max-width: 700px; margin: auto; }
 
 

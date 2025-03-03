@@ -1,8 +1,34 @@
 @extends('usuario.principa_usul')
 @section('content')
-<div class="alert text-center titulo" role="alert">
- <h3>ACTUALIZAR EL USUARIO: {{$dat[0]->name}} {{$dat[0]->apellido}}</h3>
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container">
+    <div class="row mb-2">
+      <div class="col-sm-8">
+      <h1 class="m-0">Actualizar usuario:</h1>
+        <h5  class="m-0">{{$dat[0]->name}} {{$dat[0]->apellido}}</h5>
+      </div>
+      <!-- /.col -->
+      <div class="col-sm-4">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+          <li class="breadcrumb-item active">Actualizar usuario</li>
+        </ol>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
 </div>
+
+<div class="container">
+<div class="row mb-2">
+  <div class="col-12">
+  <div class="card">
+
+                    <div class="card-body">
 @if(Session::has('mensaje'))
         <br>
         <div class="alert alert-info alert-dismissible fade show letraform" role="alert">
@@ -103,15 +129,21 @@
     </div>
   </div>
   <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-12 modal-footer justify-content-between">
       <input type="text" class="form-control" id="inputCity" name="id"   value="{{$dat[0]->idusu}}" hidden>
-        <button type="submit" class="btn confirmar">Actualizar</button>
-        <a type="button" href="/reporte/usuarios" class="btn salir">Volver</a>
+        
+        <a type="button" href="/reporte/usuarios" class="btn btn-default salir">Volver</a>
+        <button type="submit" class="btn btn-success confirmar">Actualizar</button>
       </div>
       <div class="col-md-6">
         
       </div>
   </div>
 </form>
+</div>
+</div>
+</div>
+</div>
+</div>
 @endsection
 

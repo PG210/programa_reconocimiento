@@ -44,20 +44,7 @@
           </div>
         </div>
         <div id="seleccionados"></div>
-        <!---=============-->
-        <div class="row letraform">
-          <div class="col-md-12">
-          <div id="sugerir"></div>
-
-          </div>
-        </div>
-        <!-----#######################---->
-        <div class="row letraform">
-          <div class="col-md-12">
-          <div id="sinsugerir"></div>
-          </div>
-        </div>
-        <!----End mensajes de recomendacion--->
+        
         </div>
 
         <!--modal para elegir los usuarios-->
@@ -111,17 +98,31 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel"> ¡Gracias por Reconocer!</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          ...
+          <p>Tu reconocimiento hace la diferencia. 🙌</p>
+          <p>¿Qué tal si aprovechas tu visita y reconoces también a  </p>
+          <!---=============-->
+          <div >
+            <div class="list-group" id="sugerir"></div>
+           </div>
+        
+        <!-----#######################---->
+        <div class="row letraform">
+          <div class="col-md-12">
+          <div id="sinsugerir"></div>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+        <!----End mensajes de recomendacion--->
+        <p>¡Haz que su día sea especial! 💙😊</p>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-edfault" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-success">¡Reconocer ahora!</button>
         </div>
       </div>
     </div>
@@ -258,14 +259,15 @@
         <img class="profile-user-img img-circle loaded" src="/dist/imgperfil/perfil_no_borrar.jpeg"
           alt="User Avatar">
         <span class="username h4 nomcate letratarjeta1" id="nomcate"></span>
-        <span class="compor letratarjeta1" id="compor"></span>
         <span class="description">Por: &nbsp;{{Auth::user()->name}} {{Auth::user()->apellido}} | {{ $fecha }}
+        <span class="compor letratarjeta1" id="compor"></span>
+        
         </span>
         </div>
 
       </div>
-      <div class="card-body pt-0">
-        <div id="preview"></div> <!-- mensaje del textarea-->
+      <div class="card-body pt-0 user-block w-100">
+        <div id="preview" class="description" style="font-size: 0.9rem;"> </div> <!-- mensaje del textarea-->
       </div>
       <!--info-->
       </div>

@@ -2,12 +2,35 @@
 @section('content')
 
 
-<div>
+<div class="container-fluid vh-100">
+    <div class="row h-100">
+        <!--dust particel-->
+            <ul class="circles"> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> 
+            </ul>
+            
+        <!-- Sección de la imagen -->
+        <!-- Sección de la imagen -->
+<div class="col-md-5 d-none d-md-block p-0 fondologin" >
+          <div class="frase-login">
+            <a href="#" aria-label="Product">
+            <img src="{{asset('dist/img/logo-reconoser-2.png')}}" class="img-fluid imagenlogo" alt="Reconoser Logo">
+          </a>
+          <blockquote class="blockquote">
+            <p class="mb-0">Ninguno de nosotros es tan bueno como todos nosotros juntos.</p>
+            <footer class="blockquote-footer">Ray Kroc</footer>
+          </blockquote>
+         </div>
+        </div>
+
+        <!-- Sección del formulario -->
+        <div class="col-md-7 d-flex align-items-center justify-content-center">
+        <div style="width: 95%;">
+        <div>
 
 <main role="main" class="forms">
             <div class="">
             <h1 class="fw-bold">Hola!</h1>
-            <h2 class="fw-bold mb-5">Ingresa a tu cuenta</h2>
+            <h2 class="fw-bold mb-5">Ingresa a tu cuenta</h2> 
                 <div id="login" class="centraform">  
                 <!--<h2 class="text-center">Bienvenido de nuevo</h2>-->
                         <!---errores-->
@@ -68,6 +91,13 @@
             </div>
         </main>
         </div>
+            </div>
+        </div>
+
+
+        
+</div>
+
         
 <script>
 function togglePasswordVisibility() {
