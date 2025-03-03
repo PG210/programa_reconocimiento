@@ -1,9 +1,130 @@
 @extends('usuario.principa_usul')
 @section('content')
 @include('usuario.datatables')
-<div class="text-center titulo">
- <h3>GESTIÓN DE USUARIOS </h3>
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container">
+    <div class="row mb-2">
+      <div class="col-sm-8">
+        <h1 class="m-0">Gestión de usuarios</h1>
+      </div>
+      <!-- /.col -->
+      <div class="col-sm-4">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+          <li class="breadcrumb-item active">Gestión de usuarios</li>
+        </ol>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
 </div>
+<!-- /.content-header -->
+
+
+<div class="container">
+
+<div class="row mb-3">
+<div class="col-12">
+    <!---mensaje-->
+    @if($deshab == 1)
+    <div class="alert alert-danger" role="alert">
+    ⚠️ <strong>Licencias vencidas:</strong> Tu licencia expiró el <b>{{$fecha}}</b>. Por favor, renueva para continuar. 
+</div> 
+            @endif
+</div>
+            @if(empty($licencias))
+            <div class="card"> 
+              <div class="card-body">
+					<!-- small box -->
+                     <h5>🔑 Licencias Requeridas</h5>
+					<p class="letraform">
+                    Para registrar nuevos usuarios, solicita las licencias al administrador.  </p>
+                    </div>
+                    </div>
+            @else
+              @if($totaluser < $licencias->numlicencia)
+              <div class="col-lg-4 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+
+                <h5>Crear usuario</h5>
+                <p class="m-0">Sube todos los usuarios de una sola vez de forma rápida.</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+                    <!---boton registro individual-->
+                    <a type="button" class="small-box-footer" data-toggle="collapse" href="#regusuarioindi" role="button" aria-expanded="false" aria-controls="collapseExample" >
+                    Crear nuevo usuario <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                    <!---==========================--->
+            </div>
+          </div>
+        
+                    <div class="col-lg-4 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+
+                <h5>Carga masiva</h5>
+                <p class="m-0">Sube todos los usuarios de una sola vez de forma rápida.</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-file-excel"></i>
+              </div>
+              <a type="button" class="small-box-footer" data-toggle="modal" data-target="#carga">Sube tu archivo <i class="fas fa-arrow-circle-right"></i></a>
+              
+            </div>
+          </div>
+
+          
+              @else
+              <div class="col-lg-8 col-6">
+              <div class="card"> 
+              <div class="card-body">
+					<!-- small box -->
+                     <h5>⚠️ Licencias Agotadas</h5>
+					<p class="letraform">
+                    No puedes registrar más usuarios. Solicita nuevas licencias al administrador para continuar. </p>
+                    </div>
+                    </div>
+                    </div>
+              @endif
+            @endif
+            
+            <div class="col-lg-4 col-6">
+					<!-- small box -->
+					<div class="small-box bg-warning">
+						<div class="inner">
+							<p class="m-0">Licencias</p>
+							
+              @if(isset($licencias->numlicencia))
+                <h5>{{$totaluser}} / {{ $licencias->numlicencia }}</h5>
+              @endif
+							<p class="m-0"><b>0</b> Licencias disponibles.</p>
+						</div>
+						<div class="icon">
+							<i class="ion ion-person-add"></i>
+						</div>
+						<a href="#" class="small-box-footer">Asignar más <i class="fas fa-arrow-circle-right"></i></a>
+					</div>
+                    </div>
+          
+				</div>
+      </div>
+      
+    </div>
+    <div class="container">
+    <div class="row mb-2">
+  <div class="col-12">
+    
+  <div class="card">
+    <div class="card-header">
    <!--tabla para ver los valores-->
    @if(Session::has('mensaje'))
         <div class="alert alert-info alert-dismissible fade show letraform" role="alert">
@@ -51,39 +172,13 @@
     <!---carga-->
         <!-- Button trigger modal -->
         <div class="row mt-1">
-           <div class="col-md-10 col-lg-10 col-sm-6 col-6">
-            @if(empty($licencias))
-             <p class="letraform bg-info py-2">&nbsp;Para proceder con el registro de usuarios, por favor solicita las licencias al administrador.</p>
-            @else
-              @if($totaluser < $licencias->numlicencia)
-                <div class="btn-group" role="group" aria-label="Basic outlined example">
-                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#carga"><i class="fas fa-file-excel"></i>&nbsp;Carga masiva</button>
-                    <!---boton registro individual-->
-                    <button type="button" class="btn btn-outline-success" data-toggle="collapse" href="#regusuarioindi" role="button" aria-expanded="false" aria-controls="collapseExample" >
-                    <i class="fas fa-user-plus"></i>&nbsp;Usuario 
-                    </button>
-                    <!---==========================--->
-                </div>
-              @else
-                <p class="letraform">&nbsp;Las licencias se han agotado. Para registrar más usuarios, por favor solicita nuevas licencias al administrador.</p>
-              @endif
-            @endif
-            <!---mensaje-->
-            @if($deshab == 1)
-               <span class="badge badge-danger letraform">Licencias vencidas el día: {{$fecha}} </span>
-            @endif
-           </div>
-           <div class="col-md-2 col-lg-2 col-sm-6 col-6 letraform">
-            @if(isset($licencias->numlicencia))
-              <h3 class="text-left badge badge-pill badge-info">Licencias</h3>
-              <h4 class="text-left badge badge-pill badge-primary">{{$totaluser}} / {{ $licencias->numlicencia }}</h4>
-            @endif
-           </div>
             <!---=============================-->
-            <div class="collapse mt-2" id="regusuarioindi">
+            <div class="col-12 collapse mt-2" id="regusuarioindi">
                 <div class="card card-body letraform">
                     <!---========= fromulario de registro individual ===========-->
-                   <p> En esta sección se debe registrar a los colaboradores de manera individual, por favor complete todos los campos. Si presenta inconvenientes comuniquese con el administrador. </p>
+                    <h5>Registro Individual de Colaboradores</h5>
+                   <p class="m-0"> Añade nuevos colaboradores de forma individual completando todos los campos.</p>
+                   <p class=""> Si tienes algún inconveniente, comunícate con el administrador.</p>
                      <form method="POST" action="{{route('addUser')}}">
                         @csrf
                         <div class="form-group row">
@@ -160,18 +255,21 @@
                 </button>
             </div>
             <div class="modal-body letraform">
+                <p>Sube y registra múltiples usuarios de forma rápida y sencilla.</p>
                <!--formulario-->
                <div class="input-group mb-3">
                     <div class="custom-file">
+                        <p class="m-0">Selecciona el archivo y confirma la carga:</p>
                         <input type="file" class="form-control" name="archivosubido" id="archivosubido" placeholder="elegir" accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" required>
-                        <br>
+                        
                     </div>
                  </div>
                <!--formulario de carga-->
             </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn confirmar">Importar</button>
-                <button type="button" class="btn salir" data-dismiss="modal">Salir</button>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default salir" data-dismiss="modal">Salir</button>
+                <button type="submit" class="btn btn-success confirmar">Importar</button>
+                
             </div>
             </div>
         </div>
@@ -181,16 +279,16 @@
     <!--carga masiva-->
     <!---buscador -->
     <!--end buscador-->
-    <div class="table-responsive mt-2">
-    <table class="table" id="votacion">
+    <div class="table-responsive">
+    <table class="table table-hover table-estadisticas" id="votacion">
               <thead class="tablaheader letraform">
               <tr>
-                <th scope="col">No</th>
+                <th scope="col" style="witdh: 50px;" class="text-center">No</th>
                 <th scope="col">Nombres</th>
                 <th scope="col">Email</th>
                 <th scope="col">Cargo</th>
                 <th scope="col">Area</th>
-                <th scope="col">Acciones</th>
+                <th scope="col" style="witdh: 100px !important;" class="text-center">Acciones</th>
               </tr>
             </thead>
             <tbody class="letraform">
@@ -203,12 +301,19 @@
                         <td>{{$c->name}} {{$c->apellido}}</td>
                         <td>{{$c->email}}</td>
                         <td>{{$c->nomcar}}</td>
-                        <td>{{$c->nomarea}}</td>
-                        <td>
-                         <div class="text-center">
-                         <a href="{{route('actualizaruser',$c->id)}}" data-toggle="tooltip" data-placement="bottom"  title="Editar"><i class="nav-icon fas fa-edit" style="color:  #e1b308; font-size:20px;" ></i></a>
+                        <td >{{$c->nomarea}}</td>
+                        <td style="witdh: 100px !important;" class="text-center">
+                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                        
+                        <a href="{{route('actualizaruser',$c->id)}}" data-toggle="tooltip" data-placement="bottom" class="btn btn-outline-primary btn-sm" title="Editar"><i class="fas fa-edit"></i></a>
+                         
+                         
+                         
                         <!--#######################################3-->
                         @if($c->rol != 'admin')
+                        <!--eliminar -->
+                        <a href="{{route('eliminaruser',$c->id)}}" data-toggle="tooltip" data-placement="bottom"   class="btn btn-outline-danger btn-sm" title="Eliminar" onclick="return confirm('¿Realmente desea eliminar este usuario?');"><i class="fas fa-trash" ></i></a>
+                        </div>
                             @if($deshab != 1)
                                 <a type="button" data-toggle="modal" data-target="#cambiarPro{{ $c->id }}" data-placement="bottom" title="{{ $c->esta == 'habilitado' ? 'Deshabilitar' : 'Habilitar' }}">
                                         <i class="nav-icon fas fa-toggle-{{ $c->esta == 'habilitado' ? 'on' : 'off' }}" style="color: {{ $c->esta == 'habilitado' ? '#64e108' : '#9cbe82' }}; font-size:20px;"></i>
@@ -216,29 +321,30 @@
                             @else
                                <i class="nav-icon fas fa-toggle-off" style="color: #9cbe82, font-size:20px;"></i>
                             @endif
-                        <!--eliminar -->
-                        <a href="{{route('eliminaruser',$c->id)}}" data-toggle="tooltip" data-placement="bottom"  title="Eliminar" onclick="return confirm('¿Realmente desea eliminar este usuario?');"><i class="nav-icon fas fa-trash" style="color:red; font-size:20px;" ></i></a>
+                       
                         @endif
                         <!-- Ventana modal para deshabilitar -->
                         <div class="modal fade" id="cambiarPro{{ $c->id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                         <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header" style="background-color:white !important;">
-                                                    <h4 class="modal-title text-center titulo" style="color:black; text-align: center;">
-                                                        <span>¿Modificar el estado "{{$c->esta}}" del Usuario? </span>
+                                            <div class="modal-content text-left">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" style="color:var(--dark);">
+                                                        Modificar Estado del Usuario "{{$c->esta}}"
                                                     </h4>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button> 
                                                 </div>
-                                                <div class="modal-body mt-2 text-center letraform">
-                                                    <strong style="text-align: center !important"> 
-                                                    {{ $c->name }} - {{ $c->email}}
-                                                    </strong>
+                                                <div class="modal-body letraform">
+                                                    <p>¿Deseas cambiar el estado de este usuario?</p>
+                                                    <p class="m-0">👤 Nombre: <b>{{ $c->name }}</b></p>
+                                                    <p class="m-0">📧 Correo: <b>{{ $c->email}}</b></p>
+
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <a  class="btn confirmar" href="{{ route('cambiarestado', $c->id) }}">Modificar</a>
-                                                    <button type="button" class="btn salir" data-dismiss="modal">Cerrar</button>
+                                                <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn btn-default salir" data-dismiss="modal">Cerrar</button>
+                                                <a  class="btn btn-success confirmar" href="{{ route('cambiarestado', $c->id) }}">Modificar</a>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -247,7 +353,7 @@
 
 
                         <!---#######################################-->    
-                        </div>
+                        
                         </td>      
                         </tr>
                     @endforeach
@@ -255,6 +361,12 @@
           </table>
       </div>
         <!--end tabla-->
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
 <script src="{{ asset('js/buscador.js')}}"></script>
 <script>
     setTimeout(function() {

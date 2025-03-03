@@ -233,8 +233,8 @@
                                                 <span class="description">{{ $det->comportamiento }} </span> <!--- comportamiento--->
                                             </div>
                                         </div>
-                                        <div class="card-body pt-0">
-                                            <span class="">{{ $det->det }} </span>
+                                        <div class="card-body pt-0 user-block w-100">
+                                            <span class="description" style="font-size: 0.9rem;">{{ $det->det }} </span>
                                             
                                             <!---reacciones-->
                                             <div id="reac{{$det->idcat}}"></div>
@@ -899,7 +899,7 @@
     
           <div class="col-lg-3 col-6">
             <!-- small card -->
-            <div class="small-box bg-ligth">
+            <div class="small-box bg-white">
               <div class="inner">
               <h5>Recompensas</h5>
               <p>Configura y administra las recompensas disponibles para los colaboradores.</p>
@@ -915,7 +915,7 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small card -->
-            <div class="small-box bg-ligth">
+            <div class="small-box bg-white">
               <div class="inner">
               <h5>Registro de Usuarios</h5>
               <p>Administra los usuarios y gestiona nuevos registros en la plataforma.</p>
@@ -931,7 +931,7 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small card -->
-            <div class="small-box bg-ligth">
+            <div class="small-box bg-white">
               <div class="inner">
               <h5> Categorías</h5>
               <p>Configura y ajusta las categorías de reconocimiento según la cultura de tu empresa.</p>
@@ -947,10 +947,10 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small card -->
-            <div class="small-box bg-ligth">
+            <div class="small-box bg-white">
               <div class="inner">
               <h5>Insignias</h5>
-              <p>Personaliza las insignias y sus criterios de obtención.</p>
+              <p class="">Diseña y administra las insignias según los logros y valores de tu empresa.</p>
               </div>
               <div class="icon">
                 <i class="fas fa-medal"></i>
@@ -964,10 +964,10 @@
 
           <div class="col-lg-3 col-6">
             <!-- small card -->
-            <div class="small-box bg-ligth">
+            <div class="small-box bg-white">
               <div class="inner">
               <h5> Diseño de Banners</h5>
-                <p>Crea y personaliza banners para campañas de reconocimiento.</p>
+                <p>Diseña y edita banners para destacar campañas y logros en la empresa. </p>
               </div>
               <div class="icon">
                 <i class="fas fa-paint-brush"></i>
@@ -980,10 +980,10 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small card -->
-            <div class="small-box bg-ligth">
+            <div class="small-box bg-white">
               <div class="inner">
               <h5>Eventos</h5>
-              <p>Programa y gestiona eventos especiales para el equipo.</p>
+              <p>Organiza y administra eventos clave para fortalecer la cultura de reconocimiento.</p>
               </div>
               <div class="icon">
                 <i class="fas fa-calendar-alt"></i>
@@ -996,7 +996,7 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small card -->
-            <div class="small-box bg-ligth">
+            <div class="small-box bg-white">
               <div class="inner">
               <h5> Empresa</h5>
               <p>Gestiona los detalles y configuración general de la organización.</p>
@@ -1012,7 +1012,7 @@
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small card -->
-            <div class="small-box bg-ligth">
+            <div class="small-box bg-white">
                 <div class="inner">
                 <h5>Control de Votaciones</h5>
                 <p>Gestiona y supervisa las votaciones activas en la plataforma.</p>
