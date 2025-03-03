@@ -213,16 +213,25 @@ class ReconocimientosController extends Controller
     ];
   }
   // total de reconocimientos recibidos
-  public function totreconocimientos($idlog,  $mesActual = null, $anioActual = null)
+  public function totreconocimientos($idlog,  $mesActual = null, $anioActual = null, $fecini = null, $fecfin = null)
   {
-    $recibidos = RecibirCat::where('catrecibida.id_user_recibe', '=', $idlog)
-                //->when(!empty($mesActual),  function ($query) use ($mesActual, $anioActual) {
-                 //     $query->whereBetween('catrecibida.created_at', [$mesActual, $anioActual]);
-                 //   })
+
+    $recibidos = RecibirCat::where('catrecibida.id_user_recibe', $idlog)
                 ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
-                ->selectRaw('catrecibida.id_user_recibe, users.name as nombre, users.apellido as ape, 
-                                  SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5')
-                ->groupBy('id_user_recibe')
+                ->selectRaw('
+                    catrecibida.id_user_recibe, 
+                    users.name as nombre, 
+                    users.apellido as ape, 
+                    SUM(cat1) as c1, 
+                    SUM(cat2) as c2, 
+                    SUM(cat3) as c3, 
+                    SUM(cat4) as c4, 
+                    SUM(cat5) as c5
+                ')
+                ->when(!empty($fecini) && !empty($fecfin), function ($query) use ($fecini, $fecfin) {
+                    return $query->whereBetween('catrecibida.created_at', [$fecini, $fecfin]);
+                })
+                ->groupBy('catrecibida.id_user_recibe', 'users.name', 'users.apellido')
                 ->get();
     //============== reconocimientos recibidos en el mes actual ==============
     $rmes = RecibirCat::where('catrecibida.id_user_recibe', '=', $idlog)
@@ -334,10 +343,8 @@ class ReconocimientosController extends Controller
       $puntos = RecibirCat::where('id_user_recibe', '=', $idlog)->selectRaw('SUM(puntos) as p')->first(); //puntos obtenidos
       $rectime = $this->reconocimientosRecibidosDate($idlog); //reconocimientos recibidos en el tiempo
       
-      
       $morecat = $this->moreCat($idlog);
-      //return $morecat;
-
+      
     } //llave cierre del div
     return view('user.reporteinsignias')->with([
       'recibidos' => $recibidos,
@@ -385,7 +392,7 @@ class ReconocimientosController extends Controller
     if ($dval != 0) {
       $esta = 1;
       $categoria = Comportamiento::all();
-      $recibidosquery =  $this->totreconocimientos($idlog, $fecini, $fecfin);
+      $recibidosquery =  $this->totreconocimientos($idlog, $mesActual, $anioActual, $fecini, $fecfin);
       $recibidos = $recibidosquery['recibidos'];
       $rmes = $recibidosquery['rmes'];
       //====================
@@ -395,12 +402,15 @@ class ReconocimientosController extends Controller
       $emoticones = $resultado['emoticones'];
       $usureac = $this->usuReacciones($idlog);
 
-      $puntos = RecibirCat::where('id_user_recibe', '=', $idlog)->selectRaw('SUM(puntos) as p')->first(); //puntos obtenidos
+      $puntos = RecibirCat::where('id_user_recibe', '=', $idlog)
+                ->whereBetween('created_at', [$fecini, $fecfin])
+                ->selectRaw('SUM(puntos) as p')->first(); //puntos obtenidos
+
       $rectime = $this->reconocimientosRecibidosDate($idlog); //reconocimientos recibidos en el tiempo
      
       $morecat = $this->moreCat($idlog, $fecini,
                                 $fecfin, $fecini, $fecfin);
-      //return $recibidos;
+                                
       return view('user.reporteinsignias')->with([
         'recibidos' => $recibidos,
         'categoria' => $categoria,

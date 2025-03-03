@@ -1,27 +1,42 @@
 @extends('usuario.principa_usul')
 @section('content')
+@include('usuario.datatables')
+
+
+  <!-- Content Header (Page header) -->
+  <div class="content-header">
+    <div class="container">
+    <div class="row mb-2">
+      <div class="col-sm-8">
+
+      <h1 class="m-0">
+        <a href="/admin/votacion" class="btn btn-default mr-2" type="button" aria-controls="collapseOne">
+        <i class="fas fa-home"></i> Regresar
+        </a>
+         Votaciones Periodo: {{$es->anio}} - {{$es->periodo}}
+      </h1>
+      </div>
+      <!-- /.col -->
+      <div class="col-sm-4">
+      <ol class="breadcrumb float-sm-right">
+        <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+        <li class="breadcrumb-item active">Periodo de votación</li>
+      </ol>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
         <div class="accordion" id="accordionExample">
         <div class="card">
-            <div class="card-header" id="headingOne">
-                <div class="row">
-                    <div class="col-lg-12">
-                   
-                    <h5 class="titulo">
-                    <a href="/admin/votacion" class="btn text-left" type="button"  aria-controls="collapseOne">
-                       <i class="fas fa-home" style="font-size:23px;"></i>
-                    </a> Votaciones Periodo: {{$es->anio}} - {{$es->periodo}}</h5>
-                </div>
-              </div>
-            </div>
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
                <!---table-->
-               <div class="row mb-3">
-                    <div class="col-lg-12">
-                    <input class="form-control mr-sm-4" type="text" id="search" placeholder="Buscar por nombres...">
-                    </div>
-                </div>
-                <div class="table-responsive">
+                <div class="table-responsive mt-5">
                 <table class="table letraform" id="votacion01">
                 <thead class="tablaheader">
                     <tr>
@@ -61,6 +76,8 @@
     </div>
   </div>
 </div>
+
+<!--
 <script>
 // Función para filtrar la tabla en base al input de búsqueda
     $('#search').on('keyup', function() {
@@ -69,5 +86,13 @@
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
     });
+</script>-->
+
+<script> 
+  $('#votacion01').DataTable({
+      "language": {
+          "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+        },
+  });
 </script>
 @endsection

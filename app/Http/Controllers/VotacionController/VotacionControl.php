@@ -290,6 +290,7 @@ class VotacionControl extends Controller
 
     public function categoria(Request $request)
     {
+
         $cat = RegVotoModel:: //se debe validar el periodo de votacion 
             join('users', 'postulado.id_postulado', '=', 'users.id')
             ->join('comportamiento_categ', 'postulado.id_votocat', '=', 'comportamiento_categ.id')
@@ -315,15 +316,11 @@ class VotacionControl extends Controller
             ->groupBy('id_postulado')
             ->groupBy('id_votocat')
             ->get();
-        return view('admin.votcat')->with('cat', $cat);
+        /*Nombre de categoria */
+        $nomcat = DB::table('comportamiento_categ')->where('id', '=', $request->categoria)->select('descripcion', 'especificacion')->first();
 
-        /*
-         ->select('id_postulado', 'id_votocat', 'comportamiento_categ.descripcion as categoria', 'users.name', 
-                            DB::raw( 'COUNT(postulado.id_votocat) as total'))
-                ->groupBy('id_postulado')
-                ->groupBy('id_votocat')
+        return view('admin.votcat')->with('cat', $cat)->with('nomcat', $nomcat);
 
-        */
     }
     //=============== votaciones down ==========
     public function excelVotos(Request $request)

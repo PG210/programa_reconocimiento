@@ -25,3 +25,9 @@
 <!--============ para el recorrido -->
 <link rel="stylesheet" href="{{ asset('dist/css/introjs.min.css')}}">
 
+<style>
+ div.dataTables_wrapper div.dataTables_length select {
+  width: 5em !important;
+ }
+</style>
+

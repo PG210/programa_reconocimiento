@@ -37,7 +37,7 @@
 <!--end mensaje -->
 
 <div class="container card">
-<div class="table-responsive">
+<div class="table-responsive mt-5 mb-2">
         <table class="table table-hover table-estadisticas letraform" id="votacion">
             <thead class="tablaheader">
                 <tr>
