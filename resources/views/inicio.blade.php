@@ -62,9 +62,10 @@
   border-color: transparent;
 }
 .button-circle-2xl {
-  width: 80px;
-  height: 80px;
-  line-height: 80px;
+    width: 140px;
+    height: 140px;
+    line-height: 130px;
+    font-size: 26px;
 }
 
 .button-circle-2xl i {
@@ -176,10 +177,6 @@
   line-height: 70px;
 }.button-circle-xl i {
   line-height: 70px;
-}.button-circle-2xl {
-  width: 80px;
-  height: 80px;
-  line-height: 80px;
 }.button-circle-2xl i {
   line-height: 80px;
 }.button-circle-gray {
@@ -607,12 +604,7 @@ header-menu:
     max-height: 400px;
   }
 
-button-circle-2xl:
-.button-circle-2xl {
-  width: 80px;
-  height: 80px;
-  line-height: 80px;
-}
+
 
 m-subdropdown:
 .m-subdropdown {
@@ -789,7 +781,9 @@ header-menu-extra:
 </style>
 <div class="wrapper">
 
-
+<!--dust particel-->
+<ul class="circles"> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> 
+            </ul>
 
 			
 

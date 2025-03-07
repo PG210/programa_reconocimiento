@@ -40,7 +40,7 @@
                         </div>
                         <div class="icon">
                             
-                            <i class="fas fa-hand-holding"></i>
+                            <i class="fas fa-hand-holding-heart"></i>
                         </div>
                         
                         <a href="/gerente/insignias/excel/2" type="button" class="small-box-footer">Descargar reporte <i class="fas fa-arrow-circle-right"></i></a>

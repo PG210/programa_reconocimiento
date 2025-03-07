@@ -316,8 +316,8 @@
                             <tr>
                               <th scope="col">No</th>
                               <th scope="col">Nombres</th>
-                              <th scope="col">F/Inicial</th>
-                              <th scope="col">F/Final</th>
+                              <th scope="col">Primer reconocimiento</th>
+                              <th scope="col">Ultimo reconocimiento</th>
 
                               @foreach($categoria as $cat)
                               <th scope="col">{{$cat->descripcion}}</th>
