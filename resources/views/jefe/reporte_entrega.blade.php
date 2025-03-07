@@ -33,7 +33,7 @@
                         
                         <div class="inner">
                             <a href="{{route('entregados')}}" type="button" style="color: var(--dark);">
-                            <h3>150</h3>
+                            <h3>{{ $totaldar }}</h3>
 
                             <p>Recompensas entregadas</p>
                             </a>  
@@ -53,7 +53,7 @@
                         <div class="small-box bg-warning">
                         <div class="inner">
                             <a href="/reporte/recompensas" type="button" style="color: var(--dark);">
-                            <h3>150</h3>
+                            <h3>{{ $totalsindar }}</h3>
 
                             <p>Recompensas sin entregar</p>
                             </a>
@@ -180,4 +180,5 @@
             <!---end collapse-->
         </div>
     </div>
+
 @endsection

@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RecObtenidos;
 use App\Exports\PuntosExport;
+use PDF;
 //========== librerias para el servicio 
 use App\Services\MicrosoftGraphService;
 use App\Models\Token;
@@ -777,6 +778,84 @@ private function sendMail($destino, $data, $descrip, $valor){
 
     return $insig_recibidas;
   }
+
+  // funcion que retorna el usuario con mas reconocimientos recibidos
+  private function hightPeople(){
+     //persona que recibio mas reconocimientos
+     $hightpeople = DB::table('catrecibida')
+                  ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
+                  ->selectRaw('id_user_recibe, users.name, users.apellido, COUNT(id_categoria) as tot')
+                  ->groupBy('id_user_recibe')
+                  ->orderByDesc('tot')
+                  ->first();
+
+    return $hightpeople;
+  }
+
+  //funcion para retornar la categoria mas reconocida
+  private function hightCat(){
+     //categoria mas reconocida
+     $hightcat = DB::table('catrecibida')
+                  ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+                  ->selectRaw('id_categoria, comportamiento_categ.descripcion as des,  COUNT(id_categoria) as tot')
+                  ->groupBy('id_categoria')
+                  ->orderByDesc('tot')
+                  ->first();
+
+    return $hightcat;
+  }
+
+  // Obtener el toatl de personas que no obtuvieron ningun reconocimiento
+  private function usersTot(){
+    $userstot = Usuarios::select('users.id')
+                ->selectRaw('COUNT(catrecibida.id) as totalrec, users.id, users.name, users.apellido')
+                ->where('users.id', '!=', 1)
+                ->leftJoin('catrecibida', function ($join) {
+                    $join->on('users.id', '=', 'catrecibida.id_user_recibe');
+                })
+                ->groupBy('users.id')
+                ->having('totalrec', '=', 0)
+                ->orderByDesc('totalrec')
+                ->get();
+
+    return $userstot;
+  }
+  
+  //consultar el aumento o disminucion de reconocimientos en el periodo
+  private function incrementTotal():float{
+    // Consulta para el mes actual
+    $currentMonthStart = now()->startOfMonth();
+    $currentMonthEnd = now()->endOfMonth();
+    $currentMonthData = Usuarios::select('users.id')
+        ->selectRaw('COUNT(catrecibida.id) as totalrec')
+        ->leftJoin('catrecibida', function ($join) use ($currentMonthStart, $currentMonthEnd) {
+            $join->on('users.id', '=', 'catrecibida.id_user_recibe')
+                ->whereBetween('catrecibida.created_at', [$currentMonthStart, $currentMonthEnd]);
+        })
+        ->groupBy('users.id')
+        ->get();
+
+    // Consulta para el mes anterior
+    $lastMonthStart = now()->subMonth()->startOfMonth();
+    $lastMonthEnd = now()->subMonth()->endOfMonth();
+    $lastMonthData = Usuarios::select('users.id')
+        ->selectRaw('COUNT(catrecibida.id) as totalrec')
+        ->leftJoin('catrecibida', function ($join) use ($lastMonthStart, $lastMonthEnd) {
+            $join->on('users.id', '=', 'catrecibida.id_user_recibe')
+                ->whereBetween('catrecibida.created_at', [$lastMonthStart, $lastMonthEnd]);
+        })
+        ->groupBy('users.id')
+        ->get();
+    
+    // Calcula el incremento en reconocimientos
+    $currentTotal = $currentMonthData->sum('totalrec');
+    $lastTotal = $lastMonthData->sum('totalrec');
+
+    $increment = $lastTotal > 0 ? (($currentTotal - $lastTotal)/$lastTotal) * 100 : 0;
+    $increment = round($increment, 2);
+    return $increment;
+  }
+
   //============== metricas del ranking administrador ===============
   public function metricasranking()
   {
@@ -789,6 +868,52 @@ private function sendMail($destino, $data, $descrip, $valor){
     $insig_recibidas = $this->insigRecibidas();
     //============ llamar  a la funcion de puntos ============
     $recibidos = $this->obtenerPuntos($users);
+
+    $hightpeople = $this->hightPeople();
+    
+    $hightcat = $this->hightCat();
+   
+    $userstot = $this->usersTot();
+    
+    $increment = $this->incrementTotal();
+
+    //reconocimientos recibidos en el mes de cada año
+    $recmes = DB::table('catrecibida')
+              ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+              ->selectRaw('COUNT(id_categoria) as tot, DATE_FORMAT(catrecibida.created_at, "%Y-%m") as mes')
+              ->groupBy('mes')
+              ->get();
+
+    //total de reconocimientos por categoria
+    $totcat= DB::table('catrecibida')
+              ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+              ->selectRaw('id_categoria, comportamiento_categ.descripcion as des,  COUNT(id_categoria) as tot')
+              ->groupBy('id_categoria')
+              ->orderByDesc('tot')
+              ->get();
+
+    //dia mas activo
+    $recdia = DB::table('catrecibida')
+              ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+              ->selectRaw("
+                  COUNT(id_categoria) as tot, 
+                  HOUR(catrecibida.created_at) as hora,
+                  CASE WEEKDAY(catrecibida.created_at)
+                      WHEN 0 THEN 'Lunes'
+                      WHEN 1 THEN 'Martes'
+                      WHEN 2 THEN 'Miércoles'
+                      WHEN 3 THEN 'Jueves'
+                      WHEN 4 THEN 'Viernes'
+                      WHEN 5 THEN 'Sábado'
+                      WHEN 6 THEN 'Domingo'
+                  END as dia
+              ")
+              ->groupBy('dia', 'hora')
+              ->orderByRaw("FIELD(dia, 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'), hora")
+              ->get();
+
+    
+  
     return  view('metricas.avance')->with([
             'recibidos' => $recibidos,
             'categoria' => $categoria,
@@ -797,6 +922,13 @@ private function sendMail($destino, $data, $descrip, $valor){
             'fecini' => $fecini,
             'fecfin' => $fecfin,
             'fecha'  => $fecha,
+            'hightpeople' => $hightpeople,
+            'hightcat' => $hightcat,
+            'userstot' => $userstot,
+            'increment' => $increment,
+            'recmes' => $recmes,
+            'totcat' => $totcat,
+            'recdia' => $recdia
         ]);
   }
   //===============================
@@ -927,9 +1059,11 @@ private function sendMail($destino, $data, $descrip, $valor){
   } 
   //================= Descarga de excel con reporte total de reconocimientos recibidos por cada colaborador ===========================
   public function downloadGet(Request $request){
+      
       //obtener las fechas inicial y final
       $fecini = $request->fecinifil;
       $fecfin = $request->fecfinfil;
+      $tipo = $request->reportetipo;
       //retornar los usuarios
       $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
       //validar si las fechas tiene valores
@@ -940,11 +1074,54 @@ private function sendMail($destino, $data, $descrip, $valor){
 
       //verificar si existe informacion en la data
       if (!empty($data)){
-        $datcate = $this->nomCate();
-        return Excel::download(new RecObtenidos($data, $datcate), 'reporte_reconocimientos_obtenidos.xlsx');
+        if($tipo == 1){
+          $datcate = $this->nomCate();
+          return Excel::download(new RecObtenidos($data, $datcate), 'reporte_reconocimientos_obtenidos.xlsx');
+        }else{
+          // Generar el PDF
+          $ncat = DB::table('comportamiento_categ')->select('descripcion')->get();
+          $pdf = PDF::loadView('pdf.reporteobtenidos', compact('data', 'ncat'));
+          return $pdf->download('reporte.pdf');
+        }
       }else
           return redirect('/metricas/ranking');
     }
+  //================ generar insignias recibidas por los usuarios ==============
+  private function obtenerInsigniasTot(){
+    $data = Usuarios::where('users.id_rol', '!=', 1)->select('users.id', 'users.name', 'users.apellido as ape', DB::raw("
+            SUM(CASE WHEN insignia.descripcion = 'Oro' THEN 1 ELSE 0 END) as oro,
+            SUM(CASE WHEN insignia.descripcion = 'Plata' THEN 1 ELSE 0 END) as plata,
+            SUM(CASE WHEN insignia.descripcion = 'Bronce' THEN 1 ELSE 0 END) as bronce,
+            (
+                SUM(CASE WHEN insignia.descripcion = 'oro' THEN 1 ELSE 0 END) +
+                SUM(CASE WHEN insignia.descripcion = 'plata' THEN 1 ELSE 0 END) +
+                SUM(CASE WHEN insignia.descripcion = 'bronce' THEN 1 ELSE 0 END)
+            ) as total
+        "))
+        ->leftJoin('insignia_obtenida', 'users.id', '=', 'insignia_obtenida.id_usuario')
+        ->leftJoin('insignia', 'insignia_obtenida.id_insignia', '=', 'insignia.id')
+        ->groupBy('users.id', 'users.name')
+        ->orderByDesc('total')
+        ->get();
+
+      return $data;
+  }
+  public function downloadGetInsignias(Request $request){
+    $tipo = $request->reportetipo02;
+    $data = $this->obtenerInsigniasTot();
+    
+    if(!empty($data)){
+          if($tipo == 1){
+              return back();
+          }else{
+            $pdf = PDF::loadView('pdf.reporteinsig', compact('data'));
+            return $pdf->download('reporte_usuarios_con_insignias.pdf');
+          }
+      }else{
+        return back();
+      }
+    //return $usuariosConInsignias;
+  }
   //================Reconocimientos que han enviado los usuarios======================
   public function downloadgive(Request $request){
       //obtener las fechas inicial y final

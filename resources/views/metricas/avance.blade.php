@@ -1,4 +1,7 @@
-@extends('usuario.principa_usul') @section('content')
+@extends('usuario.principa_usul') 
+@section('content')
+
+@include('usuario.datatables')
 
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -58,7 +61,11 @@
 					<div class="small-box bg-warning">
 						<div class="inner">
 							<p class="m-0">En este periodo, </p>
-							<h5>Manuel Apellido</h5>
+							<h5>
+							@if (isset($hightpeople->name))
+							     {{ $hightpeople->name }} {{ $hightpeople->apellido }}
+							@endif 
+						    </h5>
 							<p class="m-0">ha recibido más reconocimientos que nadie.</p>
 						</div>
 						<div class="icon">
@@ -74,7 +81,11 @@
 					<div class="small-box bg-info">
 						<div class="inner">
 							<p class="m-0">Categoría con Más Reconocimientos: </p>
-							<h5>Empatía y vocación de servicio. </h5>
+							<h5>
+								@if (isset( $hightcat->des ))
+									{{ $hightcat->des }} 
+								@endif
+							</h5>
 							<p class="m-0">Tus colaboradores valoran esta actitud. ¿Cómo podemos impulsar otras competencias?</p>
 
 						</div>
@@ -90,7 +101,9 @@
 					<div class="small-box bg-success">
 						<div class="inner">
 							<p class="m-0">Parece que </p>
-							<h5>Manuel Apellido</h5>
+								@foreach ($userstot as $utot)
+								<h5>{{ $utot->name }} {{ $utot->apellido }}</h5>
+								@endforeach
 							<p class="m-0">ha recibido pocos reconocimientos. ¿Tal vez necesite más apoyo o visibilidad en su trabajo?</p>
 						</div>
 						<div class="icon">
@@ -105,8 +118,17 @@
 					<!-- small box -->
 					<div class="small-box bg-danger">
 						<div class="inner">
-							<h3>+15%</h3>
-							<p class="m-0">En este periodo, el reconocimiento en la empresa ha crecido un +15% comparado con el anterior.”</p>
+							@if (isset($increment))
+							<h3>{{ $increment }}%</h3>
+							<p class="m-0">En este periodo, el reconocimiento en la empresa ha
+								 @if ($increment > 0)
+								     crecido un {{ $increment }}%
+								 @else
+								     decrecido un {{ $increment }}%
+								 @endif 
+								 comparado con el anterior.
+							</p>
+							@endif
 						</div>
 						<div class="icon">
 							<i class="ion ion-pie-graph"></i>
@@ -240,10 +262,6 @@
 <!-- /.container-fluid -->
 <div class="container">
 	<div class="row mb-3">
-
-
-
-
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12">
@@ -284,42 +302,42 @@
 												<p class="small m-0">Analizar qué equipos están participando más.</p>
 											</div>
 											<div class="col-md-4">
-												<form action="{{route('downloadGet')}}" method="POST">
-													@csrf
-													<input type="date" class="form-control" name="fecinifil" id="fecinifil" max="{{ $fecha }}" value="{{ $fecini }}" hidden>
-													<input type="date" class="form-control" name="fecfinfil" id="fecfinfil" max="{{ $fecha }}" value="{{ $fecfin }}" hidden>
-													<button type="submit" class="btn btn-warning w-100 mb-2" data-toggle="tooltip" data-placement="top" title="Generar reporte en Excel.">
-                            📁 Generar Reportes</button>
-													</button>
-												</form>
+												<a class="btn btn-warning w-100 mb-2" data-toggle="collapse" href="#collapseReporteOne" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="tooltip" data-placement="top" title="Generar reporte.">
+												  📁 Generar Reportes
+												</a>
+												<div class="collapse" id="collapseReporteOne">
+													<div class="card card-body">
+													
+													<form id="reportForm" action="{{route('downloadGet')}}" method="POST">
+														@csrf
+														<input type="date" class="form-control" name="fecinifil" id="fecinifil" max="{{ $fecha }}" value="{{ $fecini }}" hidden>
+														<input type="date" class="form-control" name="fecfinfil" id="fecfinfil" max="{{ $fecha }}" value="{{ $fecfin }}" hidden>
+
+														<!-- Boton 1 para generar reporte en Excel -->
+														<input type="hidden" name="reportetipo" id="reportetipo" value="">
+
+														<button type="submit" class="btn btn-info w-100 mb-2" data-toggle="tooltip" data-placement="top" title="Generar reporte en Excel." onclick="setReportType(1)">
+															<i class="fas fa-file-excel"></i> Generar reporte en Excel.
+														</button>
+
+														<!-- Boton 2 para generar reporte en PDF -->
+														<button type="submit" class="btn btn-info w-100" data-toggle="tooltip" data-placement="top" title="Generar reporte en PDF." onclick="setReportType(2)">
+															<i class="fas fa-file-pdf"></i> Generar reporte en PDF.
+														</button>
+													</form>
+
+													</div>
+												</div>
 												<p class="small m-0">Descargar datos clave en Excel/PDF.</p>
 											</div>
 										</div>
 									</div>
 									<div class="card">
 
-										<div class="card-header">
-											Mostrar
-											<select class="form-select" id="recordsPerPage" onchange="changeRows()">
-                          <option value="5">5 registros</option>
-                          <option value="10" selected>10 registros</option>
-                          <option value="25">25 registros</option>
-                          <option value="50">50 registros</option>
-                        </select> registros por página
-											<div class="card-tools">
-												<div class="" style="display: flex;justify-content: space-around;gap: 10px;">
-
-
-													<div class="" style="width: 200px;">
-														<input type="text" class="form-control" id="searchTerm" onkeyup="doSearch()" placeholder="Buscar...">
-													</div>
-												</div>
-											</div>
-										</div>
 										<!-- /.card-header -->
-										<div class="">
+										<div class="card-header mt-5">
 											<div class="table-responsive">
-												<table class="table table-hover table-estadisticas" id="tablaDate">
+												<table class="table table-hover table-estadisticas" id="tabla1">
 													<thead class="colortablas">
 														<tr>
 															<th scope="col">No</th>
@@ -361,36 +379,14 @@
 																</td>
 															</tr>
 															@endforeach @endif @endforeach
-															<tr class='noSearch hide'>
-																<td colspan="3"></td>
-															</tr>
+															
 													</tbody>
 												</table>
 											</div>
 
 										</div>
 										<!-- /.card-body -->
-										<div class="card-footer clearfix">
-											<div class="row">
-												<div class="col-sm-12 col-md-7">
-													<div class="dataTables_info">Showing 1 to 10 of 57 entries</div>
-												</div>
-												<div class="col-sm-12 col-md-5">
-													<div class="">
-														<ul class="pagination m-0">
-															<li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-															<li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-															<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-															<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-															<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-															<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-															<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
-															<li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
+										
 									</div>
 
 								</div>
@@ -412,41 +408,43 @@
 												<p class="small m-0">Analizar qué equipos están participando más.</p>
 											</div>
 											<div class="col-md-4">
-												<form action="{{route('downloadGet')}}" method="POST">
-													@csrf
-													<input type="date" class="form-control" name="fecinifil" id="fecinifil" max="{{ $fecha }}" value="{{ $fecini }}" hidden>
-													<input type="date" class="form-control" name="fecfinfil" id="fecfinfil" max="{{ $fecha }}" value="{{ $fecfin }}" hidden>
-													<button type="submit" class="btn btn-warning w-100 mb-2" data-toggle="tooltip" data-placement="top" title="Generar reporte en Excel.">
-                            📁 Generar Reportes</button>
-													</button>
-												</form>
+												
+												<a class="btn btn-warning w-100 mb-2" data-toggle="collapse" href="#collapseReportetwo" role="button" aria-expanded="false" aria-controls="collapseExample" data-toggle="tooltip" data-placement="top" title="Generar reporte.">
+												  📁 Generar Reportes
+												</a>
+												<div class="collapse" id="collapseReportetwo">
+													<div class="card card-body">
+													
+													<form id="reportForm02" action="{{route('downloadGetInsignias')}}" method="POST">
+														@csrf
+														<input type="date" class="form-control" name="fecinifil02" id="fecinifil02" max="{{ $fecha }}" value="{{ $fecini }}" hidden>
+														<input type="date" class="form-control" name="fecfinfil02" id="fecfinfil02" max="{{ $fecha }}" value="{{ $fecfin }}" hidden>
+
+														<!-- Boton 1 para generar reporte en Excel -->
+														<input type="hidden" name="reportetipo02" id="reportetipo02" value="">
+
+														<button type="submit" class="btn btn-info w-100 mb-2" data-toggle="tooltip" data-placement="top" title="Generar reporte en Excel." onclick="setReportType02(1)">
+															<i class="fas fa-file-excel"></i> Generar reporte en Excel.
+														</button>
+
+														<!-- Boton 2 para generar reporte en PDF -->
+														<button type="submit" class="btn btn-info w-100" data-toggle="tooltip" data-placement="top" title="Generar reporte en PDF." onclick="setReportType02(2)">
+															<i class="fas fa-file-pdf"></i> Generar reporte en PDF.
+														</button>
+													</form>
+
+													</div>
+												</div>
+
 												<p class="small m-0">Descargar datos clave en Excel/PDF.</p>
 											</div>
 										</div>
 									</div>
 									<div class="card">
-
-										<div class="card-header">
-											Mostrar
-											<select class="form-select" id="recordsPerPage" onchange="changeRows()">
-                            <option value="5">5 registros</option>
-                            <option value="10" selected>10 registros</option>
-                            <option value="25">25 registros</option>
-                            <option value="50">50 registros</option>
-                          </select> registros por página
-											<div class="card-tools">
-												<div class="" style="display: flex;justify-content: space-around;gap: 10px;">
-
-													<div class="" style="width: 200px;">
-														<input type="text" class="form-control" id="searchTerm2" onkeyup="doSearch2()" placeholder="Buscar...">
-													</div>
-												</div>
-											</div>
-										</div>
 										<!-- /.card-header -->
-										<div class="">
+										<div class="card-header mt-5">
 											<div class="table-responsive">
-												<table class="table table-hover table-estadisticas" id="tablaDate2">
+												<table class="table table-hover table-estadisticas" id="tabla2">
 													<thead class="colortablas">
 														<tr>
 															<th scope="col">No</th>
@@ -510,9 +508,7 @@
 															</td>
 														</tr>
 														@endforeach
-														<tr class='noSearch2 hide'>
-															<td colspan="3"></td>
-														</tr>
+														
 
 													</tbody>
 												</table>
@@ -520,27 +516,7 @@
 
 										</div>
 										<!-- /.card-body -->
-										<div class="card-footer clearfix">
-											<div class="row">
-												<div class="col-sm-12 col-md-7">
-													<div class="dataTables_info">Showing 1 to 10 of 57 entries</div>
-												</div>
-												<div class="col-sm-12 col-md-5">
-													<div class="">
-														<ul class="pagination m-0">
-															<li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-															<li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-															<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-															<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-															<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-															<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-															<li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
-															<li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
+									
 									</div>
 									<!---========= buscador =============-->
 									<div class="row mb-2">
@@ -565,12 +541,44 @@
 <!-- /.container-fluid -->
 
 <!--==========================================-->
+<!--
 <script src="{{ asset('js/buscador.js')}}"></script>
-<script src="{{ asset('js/buscador_2.js')}}"></script>
+<script src="{{ asset('js/buscador_2.js')}}"></script>-->
 <script>
+	/* declarar variables de manera global */
+	window.recmes = @JSON($recmes);
+	window.totcat = @JSON($totcat);
+	window.recdia = @JSON($recdia);
+
 	document.getElementById('fecini').addEventListener('change', function() {
 					              var fecini = document.getElementById('fecini').value;
 					              document.getElementById('fecfin').min = fecini;
 					   });
+	/*funcionalidad para datatables  */
+	$('#tabla1').DataTable({
+		"language": {
+			"url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+			},
+	});
+
+	$('#tabla2').DataTable({
+		"language": {
+			"url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+			},
+	});
+
+	/*Cambiar el valor del input */
+	function setReportType(type) {
+        document.getElementById('reportetipo').value = type;
+        document.getElementById('reportForm').submit();  // Enviar el formulario
+    }
+
+	/* cambiar valor para input 02 */
+	function setReportType02(val){
+        document.getElementById('reportetipo02').value = val;
+        document.getElementById('reportForm02').submit();  // Enviar el formulario
+	}
+	
 </script>
+
 @endsection

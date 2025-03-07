@@ -33,7 +33,7 @@
                     
                     <div class="inner">
                         <a href="{{route('entregados')}}" type="button" style="color: var(--dark);">
-                        <h3>150</h3>
+                        <h3>@if(isset($totaldar)) {{ $totaldar }} @endif</h3>
 
                         <p>Recompensas entregadas</p>
                         </a>  
@@ -53,7 +53,7 @@
                     <div class="small-box bg-warning">
                     <div class="inner">
                         <a href="/reporte/recompensas" type="button" style="color: var(--dark);">
-                        <h3>150</h3>
+                        <h3 id="valsinentrega">@if(isset($totalsindar)) {{ $totalsindar }} @endif</h3>
 
                         <p>Recompensas sin entregar</p>
                         </a>
@@ -168,6 +168,7 @@
                   }
 
                 }
+
                 ?>
                 @endif
                 <tr class='noSearch hide'>
@@ -192,4 +193,5 @@
 </div>
 <!-- /.content-header -->
 <script src="{{ asset('js/buscador.js')}}"></script>
+
 @endsection

@@ -50,41 +50,73 @@
 <script>
 
 document.addEventListener("DOMContentLoaded", function() {
+                let recmes = window.recmes;
+                let totcat = window.totcat;
+
+                //console.log('datos', recmes);
+                const meses = {
+                        '01': 'Enero',
+                        '02': 'Febrero',
+                        '03': 'Marzo',
+                        '04': 'Abril',
+                        '05': 'Mayo',
+                        '06': 'Junio',
+                        '07': 'Julio',
+                        '08': 'Agosto',
+                        '09': 'Septiembre',
+                        '10': 'Octubre',
+                        '11': 'Noviembre',
+                        '12': 'Diciembre'
+                    };
+                
+                const labels = recmes.map(item => {
+                        const [year, month] = item.mes.split('-');
+                        return `${meses[month]} ${year}`; // Ej. "Agosto 2024"
+                    });
+                
+                const data = recmes.map(item => item.tot); // Ej. [15, 10, 5]
+                
                 new Chart(document.getElementById('trendChart').getContext('2d'), {
                     type: 'line',
-                    data: { labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo'], datasets: [{ label: 'Reconocimientos Totales', data: [20, 35, 50, 40, 60], borderColor: '#cdcdcd', backgroundColor: 'rgba(29, 131, 32, 0.2)', fill: true }] }
+                    data: { labels: labels, datasets: [{ label: 'Reconocimientos Totales', data: data, borderColor: '#cdcdcd', backgroundColor: 'rgba(29, 131, 32, 0.2)', fill: true }] }
                 });
+
+                const labelstotcat = totcat.map(item => item.des); // ['Participar', 'Aprender']
+                const datatotcat = totcat.map(item => item.tot);   // [24, 4]
+
 
                 new Chart(document.getElementById('categoryChart-grupo').getContext('2d'), {
                     type: 'bar',
-                    data: { labels: ['Participar', 'Aprender'], datasets: [{ label: 'Cantidad de Reconocimientos', data: [120, 30], backgroundColor: ['#EBB93B', '#79D0F0'] }] }
+                    data: { labels: labelstotcat, datasets: [{ label: 'Cantidad de Reconocimientos', data: datatotcat, backgroundColor: ['#EBB93B', '#79D0F0'] }] }
                 });
 
                 new Chart(document.getElementById('radarChart').getContext('2d'), {
                     type: 'radar',
-                    data: { labels: ['Participar', 'Aprender', 'Innovar', 'Colaborar'], datasets: [{ label: 'Balance de Categorías', data: [80, 50, 60, 90], borderColor: '#EBB93B', backgroundColor: 'rgba(255, 152, 0, 0.2)', fill: true }] }
+                    data: { labels: labelstotcat, datasets: [{ label: 'Balance de Categorías', data: datatotcat, borderColor: '#EBB93B', backgroundColor: 'rgba(255, 152, 0, 0.2)', fill: true }] }
                 });
-
                 
             });
+
 // Mapa de Calor
 document.addEventListener("DOMContentLoaded", function() {
-                const data = [
-                    {x: "Lunes", y: "08:00", v: 5}, {x: "Lunes", y: "12:00", v: 10},
-                    {x: "Martes", y: "10:00", v: 15}, {x: "Martes", y: "14:00", v: 8},
-                    {x: "Miércoles", y: "09:00", v: 12}, {x: "Miércoles", y: "16:00", v: 7},
-                    {x: "Jueves", y: "11:00", v: 20}, {x: "Jueves", y: "18:00", v: 5},
-                    {x: "Viernes", y: "13:00", v: 25}, {x: "Viernes", y: "17:00", v: 10}
-                ];
+                let recdia = window.recdia;
+                // Adaptar los datos al formato requerido por la gráfica
+                const data = recdia.map(item => ({
+                    x: item.dia,
+                    y: `${item.hora.toString().padStart(2, '0')}:00`,
+                    v: item.tot
+                }));
                 
-                const dayTotals = data.reduce((acc, item) => {
-                    acc[item.x] = (acc[item.x] || 0) + item.v;
+                // Calcular el día más activo
+                const dayTotals = recdia.reduce((acc, item) => {
+                    acc[item.dia] = (acc[item.dia] || 0) + item.tot;
                     return acc;
                 }, {});
-                
+
                 const mostActiveDay = Object.keys(dayTotals).reduce((a, b) => dayTotals[a] > dayTotals[b] ? a : b);
+
                 document.getElementById("mostActiveDay").innerText = `🔥 Día más activo: ${mostActiveDay} con ${dayTotals[mostActiveDay]} reconocimientos.`;
-                
+
                 new Chart(document.getElementById('heatmapChart').getContext('2d'), {
                     type: 'matrix',
                     data: {
@@ -124,7 +156,8 @@ document.addEventListener("DOMContentLoaded", function() {
                             },
                             y: { 
                                 type: 'category',
-                                labels: ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00'],
+                                labels: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', 
+                                 '14:00', '15:00', '16:00', '17:00', '18:00'],
                                 title: { display: true, text: 'Hora del Día' }
                             }
                         }

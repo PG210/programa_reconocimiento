@@ -266,6 +266,7 @@ Route::post('/empresa/eventos/active', [AreasController::class, 'activeCumple'])
 Route::post('/download/excel/appreciation', [ReconocimientosController::class, 'downloadGet'])->middleware(['auth'])->name('downloadGet');
 Route::post('/download/excel/give', [ReconocimientosController::class, 'downloadgive'])->middleware(['auth'])->name('downloadgive');
 Route::post('/download/excel/puntos', [ReconocimientosController::class, 'downloadPuntos'])->middleware(['auth'])->name('downloadPuntos');
+Route::post('/download/excel/insig', [ReconocimientosController::class, 'downloadGetInsignias'])->middleware(['auth'])->name('downloadGetInsignias');
 
 //======================= filtros para metricas ==================
 Route::post('/filter/reconocimiento', [ReconocimientosController::class, 'filterReconocimientoTotal'])->middleware(['auth'])->name('filterReconocimientoTotal');

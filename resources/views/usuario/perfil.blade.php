@@ -223,37 +223,7 @@
     </div>
   </div>
 </div>
-    <div class="accordion" id="accordionExample" style="overflow-y: hidden;">
-      <div class="card">
-        <div class="card-header" id="headingOne">
-          <div class="row">
-           <div class="col-md-9">
-            <h2 class="mb-0 letraform" style="color:black;">
-              <button class="btn btn-block text-left " type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              <i class="fas fa-address-card" style="font-size:25px;"></i>&nbsp;PERFIL DE USUARIO
-              </button>
-            </h2>
-           </div>
-           <div class="col-md-3 letraform">
-             
-           </div>
-        </div>
-          
-        </div>
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-          <div class="card-body letraform">
-
-          <!--############################vista perfil-->
-          <figure class="figure" >
-              <img src="{{asset('dist/imgperfil/'.$dat[0]->imagen)}}" class="figure-img img-fluid" alt="cargando imagen..." width="100px" height="150px" style=" border: 2px; border-radius: 50px; background-color:white;" >
-           </figure>
-              
-         <br><br>
-       <!--#############################--->
-      </div>
-    </div>
-  </div>
-</div>
+   
 <!---##################################3-->
 
   
