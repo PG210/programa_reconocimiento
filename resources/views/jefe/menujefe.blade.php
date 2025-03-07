@@ -62,7 +62,7 @@
           <li class="nav-header">Administración</li>
           <li class="nav-item">
             <a href="{{route('recompensas_obtenidas')}}" class="nav-link @if(Request::is('reporte/recompensas')) active @endif">
-            <i class="nav-icon fas fa-file-excel"></i>
+            <i class="nav-icon fas fa-hand-holding-heart"></i>
               <p>
               Recompensas
               </p>

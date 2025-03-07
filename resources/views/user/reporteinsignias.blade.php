@@ -637,42 +637,72 @@
                         </div>
                       </div> 
                      
-                  
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="card card-primary">
+                            <div class="card-header " >
+                              <h3 class="card-title">
+                                <i class="fas fa-chart-pie mr-1"></i>
+                                Tus insignias 
+                              </h3>
+                              <div class="card-tools">
+                                <ul class="nav nav-pills ml-auto">
+                                  <li class="nav-item">
+                                    <a class="nav-link   active" href="#linea-chart1" data-toggle="tab">Línea tiempo</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div><!-- /.card-header -->
+                            <div class="card-body">
+                              <div class="tab-content p-0">
+                                <div class="chart tab-pane   active" id="linea-chart1" style="">
+                                  <div class="chart">
+                                    <canvas id="timelineChart11" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                  </div>
+                                </div>
+                                
+                              </div>
+                            </div><!-- /.card-body -->
+                          </div>
+                        </div>
+                      </div>
                       <!--------------------------end header--->
-                      <div class="container p-3">
+                      
                         <div class="row row-cols-1 row-cols-md-3 letratarjeta3">
                         @foreach($reconocimientos as $r)
                           <div class="col mb-4">
-                            <div class="card h-100">
+                            <div class="card card-primary card-widget h-100">
                             <!---header card -->
-                            <div class="container" style="background-color:#131535; border-top-left-radius: 5px; order-top-right-radius: 5px; padding:1rem;">
-                                <div class="row">
-                                  <div class="col-lg-8">
-                                    <span class="badge badge-info" style="white-space:normal;"><i class="nav-icon fas fa-award"></i>&nbsp;{{$r->catinsign}}</span><br>
-                                    <span class="badge badge-warning text-left" style="color:black;"> 
-                                    {{$r->nominsig}}
-                                    </span>
-                                  </div>
-                                  <div class="col-lg-4 text-right">
-                                    <img data-src="{{asset('imgpremios/'.$r->imginsig)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">
-                                  </div>
-                                </div>
+                            <div class="card-header py-2 px-3">	
+                            <div class="w-100 text-center">
+                              <div class="user-block w-100">
+                                <!--foto de perfil -->
+                                <img data-src="{{asset('imgpremios/'.$r->imginsig)}}" class="profile-user-img img-circle loaded" alt="User Image" >
+                                
+                                <span class="h6" style="color: #fff;">{{$r->catinsign}}</span>
+                                <p>{{$r->nominsig}}</p>
                               </div>
+                              
+                            </div>
+                            <!-- /.user-block -->
+                          </div>
+
+                            
                             <!--end header-->
                               <div class="card-body">
                               <!---card contenido -->
                                 <div class="row">
-                                    <div class="col-lg-5">
-                                      <img data-src="{{asset('imgpremios/'.$r->imgpremio)}}" class="img-circle elevation-1 lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;"> 
-                                      <span class="badge badge-warning text-left" style="color:black;"> 
+                                    <div class="col-lg-12">
+                                      <img data-src="{{asset('imgpremios/'.$r->imgpremio)}}" class=" elevation-1 lazy-load w-100" alt="User Image"> 
+                                      <span class="badge badge-warning text-left" style="color:black;top: 15px;position: absolute;right: 15px;"> 
                                         Puntos: {{$r->puntosin}}</span>
                                     </div>
-                                    <div class="col-lg-7">
-                                      <h6>{{$r->nompremio}}</h6>
+                                    <div class="col-lg-12">
+                                      <h5>{{$r->nompremio}}</h5>
                                       @if($r->entregado == 1)
-                                        <span class="badge badge-secondary"> Sin entregar</span>
+                                        <span class="badge badge-secondary py-2 w-100"> Sin entregar</span>
                                       @else
-                                        <span class="badge badge-success">Entregado</span>
+                                        <span class="badge badge-success py-2 w-100">Entregado</span>
                                       @endif
                                     </div>
                                 </div>
@@ -688,7 +718,6 @@
                         @endforeach
                         <!--------->
                         </div>
-                      </div>
                       <!--------------------------------------------end reconocimientos--------------------------->
 
                     </div>
