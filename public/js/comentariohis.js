@@ -25,12 +25,15 @@ $(document).ready(function() {
                    
                     for(let i=0; i<data.length; i++){
                         let fechaObj = new Date(data[i]['fecha']); // Convertir a objeto Date
-                        let fechaFormateada = fechaObj.toLocaleDateString('en-GB', opciones); 
+                        let fechaFormateada = fechaObj.toLocaleDateString('es-ES', opciones); 
+                        // Ajustar la fecha para que tenga el formato "12 marzo, 2025"
+                        let fechaFinal = fechaFormateada.replace('de',' ').replace('de', ' ');
                         html +=
-                            '<div class="user-panel mt-3 pb-0 mb-0" style="white-space: normal;">' +
-                                '<img src="/dist/imgperfil/' + data[i]['imagen'] + '" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">' +
-                                '<span> <b>&nbsp;&nbsp;' + data[i]['nombre'] + ' ' + data[i]['apellido'] + ':</b>&nbsp;</span>' + data[i]['com'] +
-                                '<p class="card-text mx-2"><small class="text-muted">' + fechaFormateada + '</small></p>' +
+                            '<div class="user-panel pb-0 mb-0 mt-1" style="white-space: normal;">' +
+                                '<img src="/dist/imgperfil/' + data[i]['imagen'] + '" class="img-circle img-sm" alt="User Image">' +
+                                '<span> <b>&nbsp;&nbsp;' + data[i]['nombre'] + ' ' + data[i]['apellido'] + '</b>&nbsp;</span>' + 
+                                '<span class="card-text mx-2"><small class="text-muted float-right">' + fechaFinal + '</small></span>' +
+                                '<p style="margin-left:40px;">'+ data[i]['com'] + '</p>'
                             '</div>';
                     } 
                     $('#respuestahis' + formId).append(html);//agrega la respuesta al front

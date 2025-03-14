@@ -110,23 +110,17 @@
                                         <div class="form-group col-md-12">
                                         <label for="exampleFormControlFile1">Seleccionar imagen de perfil</label>
                                         <input type="file" class="form-control" id="img" name="img" accept="image/*">
-                                        <div id="error-message" class="text-danger mt-3"></div>
+                                        <div id="error-message" class="text-danger mt-1"></div>
                                         </div>
                                       </div>
-                                      <div class="row">
-                                          <div class="col-md-6">
-                                            <br>
                                           <input type="text" class="form-control" id="inputCity" name="id"   value="{{$dat[0]->id}}" hidden>
-                                          </div>
-                                          <div class="col-md-6">
-                                            
-                                          </div>
-                                      </div>
+                                    
                                 </div>
                                 <div class="modal-footer justify-content-between">
                                   <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                                   <button type="submit" class="btn btn-primary"><i class="fas fa-user-edit"></i>&nbsp; Actualizar</button>
                                 </div>
+                                <br>
                                 </form>
                               </div>
                             </div>

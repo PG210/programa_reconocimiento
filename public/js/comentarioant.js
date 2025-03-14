@@ -14,21 +14,27 @@ $(document).ready(function() {
                 let data = response.data; 
                 let tipo = response.tipo; 
                 let html = '';
+                let opciones = { day: 'numeric', month: 'long', year: 'numeric' }; // Opciones de formato
                 limpiararea();
                 for(let i=0; i<data.length; i++){
+
+                    let fechaObj = new Date(data[i]['fecha']); // Convertir a objeto Date
+                    let fechaFormateada = fechaObj.toLocaleDateString('es-ES', opciones); 
+                    let fechaFinal = fechaFormateada.replace('de',' ').replace('de', ' ');
+
                     html +=
-                        '<div class="user-panel mt-3 pb-0 mb-0" style="white-space: normal;">' +
-                            '<img src="/dist/imgperfil/' + data[i]['imagen'] + '" class="img-circle elevation-1" alt="User Image" style="padding-bottom:2px;">' +
-                            '<span> <b>&nbsp;&nbsp;' + data[i]['nombre'] + ' ' + data[i]['apellido'] + ':</b>&nbsp;</span>' + data[i]['comentario'] +
-                            '<p class="card-text mx-2"><small class="text-muted">' + data[i]['fecha'] + '</small></p>' +
+                        '<div class="user-panel pb-0 mb-0 mt-1" style="white-space: normal;">' +
+                                '<img src="/dist/imgperfil/' + data[i]['imagen'] + '" class="img-circle img-sm" alt="User Image">' +
+                                '<span> <b>&nbsp;&nbsp;' + data[i]['nombre'] + ' ' + data[i]['apellido'] + '</b>&nbsp;</span>' + 
+                                '<span class="card-text mx-2"><small class="text-muted float-right">' + fechaFinal + '</small></span>' +
+                                '<p style="margin-left:40px;">'+ data[i]['comentario'] + '</p>'
                         '</div>';
                 }
                 if(tipo === '1'){ //si es cumpleanios
-                   $('#responsehappy' + formId).html(html);
+                   $('#responsehappy' + formId).append(html);;
                 }else{
-                   $('#responseaniver' + formId).html(html); 
+                   $('#responseaniver' + formId).append(html);; 
                 }
-                
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('Error: ' + textStatus + ', ' + errorThrown);

@@ -41,6 +41,7 @@ use App\Models\Eventos\HolidaysModel;
 use App\Models\Eventos\ComentarHolidayModel; // guardar los comentarios de los usuarios
 use App\Models\Eventos\EstadoEventosModel;
 
+Carbon::setLocale('es');
 
 class Inicio extends Controller
 {
@@ -153,7 +154,7 @@ class Inicio extends Controller
     {
         $comentarios = DB::table('comentarioshistoy')
             ->join('users', 'idusu', '=', 'users.id')
-            ->select('comentario', 'idrec', 'users.name as nombre', 'users.apellido', 'users.imagen', 'comentarioshistoy.created_at as fecha')
+            ->selectRaw('comentario, idrec, users.name as nombre, users.apellido, users.imagen, DATE_FORMAT(comentarioshistoy.created_at, "%e %M, %Y") as fecha')
             ->get();
 
         $totcomentarios = DB::table('comentarioshistoy')
@@ -314,7 +315,12 @@ class Inicio extends Controller
             $totrecom = ReconocimientosModal::where('id_usuario', '=', $userlog)->count(); // insignias obtenidas
             $valorpun = RecibirCat::where('id_user_recibe', '=', $userlog)->selectRaw('SUM(puntos) as p')->get(); //puntos obtenidos
             $totenviados = RecibirCat::where('id_user_envia', '=', $userlog)->count(); // total de reconocmientos enviados
-           
+            
+            //total comentarios holidays
+            /*$totcomholy = ComentarHolidayModel::select('comentarholiday.iduser', DB::raw('COUNT(comentarholiday.id) as totalcomentarios'))
+                          ->groupBy('iduser')
+                          ->get();*/
+        
             return view('usuario.inicio', [
                 'detalle' => $detalle,
                 'emoticonCounts' => $emoticones,
@@ -451,16 +457,6 @@ class Inicio extends Controller
         $area = DB::table('area')->where('area.id', '!=', $iarea)->get();
         return view('admin.actusu')->with('dat', $dat)->with('cargo', $cargo)->with('rol', $rol)->with('area', $area);
     }
-    /*estado
-rol 
-cargo 
-pass 
-correo 
-telf 
-direccion 
-apellido 
-nombre
-*/
 
     public function regdatos(Request $request)
     {
@@ -991,8 +987,8 @@ nombre
             $Comentario->tipo = $tipo;
             $Comentario->save();
         //retornar toda la info al front
-        $data = ComentarHolidayModel::where('comentarholiday.tipo', $tipo)
-               ->where('comentarholiday.iduser', $iduser)->whereYear('comentarholiday.created_at', $anioActual)
+
+        $data = ComentarHolidayModel::where('comentarholiday.id', '=', $Comentario->id)
                ->join('users as u', 'comentarholiday.useraccion', '=', 'u.id')
                ->select('comentarholiday.iduser', 'comentarholiday.useraccion', 'comentarholiday.comentario', 'comentarholiday.tipo', 'comentarholiday.created_at as fecha', 'u.name as nombre', 'u.apellido', 'u.imagen')
                ->get();

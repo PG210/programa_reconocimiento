@@ -60,13 +60,13 @@
 					<!-- small box -->
 					<div class="small-box bg-warning">
 						<div class="inner">
+						@if (!empty($hightpeople->name))
 							<p class="m-0">En este periodo, </p>
-							<h5>
-							@if (isset($hightpeople->name))
-							     {{ $hightpeople->name }} {{ $hightpeople->apellido }}
-							@endif 
-						    </h5>
+							<h5>{{ $hightpeople->name }} {{ $hightpeople->apellido }}</h5>
 							<p class="m-0">ha recibido más reconocimientos que nadie.</p>
+						@else
+							<p class="m-0">En este periodo, ninguno de tus colaboradores ha recibido reconocimientos.</p>
+						@endif
 						</div>
 						<div class="icon">
 							<i class="ion ion-person-add"></i>
@@ -80,14 +80,15 @@
 					<!-- small box -->
 					<div class="small-box bg-info">
 						<div class="inner">
+						@if (!empty( $hightcat->des ))
 							<p class="m-0">Categoría con Más Reconocimientos: </p>
 							<h5>
-								@if (isset( $hightcat->des ))
-									{{ $hightcat->des }} 
-								@endif
+							   {{ $hightcat->des }} 
 							</h5>
 							<p class="m-0">Tus colaboradores valoran esta actitud. ¿Cómo podemos impulsar otras competencias?</p>
-
+						@else
+						    <p class="m-0">En este periodo, aún no hay una categoría destacada en reconocimientos.</p>
+						@endif
 						</div>
 						<div class="icon">
 							<i class="fas fas fa-trophy"></i>
@@ -100,11 +101,29 @@
 					<!-- small box -->
 					<div class="small-box bg-success">
 						<div class="inner">
-							<p class="m-0">Parece que </p>
-								@foreach ($userstot as $utot)
-								<h5>{{ $utot->name }} {{ $utot->apellido }}</h5>
-								@endforeach
+							<!--dropdown-->
+							@if ($userstot->isNotEmpty())
+								<p class="m-0">Parece que </p>
+								<h5>{{ $userstot->first()->name }} {{ $userstot->first()->apellido }}</h5>
+                                <h6>
+									<a class="" data-toggle="collapse" href="#collapseUsers" role="button" aria-expanded="false" aria-controls="collapseUsers">
+										Ver más <i class="fas fa-plus"></i>
+									</a>
+								</h6>
+								<div class="collapse" id="collapseUsers">
+									<div class="">
+										<ul class="list-group list-group-flush">
+										  @foreach ($userstot->skip(1) as $utot)
+											<li class="list-item"> <h5>{{ $utot->name }} {{ $utot->apellido }}</h5></li>
+										   @endforeach
+										</ul>
+									</div>
+								</div>
+								<!--end dropdown-->
 							<p class="m-0">ha recibido pocos reconocimientos. ¿Tal vez necesite más apoyo o visibilidad en su trabajo?</p>
+							@else
+								<p class="m-0">No hay usuarios para mostrar en este periodo.</p>
+							@endif
 						</div>
 						<div class="icon">
 							<i class="ion ion-stats-bars"></i>
@@ -272,13 +291,13 @@
 									<h3 class="card-title">Consulta:</h3></li>
 								<li class="nav-item">
 									<a class="nav-link active" id="nav-home-tab" data-toggle="tab" data-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
-                      Reconocimientos recibidos
-                    </a>
+									Reconocimientos recibidos
+									</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" id="nav-profile-tab" data-toggle="tab" data-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
-                      Insignias recibidas
-                    </a>
+									Insignias recibidas
+									</a>
 								</li>
 								<li class="pt-2 px-3">
 
@@ -335,7 +354,7 @@
 									<div class="card">
 
 										<!-- /.card-header -->
-										<div class="card-header mt-5">
+										<div class="card-header mt-3">
 											<div class="table-responsive">
 												<table class="table table-hover table-estadisticas" id="tabla1">
 													<thead class="colortablas">
@@ -352,14 +371,16 @@
 													</thead>
 													<tbody>
 														<?php
-                            $contador = 0;
-                            ?>
+														$contador = 0;
+														?>
 															@foreach ($recibidos as $conjuntoUsuarios) @if (!empty($conjuntoUsuarios)) @foreach ($conjuntoUsuarios as $usuario)
 															<tr>
 																<th scope="row">{{ $contador+=1 }}</th>
 																<td>{{ $usuario->nombre }} {{ $usuario->ape }}</td>
-																<td>{{ $usuario->fecmin ?? '--' }} </td>
-																<td>{{ $usuario->fecmax ?? '--' }} </td>
+																<td>{{ $usuario->fecmin ? \Carbon\Carbon::parse($usuario->fecmin)->format('d/m/Y') : '--' }}
+																</td>
+																<td>{{ $usuario->fecmax  ? \Carbon\Carbon::parse($usuario->fecmax )->format('d/m/Y') : '--' }}
+																</td>
 																@foreach($categoria as $cate)
 																<td>
 
@@ -378,7 +399,9 @@
 																	<!--| @if($usuario->tot != 0) 100% @else 0% @endif-->
 																</td>
 															</tr>
-															@endforeach @endif @endforeach
+															@endforeach 
+															@endif
+															@endforeach
 															
 													</tbody>
 												</table>
@@ -442,7 +465,7 @@
 									</div>
 									<div class="card">
 										<!-- /.card-header -->
-										<div class="card-header mt-5">
+										<div class="card-header mt-3">
 											<div class="table-responsive">
 												<table class="table table-hover table-estadisticas" id="tabla2">
 													<thead class="colortablas">
@@ -457,59 +480,47 @@
 														</tr>
 													</thead>
 													<tbody>
-														@foreach($users as $index => $usu)
-														<?php 
-                                          $oroCount = 0;
-                                          $plataCount = 0;
-                                          $bronceCount = 0;
-                                          $totalsum = 0;
-                                      ?>
+														@foreach ($insigrecibidas as $irec)
 														<tr>
-															<td>{{ $index + 1 }}</td>
-															<td>{{ $usu->name }}</td>
-															<td>{{ $usu->apellido }}</td>
-															@if(!empty($insignias)) @foreach($insignias as $cant) @if($usu->id == $cant->id_usuario) @if($cant->des == "Oro")
-															<?php $oroCount++; ?> @elseif($cant->des == "Plata")
-															<?php $plataCount++; ?> @elseif($cant->des == "Bronce")
-															<?php $bronceCount++; ?> @endif
-															<?php $totalsum = $oroCount + $plataCount + $bronceCount;  ?> @endif @endforeach @endif
+															<td>{{ $loop->iteration }}</td>
+															<td>{{ $irec->name }}</td>
+															<td>{{ $irec->ape }}</td>
 															<td>
-																<div class="progress-group">
+															   <div class="progress-group">
 																	Cantidad en Oro
-																	<span class="float-right"><b>{{ $oroCount }} | @if($totalsum != 0){{ number_format($oroCount * 100 / $totalsum, 0) }}% @else 0% @endif</span>
+																	<span class="float-right"><b>{{ $irec->oro }} | @if($irec->total != 0){{ number_format($irec->oro * 100 / $irec->total, 0) }}% @else 0% @endif</span>
 																	<div class="progress progress-sm">
-																		<div class="progress-bar bg-warning" style="width:   @if($totalsum != 0){{ number_format($oroCount * 100 / $totalsum, 0) }}% @else 0% @endif">
+																		<div class="progress-bar bg-warning" style="width:   @if($irec->total != 0){{ number_format($irec->oro * 100 / $irec->total, 0) }}% @else 0% @endif">
 																		</div>
 																	</div>
 																</div>
 															</td>
 															<td>
-																<div class="progress-group">
+															    <div class="progress-group">
 																	Cantidad en plata
-																	<span class="float-right"><b>{{ $plataCount }} | @if($totalsum != 0){{ number_format($plataCount*100/$totalsum) }}% @else 0% @endif</span>
+																	<span class="float-right"><b>{{ $irec->plata }} | @if($irec->total != 0){{ number_format($irec->plata*100/$irec->total) }}% @else 0% @endif</span>
 																	<div class="progress progress-sm">
-																		<div class="progress-bar bg-info" style="width: @if($totalsum != 0){{ number_format($plataCount*100/$totalsum) }}% @else 0% @endif">
+																		<div class="progress-bar bg-info" style="width: @if($irec->total != 0){{ number_format($irec->plata*100/$irec->total) }}% @else 0% @endif">
 																		</div>
 																	</div>
 																</div>
 															</td>
 															<td>
-																<div class="progress-group">
+															  <div class="progress-group">
 																	Cantidad en bronce
-																	<span class="float-right"><b>{{ $bronceCount }} | @if($totalsum != 0){{ number_format($bronceCount*100/$totalsum) }}% @else 0% @endif</span>
+																	<span class="float-right"><b>{{ $irec->bronce }} | @if($irec->total != 0){{ number_format($irec->bronce*100/$irec->total) }}% @else 0% @endif</span>
 																	<div class="progress progress-sm">
-																		<div class="progress-bar bg-danger" style="width: @if($totalsum != 0){{ number_format($bronceCount*100/$totalsum) }}% @else 0% @endif">
+																		<div class="progress-bar bg-danger" style="width: @if($irec->total != 0){{ number_format($irec->bronce*100/$irec->total) }}% @else 0% @endif">
 																		</div>
 																	</div>
 																</div>
 															</td>
-															<td><b>{{ $totalsum }} </b>
-																<!--| @if($totalsum != 0) 100% @else 0% @endif-->
+															<td>
+															     <b>{{ $irec->total }} </b>
 															</td>
 														</tr>
 														@endforeach
 														
-
 													</tbody>
 												</table>
 											</div>
@@ -541,9 +552,6 @@
 <!-- /.container-fluid -->
 
 <!--==========================================-->
-<!--
-<script src="{{ asset('js/buscador.js')}}"></script>
-<script src="{{ asset('js/buscador_2.js')}}"></script>-->
 <script>
 	/* declarar variables de manera global */
 	window.recmes = @JSON($recmes);

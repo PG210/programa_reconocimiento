@@ -34,18 +34,22 @@
         }
          
         $("#sugerir").empty();
+        $("#seleccionados").empty();
+
         previewDiv.textContent = ""; //limpiar el div donde aparece el texto
         nomcat.textContent = "";
         com.textContent = "";
+
         if(dat.length!=0){
           $('#formudatos')[0].reset();
           toastr.success('El envió de reconocimiento fue exitosó', 'Nuevo Reconocimiento', {timeOut:3000});
           //setTimeout(refrescar, 2000);
           for(var i=0; i<dat.length; i++){
-            var resul= '<div class="list-group-item list-group-item-action d-flex align-items-center">'+
-                  '<img src="http://127.0.0.1:8000/dist/imgperfil/perfil1740561960.jpg" class="profile-user-img img-fluid img-circle" style="width: 80px; height:80px" alt="'+ dat[i].name +'">'+
-                  '<p style="width: 80%;">' + dat[i].name + '&nbsp;' + dat[i].apellido + '</p>'+
-              '</div>';
+            var resul= '<div class="list-group-item list-group-item-action d-flex align-items-center">' +
+                        '<input type="checkbox" class="people" name="usuSel[]" value="'+ dat[i].id +'" atrib-name="'+ dat[i].name + '' + dat[i].apellido +'" >' +
+                        '<img src="/dist/imgperfil/' + dat[i].imagen + '" class="profile-user-img img-fluid img-circle" style="width: 80px; height:80px" alt="' + dat[i].name + '">' +
+                        '<p style="width: 80%; margin: 0; padding-left: 10px;">' + dat[i].name + ' ' + dat[i].apellido + '</p>' +
+                    '</div>';
               $('#sugerir').append(resul);
             }
           }else{
@@ -173,7 +177,95 @@ $(document).ready(function() {
 document.getElementById("detexto").addEventListener("input", function() {
   let texto = this.value;
   let previewDiv = document.getElementById("preview");
-
   // Actualizar el contenido del div
   previewDiv.textContent = texto || "El texto ingresado aparecerá aquí...";
+});
+
+//mostrar usuarios seleccionados
+$(document).ready(function () {
+    $('#mostrarSeleccionados').click(function () {
+          var seleccionados = [];
+      $('input.persona:checked').each(function () {
+          seleccionados.push($(this).attr('atrib-name'));
+      });
+      // imprimir los datos
+      $('#seleccionados').empty(); // Limpiar contenido previo
+      $.each(seleccionados, function (index, nombre) {
+          $('#seleccionados').append('<h5><b>' + nombre + '<b></h5>');
+      });
+      // validar el label
+      if (seleccionados.length > 0) {
+        $('#colab').show();
+      } else {
+        $('#colab').hide();
+      }
+    });
+});  
+
+
+//boton de reconser ahora
+$(document).ready(function () {
+    $('#mostrarAleatorios').click(function () {
+      let ususel = []; //nombre y apellido de los usuarios
+      let idusu = [];
+
+      $('input.people:checked').each(function () {
+          ususel.push($(this).attr('atrib-name'));
+          idusu.push($(this).val()); //capturar los id
+      });
+      // imprimir los datos
+      $('#seleccionados').empty(); // Limpiar contenido previo
+      $.each(ususel, function (index, nombre) {
+        $('#seleccionados').append('<h5><b>' + nombre + '<b></h5>');
+      });
+
+      //marcar los datos selecionados
+      $('input.persona').each(function () {
+          if (idusu.includes($(this).val())) {
+              $(this).prop('checked', true);
+          } else {
+              $(this).prop('checked', false); // Opcional: Desmarcar los no seleccionados
+          }
+      });
+
+      // validar el label
+      if (ususel.length > 0) {
+        $('#colab').show();
+      } else {
+        $('#colab').hide();
+      }
+    });
+  });  
+
+  //mostrar los datos del usuario clickeado
+  $(document).ready(function () {
+    // Simulando el JSON que recibes
+    let usuarios = window.datausu;
+    if(usuarios && usuarios.length > 0){
+
+    let ususel = []; // Almacena nombres y apellidos
+    let idusu = [];  // Almacena IDs de usuarios seleccionados
+
+    // Recorrer los datos JSON y extraer info
+    $.each(usuarios, function (index, usuario) {
+        ususel.push(usuario.name + " " + usuario.apellido);
+        idusu.push(usuario.id.toString()); // Convertir ID a string para comparación
+    });
+
+    // Limpiar y mostrar los nombres seleccionados
+    let seleccionados = $('#seleccionados').empty();
+    if (ususel.length > 0) {
+        $.each(ususel, function (index, nombre) {
+            seleccionados.append(`<h5><b>${nombre}</b></h5>`);
+        });
+        $('#colab').show(); // Mostrar el label si hay usuarios seleccionados
+    } else {
+        $('#colab').hide();
+    }
+
+    // Marcar los checkboxes correspondientes
+    $('input.persona').each(function () {
+        $(this).prop('checked', idusu.includes($(this).val()));
+    });
+   }
 });

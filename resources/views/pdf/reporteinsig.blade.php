@@ -25,7 +25,7 @@
     </style>
 </head>
 <body>
-    <h1>Reporte de Datos</h1>
+    <h1>Reporte de insignias obtenidas</h1>
     <table>
         <thead>
             <tr>

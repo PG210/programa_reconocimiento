@@ -174,73 +174,77 @@ document.addEventListener("DOMContentLoaded", function() {
     //--------------
     //- AREA CHART -
     //--------------
-
-    // Get context with jQuery - using jQuery's .get() method.
     const ctxTimeline = document.getElementById('timelineChart').getContext('2d');
     let rectime = window.rectime;
-    console.log('datos info', rectime);
+    console.log('datos', rectime);
 
-    // Modificar los campos data
-    let meses = Array.from({ length: 12 }, (v, k) => k + 1); // Meses del 1 al 12
-    let valData = [Array(12).fill(0), Array(12).fill(0), Array(12).fill(0), Array(12).fill(0), Array(12).fill(0)];
-    let descriptions = [null, null, null, null, null];
+    // Definir todos los meses de enero (01) a diciembre (12)
+    let mesesTotales = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
+    // Obtener todas las categorías únicas
+    let categoriasUnicas = [...new Set(rectime.map(item => item.descat))];
+
+    // Inicializar estructura de datos con ceros para cada categoría en cada mes
+    let valData = categoriasUnicas.map(() => Array(mesesTotales.length).fill(0));
+
+    // Asignar valores a los meses correspondientes
     rectime.forEach(item => {
-        if (item.idcat >= 1 && item.idcat <= 5) {
-            valData[item.idcat - 1][item.mes - 1] += item.total;
-            descriptions[item.idcat - 1] = item.descat;
+        let mesIndex = mesesTotales.indexOf(item.mes); // Ubicar el mes en el array
+        let catIndex = categoriasUnicas.indexOf(item.descat); // Ubicar la categoría
+
+        if (mesIndex !== -1 && catIndex !== -1) {
+            valData[catIndex][mesIndex] += item.total; // Sumar los valores al mes correspondiente
         }
     });
 
-    // Definir los colores
+    // Definir colores para cada categoría
     const colors = [
         { background: 'rgba(60,141,188,0.9)', border: 'rgba(60,141,188,0.8)', point: '#3b8bba' },
-        { background: 'rgba(210,214,222,1)', border: 'rgba(210,214,222,1)', point: 'rgba(210,214,222,1)' },
-        { background: 'rgb(10,231,128)', border: 'rgb(10,231,128)', point: 'rgb(10,231,128)' },
-        { background: 'rgb(255,239,11)', border: 'rgb(255,239,11)', point: 'rgb(255,239,11)' },
-        { background: 'rgb(255,11,214)', border: 'rgb(255,11,214)', point: 'rgb(255,11,214)' }
+        { background: 'rgba(210, 214, 222, 0.9)', border: 'rgba(210, 214, 222, 0.8)', point: '#d2d6de' }
     ];
 
-    // Filtrar datasets que tengan valores distintos de 0
-    let datasets = descriptions
-        .map((desc, index) => {
-            if (desc && valData[index].some(value => value !== 0)) {
-                return {
-                    label: desc,
-                    backgroundColor: colors[index].background,
-                    borderColor: colors[index].border,
-                    pointRadius: 5,
-                    pointColor: colors[index].point,
-                    pointStrokeColor: '#c1c7d1',
-                    pointHighlightFill: '#fff',
-                    pointHighlightStroke: colors[index].border,
-                    data: valData[index]
-                };
-            }
-            return null;
-        })
-        .filter(dataset => dataset !== null);
+    // Crear datasets para la gráfica
+    let datasets = categoriasUnicas.map((desc, index) => {
+        return {
+            label: desc,
+            backgroundColor: colors[index % colors.length].background,
+            borderColor: colors[index % colors.length].border,
+            pointRadius: 5,
+            pointBackgroundColor: colors[index % colors.length].point,
+            pointBorderColor: '#c1c7d1',
+            pointHighlightFill: '#fff',
+            pointHighlightStroke: colors[index % colors.length].border,
+            data: valData[index]
+        };
+    });
 
+    console.log('datasets', datasets);
+
+    // Crear gráfico con los meses en el eje X
     new Chart(ctxTimeline, {
         type: 'line',
         data: {
-            labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            labels: mesesTotales, // Todos los meses del año
             datasets: datasets
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-                x: {
-                    grid: { display: false }
+                x: { 
+                    grid: { display: false },
+                    title: { display: true, text: "Mes" }
                 },
-                y: {
-                    beginAtZero: true
+                y: { 
+                    beginAtZero: true,
+                    title: { display: true, text: "Total" }
                 }
             }
         }
     });
 
+
+    
     //-------------
     //- DONUT CHART -
     //-------------
@@ -248,7 +252,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
     let datos = window.datos;
 
-    var donutData        = {
+    var donutData  = {
       labels: datos.map(item => item.descrip), 
 
       datasets: [
@@ -274,21 +278,28 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 $(function () {
-    /* ChartJS
-     * -------
-     * Here we will create a few charts using ChartJS
-     */
-
-    //--------------
-    //- AREA CHART -
-    //--------------
 
     // Get context with jQuery - using jQuery's .get() method.
     const ctxTimeline = document.getElementById('timelineChart11').getContext('2d');
+        let grafinsig = window.grafinsig; //capturar los datos en formato json
+
+        const meses = [
+            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ];
+
+        let datosMap = {};
+        grafinsig.forEach(item => {
+            datosMap[item.mes] = item.total;
+        });
+
+        let labels = meses; //extraer fechas
+        let data = meses.map(mes => datosMap[mes] || 0); //extraer total
+
         new Chart(ctxTimeline, {
             type: 'line',
             data: {
-                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'],
+                labels: labels,
                 datasets: [
                     {
                         label               : 'Insignias',
@@ -299,7 +310,7 @@ $(function () {
                         pointStrokeColor    : 'rgba(60,141,188,1)',
                         pointHighlightFill  : '#fff',
                         pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data                : [3, 5, 5, 0, 1, 2, 3]
+                        data                : data,
                         
                     }
                 ]

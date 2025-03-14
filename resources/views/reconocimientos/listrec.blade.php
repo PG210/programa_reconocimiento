@@ -107,7 +107,7 @@
           <p>Tu reconocimiento hace la diferencia. 🙌</p>
           <p>¿Qué tal si aprovechas tu visita y reconoces también a  </p>
           <!---=============-->
-          <div >
+          <div>
             <div class="list-group" id="sugerir"></div>
            </div>
         
@@ -122,7 +122,7 @@
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-edfault" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-success">¡Reconocer ahora!</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal" id="mostrarAleatorios">¡Reconocer ahora!</button>
         </div>
       </div>
     </div>
@@ -284,6 +284,8 @@
   <script src="{{ asset('js/buscador.js')}}"></script>
   <script src="{{ asset('dist/js/lazy.js')}}"></script>
   <script>
+    window.datausu = @JSON($datausu);
+    
     document.addEventListener('DOMContentLoaded', function () {
     introJs().setOptions({
       nextLabel: 'Siguiente',
@@ -316,25 +318,5 @@
     }).start();
     });
   </script>
-  <script>
-    $(document).ready(function () {
-    $('#mostrarSeleccionados').click(function () {
-      var seleccionados = [];
-      $('input.persona:checked').each(function () {
-      seleccionados.push($(this).attr('atrib-name'));
-      });
-      // imprimir los datos
-      $('#seleccionados').empty(); // Limpiar contenido previo
-      $.each(seleccionados, function (index, nombre) {
-      $('#seleccionados').append('<h5><b>' + nombre + '<b></h5>');
-      });
-      // validar el label
-      if (seleccionados.length > 0) {
-      $('#colab').show();
-      } else {
-      $('#colab').hide();
-      }
-    });
-    });  
-  </script>
+
 @endsection

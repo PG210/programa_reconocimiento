@@ -142,12 +142,11 @@
                     @endif
                 </div>
             </div>
-            @else
-            <div class="card text-center bg-secondary letraform">
+            <!--<div class="card text-center bg-secondary letraform">
                 <h4 class="py-5">
                     <marquee> Pronto se publicará nueva información...</marquee>
                 </h4>
-            </div>
+            </div>-->
             @endif
             <!--card-->
             <!--end carrucel-->
@@ -337,7 +336,7 @@
                                                             <div class="comment-text">
                                                                 <span class="username">
                                                                 {{ $comentario->nombre }} {{ $comentario->apellido }}
-                                                                <span class="text-muted float-right">{{ date('j F, Y', strtotime($comentario->fecha)) }}</span>
+                                                                <span class="text-muted float-right">{{ \Carbon\Carbon::parse($comentario->fecha)->translatedFormat('j F, Y') }}</span>
                                                                 </span><!-- /.username -->
                                                                 {{$comentario->comentario}}
                                                             </div>
@@ -404,8 +403,10 @@
                                                         <span> <b>&nbsp;&nbsp;{{ $happy->name }}
                                                                 {{ $happy->apellido }}</b>&nbsp; está celebrando su
                                                             cumpleaños.</span>
-                                                        <p class="card-text mx-2"><small
-                                                                class="text-muted">{{ date('j F, Y', strtotime($happy->fecha_cumple)) }}</small>
+                                                        <p class="card-text mx-2">
+                                                            <small class="text-muted">
+                                                               {{ \Carbon\Carbon::parse($happy->fecha_cumple)->translatedFormat('j F, Y') }}
+                                                            </small>
                                                         </p>
                                                     </div>
                                                     <p class="card-text m-2">Únete a la celebración y comparte un
@@ -502,8 +503,10 @@
                                                                             <span> <b>&nbsp;&nbsp;{{ $comcumple->nombre }}
                                                                                     {{ $comcumple->apellido }}:</b>&nbsp;</b></span>
                                                                             {{$comcumple->comentario}}
-                                                                            <p class="card-text mx-2"><small
-                                                                                    class="text-muted">{{ date('j F, Y', strtotime($comcumple->fecha)) }}</small>
+                                                                            <p class="card-text mx-2">
+                                                                                <small class="text-muted text-right">
+                                                                                {{ \Carbon\Carbon::parse($comcumple->fecha)->translatedFormat('j F, Y') }}
+                                                                                </small>
                                                                             </p>
                                                                         </div>
                                                                   @endif
@@ -565,8 +568,10 @@
                                                                 {{ $aniver['apellido'] }}</b>&nbsp; Celebra
                                                             <strong>{{$aniver['anios']}}</strong> año(s) en la
                                                             empresa.</span>
-                                                        <p class="card-text mx-2"><small
-                                                                class="text-muted">{{ date('j F, Y', strtotime($aniver['fecaniv'])) }}</small>
+                                                        <p class="card-text mx-2">
+                                                            <small class="text-muted">
+                                                                 {{ \Carbon\Carbon::parse($aniver['fecaniv'])->translatedFormat('j F, Y') }}
+                                                            </small>
                                                         </p>
                                                     </div>
                                                     <p class="card-text m-2">¡Únete a su celebración y comparte un
@@ -666,8 +671,10 @@
                                                                     <span> <b>&nbsp;&nbsp;{{ $comaniv->nombre }}
                                                                             {{ $comaniv->apellido }}:</b>&nbsp;</b></span>
                                                                     {{$comaniv->comentario}}
-                                                                    <p class="card-text mx-2"><small
-                                                                            class="text-muted">{{ date('j F, Y', strtotime($comaniv->fecha)) }}</small>
+                                                                    <p class="card-text mx-2">
+                                                                        <small class="text-muted">
+                                                                           {{ \Carbon\Carbon::parse($comaniv->fecha)->translatedFormat('j F, Y') }}
+                                                                        </small>
                                                                     </p>
                                                                 </div>
                                                                 @endif @endforeach

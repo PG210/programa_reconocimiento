@@ -104,7 +104,7 @@ Route::post('/reporte/insignias/filter',[ReconocimientosController::class, 'filt
 
 //ruta reconocimiento
 Route::get('/reconocimientos/listar', [ReconocimientosController::class, 'reporte_reconocimiento'])->middleware(['auth'])->name('reporte_re');
-Route::get('/reconocimientos/usuario', [ReconocimientosController::class, 'listarrec'])->middleware(['auth'])->name('listareconocer');
+Route::get('/reconocimientos/usuario/{id?}', [ReconocimientosController::class, 'listarrec'])->middleware(['auth'])->name('listareconocer');
 
 
 //envia reconocimiento de categoria

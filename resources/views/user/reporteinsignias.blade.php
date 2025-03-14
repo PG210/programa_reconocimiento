@@ -419,8 +419,8 @@
                               </span>
                               📅 {{ \Carbon\Carbon::parse($det->fecha)->format('j/m/Y') }} </br> 
                               <i class="fas fa-star text-warning"></i><span> {{$nompuntos->descripcion}}: </span><span class="punto">{{$det->puntos}} </span>
-                              <a type="button" class="btn btn-warning w-100">
-                                    Reconoce a {{$det->nomenvia}} 
+                              <a href="{{ route('listareconocer', ['id' => $det->id_user_envia]) }}"  type="button" class="btn btn-warning w-100">
+                                    Reconoce a {{$det->nomenvia}}  
                               </a>
                           </div>
                             <div class="card-body pt-0">
@@ -608,8 +608,12 @@
                       <div class="info-box">
                         <span class="info-box-icon bg-success"><i class="fas fa-star"></i></span>
                         <div class="info-box-content">
+                          @if(isset($pinsig->p))
                           <span class="info-box-text"> Has acumulado </span>
-                          <span class="info-box-number">1200 puntos</span>
+                          <span class="info-box-number">{{ $pinsig->p }} puntos</span>
+                          @else
+                          <span class="info-box-text">Aún no tienes puntos acumulados.</span>
+                          @endif
                         </div>
                         <!-- /.info-box-content -->
                       </div>
@@ -618,9 +622,15 @@
                      <div class="info-box">
                         <span class="info-box-icon bg-warning"><i class="fas fa-coins"></i></span>
                         <div class="info-box-content">
+                         @if($dif > 0)
                           <span class="info-box-text">¡Estás a solo</span>
-                          <span class="info-box-number">300</span>
+                          <span class="info-box-number">
+                            {{ $dif }}
+                          </span>
                           <span class="info-box-text">puntos de tu próxima recompensa especial!</span>
+                         @else
+                          <span class="info-box-text">¡Felicidades, has completado todas las recompensas!</span>
+                         @endif
                         </div>
                         <!-- /.info-box-content -->
                       </div>
@@ -655,12 +665,11 @@
                             </div><!-- /.card-header -->
                             <div class="card-body">
                               <div class="tab-content p-0">
-                                <div class="chart tab-pane   active" id="linea-chart1" style="">
+                                <div class="chart tab-pane active" id="linea-chart1" style="">
                                   <div class="chart">
                                     <canvas id="timelineChart11" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                   </div>
                                 </div>
-                                
                               </div>
                             </div><!-- /.card-body -->
                           </div>
@@ -695,7 +704,7 @@
                                     <div class="col-lg-12">
                                       <img data-src="{{asset('imgpremios/'.$r->imgpremio)}}" class=" elevation-1 lazy-load w-100" alt="User Image"> 
                                       <span class="badge badge-warning text-left" style="color:black;top: 15px;position: absolute;right: 15px;"> 
-                                        Puntos: {{$r->puntosin}}</span>
+                                        Puntos: {{$r->puntos_acumulados}} </span>
                                     </div>
                                     <div class="col-lg-12">
                                       <h5>{{$r->nompremio}}</h5>
@@ -751,10 +760,6 @@
   @endif
 <!---#######################---> 
 <!--- modificaciones -->
-{{-- 
-<div class="card">
-       
-  </div>--}}
 <!------##############script para que funcione el html en toottips#############-->
 
 <script> 
@@ -763,6 +768,8 @@
     //reconocimientos en el tiempo
     let rectime = @JSON($rectime);
     window.rectime = rectime;
+
+    window.grafinsig = @json($grafinsig);
     
     $(function () {
       $('[data-toggle="tooltip"]').tooltip();
