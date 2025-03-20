@@ -1,4 +1,5 @@
-@extends('usuario.principa_usul') @section('content')
+@extends('usuario.principa_usul') 
+@section('content')
 <style>
   .placa {
       background-color:#e0e0e0; /* Gris claro */
@@ -39,31 +40,18 @@
   <!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
-
-
 <div class="container">
   <div class="row mb-2">
     <div class="col-12">
       <div class="card card-primary card-outline">
         <div class="card-body box-profile" style="display: flex; align-items: center; gap: 15px;">
           <p class="m-0">Selecciona si deseas mostrar los cumpleaños y quinquenios en la vista de usuario. </p>
+     
           <div class="float-right custom-control custom-switch custom-switch-lg">
-            <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
-            <label class="custom-control-label" for="customSwitch1">Activar</label>
+              <input type="checkbox" class="custom-control-input" id="customSwitch1" 
+                  data-url="{{ route('activeCumple') }}" {{ isset($estado) && $estado->estado == 1 ? 'checked' : '' }}>
+              <label class="custom-control-label" for="customSwitch1">Activar</label>
           </div>
-          @if(isset($estado))
-          <form class="float-right " action="{{route('activeCumple')}}" method="POST" onsubmit="return confirm('¿Estás seguro que desea cambiar el estado de la vista?');">
-            @csrf
-
-            <button class="buttones buttonAct " type="submit" class="mt-2" data-toggle="tooltip" data-placement="top" title="Activar o desactivar la visualización de cumpleaños y quinquenios en la vista de usuario.">
-          @if($estado->estado == 1) 
-           <span> <i class="fas fa-toggle-on" style="font-size: 3em; color:var(--success);"></i> Activado </span>
-          @else
-          <span> <i class="fas fa-toggle-off" style="font-size: 3em; color:var(--text);"></i> Desactivado </span>
-          @endif
-        </button>
-          </form>
-          @endif
         </div>
       </div>
 
@@ -114,12 +102,7 @@
                 <!--- datos de la db-->
             </div>
 
-
             <div class="tab-pane fade" id="custom-tabs-two-profile" role="tabpanel" aria-labelledby="custom-tabs-two-profile-tab">
-              
-
-              
-              
               <div class="row">
               <div class="col-md-12">
                   <h5>Crea un mensaje de antigüedad:
@@ -200,7 +183,39 @@
                   <p class="form-control text-sm">{{$anti->tiempo}} </p>
                 </div>
                 <div class="form-group col-md-1">
-                  <a href="{{route('deletevento', $anti->id)}}" onclick="return confirm('¿Estás seguro de que deseas eliminar este registro?');" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                 
+                  <!---modal para confirmacion-->
+                  <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#deleteIm{{ $anti->id }}">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                  <div class="modal fade" id="deleteIm{{ $anti->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Mensaje de confirmación</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body text-left">
+                            <p>
+                            ¿Estás seguro de que deseas eliminar este mensaje?
+                            </p>
+                            </div>
+                            <div class="modal-footer justify-content-between">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                              <form action="{{route('deletevento')}}" method="POST">
+                                @csrf
+                                <input type="hidden" value="{{ $anti->id }}" name="idant" id="idant{{ $anti->id }}">
+                                <button type="submit" class="btn btn-success">Eliminar</button>
+                              </form>
+                            </div>
+                          </div>
+                      </div>
+                  </div>
+                  <!--end modal confirmacion-->
+
+
                 </div>
               </div>
               @endforeach
@@ -216,18 +231,18 @@
                 </div>
                 <div class="info">
                   <a type="button" class="d-block text-black" data-toggle="tooltip" data-html="true" title="
-          <div class='card bg-blue'>
-            <div class='card-body'>
-               <h6 class='card-text text-left'>Cargo: {{$usu->cargo}} </h6>
-               <h6 class='card-text text-left'>Area: {{$usu->area}}</h6>
-            </div>
-          </div>
-          ">
-            {{$usu->name}} {{$usu->apellido}} @if($usu->estado == 1) <i class="fas fa-birthday-cake" style="color: #FFD700;"></i> @endif
-           </a>
-                  <span class="text-sm">
-            {{ \Carbon\Carbon::parse($usu->fecha_cumple ?? '')->isoFormat('dddd, D [de] MMMM') }}
-          </span>
+                  <div class='card bg-blue'>
+                    <div class='card-body'>
+                      <h6 class='card-text text-left'>Cargo: {{$usu->cargo}} </h6>
+                      <h6 class='card-text text-left'>Area: {{$usu->area}}</h6>
+                    </div>
+                  </div>
+                  ">
+                    {{$usu->name}} {{$usu->apellido}} @if($usu->estado == 1) <i class="fas fa-birthday-cake" style="color: #FFD700;"></i> @endif
+                  </a>
+                          <span class="text-sm">
+                    {{ \Carbon\Carbon::parse($usu->fecha_cumple ?? '')->isoFormat('dddd, D [de] MMMM') }}
+                  </span>
                 </div>
               </div>
               @endforeach
@@ -240,31 +255,29 @@
                 </div>
                 <div class="info">
                   <a type="button" class="d-block text-black" data-toggle="tooltip" data-html="true" title="
-          <div class='card bg-blue'>
-            <div class='card-body'>
-               <h6 class='card-text text-left'>Cargo: {{$aniv->cargo}} </h6>
-               <h6 class='card-text text-left'>Area: {{$aniv->area}}</h6>
-            </div>
-          </div>
-          ">
-            {{$aniv->name}} {{$aniv->apellido}} <i class="fas fa-gift" style="font-size: 24px; color: #ff0000;"></i> 
-             @if($datehoy < $aniv->fecha_aniversario)
-                {{$aniv->total_anios + 1}} Año(s) en la empresa.
-             @else
-                {{$aniv->total_anios}} Año(s) en la empresa.
-             @endif
-           </a>
+                      <div class='card bg-blue'>
+                        <div class='card-body'>
+                          <h6 class='card-text text-left'>Cargo: {{$aniv->cargo}} </h6>
+                          <h6 class='card-text text-left'>Area: {{$aniv->area}}</h6>
+                        </div>
+                      </div>
+                      ">
+                    {{$aniv->name}} {{$aniv->apellido}} <i class="fas fa-gift" style="font-size: 24px; color: #ff0000;"></i> 
+                    @if($datehoy < $aniv->fecha_aniversario)
+                        {{$aniv->total_anios + 1}} Año(s) en la empresa.
+                    @else
+                        {{$aniv->total_anios}} Año(s) en la empresa.
+                    @endif
+                  </a>
                   <span class="text-sm">
-            {{ \Carbon\Carbon::parse($aniv->fecha_aniversario ?? '')->isoFormat('dddd, D [de] MMMM') }}
-          </span>
-                </div>
+                    {{ \Carbon\Carbon::parse($aniv->fecha_aniversario ?? '')->isoFormat('dddd, D [de] MMMM') }}
+                  </span>
+                  </div>
               </div>
               @endforeach
               <!--- end iteracion --->
             </div>
-            <div class="tab-pane fade" id="custom-tabs-two-settings" role="tabpanel" aria-labelledby="custom-tabs-two-settings-tab">
-              Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.
-            </div>
+          
           </div>
         </div>
         <!-- /.card -->
@@ -274,10 +287,6 @@
     </div>
   </div>
 </div>
-<script>
-  $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-      });
-  
-</script>
+
+<script src="{{ asset('js/estado.js')}}"></script>
 @endsection

@@ -14,9 +14,9 @@
 
     <li class="nav-item">
       <a href="{{route('areas')}}" class="nav-link @if(Request::is('areas/empresa')) active @endif">
-        &nbsp;<i class="fas fa-industry"></i>
+       <i class="nav-icon fas fa-industry"></i>
         <p>
-          &nbsp;&nbsp;Empresa
+          Empresa
         </p>
       </a>
     </li>
@@ -90,7 +90,7 @@
     <li class="nav-header">Gestión de Comunicación</li>
     <!--- comunicaciones --->
     <li class="nav-item">
-      <a href="{{route('comunicacion.index')}}" class="@if(Request::is('comunicacion')) active @endif nav-link">
+      <a href="{{route('comunicacion.index')}}" class="nav-link @if(Request::is('comunicacion')) active @endif nav-link">
         <i class="nav-icon fas fa-comments"></i>
         <p>
           Comunicación
@@ -102,9 +102,9 @@
     <!---mdoludo de eventos--->
     <li class="nav-item">
       <a href="{{route('eventos')}}" class="nav-link @if(Request::is('empresa/eventos')) active @endif">
-        &nbsp;<i class="fas fa-calendar-alt"></i>
+        <i class="nav-icon fas fa-calendar-alt"></i>
         <p>
-          &nbsp;&nbsp;Eventos
+          Eventos
         </p>
       </a>
     </li>
@@ -136,7 +136,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{route('metricasPuntos')}}" class="nav-link @if(Request::is('admin/puntos')) active @endif">
+          <a href="{{route('metricasPuntos')}}" class="nav-link @if(Request::is('metricas/puntos')) active @endif">
             &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
             &nbsp;<p>Puntos</p>
           </a>

@@ -87,13 +87,36 @@
       <img src="{{ asset('dist/carrucel/' . $imagen1->imagen) }}" class="img-thumbnail" alt="...">
     </div>
     <div class="col-lg-1 mt-5">
-      <form action="{{ route('comunicacion.destroy', $imagen1->id) }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');">
-          <i class="fas fa-trash"></i>
-        </button>
-      </form>
+    <!---modal para confirmacion-->
+      <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#eliminarImagenes{{ $imagen1->id }}">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+      <div class="modal fade" id="eliminarImagenes{{ $imagen1->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Mensaje de confirmación</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body text-left">
+                <p>
+                ¿Estás seguro de que deseas eliminar esta imagen?
+                </p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                  <form action="{{ route('comunicacion.destroy', $imagen1->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-success">Eliminar</button>
+                  </form>
+                </div>
+              </div>
+          </div>
+      </div>
+      <!--end modal confirmacion-->
     </div>
     <div class="col-lg-11">
       @if($imagen1->descrip)
@@ -156,7 +179,7 @@
           <button type="submit" class="btn btn-info btn-sm" @if(!empty($imagen2)) disabled @endif><i class="fas fa-upload"></i></button>
       </div> 
      </div> </div>
-    </form>
+  </form>
   <!--- aqui imprimir la imagen 01 -->
   @else
   <div class="card card-body"><div class="row">
@@ -165,13 +188,36 @@
     <img src="{{ asset('dist/carrucel/' . $imagen2->imagen) }}" class="img-thumbnail" alt="...">
     </div>
     <div class="col-lg-1 mt-5">
-    <form action="{{ route('comunicacion.destroy', $imagen2->id) }}" method="POST">
-      @csrf
-      @method('DELETE')
-      <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');">
-        <i class="fas fa-trash"></i>
+      <!---modal para confirmacion-->
+      <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#eliminarImagen{{ $imagen2->id }}">
+        <i class="fas fa-trash-alt"></i>
       </button>
-    </form>
+      <div class="modal fade" id="eliminarImagen{{ $imagen2->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Mensaje de confirmación</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body text-left">
+                <p>
+                ¿Estás seguro de que deseas eliminar esta imagen?
+                </p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                  <form action="{{ route('comunicacion.destroy', $imagen2->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-success">Eliminar</button>
+                  </form>
+                </div>
+              </div>
+          </div>
+      </div>
+      <!--end modal confirmacion-->
     </div>
     <div class="col-lg-12">
     @if($imagen2->descrip)
@@ -242,13 +288,36 @@
     <img src="{{ asset('dist/carrucel/' . $imagen3->imagen) }}" class="img-thumbnail" alt="..." >
     </div>
     <div class="col-lg-1 mt-5">
-      <form action="{{ route('comunicacion.destroy', $imagen3->id) }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');">
-          <i class="fas fa-trash"></i>
-        </button>
-      </form>
+      <!---modal para confirmacion-->
+      <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#eliminarIma{{ $imagen3->id }}">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+      <div class="modal fade" id="eliminarIma{{ $imagen3->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Mensaje de confirmación</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body text-left">
+                <p>
+                ¿Estás seguro de que deseas eliminar esta imagen?
+                </p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                  <form action="{{ route('comunicacion.destroy', $imagen3->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-success">Eliminar</button>
+                  </form>
+                </div>
+              </div>
+          </div>
+      </div>
+      <!--end modal confirmacion-->
     </div>
     <div class="col-lg-12">
     @if($imagen3->descrip)
@@ -318,13 +387,36 @@
       <img src="{{ asset('dist/carrucel/' . $imagen4->imagen) }}" class="img-thumbnail" alt="...">
     </div>
     <div class="col-lg-1 mt-5">
-      <form action="{{ route('comunicacion.destroy', $imagen4->id) }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta imagen?');">
-          <i class="fas fa-trash"></i>
-        </button>
-      </form>
+       <!---modal para confirmacion-->
+       <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#eliminarImag{{ $imagen4->id }}">
+        <i class="fas fa-trash-alt"></i>
+      </button>
+      <div class="modal fade" id="eliminarImag{{ $imagen4->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Mensaje de confirmación</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body text-left">
+                <p>
+                ¿Estás seguro de que deseas eliminar esta imagen?
+                </p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                  <form action="{{ route('comunicacion.destroy', $imagen4->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-success">Eliminar</button>
+                  </form>
+                </div>
+              </div>
+          </div>
+      </div>
+      <!--end modal confirmacion-->
     </div>
     <div class="col-lg-12">
     @if($imagen4->descrip)

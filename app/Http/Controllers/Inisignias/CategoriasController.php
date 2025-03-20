@@ -68,21 +68,24 @@ class CategoriasController extends Controller
         return redirect()->route('reg_insignia');
     }
 
-    public function eliminar($id)
+    public function eliminar(Request $request)
     {
+        $id = $request->idcat;
+
         $val = DB::table('categoria_reconoc')->where('categoria_reconoc.id_comportamiento', '=', $id)->count();
         if ($val != 0) {
-            Session::flash('mensaje', 'No se puede eliminar! Categoria se encuentra vinculada');
+            Session::flash('mensaje', 'No es posible eliminar la categoría porque está vinculada a otros registros.');
             return back();
         } else {
-            Session::flash('mensaje', 'Eliminado con éxito!');
+            Session::flash('mensaje', 'Categoría eliminada con éxito!');
             DB::table('comportamiento_categ')->where('id', '=', $id)->delete();
             return back();
         }
     }
     //================== eliminar datos de comportamiento ========0
-    public function deleteCom($id)
+    public function deleteCom(Request $request)
     {
+        $id = $request->idcom;
         $cont = DB::table('catrecibida')->where('id_comportamiento', '=', $id)->count();
         if ($cont == 0) {
             DB::table('categoria_reconoc')->where('id', '=', $id)->delete();

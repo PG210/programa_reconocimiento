@@ -5,13 +5,13 @@
   <div class="container">
     <div class="row mb-2">
       <div class="col-sm-8">
-      <h1 class="m-0">Gestión de usuarios:</h1>
+      <h1 class="m-0">Gestión de grupos:</h1>
       </div>
       <!-- /.col -->
       <div class="col-sm-4">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-          <li class="breadcrumb-item active">Gestión de usuarios</li>
+          <li class="breadcrumb-item active">Gestión de grupos</li>
         </ol>
       </div>
       <!-- /.col -->
@@ -97,7 +97,7 @@
     <!--carga masiva-->
     <br>
     <div class="table-responsive">
-    <table class="table table-hover table-estadisticas">
+    <table class="table table-hover table-estadisticas" >
               <thead class="tablaheader letraform">
               <tr>
                 <th scope="col" style="witdh: 50px !important;" class="text-center">Idgrupo</th>
@@ -257,7 +257,7 @@
                             </div>
                             </div>
                         </div>
-                        </div>
+                    </div>
                     <!--========================================-->
                     </td>
                   </tr>
@@ -276,5 +276,6 @@
     setTimeout(function() {
         $('#exito-alert').alert('close');
     }, 4000);
+
 </script>
 @endsection

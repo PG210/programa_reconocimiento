@@ -88,8 +88,8 @@
               </li>
               <li class="nav-item">
                <a href="{{route('metricasEnvio')}}" class="nav-link @if(Request::is('reconocimientos/enviados/admin')) active @endif">
-                 &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                 &nbsp;<p>Rec. Enviados</p>
+                 <i class="nav-icon far fa-circle"></i>
+                 <p>Rec. Enviados</p>
                </a>
              </li>  
             </ul>

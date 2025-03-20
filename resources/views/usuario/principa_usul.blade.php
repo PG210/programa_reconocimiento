@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Evolución</title>
   <link rel="icon" href="{{asset('dist/img/favicon.png')}}">
   @include('usuario.stylecss')
@@ -40,12 +41,14 @@
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
+        @if(Auth::user()->id_rol != 1 && Auth::user()->id_rol != 4)
         <li class="nav-item d-none d-sm-inline-block">
           <button onclick="window.location.href='{{ route('listareconocer') }}'" class="btn btn-warning font-weight-bold">¡Reconoce ahora!</button>
         </li>
+        @endif
         @if(Auth::user()->id_rol == 1) <!--Logeado como administrador-->
           <li class="nav-item d-none d-sm-inline-block">
-            <a href="index3.html" class="nav-link letra1" style="color:black;"><b>Administrador</b></a>
+            <a href="/inicio" class="nav-link letra1" style="color:black;"><b>Administrador</b></a>
           </li>
         @endif
       </ul>

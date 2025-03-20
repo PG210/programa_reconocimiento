@@ -50,7 +50,7 @@ class ComunicacionController extends Controller
             $img = Image::make($file->getRealPath());
 
             // Redimensionar la imagen si es necesario
-            $img->resize(700, null, function ($constraint) {
+            $img->resize(1200, null, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upsize();
             });

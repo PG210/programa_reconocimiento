@@ -565,62 +565,84 @@ class Inicio extends Controller
         }
         return back();
     }
+
+    //obtener el colaborador del grupo con mas altos puntos
+    private function colabPuntos($id){
+
+      $query = UserGrupoModel::where('usugrupos.idgrupo', '=', $id)
+                ->join('catrecibida', 'usugrupos.idusu', '=', 'catrecibida.id_user_recibe')
+                ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
+                ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+                ->selectRaw('users.id as idusu, users.name as nomusu, users.apellido as apeusu, COUNT(id_categoria) as total,  SUM(catrecibida.puntos) as ptotal')
+                ->groupBy('idusu')
+                ->orderBy('total', 'DESC')
+                ->first();
+      return $query;
+    }
+    //obtener los datos para la grafica de linea de tiempo, se obtendra todos los puntos obtenidos en cada mes de cada año
+    private function puntosTiempo($id){
+
+        $query = UserGrupoModel::where('usugrupos.idgrupo', '=', $id)
+                        ->join('catrecibida', 'usugrupos.idusu', '=', 'catrecibida.id_user_recibe')
+                        ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+                        ->selectRaw('SUM(catrecibida.puntos) as tot, DATE_FORMAT(catrecibida.created_at, "%Y-%m") as mes')
+                        ->groupBy('mes')
+                        ->orderBy('mes', 'ASC')
+                        ->get();
+        return $query;
+    }
+    //obtener los datos para la grafica de donde brilla mas tu equipo
+    private function puntosCat($id){
+        $cate = UserGrupoModel::where('usugrupos.idgrupo', '=', $id)
+                       ->join('catrecibida', 'usugrupos.idusu', '=', 'catrecibida.id_user_recibe')
+                       ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+                       ->selectRaw(
+                           'COUNT(catrecibida.id_categoria) as total, 
+                           comportamiento_categ.id as id_categoria, 
+                           comportamiento_categ.descripcion as des, 
+                           COALESCE(SUM(catrecibida.puntos), 0) as tot'
+                       )
+                       ->groupBy('comportamiento_categ.id', 'comportamiento_categ.descripcion')
+                       ->orderByDesc('total')
+                       ->get();
+        return $cate;
+    }
     //=========== metricas ==================
     public function metricas($id)
     {
         $grupo = GrupoModel::find($id);
-        $usergrupo = UserGrupoModel::where('idgrupo', $id)->select('idusu')->get();
-        //return $usergrupo;
-        // aqui filtrar los usuarios y recorrer para sumar puntos 
-        foreach ($usergrupo as $usuarioId) {
-            $puntaje[] = DB::table('catrecibida')
-                ->where('id_user_recibe', $usuarioId->idusu)
-                ->select('id_user_recibe', 'id_categoria', 'puntos')
-                ->get();
-        }
 
-        if (isset($puntaje)) {
-            //====================
-            $totpuntaje = [];
-            foreach ($puntaje as $usuario) {
-                foreach ($usuario as $registro) {
-                    $idCategoria = $registro->id_categoria; // Acceder a la propiedad como objeto
-                    $puntos = $registro->puntos; // Acceder a la propiedad como objeto
-                    if (!isset($totpuntaje[$idCategoria])) {
-                        $totpuntaje[$idCategoria] = 0;
-                    }
-
-                    $totpuntaje[$idCategoria] += $puntos;
-                }
-            }
-            //========================= calcular totales por usuario =====================
-            $totusu = [];
-
-            foreach ($puntaje as $usu) {
-                foreach ($usu as $reg) {
-                    $idUsuario = $reg->id_user_recibe;
-                    $idCategoria = $reg->id_categoria;
-                    $puntos = $reg->puntos;
-
-                    if (!isset($totusu[$idUsuario][$idCategoria])) {
-                        $totusu[$idUsuario][$idCategoria] = 0;
-                    }
-
-                    $totusu[$idUsuario][$idCategoria] += $puntos;
-                }
-            }
-
-            //consultar las categorias
-            $cate = DB::table('comportamiento_categ')->select('id', 'descripcion', 'puntos')->get();
-            $users = Usuarios::where('id_rol', '!=', '1')
-                ->join('roles', 'users.id_rol', '=', 'roles.id')
-                ->select('users.id', 'users.name', 'users.apellido', 'users.email', 'users.imagen', 'roles.descripcion as rol')
-                ->get();
-            //return $totpuntaje;
-            return view('grupos.metricas')->with('grupo', $grupo)->with('puntaje', $totpuntaje)->with('cate', $cate)->with('totusu', $totusu)->with('users', $users);
-        } else {
-            return back();
-        }
+        //categoria mas votada por grupos
+        $datos = UserGrupoModel::where('usugrupos.idgrupo', '=', $id)
+                       ->join('catrecibida', 'usugrupos.idusu', '=', 'catrecibida.id_user_recibe')
+                       ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
+                       ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+                       ->selectRaw('users.id as idusu, users.name as nomusu, users.apellido as apeusu, COUNT(id_categoria) as total, comportamiento_categ.id as idcat, comportamiento_categ.descripcion as nomcat, SUM(catrecibida.puntos) as ptotal')
+                       ->groupBy('idusu', 'idcat')
+                       ->orderBy('total', 'DESC')
+                       ->get();
+        
+        $cate = UserGrupoModel::where('usugrupos.idgrupo', '=', $id)
+                       ->join('catrecibida', 'usugrupos.idusu', '=', 'catrecibida.id_user_recibe')
+                       ->join('comportamiento_categ', 'catrecibida.id_categoria', '=', 'comportamiento_categ.id')
+                       ->selectRaw(
+                           'COUNT(catrecibida.id_categoria) as total, 
+                           comportamiento_categ.id as idcat, 
+                           comportamiento_categ.descripcion as nomcat, 
+                           COALESCE(SUM(catrecibida.puntos), 0) as ptotal'
+                       )
+                       ->groupBy('comportamiento_categ.id', 'comportamiento_categ.descripcion')
+                       ->orderByDesc('total')
+                       ->get();
+        //usuario con mas puntos
+        $usupuntos = $this->colabPuntos($id);
+        // datos para linea de tiempo 
+        $ptime = $this->puntosTiempo($id);
+        //puntos por categoria para graficar 
+        $pcat = $this->puntosCat($id);
+        //return $pcat;
+        return view('grupos.metricas', compact('grupo', 'cate', 'datos', 'usupuntos', 'ptime', 'pcat'));
+       
     }
     //==================== registrar user====================
     public function addUser(Request $request)
@@ -928,9 +950,10 @@ class Inicio extends Controller
     }
 
     //==================== eliminar usuario =========
-    public function eliminaruser($id)
+    public function eliminaruser(Request $request)
     {
-        //return $id;
+        $id = $request->iduser;
+       
         $datosusu = Usuarios::find($id); // buscar datos del usuario
         // Eliminar las notificaciones 
         $notificacionesIds = Notificacion::join('catrecibida', 'notificaciones.idnotifi', '=', 'catrecibida.id')

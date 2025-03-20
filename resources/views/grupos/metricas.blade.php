@@ -28,49 +28,59 @@
 <div class="row">
 		<div class="col-lg-3 col-12">
 			<div class="row">
-            <div class="col-12">
-
+        <div class="col-12">
 					<!-- small box -->
 					<div class="small-box bg-success">
 						<div class="inner">
-							<p class="m-0">Categoría más activa:</p>
-                            <p class="m-0">"Participar" con</p>
-							<h5>850 Puntos</h5>
-                            
-                            <div class="progress-group">
-
-																		Avance
-
-																		<span class="float-right"><b>15 |   71.4% </b></span><b>
-																		<div class="progress progress-sm">
-																			<div class="progress-bar bg-warning" style="width:   71.4% "></div>
-																		</div>
-																	</b></div>
-                            
-						</div>
-						<div class="icon">
-							<i class="ion ion-stats-bars"></i>
-						</div>
-						<a href="#" class="small-box-footer"> <i class="fas fa-arrow-circle-right"></i></a>
-					</div>
-				</div>
-				<!-- ./col -->
-                <div class="col-12">
-					<!-- small box -->
+              <!--primer valor-->
+              @if($cate->first())
+                @php
+                    //validar la division por cero y limitar el porcentaje al 100 por ciento, tambien el valor 2000 debe ser ajustable en categorias
+                    $widbarra = min(100, ($cate->first()->ptotal * 100) / max(2000, 1));
+                @endphp
+                <p class="m-0">Categoría más activa:</p>
+                <p class="m-0">" {{ $cate->first()->nomcat }} " con</p>
+                <h5>{{ $cate->first()->ptotal }} Puntos</h5>
+                <div class="progress-group">
+                  Avance
+                  <span class="float-right"><b> {{ $cate->first()->ptotal }}  | {{ $widbarra }}% </b></span>
+                  <div class="progress progress-sm">
+                  <div class="progress-bar bg-warning" style="width: {{ $widbarra }}% "></div>
+                  </div>
+                </div> 
+              @else
+                <p class="m-0">Aún no hay una categoría destacada.</p>
+              @endif          
+        </div>
+        <div class="icon">
+          <i class="ion ion-stats-bars"></i>
+        </div>
+        <a href="#" class="small-box-footer"> <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+			<!-- ./col -->
+      <div class="col-12">
+				<!-- small box -->
 					<div class="small-box bg-danger">
 						<div class="inner">
-                            <p class="m-0">Categoría menos reconocida:</p>
-                            <p class="m-0">"Aprender" con</p>
-							<h5>50 Puntos</h5>
-                            <div class="progress-group">
-
-																		Avance
-
-																		<span class="float-right"><b>15 |   71.4% </b></span><b>
-																		<div class="progress progress-sm">
-																			<div class="progress-bar bg-warning" style="width:   71.4% "></div>
-																		</div>
-																	</b></div>
+            @if($cate->last())
+              @php
+                  //validar la division por cero y limitar el porcentaje al 100 por ciento, tambien el valor 2000 debe ser ajustable en categorias
+                  $minbarra = min(100, ($cate->last()->ptotal * 100) / max(2000, 1));
+              @endphp
+              <p class="m-0">Categoría menos reconocida:</p>
+              <p class="m-0">"{{ $cate->last()->nomcat }}" con</p>
+							<h5>{{ $cate->last()->ptotal }} Puntos</h5>
+              <div class="progress-group">
+								Avance
+                <span class="float-right"><b>{{ $cate->last()->ptotal }} |  {{ $minbarra }}% </b></span>
+                <div class="progress progress-sm">
+                  <div class="progress-bar bg-warning" style="width: {{ $minbarra }}% "></div>
+                </div>
+               </div>
+            @else
+               <p class="m-0">Aún no hay una categoría menos reconocida.</p>
+            @endif 
 						</div>
 						<div class="icon">
 							<i class="ion ion-stats-bars"></i>
@@ -83,14 +93,19 @@
 					<!-- small box -->
 					<div class="small-box bg-warning">
 						<div class="inner">
+            @if(isset($usupuntos))
 							<p class="m-0">Top Colaborador:  </p>
-							<h5>Manuel Apellido</h5>
-							<p class="m-0">con 450 puntos</p>
+							<h5>{{ $usupuntos->nomusu }} {{ $usupuntos->apeusu }}</h5>
+							<p class="m-0">con {{ $usupuntos->ptotal }} puntos</p>
 						</div>
 						<div class="icon">
 							<i class="ion ion-person-add"></i>
 						</div>
-						<a href="#" class="small-box-footer">¡Felicítalo! <i class="fas fa-arrow-circle-right"></i></a>
+            <a href="#" class="small-box-footer">¡Felicítalo! <i class="fas fa-arrow-circle-right"></i></a>
+            @else
+              <p class="m-0">Aún no hay un colaborador destacado.</p>
+            @endif
+						
 					</div>
 				</div>
 				<!-- ./col -->
@@ -168,57 +183,44 @@
    <div class="container mt-5 letraform">
    @foreach($cate as $cat)
         @php
-            $totalPuntos = isset($puntaje[$cat->id]) ? $puntaje[$cat->id] : 0;
-            $anchoBarra = ($totalPuntos * 100) / 2000;
+            //validar la division por cero y limitar el porcentaje al 100 por ciento, tambien el valor 2000 debe ser ajustable en categorias
+            $anchoBarra = min(100, ($cat->ptotal * 100) / max(2000, 1));
         @endphp
-        <li class="mt-2">Categoría: {{ $cat->descripcion }}, Total de puntos: {{ $totalPuntos }}</li>
-       <div class="progress mt-2">
-          <div class="progress-bar bg-success" style="width: {{ $anchoBarra }}%">{{ $anchoBarra }} %</div>
+        <li class="mt-2">Categoría: {{ $cat->nomcat }}, Total de puntos: {{ $cat->ptotal }}</li>
+        <div class="progress mt-2">
+            <div class="progress-bar bg-success" style="width: {{ number_format($anchoBarra, 2) }}%">
+                {{ number_format($anchoBarra, 1) }} %
+            </div>
         </div>
     @endforeach
     <div class="row table-responsive letraform">
+    <!---tabla mejorada --->
     <table class="table table-hover table-estadisticas">
-    <thead>
-        <tr>
-            <th scope="col">Colaborador</th>
-            <th scope="col">Categoría</th>
-            <th scope="col"  style="witdh: 100px !important;" class="text-center">Total de puntos</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($totusu as $idUsuario => $puntosPorCategoria)
+        <thead>
             <tr>
-                <td rowspan="{{ count($puntosPorCategoria) }}">
-                    @foreach($users as $us)
-                       @if($idUsuario == $us->id) 
-                         {{$us->name}}  {{$us->apellido}}
-                       @endif
-                    @endforeach
-                </td>
-                @foreach ($puntosPorCategoria as $idCategoria => $totalPuntos)
-                    @if ($loop->index != 0)
-                        <tr>
-                    @endif
-                    <td>
-                    @foreach($cate as $c)
-                        @if($c->id == $idCategoria)
-                           {{ $c->descripcion }}
-                        @endif
-                    @endforeach
-                    </td>
-                    <td style="witdh: 100px !important;" class="text-center">{{ $totalPuntos }}</td>
-                    @if ($loop->index != 0)
-                        </tr>
-                    @endif
-                @endforeach
+                <th scope="col">Colaborador</th>
+                <th scope="col">Categoría</th>
+                <th scope="col">Puntaje Total</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
-
-
-        <!--=================--->
-      </div>
+        </thead>
+        <tbody>
+            @php $usuario_actual = null; @endphp
+            @foreach ($datos as $dato)
+                <tr>
+                    @if ($usuario_actual !== $dato['idusu'])
+                        <td rowspan="{{ collect($datos)->where('idusu', $dato['idusu'])->count() }}">
+                            {{ $dato['nomusu'] }} {{ $dato['apeusu'] }}
+                        </td>
+                        @php $usuario_actual = $dato['idusu']; @endphp
+                    @endif
+                    <td>{{ $dato['nomcat'] }}</td>
+                    <td>{{ $dato['ptotal'] }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    <!--=======end tabla==========--->
+    </div>
      
     </div>
    </div>
@@ -235,7 +237,9 @@
    </div>
 <!--end tabla-->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-
+<script>
+  window.recmes = @JSON($ptime);
+  window.totcat = @JSON($pcat);
+  window.label2 = "Cantidad de puntos";
+</script>
 @endsection

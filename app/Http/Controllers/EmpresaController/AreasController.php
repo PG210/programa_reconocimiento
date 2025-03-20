@@ -20,7 +20,7 @@ use App\Models\Eventos\EstadoEventosModel;
 class AreasController extends Controller
 {
     public function index(){
-        $areas = AreaModel::all();
+        $areas = AreaModel::orderBy('nombre', 'ASC')->get();
         $licencias = LicenciasModel::first();
         $date = Carbon::now()->format('Y-m-d');
         $totaluser = DB::table('users')->where('id_rol', '!=', '1')->count();
@@ -40,10 +40,11 @@ class AreasController extends Controller
        
     }
 
-    public function eliminar($id){
+    public function eliminar(Request $request){
+            $id = $request->idarea;
             $val=DB::table('cargo')->where('cargo.id_area','=',$id)->count();
             if($val!=0){
-                Session::flash('mensajeerror', 'No se puede eliminar! Categoria se encuentra vinculada');
+                Session::flash('mensajeerror', 'No es posible eliminar el área porque está vinculada a otros registros.');
                 return back();
             }else{
                 Session::flash('mensaje', 'Eliminado con éxito!');
@@ -62,17 +63,14 @@ class AreasController extends Controller
 
     public function  vistacar(){
         $area=DB::table('area')->get();
-        $val=DB::table('cargo')->join('area', 'cargo.id_area', '=', 'area.id')
-        ->select('cargo.id as idcar', 'cargo.nombre as cargonom', 'area.nombre as areanom')->count();
-        if($val!=0){
-            $b=1;
-            $info=DB::table('cargo')->join('area', 'cargo.id_area', '=', 'area.id')
-            ->select('cargo.id as idcar', 'cargo.id_area as idarea', 'cargo.nombre as cargonom', 'area.nombre as areanom')->get();
-        }else{
-            $b=0;
-            $info="sin datos";
-        }
-        return view('admin.cargos')->with('area',$area)->with('info',$info)->with('b',$b);
+       
+        $info=DB::table('cargo')
+              ->join('area', 'cargo.id_area', '=', 'area.id')
+              ->select('cargo.id as idcar', 'cargo.id_area as idarea', 'cargo.nombre as cargonom', 'area.nombre as areanom')
+              ->orderBy('cargonom', 'ASC')
+              ->get();
+
+        return view('admin.cargos')->with('area',$area)->with('info',$info);
     }
 
     public function regcargo(Request $request){
@@ -97,15 +95,17 @@ class AreasController extends Controller
         }
     }
 
-    public function elimcargo($id){
+    public function elimcargo(Request $request){
+
+        $id = $request->idcargo; 
 
         $val=DB::table('users')->where('users.id_cargo','=',$id)->count();
         if($val!=0){
-            Session::flash('mensajeerror', 'No se puede eliminar! Categoria se encuentra vinculada');
+            Session::flash('mensajeerror', 'No es posible eliminar el cargo porque está vinculado a otros registros.');
             return back();
         }else{
-            Session::flash('mensaje', 'Eliminado con éxito!');
             DB::table('cargo')->where('cargo.id','=',$id)->delete();
+            Session::flash('mensaje', 'Cargo eliminado con éxito!');
             return back();
         }
         
@@ -249,7 +249,8 @@ class AreasController extends Controller
   }
    
   //eliminar datos
-  public function deletevento($id){
+  public function deletevento(Request $request){
+    $id = $request->idant;
     $antiguedad = AntiguedadModel::find($id);
     if ($antiguedad) {
         $antiguedad->delete();
@@ -259,13 +260,13 @@ class AreasController extends Controller
 
   //activar o desactivar eventos
   public function activeCumple(Request $request){
-    
-     $estado = $request->estado;
+
      #== actualizar estado
      $createEstado = EstadoEventosModel::findOrFail(1); // Cambiado a findOrFail
-     $createEstado->estado = $estado;
+     $createEstado->estado = $request->estado;
      $createEstado->save();
-     return back();
+
+     return response()->json(['message' => 'Estado actualizado correctamente']);
   }
 
 }

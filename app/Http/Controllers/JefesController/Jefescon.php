@@ -31,7 +31,7 @@ class Jefescon extends Controller
         'cargo.nombre as nomcar',
         'area.nombre as nomarea',
         'estado.descrip as esta'
-      )->get();
+      )->orderBy('name', 'ASC')->get();
 
     $jefes = DB::table('jefes_tot')
       ->join('users', 'jefes_tot.id_reporta', '=', 'users.id')
@@ -44,8 +44,8 @@ class Jefescon extends Controller
         'users.apellido as apejef',
         'cargo.nombre as nomcar',
         'area.nombre as nomarea'
-      )
-      ->get();
+      )->orderBy('nomjef', 'ASC')->get();
+     
     return view('admin.jefesvin')->with('lista', $listado)->with('jefes', $jefes);
   }
 
@@ -78,17 +78,14 @@ class Jefescon extends Controller
 
   public function vista_gen($id)
   {
-    $con = $id;
-    $val = DB::table('insignia_obtenida')->where('insignia_obtenida.entregado', 1)->count();
-    if ($val != 0) {
-      $b = 1;
+      $con = $id;
+
       $datos = DB::table('insignia_obtenida')
         ->join('insignia', 'insignia_obtenida.id_insignia', '=', 'insignia.id')
         ->join('users', 'insignia_obtenida.id_usuario', '=', 'users.id')
         ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
         ->join('area', 'cargo.id_area', '=', 'area.id')
         ->join('premios', 'insignia.id_premio', '=', 'premios.id')
-        //->join('comportamiento_categ', 'insignia.id_categoria', '=', 'comportamiento_categ.id')
         ->where('insignia_obtenida.entregado', $con) //cuando es igual a 1 no esta entregado
         ->select(
           'insignia_obtenida.id as idinsig',
@@ -107,13 +104,12 @@ class Jefescon extends Controller
           'premios.name as nompre'
         )
         ->get();
-    } else {
-      $b = 0;
-      $datos = 0;
-    }
 
-
-    return view('gerente.reporteprin')->with('datos', $datos)->with('b', $b);
+        $totalsinentrega = DB::table('insignia_obtenida')->where('insignia_obtenida.entregado', '=', 1)->count(); //cuando es igual a 1 no esta entregado;
+        
+        $totalentrega = DB::table('insignia_obtenida')->where('insignia_obtenida.entregado', '=', 2)->count(); //cuando es igual a 2  esta entregado;
+       
+    return view('gerente.reporteprin', compact('datos', 'totalsinentrega', 'totalentrega'));
   }
 
   //gerente excel

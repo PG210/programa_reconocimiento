@@ -1,5 +1,6 @@
 @extends('usuario.principa_usul')
 @section('content')
+@include('usuario.datatables')
 
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -30,24 +31,16 @@
     
   <div class="card">
 
-                    <div class="card-header">
-                       <!---- buttons group -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
-                            <i class="fas fa-pen-alt"></i>&nbsp;Adicionar cargos
-                        </button>
-                      <!--- end buttons group---->
-                      <div class="card-tools">
-                        <div class="" style="display: flex;justify-content: space-around;gap: 10px;">
-                          <div class="" style="width: 200px;">
-                            <input class="form-control mr-sm-4" type="text" id="search" placeholder="Buscar por nombres...">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="px-3">
-
-                    <!-- Modal -->
+  <div class="card-header">
+      <!---- buttons group -->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
+          <i class="fas fa-pen-alt"></i>&nbsp;Adicionar cargos
+      </button>
+    <!--- end buttons group---->
+  </div>
+  <!-- /.card-header -->
+  <div class="px-3">
+      <!-- Modal -->
        <form id="formu" action="{{route('guardarcargo')}}" method="POST" class="letraform">
                 @csrf
                 <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -83,13 +76,13 @@
                         <!----############--->
                     </div>
                     <div class="modal-footer justify-content-between">
-           <button type="button" class="btn btn-default salir" data-dismiss="modal">Cerrar</button>
-           <button type="submit" class="btn btn-success confirmar">Adicionar</button>
-           </div>
+                      <button type="button" class="btn btn-default salir" data-dismiss="modal">Cerrar</button>
+                      <button type="submit" class="btn btn-success confirmar">Adicionar</button>
                     </div>
-                </div>
-                </div>
-                </form>
+                  </div>
+            </div>
+          </div>
+      </form>
        <!--##################--->
       @if(Session::has('mensaje'))
         <br>
@@ -99,8 +92,8 @@
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
-        @endif
-        @if(Session::has('mensajeerror'))
+      @endif
+      @if(Session::has('mensajeerror'))
         <br>
         <div class="alert alert-danger alert-dismissible fade show letraform" role="alert">
         <strong>{{Session::get('mensajeerror')}}</strong> 
@@ -108,39 +101,69 @@
             <span aria-hidden="true">&times;</span>
         </button>
         </div>
-        @endif 
+      @endif 
     <div class="row">
     <div class="col-md-12"> 
-        <div class="table-responsive">
-                            <table class="table table-hover table-estadisticas">
+        <div class="table-responsive mt-3 mb-3">
+            <table class="table table-hover table-estadisticas" id="dataTable01">
             <thead class="tablaheader">
                 <tr>
                 <th scope="col">No</th>
+                <th scope="col">ID interna</th>
                 <th scope="col">Cargo</th>
                 <th scope="col">Area</th>
                 <th scope="col" class="text-center" style="width: 100px">Acción</th>
                 </tr>
             </thead>
                 <tbody>
-                    @if($b==1)
-                    <?php
-                      $conta=1;
-                    ?>
+                    @if(isset($info))
                     @foreach($info as $f)
                     <tr>
-                       <td>{{$conta++}}</td>
-                       <td>{{$f->cargonom}}</td>
-                       <td>{{$f->areanom}}</td>
+                       <td>{{ $loop->iteration }}</td>
+                       <td>{{ $f->idcar }}</td>
+                       <td>{{ $f->cargonom }}</td>
+                       <td>{{ $f->areanom }}</td>
                        <td class="text-center"><!-- Colocar una ventana modal que pregunte si esta seguro de eliminar la área-->
                         <div class="btn-group">
-                          <a href="{{route('eliminarcargo',$f->idcar)}}" type="submit" class="btn btn-outline-danger btn-sm"> <i class="fas fa-trash-alt"></i></a>
+                           <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#eliminarCargo{{$f->idcar}}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
                             <a type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModal{{$f->idcar}}">
                               <i class="fas fa-edit" ></i>
                             </a>
                           
                         </div>
-                           
-                          <!-- Modal -->
+                         <!---modal eliminar--->
+                          <!---modal-->
+                            <!--==========================-->
+                            <div class="modal fade" id="eliminarCargo{{$f->idcar}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                  <div class="modal-content">
+                                  <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">Mensaje de confirmación</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                      </button>
+                                  </div>
+                                  <div class="modal-body text-left">
+                                    <p>
+                                    ¿Seguro que quieres eliminar el cargo "{{  $f->cargonom  }}"?
+                                    </p>
+                                  </div>
+                                  <div class="modal-footer justify-content-between">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                  <form action="{{ route('eliminarcargo') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="idcargo" id="idcargo{{ $f->idcar }}" value="{{ $f->idcar }}">
+                                        <button type="submit" class="btn btn-success">Eliminar</button>
+                                    </form>  
+                                  </div>
+                                  </div>
+                              </div>
+                              </div>
+                          <!--========================================-->
+                          <!--end modal -->
+                         <!-- Modal -->
                           <form id="for" action="{{route('actualizarcargo')}}" method="POST">
                             @csrf
                                 <div class="modal fade" id="exampleModal{{$f->idcar}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -178,76 +201,40 @@
                                         <!----############--->
                                     </div>
                                     <div class="modal-footer justify-content-between">
-           <button type="button" class="btn btn-default salir" data-dismiss="modal">Cerrar</button>
-           <button type="submit" class="btn btn-success confirmar">Actualizar</button>
-           </div>
+                                      <button type="button" class="btn btn-default salir" data-dismiss="modal">Cerrar</button>
+                                      <button type="submit" class="btn btn-success confirmar">Actualizar</button>
+                                    </div>
                                     </div>
                                 </div>
                                 </div>
                                 <!--modal editar-->
                             </form>
                         </td>
-                       
                     </tr>
                     @endforeach
                     @endif
-                    @if($b==0)
-                    <div class="alert alert-warning alert-dismissible fade show letraform" role="alert">
-                    <strong>No hay registros disponibles</strong> Por favor, ingresa un cargo para continuar.
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    @endif
-                </tbody>
+              </tbody>
         </table>
       </div>
     </div>
 </div>
 <!--###########################--->
 <!---Modal editar-->
-                        
-                            
-        
-                            </div>
-                    
-
-                    
-                    <div class="card-footer clearfix">
-                      <div class="row">
-                        <div class="col-sm-12 col-md-7">
-                          <div class="dataTables_info">Showing 1 to 10 of 57 entries</div>
-                        </div>
-                        <div class="col-sm-12 col-md-5">
-                          <div class="">
-                            <ul class="pagination m-0">
-                              <li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-                              <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                              <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-                              <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-                              <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-                              <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-                              <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
-                              <li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-                <!-- /.card-body -->
-
-
-   
-  </div>
-  <!-- /.row -->
  </div>
+</div>
+<!-- /.card-body -->
+</div>
+  <!-- /.row -->
+</div>
  <!-- /.container-fluid -->
-
 </div>
   
-
-<!--instanciar el ajax para quitar el error no definido-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+  $('#dataTable01').DataTable({
+    "language": {
+      "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+    },
+  });
+</script>
 
 @endsection

@@ -339,7 +339,9 @@ class ReconocimientosController extends Controller
   //=========== datos para linea de tiempo de insignias recibidas ===================
   private function insigniasRecibidasDate($idlog, $fecini = Null, $fecfin = Null){
     
-    $yearInicio = Carbon::now()->startOfYear();
+    //$yearInicio = Carbon::now()->startOfYear();
+    $yearInicio = Carbon::now()->subYear()->startOfYear(); //obtiene desde el año anterior 2024
+    
     $yearFin = Carbon::now()->endOfYear();   
 
     $query = ReconocimientosModal::where('id_usuario', '=', $idlog)
@@ -424,6 +426,7 @@ class ReconocimientosController extends Controller
       $dif = $puntosInsignia['dif'];
       // datos para grafica de lineal de insignias
       $grafinsig = $this->insigniasRecibidasDate($idlog);
+      
     } 
      
     return view('user.reporteinsignias')->with([
@@ -546,15 +549,17 @@ class ReconocimientosController extends Controller
       $categoria = Comportamiento::all(); // categorias
       $usuarios = Usuarios::where('id', '!=', $uselogeado)
         ->where('id_rol', '!=', 1)
+        ->where('id_rol', '!=', 4)
         ->select('id', 'name', 'apellido', 'imagen')
+        ->orderBy('name', 'ASC')
         ->get();
 
       return view('reconocimientos.listrec')
-        ->with('usu', $usuarios)
-        ->with('categoria', $categoria)
-        ->with('nompuntos', $nompuntos)
-        ->with('fecha', $fechaActual)
-        ->with('datausu', $datausu);
+          ->with('usu', $usuarios)
+          ->with('categoria', $categoria)
+          ->with('nompuntos', $nompuntos)
+          ->with('fecha', $fechaActual)
+          ->with('datausu', $datausu);
     } else {
       // Si no hay más de 5 registros, retorna un mensaje para registrar categorías
       Session::flash('messajeinfo', '¡Por favor registre al menos cinco categorías!');
@@ -1460,7 +1465,7 @@ private function sendMail($destino, $data, $descrip, $valor){
     $totcat = $this->totCat();
    
     $recdia = $this->recDia();
-    
+
     return view('metricas.adminenviados')->with([
             'categoria' => $categoria,
             'recibidos' => $recibidos,
@@ -1685,6 +1690,43 @@ private function sendMail($destino, $data, $descrip, $valor){
   
       return $recibidos;
     }
+  //persona con mas pungtos
+  private function topPuntos($fecini = null, $fecfin = null){
+
+    $query= RecibirCat::join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
+                ->selectRaw('catrecibida.id_user_recibe, users.name, users.apellido, SUM(puntos) as total')
+                ->groupBy('id_user_recibe')
+                ->orderBy('total', 'DESC');
+
+    if ($fecini) 
+        $query->whereDate('catrecibida.created_at', '>=', $fecini);
+    if ($fecfin) 
+        $query->whereDate('catrecibida.created_at', '<=', $fecfin);
+    
+    $topuntos = $query->first();
+    
+    return $topuntos;
+  }
+  //========= personas que obtuvieron menos puntos 0 ========
+  private function menosPuntos($fecini = null, $fecfin = null){
+
+    $query = Usuarios::selectRaw('COUNT(catrecibida.puntos) as totalpuntos, users.id, users.name, users.apellido')
+                ->where('users.id_rol', '!=', 1)
+                ->leftJoin('catrecibida', function ($join) {
+                    $join->on('users.id', '=', 'catrecibida.id_user_recibe');
+                })
+                ->groupBy('users.id')
+                ->having('totalpuntos', '=', 0);
+    
+    if ($fecini) 
+          $query->whereDate('catrecibida.created_at', '>=', $fecini);
+    if ($fecfin) 
+          $query->whereDate('catrecibida.created_at', '<=', $fecfin);
+            
+    $user = $query->orderBy('users.name', 'ASC')->get();
+
+    return $user;
+  }
   //=============================== funcion para vista total de puntos ============
   public function metricasPuntos(){
     $fecini = '';
@@ -1693,12 +1735,26 @@ private function sendMail($destino, $data, $descrip, $valor){
 
     $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
     $puntos = $this->puntosTotal($users);
-    //return $puntos;
+
+    //persona con mas puntos
+    $topuntos = $this->topPuntos();
+
+    //personas con menos puntos
+    $downpuntos = $this->menosPuntos();
+
+    //incremento
+    $incrementTotal = $this->incrementTotal();
+
+    //return $incrementTotal;
+    
     return view('metricas.puntos')->with([
       'recibidos' => $puntos,
       'fecini' => $fecini,
       'fecfin' => $fecfin,
-      'fecha'  => $fecha
+      'fecha'  => $fecha,
+      'topuntos' => $topuntos,
+      'downpuntos' => $downpuntos,
+      'increment' => $incrementTotal
     ]);
   }
 
@@ -1710,20 +1766,35 @@ private function sendMail($destino, $data, $descrip, $valor){
 
     $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
     $puntos = $this->puntosTotal($users, $fecini, $fecfin);
-    //return $puntos;
+
+    //persona con mas puntos
+    $topuntos = $this->topPuntos($fecini, $fecfin);
+
+    //personas con menos puntos
+    $downpuntos = $this->menosPuntos($fecini, $fecfin);
+
+    //incremento
+    $incrementTotal = $this->incrementTotal();
+
     return view('metricas.puntos')->with([
       'recibidos' => $puntos,
       'fecini' => $fecini,
       'fecfin' => $fecfin,
-      'fecha'  => $fecha
+      'fecha'  => $fecha,
+      'topuntos' => $topuntos,
+      'downpuntos' => $downpuntos,
+      'increment' => $incrementTotal
     ]);
      
   }
 
   //==================== download puntos ========================
   public function downloadPuntos(Request $request){
+    
+    //obtener las fechas inicial y final
     $fecini = $request->fecinifil;
     $fecfin = $request->fecfinfil;
+    $tipo = $request->reportetipo;
     $fecha = Carbon::now()->format('Y-m-d');
     //return $request;
 
@@ -1735,11 +1806,20 @@ private function sendMail($destino, $data, $descrip, $valor){
     else
         $data = $this->puntosTotal($users);
     //validar si existen datos
-    if (!empty($data))
-      return Excel::download(new PuntosExport($data), 'reporte_total_puntos.xlsx');
-    else
-      return redirect('/metricas/puntos');
+    if (!empty($data)){
+       if($tipo == 1){
+          return Excel::download(new PuntosExport($data), 'reporte_total_puntos.xlsx');
+       }else{
+          // Generar el PDF
+          $pdf = PDF::loadView('pdf.reportepuntos', compact('data'));
+          return $pdf->download('reporte_puntos.pdf');
+       }
+     
+      }else{
+        return redirect('/metricas/puntos');
+      }
     
   }
+
 
 }

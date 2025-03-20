@@ -23,28 +23,45 @@
 <!-- /.content-header -->
 
 <div class="container">
+
+<!--mensajes-->
+@if(Session::has('mensaje'))
+  <br>
+  <div class="alert alert-info alert-dismissible fade show letraform" role="alert">
+  <strong>{{Session::get('mensaje')}}</strong> 
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+@endif
+@if(Session::has('mensajeerror'))
+  <br>
+  <div class="alert alert-danger alert-dismissible fade show letraform" role="alert">
+  <strong>{{Session::get('mensajeerror')}}</strong> 
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+@endif 
+<!--end mensajes-->
+
 <form action="{{route('registroinsignias')}}" method="POST"  enctype="multipart/form-data" class="letraform">
 @csrf
 <div class="row mb-2">
 <div class="col-md-3">
     <!-- Profile Image -->
     <div class="card card-primary card-outline">
-                    <div class="card-body box-profile">
-                        <div class="text-center">
-                      
-                        <p>Opciones</p>
-
-                        
-  <button type="button" class="btn btn-primary w-100  mb-3  ver" data-toggle="modal" data-target="#visualizar">Visualizar</button>
-  <button type="button" class="btn btn-primary w-100  mb-3 " data-toggle="modal" data-target="#puntosconfig">Puntos</button>
-
-                          
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
+      <div class="card-body box-profile">
+          <div class="text-center">
+            <p>Opciones</p>                  
+            <button type="button" class="btn btn-primary w-100  mb-3  ver" data-toggle="modal" data-target="#visualizar">Visualizar</button>
+            <button type="button" class="btn btn-primary w-100  mb-3 " data-toggle="modal" data-target="#puntosconfig">Puntos</button>      
+          </div>
+          <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
     </div>
-    </div>
+</div>
   <div class="col-md-9">
     
   <div class="card card-primary card-outline">
@@ -160,14 +177,16 @@
 </form>
 
 </div>
+
 </div>
-   <!-- /.col -->
-  </div>
-  <!-- /.row -->
+   
+</div>
+
  </div>
- <!-- /.container-fluid -->
+ 
 </div>
-<!-- /.content-header -->
+
+</div>
 
 <div class="modal fade" id="visualizar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -195,19 +214,16 @@
               </tr>
             </thead>
             <tbody>
-            @if($b == 1)
-                @php
-                  $con = 1;
-                @endphp
+            @if(isset($insignia))
               @foreach($insignia as $c)
                 <tr>
-                  <th scope="row">{{$con++}}</th>
+                  <th scope="row">{{$loop->iteration}}</th>
                   <td>{{$c->name}}</td>
                   <td>{{$c->descripcion}}</td>
                   <td>{{$c->puntos}}</td>
                   <td>
                     <div class="text-center">
-                    <img src="{{asset('imgpremios/'.$c->rutaimagen)}}" class="rounded" alt="..."  width= "50px" height="50px" >
+                    <img src="{{asset('imgpremios/'.$c->rutaimagen)}}" class="rounded" alt="Cargando imagen ..."  width= "50px" height="50px" >
                   </div>
                 </td>
                  <td>{{$c->prenom}}</td>
@@ -221,18 +237,43 @@
                  <td class="text-center" style="width: 100px">
                   <div class="btn-group" role="group" aria-label="Basic outlined example">
                     <a type="button" class="btn btn-outline-primary btn-sm" href="{{route('actualizarinsignia',$c->id)}}"><i class="fas fa-edit"></i></a>
-                    <a type="button" class="btn btn-outline-danger btn-sm" href="{{route('deleteinsignia',$c->id)}}"><i class="fas fa-trash"></i></a>
+
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#eliminarIn{{$c->id}}">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
                   </div>
+                  <!---modal para confirmar eliminar -->
+                    <div class="modal fade" id="eliminarIn{{$c->id}}" tabindex="-1"
+                      aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-sm">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Mensaje de confirmación</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body text-left">
+                              <p>
+                                ¿Seguro que quieres eliminar la insignia "{{$c->name}}"?
+                              </p>
+                              </div>
+                              <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <form action="{{ route('deleteinsignia') }}" method="POST">
+                                  @csrf
+                                  <input type="hidden" name="idin" id="idin{{$c->id}}" value="{{$c->id}}">
+                                  <button type="submit" class="btn btn-success">Eliminar</button>
+                                </form>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                  <!--end modal confirmar-->
                 </td>
                 </tr>
-             @endforeach
-            @else
-            <div class="alert alert-warning text-center" role="alert">
-              ¡Ups! No hay registros disponibles
-              <span>No se encontraron insignias registradas. Por favor, agrega uno nuevo.</span>
-            </div>
+              @endforeach
             @endif
-               
             </tbody>
           </table>
           </div>

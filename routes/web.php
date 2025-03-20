@@ -91,7 +91,7 @@ Route::post('/insignia/registro/admin', [InsigniasController::class, 'registroin
 //actualizar categoria insignias
 Route::get('/actualizar/categorias/{id}', [CategoriasController::class, 'buscaractu'])->middleware(['auth', 'admin'])->name('formactucat');
 Route::post('/actualizar/cambios/{id}', [CategoriasController::class, 'actucat'])->middleware(['auth', 'admin'])->name('actualizarcat');
-Route::get('/delete/comportamiento/{id}', [CategoriasController::class, 'deleteCom'])->middleware(['auth', 'admin'])->name('deleteCom');
+Route::post('/delete/comportamiento', [CategoriasController::class, 'deleteCom'])->middleware(['auth', 'admin'])->name('deleteCom');
 //buscar
 //Route::get('posts',[PostController::class, 'index'])->name('posts.index');
 Route::get('posts/search',[PostController::class, 'search'])->name('posts.search')->middleware(['auth']);
@@ -116,7 +116,7 @@ Route::post('/filtrar/categoria/comportamiento', [FiltrarCat::class, 'filtrar'])
 Route::post('/filtrar/comportamiento', [FiltrarCat::class, 'comportamiento'])->middleware(['auth'])->name('filtrarcomport');
 
 //eliminar categoria
-Route::get('/eliminar/categoria/{id}', [CategoriasController::class, 'eliminar'])->middleware(['auth', 'admin'])->name('eliminarcat');
+Route::post('/eliminar/categoria', [CategoriasController::class, 'eliminar'])->middleware(['auth', 'admin'])->name('eliminarcat');
 
 
 //actualizar categoria
@@ -125,13 +125,13 @@ Route::post('/actualizar/categoria/{id}', [CategoriasController::class, 'actuali
 //areas de la empresa
 Route::get('/areas/empresa', [AreasController::class, 'index'])->middleware(['auth', 'admin'])->name('areas');
 Route::post('/areas/empresa', [AreasController::class, 'registrar'])->middleware(['auth', 'admin'])->name('guardararea');
-Route::get('/eliminar/area/{id}', [AreasController::class, 'eliminar'])->middleware(['auth', 'admin']);
+Route::post('/eliminar/area', [AreasController::class, 'eliminar'])->name('deleteArea')->middleware(['auth', 'admin']);
 Route::post('/consultar/area', [AreasController::class, 'consultar'])->middleware(['auth', 'admin'])->name('consultararea');
 Route::post('/areas/empresa/licencias', [AreasController::class, 'reglicencias'])->middleware(['auth', 'admin'])->name('reglicencias');
 //cargos
 Route::get('/cargo/view', [AreasController::class, 'vistacar'])->middleware(['auth', 'admin'])->name('vistacargo');
 Route::post('/registrar/cargo', [AreasController::class, 'regcargo'])->middleware(['auth', 'admin'])->name('guardarcargo');
-Route::get('/cargo/eliminar/{id}', [AreasController::class, 'elimcargo'])->middleware(['auth', 'admin'])->name('eliminarcargo');
+Route::post('/cargo/eliminar', [AreasController::class, 'elimcargo'])->middleware(['auth', 'admin'])->name('eliminarcargo');
 Route::post('/actualizar/cargo', [AreasController::class, 'cargoactu'])->middleware(['auth', 'admin'])->name('actualizarcargo');
 
 //
@@ -203,14 +203,14 @@ Route::post('/admin/importar/usuarios', [Importacion::class, 'archivoimpor'])->m
 Route::get('/mensajes', [MensajesControl::class, 'vista'])->middleware(['auth'])->name('vistamensajes');
 
 //eliminar premio
-Route::get('/eliminar/premio/{id}', [InsigniasController::class, 'elimpremios'])->name('eliminarpremio')->middleware(['auth', 'admin']);
+Route::post('/eliminar/premio', [InsigniasController::class, 'elimpremios'])->name('eliminarpremio')->middleware(['auth', 'admin']);
 Route::get('/actualizar/premio/{id}', [InsigniasController::class, 'actualizarpre'])->name('actualizarpremio')->middleware(['auth', 'admin']);
-Route::post('/actualizar/premio/form/{id}', [InsigniasController::class, 'actupremion'])->middleware(['auth', 'admin'])->name('regpremioactu');
+Route::post('/actualizar/premio/form', [InsigniasController::class, 'actupremion'])->middleware(['auth', 'admin'])->name('regpremioactu');
 
 //actualizar insignias
 Route::get('/actualizar/insignias/{id}', [InsigniasController::class, 'vistainsig'])->name('actualizarinsignia')->middleware(['auth', 'admin']);
 // delete insignias 
-Route::get('/delete/insignias/{id}', [InsigniasController::class, 'deleteinsig'])->name('deleteinsignia')->middleware(['auth', 'admin']);
+Route::post('/delete/insignias', [InsigniasController::class, 'deleteinsig'])->name('deleteinsignia')->middleware(['auth', 'admin']);
 Route::post('/actualizar/insignias/datos/{id}', [InsigniasController::class, 'formactuinsig'])->name('registroinsigniasactu')->middleware(['auth', 'admin']);
 
 //================== metricas =======================================
@@ -248,7 +248,7 @@ Route::get('/publicar', [ComunicacionController::class, 'publicar'])->name('publ
 require __DIR__.'/auth.php';
 
 // eliminar usuario
-Route::get('/users/delete/{id}', [Inicio::class, 'eliminaruser'])->middleware(['auth', 'admin'])->name('eliminaruser');
+Route::post('/users/delete', [Inicio::class, 'eliminaruser'])->middleware(['auth', 'admin'])->name('eliminaruser');
 
 //================== manejo de correo microsoft =================0
 Route::get('/redirect-to-microsoft', [MailController::class, 'redirectToMicrosoft']);
@@ -259,7 +259,7 @@ Route::post('/send-mail', [MailController::class, 'sendMail']);
 Route::get('/empresa/eventos', [AreasController::class, 'eventos'])->middleware(['auth', 'admin'])->name('eventos');
 Route::post('/empresa/eventos/happy', [AreasController::class, 'happybirthday'])->middleware(['auth', 'admin'])->name('happybirthday');
 Route::post('/empresa/eventos/antique', [AreasController::class, 'antique'])->middleware(['auth', 'admin'])->name('antique');
-Route::get('/empresa/eventos/{id}', [AreasController::class, 'deletevento'])->middleware(['auth', 'admin'])->name('deletevento');
+Route::post('/empresa/eventos/delete', [AreasController::class, 'deletevento'])->middleware(['auth', 'admin'])->name('deletevento');
 Route::post('/empresa/eventos/active', [AreasController::class, 'activeCumple'])->middleware(['auth', 'admin'])->name('activeCumple');
 
 //======================== download excel ======

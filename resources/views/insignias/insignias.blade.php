@@ -1,5 +1,6 @@
 @extends('usuario.principa_usul')
 @section('content')
+@include('usuario.datatables')
 
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -30,32 +31,17 @@
 <div class="row mb-2">
   <div class="col-12">
   <div class="mb-2" role="group" aria-label="Basic outlined example">
-  
-  <button type="button"  class="btn btn-warning confirmar letraform" data-toggle="modal" data-target="#visualizarmodal">Agregar</button>
 </div>  
-  <div class="card">
 
-                    <div class="card-header">
-                      Mostrar
-                      <select class="form-select" id="recordsPerPage" onchange="changeRows()">
-                          <option value="5">5 registros</option>
-                          <option value="10" selected>10 registros</option>
-                          <option value="25">25 registros</option>
-                          <option value="50">50 registros</option>
-                        </select> registros por página
-                      <div class="card-tools">
-                        <div class="" style="display: flex;justify-content: space-around;gap: 10px;">
-                          <div class="" style="width: 200px;">
-                            <input class="form-control mr-sm-4" type="text" id="search" placeholder="Buscar por nombres...">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="px-3">
-                        
-                            <div class="table-responsive">
-                            <table class="table table-hover table-estadisticas" >
+<div class="card">
+  <div class="card-header">
+      <button type="button"  class="btn btn-warning confirmar letraform" data-toggle="modal" data-target="#visualizarmodal">Agregar</button>
+  </div>
+  <!-- /.card-header -->
+  <div class="px-3">
+      
+    <div class="table-responsive mt-3 mb-3">
+      <table class="table table-hover table-estadisticas" id="table01">
                             <!--tabla para ver los valores-->
       <thead class="tablaheader">
       <tr>
@@ -67,13 +53,10 @@
       </tr>
     </thead>
         <tbody>
-          @if($b == 1)
-            @php
-              $con = 1;
-            @endphp
+          @if(isset($categ))
             @foreach($categ as $c)
                 <tr>
-                  <th scope="row">{{$con++}}</th>
+                  <th scope="row">{{$loop->iteration}}</th>
                   <td>{{$c->nombre}}</td>
                   <td>{{$c->compor}}</td>
                   <td>{{$c->puntos}}</td>
@@ -84,9 +67,39 @@
                       <i class="fas fa-edit"></i>
                     </a>
                     <!-- Colocar una ventana modal que pregunte si esta seguro de eliminar-->
-                    <a href="{{route('deleteCom', $c->id)}}" type="button" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
+                    <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#eliminarCom{{$c->id}}">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
                     </div>
-                     <!-- Button trigger modal -->
+                    <!-- Button trigger modal -->
+                    <!--==========================-->
+                      <div class="modal fade" id="eliminarCom{{$c->id}}" tabindex="-1"
+                      aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Mensaje de confirmación</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body text-left">
+                              <p>
+                                ¿Seguro que quieres eliminar el comportamiento "{{$c->nombre}}"?
+                              </p>
+                              </div>
+                              <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <form action="{{ route('deleteCom') }}" method="POST">
+                                  @csrf
+                                  <input type="hidden" name="idcom" id="idcom{{$c->id}}" value="{{$c->id}}">
+                                  <button type="submit" class="btn btn-success">Eliminar</button>
+                                </form>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                      <!--========================================-->
                     <!-- Modal -->
                     <div class="modal fade" id="actualizarcom{{$c->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-lg">
@@ -145,55 +158,23 @@
                 </tr>
 
              @endforeach
-              @else
-                  <div class="alert alert-warning text-center letraform" role="alert">
-                    No Hay Registros
-                  </div>
-              @endif
+             
+          @endif
            
-            </tbody>
-          </table>
+          </tbody>
+        </table>
+          <!--end tabla-->
+          </div>
+        </div>
 
-<!--end tabla-->
-                            </div>
-                    </div>
-
-                    
-                    <div class="card-footer clearfix">
-                      <div class="row">
-                        <div class="col-sm-12 col-md-7">
-                          <div class="dataTables_info">Showing 1 to 10 of 57 entries</div>
-                        </div>
-                        <div class="col-sm-12 col-md-5">
-                          <div class="">
-                            <ul class="pagination m-0">
-                              <li class="paginate_button page-item previous disabled" id="example2_previous"><a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-                              <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                              <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-                              <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-                              <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="4" tabindex="0" class="page-link">4</a></li>
-                              <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="5" tabindex="0" class="page-link">5</a></li>
-                              <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="6" tabindex="0" class="page-link">6</a></li>
-                              <li class="paginate_button page-item next" id="example2_next"><a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-                <!-- /.card-body -->
-
-
-   
+      </div>
+      <!-- /.card-body -->
   </div>
   <!-- /.row -->
  </div>
  <!-- /.container-fluid -->
-
 </div>
 
-
-  
 <!--instanciar el ajax para quitar el error no definido-->
 <div class="modal fade" id="visualizarmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -244,5 +225,11 @@
     </div>
   </div>
 </div>
-
+<script>
+  $('#table01').DataTable({
+    "language": {
+      "url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+    },
+  });
+</script>
 @endsection

@@ -886,23 +886,25 @@
            <!-- small card -->
            <div class="small-box bg-info">
               <div class="inner">
-              <h4>🔐 Licencias Activas: 11 / 11</h4>
-              <p>📅 Fecha de Vencimiento: 28 de diciembre de 2024</p>
+              @if(isset($licencias->numlicencia))
+              <h4>🔐 Licencias Activas: 
+                   {{ $totaluser }} / {{ $licencias->numlicencia }} 
+              </h4>
+              <p> Fecha de Vencimiento: {{ \Carbon\Carbon::parse($licencias->vencimiento)->translatedFormat('j \d\e F \d\e Y') }}</p>
+              @endif
               </div>
               <div class="icon">
                 <i class="fas fa-shopping-cart"></i>
               </div>
-              <a href="#" class="small-box-footer">
+              <a href="/areas/empresa" class="small-box-footer">
                 Más información <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>
-
-        
         </div>
         </div>
 
-<div class="row">
-<div class="col-12"><h3>¿Qué quieres hacer hoy?</h3></div>
+        <div class="row">
+         <div class="col-12"><h3>¿Qué quieres hacer hoy?</h3></div>
     
           <div class="col-lg-3 col-6">
             <!-- small card -->
@@ -914,7 +916,7 @@
               <div class="icon">
                 <i class="fas fa-gift"></i>
               </div>
-              <a href="#" class="bg-warning small-box-footer">
+              <a href="/premios/reg" class="bg-warning small-box-footer">
                 Editar <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>
@@ -930,7 +932,7 @@
               <div class="icon">
                 <i class="fas fa-user-plus"></i>
               </div>
-              <a href="#" class="bg-warning small-box-footer">
+              <a href="/reporte/usuarios" class="bg-warning small-box-footer">
               Editar <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>
@@ -979,7 +981,7 @@
               <div class="icon">
                 <i class="fas fa-paint-brush"></i>
               </div>
-              <a href="#" class="bg-warning small-box-footer">
+              <a href="/comunicacion" class="bg-warning small-box-footer">
                 Editar <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>
@@ -995,7 +997,7 @@
               <div class="icon">
                 <i class="fas fa-calendar-alt"></i>
               </div>
-              <a href="#" class="bg-warning small-box-footer">
+              <a href="/empresa/eventos" class="bg-warning small-box-footer">
               Editar <i class="fas fa-arrow-circle-right"></i>
               </a>
             </div>
@@ -1037,40 +1039,6 @@
 </div>
 <!-- /.content-header -->
 
-<!---end mesnaje 
-<div class="card-deck">
-    <div class="card" style=" border: 2px; border-radius: 25px; background-color:white;">
-        <img data-src="{{ asset('dist/img/enviare.jpg')}}" class="card-img-top lazy-load" alt="..."
-            style="border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
-        <div class="card-body">
-            <p class="card-text letra1" style="text-align: center;">
-                <b>Categorías</b><br><br>
-                <a href="/Categorias/registro" type="button" class="btn confirmar letraform">Ingresar</a>
-            </p>
-        </div>
-    </div>
-    <div class="card" style=" border: 2px; border-radius: 25px; background-color:white;">
-        <img data-src="{{ asset('dist/img/ganareco.jpg')}}"
-            class="card-img-top img-fluid d-none d-sm-none d-md-block lazy-load" alt="..."
-            style="height: 75%; border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
-        <div class="card-body">
-            <p class="card-text letra1" style="text-align: center;">
-                <b>Insignias</b><br><br>
-                <a href="/registro/insignias" type="button" class="btn confirmar letraform">Ingresar</a>
-            </p>
-        </div>
-    </div>
-    <div class="card" style=" border: 2px; border-radius: 25px; background-color:white;">
-        <img data-src="{{ asset('dist/img/ganains.jpg')}}" class="card-img-top img-fluid lazy-load"
-            style="border-top-left-radius: 25px 25px; border-top-right-radius: 25px 25px;">
-        <div class="card-body">
-            <p class="card-text letra1" style="text-align: center;">
-                <b>Empresa</b><br><br>
-                <a href="/areas/empresa" type="button" class="btn confirmar letraform">Ingresar</a>
-            </p>
-        </div>
-    </div>
--->
 </div>
 @endif
 

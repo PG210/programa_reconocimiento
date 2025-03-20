@@ -282,7 +282,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script src="{{ asset('js/formulario.js')}}"></script>
   <script src="{{ asset('js/buscador.js')}}"></script>
-  <script src="{{ asset('dist/js/lazy.js')}}"></script>
+  <!--
+  <script src="{{ asset('dist/js/lazy.js')}}"></script>-->
   <script>
     window.datausu = @JSON($datausu);
     

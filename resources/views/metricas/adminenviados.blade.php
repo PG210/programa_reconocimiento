@@ -427,7 +427,7 @@
 	window.recmes = @JSON($recmes);
   window.totcat = @JSON($totcat);
 	window.recdia = @JSON($recdia);
-
+  window.label2 = "Cantidad de reconocimientos";
 
   document.getElementById('fecini').addEventListener('change', function() {
   			              var fecini = document.getElementById('fecini').value;

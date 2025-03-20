@@ -665,7 +665,7 @@
                             </div><!-- /.card-header -->
                             <div class="card-body">
                               <div class="tab-content p-0">
-                                <div class="chart tab-pane active" id="linea-chart1" style="">
+                                <div class="chart tab-pane active" id="linea-chart1" style="">hola
                                   <div class="chart">
                                     <canvas id="timelineChart11" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                   </div>

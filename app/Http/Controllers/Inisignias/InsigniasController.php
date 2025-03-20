@@ -19,18 +19,14 @@ class InsigniasController extends Controller
     public function registrar()
     {
         $comportamiento = Comportamiento::where('descripcion', '!=', 'Default')->get(); //debe haber una categoria por defecto 
-        $con = DB::table('categoria_reconoc')->count();
-        if ($con != 0) {
-            $b = 1;
-            $categ = DB::table('categoria_reconoc')
-                ->join('comportamiento_categ', 'id_comportamiento', 'comportamiento_categ.id')
-                ->select('categoria_reconoc.id', 'categoria_reconoc.nombre', 'categoria_reconoc.rutaimagen', 'comportamiento_categ.descripcion as compor', 'categoria_reconoc.id_comportamiento', 'categoria_reconoc.puntos')
-                ->get();
-        } else {
-            $b = 0;
-            $categ = 'sin datos';
-        }
-        return view('insignias.insignias')->with('dat', $comportamiento)->with('categ', $categ)->with('b', $b);
+       
+        $categ = DB::table('categoria_reconoc')
+            ->join('comportamiento_categ', 'id_comportamiento', 'comportamiento_categ.id')
+            ->select('categoria_reconoc.id', 'categoria_reconoc.nombre', 'categoria_reconoc.rutaimagen', 'comportamiento_categ.descripcion as compor', 'categoria_reconoc.id_comportamiento', 'categoria_reconoc.puntos')
+            ->orderBy('compor', 'ASC')
+            ->get();
+       
+        return view('insignias.insignias')->with('dat', $comportamiento)->with('categ', $categ);
     }
 
     public function premios()
@@ -39,14 +35,16 @@ class InsigniasController extends Controller
         return view('insignias.premios')->with('dat', $img);
     }
 
-    public function elimpremios($id)
+    public function elimpremios(Request $request)
     {
+        $id = $request->idpre;
+
         $val = DB::table('insignia')->where('id_premio', '=', $id)->count();
         if ($val == 0) {
             DB::table('premios')->delete($id);
             Session::flash('eliminarexit', 'Recompensa eliminada correctamente!');
         } else {
-            Session::flash('eliminarexit', 'Recompensa no se puede eliminar!');
+            Session::flash('eliminarexit', 'No es posible eliminar la recompensa porque está vinculada a otros registros.');
         }
         return back();
     }
@@ -129,14 +127,17 @@ class InsigniasController extends Controller
         return back();
     }
     //===========eliminar las insignias ============
-    public function deleteinsig($id)
+    public function deleteinsig(Request $request)
     {
+        $id = $request->idin;
         $dato = InsigniasModel::find($id);
         $validar = ReconocimientosModal::where('id_insignia', $id)->count();
         if ($validar != 0) {
+            Session::flash('mensajeerror', 'No es posible eliminar la insignia porque está vinculada a otros registros.');
             return back();
         } else {
             $dato->delete();
+            Session::flash('mensaje', 'Insignia eliminada con éxito!');
             return back();
         }
     }
@@ -177,13 +178,14 @@ class InsigniasController extends Controller
         return view('insignias.actupremio')->with('datos', $datos);
     }
 
-    public function actupremion(Request $request, $id)
+    public function actupremion(Request $request)
     {
+        $id = $request->idupdate;
 
         $pre = Premios::findOrfail($id); //buscar el id del producto para actualizar  
 
-        if ($request->hasFile('img')) {
-            $file = $request->file('img');
+        if ($request->hasFile('imgupdate')) {
+            $file = $request->file('imgupdate');
             $val = "premio" . time() . "." . $file->guessExtension();
             $ruta = public_path("imgpremios/" . $val);
             // Crear una instancia de la imagen
@@ -203,10 +205,10 @@ class InsigniasController extends Controller
 
             $pre->rutaimagen = $val; //ingresa el nombre de la ruta a la base de datos
         }
-        $pre->name = $request->input('nombre');
-        $pre->descripcion = $request->input('des');
+        $pre->name = $request->input('nombreupdate');
+        $pre->descripcion = $request->input('desupdate');
         $pre->save();
-        Session::flash('actualizadopre', 'Recompensa Actualizada Correctamente!');
+        Session::flash('actualizadopre', 'La recompensa se ha actualizado correctamente.');
         return back();
     }
 
