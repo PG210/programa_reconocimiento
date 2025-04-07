@@ -971,12 +971,12 @@ header-menu-extra:
     <p style="font-size:15px;">Cada acción cuenta. Reconoce, crece y motiva.</p>
     <!--login-->
     @if (Route::has('login'))
-                                @auth
-                                    <a class="btn btn-secondary btningresar "  href="{{ url('/dashboard') }}"><b>  Volver  </b></a>
-                                @else
-                                <a class="btn btn-secondary btningresar " href="{{url('/reg') }}" @if (Request::is('reg')) style="display:none;"  @endif><i class="bi bi-arrow-right-square-fill iconfont" style="color:white;"></i>  Ingresar</a>
-                                @endauth
-                                @endif 
+    @auth
+        <a class="btn btn-secondary btningresar "  href="{{ url('/dashboard') }}"><b>  Volver  </b></a>
+    @else
+    <a class="btn btn-secondary btningresar " href="{{url('/reg') }}" @if (Request::is('reg')) style="display:none;"  @endif><i class="bi bi-arrow-right-square-fill iconfont" style="color:white;"></i>  Ingresar</a>
+    @endauth
+    @endif 
     </div>
 
 @endsection

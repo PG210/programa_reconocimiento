@@ -26,7 +26,7 @@
   <div class="col-12">
   <div class="card">
 
-                    <div class="card-body">
+  <div class="card-body">
    <!--tabla para ver los valores-->
    @if(Session::has('exito'))
         <div id="exito-alert" class="alert alert-info alert-dismissible fade show letraform" role="alert">

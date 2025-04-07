@@ -833,9 +833,11 @@ private function sendMail($destino, $data, $descrip, $valor){
     $recibidos = [];
     foreach ($users as $usu) {
       $query = DB::table('catrecibida')
-              ->where('catrecibida.id_user_recibe', '=', $usu->id)
               ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
-              ->selectRaw('catrecibida.id_user_recibe, users.name as nombre, users.apellido as ape, 
+              ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
+              ->join('area', 'cargo.id_area', '=', 'area.id')
+              ->where('catrecibida.id_user_recibe', '=', $usu->id)
+              ->selectRaw('catrecibida.id_user_recibe, users.name as nombre, users.apellido as ape, cargo.nombre as nomcar, area.nombre as nomarea,
                           SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5, SUM(cat1+cat2+cat3+cat4+cat5) AS tot, DATE(MIN(catrecibida.created_at)) as fecmin, DATE(MAX(catrecibida.created_at)) as fecmax');
       // Agregar la información del usuario al array $recibidos
       // Agregar condiciones de fecha si existen
@@ -1341,9 +1343,11 @@ private function sendMail($destino, $data, $descrip, $valor){
     $recibidos = [];
     foreach ($users as $usu) {
       $query = DB::table('catrecibida')
-                     ->where('catrecibida.id_user_envia', '=', $usu->id)
                      ->join('users', 'catrecibida.id_user_envia', '=', 'users.id')
-                     ->selectRaw('catrecibida.id_user_envia, users.name as nombre, users.apellido as ape, 
+                     ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
+                     ->join('area', 'cargo.id_area', '=', 'area.id')
+                     ->where('catrecibida.id_user_envia', '=', $usu->id)
+                     ->selectRaw('catrecibida.id_user_envia, users.name as nombre, users.apellido as ape, cargo.nombre as nomcar, area.nombre as nomarea,
                      SUM(cat1) as c1, SUM(cat2) as c2, SUM(cat3) as c3, SUM(cat4) AS c4, SUM(cat5) AS c5, SUM(cat1+cat2+cat3+cat4+cat5) AS tot, DATE(MIN(catrecibida.created_at)) as fecmin, DATE(MAX(catrecibida.created_at)) as fecmax');
       // Agregar condiciones de fecha si existen
       if ($fecini) {
@@ -1465,7 +1469,7 @@ private function sendMail($destino, $data, $descrip, $valor){
     $totcat = $this->totCat();
    
     $recdia = $this->recDia();
-
+   
     return view('metricas.adminenviados')->with([
             'categoria' => $categoria,
             'recibidos' => $recibidos,
@@ -1486,17 +1490,17 @@ private function sendMail($destino, $data, $descrip, $valor){
   public function nomCate(){
     $categorias = DB::table('comportamiento_categ')->select('descripcion')->get();
     $dataArray = $categorias->pluck('descripcion')->toArray();
-    $newItems = ["Nombre", "Apellido", "F/Inicial", "F/Final", "Total"];
+    $newItems = ["Nombre", "Apellido", "Cargo", "Area", "Primer reconocimiento", "Ultimo reconocimiento", "Total"];
     $datcate = array_merge($newItems, $dataArray); // Combinar
     return $datcate;
   } 
   //================= Descarga de excel con reporte total de reconocimientos recibidos por cada colaborador ===========================
   public function downloadGet(Request $request){
-      
       //obtener las fechas inicial y final
       $fecini = $request->fecinifil;
       $fecfin = $request->fecfinfil;
       $tipo = $request->reportetipo;
+      $fechaHoy = Carbon::now()->format('d-m-Y');
       //retornar los usuarios
       $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
       //validar si las fechas tiene valores
@@ -1513,8 +1517,17 @@ private function sendMail($destino, $data, $descrip, $valor){
         }else{
           // Generar el PDF
           $ncat = DB::table('comportamiento_categ')->select('descripcion')->get();
-          $pdf = PDF::loadView('pdf.reporteobtenidos', compact('data', 'ncat'));
-          return $pdf->download('reporte.pdf');
+          // fechas inical y final
+          if ($fecini && $fecfin){
+             $fecmin = $fecini;
+             $fecmax = $fecfin;
+          }else{
+            $fecmin = Carbon::parse($data->first()[0]->fecmin)->format('d/m/Y');
+            $fecmax = Carbon::now()->format('d/m/Y');
+          }
+         
+          $pdf = PDF::loadView('pdf.reporteobtenidos', compact('data', 'ncat', 'fecmin', 'fecmax'));
+          return $pdf->download('reporte_'.$fechaHoy.'.pdf');
         }
       }else
           return redirect('/metricas/ranking');
@@ -1547,7 +1560,16 @@ private function sendMail($destino, $data, $descrip, $valor){
               return Excel::download(new MedallasExport($dataformat), 'insignias_obtenidas.xlsx');
             
           }else{
-            $pdf = PDF::loadView('pdf.reporteinsig', compact('data'));
+            // fechas inical y final
+            if ($fecini && $fecfin){
+              $fecmin = Carbon::parse($fecini)->format('d/m/Y');
+              $fecmax = Carbon::parse($fecfin)->format('d/m/Y');
+            }else{
+              $fecmin = Carbon::parse($data->first()->created_at)->format('d/m/Y');
+              $fecmax = Carbon::now()->format('d/m/Y');
+            }
+           
+            $pdf = PDF::loadView('pdf.reporteinsig', compact('data', 'fecmin', 'fecmax'));
             return $pdf->download('reporte_usuarios_con_insignias.pdf');
           }
       }else{
@@ -1560,6 +1582,7 @@ private function sendMail($destino, $data, $descrip, $valor){
       //obtener las fechas inicial y final
       $fecini = $request->fecinifil;
       $fecfin = $request->fecfinfil;
+      $fechaHoy = Carbon::now()->format('d-m-Y');   
       //usuarios que enviaron puntos
       $users = Usuarios::where('id', '!=', 1)->select('id', 'name', 'apellido')->get();
       //validar si las fechas tiene valores
@@ -1574,12 +1597,61 @@ private function sendMail($destino, $data, $descrip, $valor){
         if($request->reportetipo == 1){
           return Excel::download(new RecObtenidos($data, $datcate), 'reporte_reconocimientos_enviados.xlsx');
         }else{
-          $pdf = PDF::loadView('pdf.reportenviados', compact('data', 'datcate'));
-          return $pdf->download('reporte_reconocimientos_enviados.pdf');
+          $ncat = DB::table('comportamiento_categ')->select('descripcion')->get();
+           // fechas inical y final
+          if ($fecini && $fecfin){
+            $fecmin = Carbon::parse($fecini)->format('d/m/Y');
+            $fecmax = Carbon::parse($fecfin)->format('d/m/Y');
+          }else{
+            $fecmin = Carbon::parse($data[0][0]->fecmin)->format('d/m/Y');
+            $fecmax = Carbon::now()->format('d/m/Y');
+          }
+          $pdf = PDF::loadView('pdf.reportenviados', compact('data', 'datcate', 'ncat', 'fecmin', 'fecmax'));
+          return $pdf->download('reporte_reconocimientos_enviados'.$fechaHoy.'.pdf');
         }
       }else
         return redirect('/reconocimientos/enviados/admin');
     }
+  //=========== medir avance con respecto al periodo seleccionado============
+
+private function avancePer($fecini, $fecfin): float
+{
+    // Convertir las fechas en instancias de Carbon
+    $startDate = Carbon::parse($fecini)->startOfDay();
+    $endDate = Carbon::parse($fecfin)->endOfDay();
+
+    // Calcular el mismo rango para el período anterior
+    $daysDifference = $startDate->diffInDays($endDate);
+    $lastStartDate = $startDate->copy()->subDays($daysDifference + 1);
+    $lastEndDate = $endDate->copy()->subDays($daysDifference + 1);
+
+    // Consulta para el rango de fechas ingresado
+    $currentData = Usuarios::select('users.id')
+        ->selectRaw('COUNT(catrecibida.id) as totalrec')
+        ->leftJoin('catrecibida', function ($join) use ($startDate, $endDate) {
+            $join->on('users.id', '=', 'catrecibida.id_user_recibe')
+                ->whereBetween('catrecibida.created_at', [$startDate, $endDate]);
+        })
+        ->groupBy('users.id')
+        ->get();
+
+    // Consulta para el mismo período anterior
+    $lastData = Usuarios::select('users.id')
+        ->selectRaw('COUNT(catrecibida.id) as totalrec')
+        ->leftJoin('catrecibida', function ($join) use ($lastStartDate, $lastEndDate) {
+            $join->on('users.id', '=', 'catrecibida.id_user_recibe')
+                ->whereBetween('catrecibida.created_at', [$lastStartDate, $lastEndDate]);
+        })
+        ->groupBy('users.id')
+        ->get();
+
+    // Calcular el incremento
+    $currentTotal = $currentData->sum('totalrec');
+    $lastTotal = $lastData->sum('totalrec');
+
+    $increment = $lastTotal > 0 ? (($currentTotal - $lastTotal) / $lastTotal) * 100 : 0;
+    return round($increment, 2);
+  }
 
   //===================== Filtro para reconocimientos obtenidos =======================
   public function filterReconocimientoTotal(Request $request){
@@ -1598,8 +1670,8 @@ private function sendMail($destino, $data, $descrip, $valor){
    
     $userstot = $this->usersTot();
     
-    $increment = $this->incrementTotal();
-    
+    $increment = $this->avancePer($fecini, $fecfin);
+
     $recmes = $this->recMes($fecini, $fecfin);
     
     $totcat = $this->totCat($fecini, $fecfin);
@@ -1624,6 +1696,46 @@ private function sendMail($destino, $data, $descrip, $valor){
             'insigrecibidas' => $insigrecibidas
         ]);
   }
+  //================================ funcion para calcular el porcentaje de envio en el tiempo ===========
+  private function incrementEn($fecini, $fecfin): float
+  {
+    // Convertir las fechas en instancias de Carbon
+    $startDate = Carbon::parse($fecini)->startOfDay();
+    $endDate = Carbon::parse($fecfin)->endOfDay();
+
+    // Calcular el mismo rango para el período anterior
+    $daysDifference = $startDate->diffInDays($endDate);
+    $lastStartDate = $startDate->copy()->subDays($daysDifference + 1);
+    $lastEndDate = $endDate->copy()->subDays($daysDifference + 1);
+
+    // Consulta para el rango de fechas ingresado
+    $currentData = Usuarios::select('users.id')
+        ->selectRaw('COUNT(catrecibida.id) as totalrec')
+        ->leftJoin('catrecibida', function ($join) use ($startDate, $endDate) {
+            $join->on('users.id', '=', 'catrecibida.id_user_envia') // Se usa `id_user_envia`
+                ->whereBetween('catrecibida.created_at', [$startDate, $endDate]);
+        })
+        ->groupBy('users.id')
+        ->get();
+
+    // Consulta para el mismo período anterior
+    $lastData = Usuarios::select('users.id')
+        ->selectRaw('COUNT(catrecibida.id) as totalrec')
+        ->leftJoin('catrecibida', function ($join) use ($lastStartDate, $lastEndDate) {
+            $join->on('users.id', '=', 'catrecibida.id_user_envia') // Se usa `id_user_envia`
+                ->whereBetween('catrecibida.created_at', [$lastStartDate, $lastEndDate]);
+        })
+        ->groupBy('users.id')
+        ->get();
+
+    // Calcular el incremento
+    $currentTotal = $currentData->sum('totalrec');
+    $lastTotal = $lastData->sum('totalrec');
+
+    $increment = $lastTotal > 0 ? (($currentTotal - $lastTotal) / $lastTotal) * 100 : 0;
+    return round($increment, 2);
+ }
+ 
   //==========================funcion para filtrar el total de recibidos===========================
   public function filterReconocimientoEnviadoTotal(Request $request){
     $fecini = $request->fecini;
@@ -1641,7 +1753,7 @@ private function sendMail($destino, $data, $descrip, $valor){
 
     $usernotrec = $this->userNoRec();
 
-    $increment = $this->incrementTotalEnviados();
+    $increment = $this->incrementEn($fecini, $fecfin);
 
     $recmes = $this->recMes($fecini, $fecfin);
     
@@ -1672,7 +1784,9 @@ private function sendMail($destino, $data, $descrip, $valor){
         $query = DB::table('catrecibida')
                        ->where('catrecibida.id_user_recibe', '=', $usu->id)
                        ->join('users', 'catrecibida.id_user_recibe', '=', 'users.id')
-                       ->selectRaw('catrecibida.id_user_recibe, users.name as nombre, users.apellido as ape, 
+                       ->join('cargo', 'users.id_cargo', '=', 'cargo.id')
+                       ->join('area', 'cargo.id_area', '=', 'area.id')
+                       ->selectRaw('catrecibida.id_user_recibe, users.name as nombre, users.apellido as ape, cargo.nombre as nomcar, area.nombre as nomarea,
                        SUM(puntos) as puntostot, DATE(MIN(catrecibida.created_at)) as fecmin, DATE(MAX(catrecibida.created_at)) as fecmax')
                        ->orderBy('puntostot', 'desc');
         // Agregar condiciones de fecha si existen
@@ -1810,9 +1924,17 @@ private function sendMail($destino, $data, $descrip, $valor){
        if($tipo == 1){
           return Excel::download(new PuntosExport($data), 'reporte_total_puntos.xlsx');
        }else{
+           // fechas inical y final
+            if ($fecini && $fecfin){
+                $fecmin = Carbon::parse($fecini)->format('d/m/Y');
+                $fecmax = Carbon::parse($fecfin)->format('d/m/Y');
+            }else{
+              $fecmin = Carbon::parse($data[0][0]->fecmin)->format('d/m/Y');
+              $fecmax = Carbon::now()->format('d/m/Y');
+            }
           // Generar el PDF
-          $pdf = PDF::loadView('pdf.reportepuntos', compact('data'));
-          return $pdf->download('reporte_puntos.pdf');
+          $pdf = PDF::loadView('pdf.reportepuntos', compact('data', 'fecmin', 'fecmax'));
+          return $pdf->download('reporte_puntos'.$fecha.'.pdf');
        }
      
       }else{

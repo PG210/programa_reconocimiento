@@ -19,10 +19,38 @@ class Importacion extends Controller
 
         $limite = $licencias->numlicencia - $totaluser; //limite de filas a importar segun las licencias asignadas
 
+        if ($limite <= 0) {
+            return back()->with('error', 'No puede importar más usuarios. Ha alcanzado el límite de licencias.');
+        }
+
         $file = $request->file('archivosubido');
+
         try {
-            Excel::import(new UsersImport($limite), $file);
-            return back()->with('success', 'Se importaron exitosamente ' . $limite . ' Filas.');
+            $import = new UsersImport($limite);
+            Excel::import($import, $file);
+
+            $importados = $import->getImportedCount();
+            $duplicados = $import->getDuplicatedEmails();
+            $correosImportados = $import->getImportedEmails();
+
+            $mensaje = " ✅<h5> Se importaron exitosamente $importados usuario(s). </h5>";
+
+            // Mostrar los correos registrados
+            if (!empty($correosImportados)) {
+                $listaImportados = implode('<br>', array_slice($correosImportados, 0, 10));
+                $mensaje .= "<h6>📬 Correos registrados:</h6>$listaImportados";
+                if (count($correosImportados) > 10) {
+                    $mensaje .= "<br>...y " . (count($correosImportados) - 10) . " más.";
+                }
+            }
+            
+            //correos duplicados
+            if (!empty($duplicados)) {
+                $mensaje .= "<br><h5> !Los siguientes correos ya existían y fueron omitidos:</h5>" . implode('<br>', $duplicados);
+            }
+
+            return back()->with('success', $mensaje);
+
         } catch (\Exception $e) {
             return back()->with('error', 'Error al importar el archivo: ' . $e->getMessage());
         }

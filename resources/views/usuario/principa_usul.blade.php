@@ -141,7 +141,9 @@
       </div>
       <div class="sidebar-custom">
         <button href="#" class="btn btn-link"><i class="fas fa-cogs"></i></button>
-        <button href="#" class="btn btn-warning hide-on-collapse pos-right">Ayuda</button>
+        <button onclick="window.location.href='mailto:info@envolucion.co?subject=Soporte&body=Hola, necesito ayuda con...'" class="btn btn-warning hide-on-collapse pos-right">
+          Ayuda
+      </button>
       </div>
       <!-- /.sidebar -->
     </aside>

@@ -69,8 +69,10 @@
 						<div class="icon">
 							<i class="ion ion-person-add"></i>
 						</div>
-						<a href="#" class="small-box-footer">¡Felicítalo! <i class="fas fa-arrow-circle-right"></i></a>
-					</div>
+            @if( auth()->user()->id_rol != 1)
+						 <a href="/reconocimientos/usuario" class="small-box-footer">¡Felicítalo! <i class="fas fa-arrow-circle-right"></i></a>
+					  @endif
+          </div>
 				</div>
 				<!-- ./col -->
 				
@@ -105,8 +107,10 @@
             	<div class="icon">
                 <i class="ion ion-stats-bars"></i>
               </div>
-						  <a href="#" class="small-box-footer">Envíar reconocimientos <i class="fas fa-arrow-circle-right"></i></a>
-            <!---end ver mas-->
+              @if( auth()->user()->id_rol != 1)
+						  <a href="/reconocimientos/usuario" class="small-box-footer">Envíar reconocimientos <i class="fas fa-arrow-circle-right"></i></a>
+              @endif
+              <!---end ver mas-->
             </div>
           </div>
 				</div>

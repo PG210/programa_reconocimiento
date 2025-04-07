@@ -25,36 +25,40 @@
     </style>
 </head>
 <body>
-    <h1>Reporte de Datos</h1>
+    <div style="width: 100%;">
+        <div style="display: inline-block; vertical-align: middle; text-align: left;">
+            <h2 style="margin: 0;">Reporte de reconocimientos enviados</h2>
+        </div>
+        <div style="display: inline-block; vertical-align: middle; float:right;">
+            <img src="{{ public_path('dist/img/logo-reconoser-icono.png') }}" width="80%">
+        </div>
+    </div>
+
+    <h3>Desde: {{ $fecmin }} </h3>
+    <h3>Hasta: {{ $fecmax }} </h3>
     <table>
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Categoría 1</th>
-                <th>Categoría 2</th>
-                <th>Categoría 3</th>
-                <th>Categoría 4</th>
-                <th>Categoría 5</th>
+                <th>Nombre y apellido</th>
+                <th>Cargo</th>
+                <th>Ärea</th>
+                @foreach ($ncat as $c)
+                  <th>{{ $c->descripcion }}</th>
+                @endforeach
                 <th>Total</th>
-                <th>Fecha Min</th>
-                <th>Fecha Max</th>
             </tr>
         </thead>
         <tbody>
         @foreach ($data as $key => $users)
             @foreach ($users as $user)
                 <tr>
-                    <td>{{ $user->nombre ?? 'N/A' }}</td>
-                    <td>{{ $user->ape ?? 'N/A' }}</td>
-                    <td>{{ $user->c1 ?? '0' }}</td>
-                    <td>{{ $user->c2 ?? '0' }}</td>
-                    <td>{{ $user->c3 ?? '0' }}</td>
-                    <td>{{ $user->c4 ?? '0' }}</td>
-                    <td>{{ $user->c5 ?? '0' }}</td>
+                    <td>{{ $user->nombre ?? 'N/A' }} {{ $user->ape ?? 'N/A' }}</td>
+                    <td>{{ $user->nomcar ?? 'N/A' }}</td>
+                    <td>{{ $user->nomarea ?? 'N/A' }}</td>
+                    @for ($i = 1; $i <= count($ncat); $i++)
+                        <td>{{ $user->{'c'.$i} ?? 0 }}</td>
+                    @endfor
                     <td>{{ $user->tot ?? '0' }}</td>
-                    <td>{{ $user->fecmin ?? '--' }}</td>
-                    <td>{{ $user->fecmax ?? '--' }}</td>
                 </tr>
             @endforeach
         @endforeach

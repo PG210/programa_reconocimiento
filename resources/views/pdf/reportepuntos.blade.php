@@ -25,26 +25,35 @@
     </style>
 </head>
 <body>
-    <h1>Reporte de Datos</h1>
+  <div style="width: 100%;">
+        <div style="display: inline-block; vertical-align: middle; text-align: left;">
+            <h2 style="margin: 0;">Reporte de puntos obtenidos</h2>
+        </div>
+        <div style="display: inline-block; vertical-align: middle; float:right;">
+            <img src="{{ public_path('dist/img/logo-reconoser-icono.png') }}" width="80%">
+        </div>
+    </div>
+
+    <h3>Desde: {{ $fecmin }} </h3>
+    <h3>Hasta: {{ $fecmax }} </h3>
+
     <table>
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
+                <th>Nombre y apellido</th>
+                <th>Cargo</th>
+                <th>Ärea</th>
                 <th>Puntos acumulados</th>
-                <th>Fecha Min</th>
-                <th>Fecha Max</th>
             </tr>
         </thead>
         <tbody>
         @foreach ($data as $subArray)
             @foreach($subArray as $item)
                 <tr>
-                    <td>{{ $item->nombre }}</td>
-                    <td>{{ $item->ape }}</td>
+                    <td>{{ $item->nombre }} {{ $item->ape }}</td>
+                    <td>{{ $item->nomcar }}</td>
+                    <td>{{ $item->nomarea }}</td>
                     <td>{{ $item->puntostot ?? '0' }}</td>
-                    <td>{{ $item->fecmin ?? 'N/A' }}</td>
-                    <td>{{ $item->fecmax ?? 'N/A' }}</td>
                 </tr>
             @endforeach
         @endforeach

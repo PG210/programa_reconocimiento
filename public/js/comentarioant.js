@@ -13,6 +13,7 @@ $(document).ready(function() {
             success: function(response) {
                 let data = response.data; 
                 let tipo = response.tipo; 
+                let total = response.toth[0]['total'];
                 let html = '';
                 let opciones = { day: 'numeric', month: 'long', year: 'numeric' }; // Opciones de formato
                 limpiararea();
@@ -31,9 +32,12 @@ $(document).ready(function() {
                         '</div>';
                 }
                 if(tipo === '1'){ //si es cumpleanios
-                   $('#responsehappy' + formId).append(html);;
+                   $('#responsehappy' + formId).append(html);
+                   $('#comentarioshappy' + formId).html('( '+ total + ' )' + " " + 'Comentarios');
+
                 }else{
-                   $('#responseaniver' + formId).append(html);; 
+                   $('#responseaniver' + formId).append(html); 
+                   $('#comentariosaniver' + formId).html('( '+ total + ' )' + " " + 'Comentarios');
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {

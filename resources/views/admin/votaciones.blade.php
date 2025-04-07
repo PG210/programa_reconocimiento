@@ -76,7 +76,7 @@
             </div>
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-default salir" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-default salir" data-dismiss="modal">Salir</button>
             <button type="submit" class="btn btn-primary confirmar">Deshabilitar</button>
             </div>
           </div>
@@ -124,7 +124,7 @@
         </div>
         </div>
         <div class="modal-footer justify-content-between">
-        <button type="button" class="btn btn-default salir" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-default salir" data-dismiss="modal">Salir</button>
         <button type="submit" class="btn btn-success confirmar">Habilitar</button>
         </div>
       </div>
@@ -300,7 +300,7 @@
             <!--end inputs-->
           </div>
           <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default salir" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-default salir" data-dismiss="modal">Salir</button>
             @if(isset($esfil[0]->anio))
         <button type="submit" class="btn btn-success confirmar"><i class="fas fa-search"></i> Filtrar</button>
       @endif
@@ -370,7 +370,7 @@
           </div>
 
           <div class="modal-footer justify-content-between">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
             @if(isset($esfil[0]->anio))
               <button type="submit" class="btn btn-success"><i class="fas fa-search"></i> Filtrar</button> 
             @endif
@@ -485,7 +485,7 @@
                   </p>
                   </div>
                   <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
                     <button type="submit" class="btn btn-success">Confirmar</button>
                   </div>
                 </div>

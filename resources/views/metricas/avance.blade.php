@@ -71,7 +71,9 @@
 						<div class="icon">
 							<i class="ion ion-person-add"></i>
 						</div>
-						<a href="#" class="small-box-footer">¡Felicítalo! <i class="fas fa-arrow-circle-right"></i></a>
+						@if (!empty($hightpeople->name) && auth()->user()->id_rol != 1)
+						<a href="{{ route('listareconocer', ['id' => $hightpeople->id_user_recibe]) }}" class="small-box-footer" target="_blank">¡Felicítalo! <i class="fas fa-arrow-circle-right"></i></a>
+					    @endif
 					</div>
 				</div>
 				<!-- ./col -->
@@ -128,7 +130,9 @@
 						<div class="icon">
 							<i class="ion ion-stats-bars"></i>
 						</div>
-						<a href="#" class="small-box-footer">Envíar reconocimientos <i class="fas fa-arrow-circle-right"></i></a>
+						@if(auth()->user()->id_rol != 1)
+						  <a href="/reconocimientos/usuario" class="small-box-footer" target="_blank">Envíar reconocimientos <i class="fas fa-arrow-circle-right"></i></a>
+					    @endif
 					</div>
 				</div>
 				<!-- ./col -->
@@ -139,7 +143,13 @@
 						<div class="inner">
 							@if (isset($increment))
 							<h3>{{ $increment }}%</h3>
-							<p class="m-0">En este periodo, el reconocimiento en la empresa ha
+							    <p class="m-0">En este 
+									@if(!empty($fecini) && !empty($fecfin))
+									  periodo,
+									@else
+									   mes,
+									@endif
+									el reconocimiento en la empresa ha
 								 @if ($increment > 0)
 								     crecido un {{ $increment }}%
 								 @else
@@ -177,10 +187,14 @@
 							</div>
 						</div>
 						<div class="card-body">
+							@if(count($recmes))
 							<p>La evolución del reconocimiento en tu equipo.</p>
 							<div class="chart-container">
 								<canvas id="trendChart"></canvas>
 							</div>
+							@else
+						      <p>😊 Aún no hay métricas disponibles, pero pronto las verás aquí.</p>
+							@endif
 						</div>
 						<!-- /.card-body -->
 					</div>
@@ -202,11 +216,14 @@
 							</div>
 						</div>
 						<div class="card-body">
+							@if(count($totcat))
 							<p>Comparación de categorías más y menos reconocidas.</p>
-
 							<div class="chart-container">
 								<canvas id="categoryChart-grupo"></canvas>
 							</div>
+							@else
+							  <p>😊 Aún no hay métricas disponibles, pero pronto las verás aquí.</p>
+							@endif
 						</div>
 						<!-- /.card-body -->
 					</div>
@@ -226,11 +243,15 @@
 							</div>
 						</div>
 						<div class="card-body">
+						@if(count($totcat))
 							<p>¿Cómo se distribuyen los reconocimientos?</p>
 
 							<div class="chart-container" style="height: 280px;">
 								<canvas id="radarChart"> </canvas>
 							</div>
+						@else
+						    <p>😊 Aún no hay métricas disponibles, pero pronto las verás aquí.</p>
+						@endif
 						</div>
 						<!-- /.card-body -->
 					</div>
@@ -251,10 +272,9 @@
 							</div>
 						</div>
 						<div class="card-body">
+						@if (count($recdia))
 							<p>Descubre cuándo se genera más impacto.</p>
-
 							<b id="mostActiveDay" class="text-center mt-3"></b>
-
 							<!-- Gráficos -->
 							<div class="chart-container">
 								<canvas id="heatmapChart"></canvas>
@@ -264,7 +284,9 @@
 								<span style="background-color: #EBB93B; margin-left: 10px;"></span> Medio
 								<span style="background-color: #DB636B; margin-left: 10px;"></span> Alto
 							</div>
-
+						@else
+							<p>😊 Aún no hay métricas disponibles, pero pronto las verás aquí.</p>
+                        @endif
 						</div>
 						<!-- /.card-body -->
 					</div>

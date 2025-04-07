@@ -42,10 +42,11 @@
             @endif
             reconocimientos este mes </strong>
           </p>
-
-          <div class="chart-container" style="height: 180px; width:100%;">
-          <canvas id="timelineChart"></canvas>
-          </div>
+           @if( count($recenvia) > 0)
+            <div class="chart-container" style="height: 180px; width:100%;">
+             <canvas id="timelineChart"></canvas>
+            </div>
+           @endif
           <!-- /.chart-responsive -->
         </div>
         <!-- /.col -->

@@ -41,6 +41,8 @@ class RecObtenidos implements FromCollection,  WithHeadings, WithEvents
             return [
                 'nombre' => $item->nombre,
                 'ape' => $item->ape,
+                'nomcar' => $item->nomcar,
+                'nomarea' => $item->nomarea,
                 'fecmin' => $item->fecmin,
                 'fecmax' => $item->fecmax,
                 'tot' => $item->tot ?? '0',
@@ -64,7 +66,7 @@ class RecObtenidos implements FromCollection,  WithHeadings, WithEvents
         return [
             AfterSheet::class    => function(AfterSheet $event) {
 
-                $event->sheet->getDelegate()->getStyle('A1:J1')
+                $event->sheet->getDelegate()->getStyle('A1:K1')
                         ->getFill()
                         ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
                         ->getStartColor()

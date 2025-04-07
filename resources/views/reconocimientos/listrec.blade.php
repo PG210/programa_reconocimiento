@@ -74,18 +74,6 @@
       </a>
     @endforeach
   @endif
-
-  <!-- /card -->
-  <a href="#" class="col-6 ">
-    <div class="card card-outline card-primary">
-    <div class="card-body">
-      <h3 class="titulo-reconocimiento">
-      Otro
-      </h3>
-      Un reconocimiento especial que no encaja en las categorías anteriores, pero merece ser valorado.
-    </div>
-    </div>
-  </a>
   <!-- /.card -->
    </div>
 

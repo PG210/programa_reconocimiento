@@ -64,7 +64,10 @@
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a href="#" class="small-box-footer">¡Felicítalo! <i class="fas fa-arrow-circle-right"></i></a>
+            @if( auth()->user()->id_rol != 1)
+            <a href="{{ route('listareconocer', ['id' => $morepeople->id_user_envia]) }}" class="small-box-footer" target="_blank">¡Felicítalo! <i class="fas fa-arrow-circle-right"></i></a>
+            @endif
+            <!---validacion-->
             @else
             <div class="inner">
               <p class="m-0">
@@ -125,7 +128,10 @@
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
             </div>
-            <a href="#" class="small-box-footer">Envíar mensaje <i class="fas fa-arrow-circle-right"></i></a>
+            @if( auth()->user()->id_rol != 1)
+            <a href="/reconocimientos/usuario" class="small-box-footer" target="_blank">Envíar mensaje <i class="fas fa-arrow-circle-right"></i></a>
+            @endif
+            <!---end validacion-->
           @else
             <p class="m-0">No hay usuarios para mostrar en este periodo.</p>
           @endif
@@ -140,7 +146,13 @@
 
             @if (isset($increment))
 							<h3>{{ $increment }}%</h3>
-							<p class="m-0">En este periodo, el reconocimiento en la empresa ha
+							<p class="m-0">En este 
+                  @if(!empty($fecini) && !empty($fecfin))
+                    periodo,
+                  @else
+                    mes,
+                  @endif
+                   el reconocimiento en la empresa ha
 								 @if ($increment > 0)
 								     crecido un {{ $increment }}%
 								 @else
@@ -178,10 +190,14 @@
               </div>
             </div>
             <div class="card-body">
+              @if(count($recmes))
               <p>La evolución del envío de reconocimientos en tu equipo.</p>
               <div class="chart-container">
                 <canvas id="trendChart"></canvas>
               </div>
+              @else
+                <p>😊 Aún no hay métricas disponibles, pero pronto las verás aquí.</p>
+              @endif
             </div>
             <!-- /.card-body -->
           </div>
@@ -203,11 +219,14 @@
               </div>
             </div>
             <div class="card-body">
+              @if(count($totcat))
               <p>Descubre qué aspectos valoran más tus colaboradores.</p>
-
               <div class="chart-container">
                 <canvas id="categoryChart-grupo"></canvas>
               </div>
+              @else
+                 <p>😊 Aún no hay métricas disponibles, pero pronto las verás aquí.</p>
+              @endif
             </div>
             <!-- /.card-body -->
           </div>
@@ -227,11 +246,15 @@
               </div>
             </div>
             <div class="card-body">
+              @if(count($totcat))
               <p>¿Cómo se distribuyen los reconocimientos?</p>
 
               <div class="chart-container" style="height: 280px;">
                 <canvas id="radarChart"> </canvas>
               </div>
+              @else
+              <p>😊 Aún no hay métricas disponibles, pero pronto las verás aquí.</p>
+              @endif
             </div>
             <!-- /.card-body -->
           </div>
@@ -252,8 +275,9 @@
               </div>
             </div>
             <div class="card-body">
+              @if(count($recdia))
               <p>Descubre cuándo se genera más impacto.</p>
-
+                
               <b id="mostActiveDay" class="text-center mt-3"></b>
 
               <!-- Gráficos -->
@@ -265,7 +289,9 @@
                 <span style="background-color: #EBB93B; margin-left: 10px;"></span> Medio
                 <span style="background-color: #DB636B; margin-left: 10px;"></span> Alto
               </div>
-
+             @else
+              <p>😊 Aún no hay métricas disponibles, pero pronto las verás aquí.</p>
+             @endif
             </div>
             <!-- /.card-body -->
           </div>
@@ -419,9 +445,7 @@
 </div>
 
 <!--==========================================-->
-<!--
-<script src="{{ asset('js/buscador.js')}}"></script>
-<script src="{{ asset('js/buscador_2.js')}}"></script>-->
+
 <script>
   /* declarar variables de manera global */
 	window.recmes = @JSON($recmes);

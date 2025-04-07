@@ -25,7 +25,18 @@
     </style>
 </head>
 <body>
-    <h1>Reporte de insignias obtenidas</h1>
+    <div style="width: 100%;">
+        <div style="display: inline-block; vertical-align: middle; text-align: left;">
+            <h2 style="margin: 0;">Reporte de insignias obtenidas</h2>
+        </div>
+        <div style="display: inline-block; vertical-align: middle; float:right;">
+            <img src="{{ public_path('dist/img/logo-reconoser-icono.png') }}" width="80%">
+        </div>
+    </div>
+
+    <h3>Desde: {{ $fecmin }} </h3>
+    <h3>Hasta: {{ $fecmax }} </h3>
+    
     <table>
         <thead>
             <tr>

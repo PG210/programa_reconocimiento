@@ -82,14 +82,14 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="{{route('metricasranking')}}" class="nav-link @if(Request::is('metricas/ranking')) active @endif">
-                &nbsp;&nbsp;<i class="far fa-circle nav-icon"></i>
-                &nbsp;<p>Rec. Obtenidos</p>
+                <i class="far fa-circle nav-icon"></i>
+                <p>Rec. Obtenidos</p>
                 </a>
               </li>
               <li class="nav-item">
                <a href="{{route('metricasEnvio')}}" class="nav-link @if(Request::is('reconocimientos/enviados/admin')) active @endif">
                  <i class="nav-icon far fa-circle"></i>
-                 <p>Rec. Enviados</p>
+                 <p>Rec. Enviados </p>
                </a>
              </li>  
             </ul>

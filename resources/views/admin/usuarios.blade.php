@@ -154,9 +154,9 @@
       </div>
     @endif
         <!-- Mostrar mensajes de éxito -->
-        @if(session('success'))
-      <div class="alert alert-info alert-dismissible fade show letraform" role="alert" id="alert">
-      {{ session('success') }}
+    @if(session('success'))
+      <div class="alert alert-info alert-dismissible fade show letraform" role="alert" id="alert" style="color:black;">
+        {!! session('success') !!}
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -406,10 +406,6 @@
   </div>
   <script src="{{ asset('js/buscador.js')}}"></script>
   <script>
-    setTimeout(function () {
-    document.getElementById('alert').style.display = 'none';
-    }, 5000); // 3 segundos en milisegundos
-
     //=====================
     function togglePasswordVisibility() {
     var passwordInput = document.getElementById("pass");

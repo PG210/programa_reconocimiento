@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\WithLimit; // para limitar las filas a importar
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class UsersImport implements ToModel, WithLimit
+class UsersImport implements ToModel, WithLimit, WithHeadingRow
 {
     /**
     * @param array $row
@@ -17,6 +18,9 @@ class UsersImport implements ToModel, WithLimit
     * @return \Illuminate\Database\Eloquent\Model|null
     */
     private $limit;
+    private $count = 0;
+    private $duplicatedEmails = [];
+    private $importedEmails = []; 
 
     public function __construct($limit)
     {
@@ -25,43 +29,60 @@ class UsersImport implements ToModel, WithLimit
 
     public function model(array $row)
     {
-        if (empty($row[0]) || empty($row[1]) || empty($row[2]) || empty($row[3]) || empty($row[4]) || empty($row[5]) || empty($row[6]) || empty($row[7]) || empty($row[8]) || empty($row[9])) {
-            throw new \Exception('Por favor, revisa el archivo algún dato esta vacio.');   // Opcional: Lanza una excepción o maneja el error de alguna manera
+        if ($this->count >= $this->limit) {
+            
+            return null; // Ya alcanzamos el límite
         }
 
-        $email = $row[8]; // Extraemos el correo electrónico de la fila
-    
-        // Verificamos si el usuario con el correo electrónico dado ya existe
-        $existing_user = User::where('email', $email)->first();
-    
-        if ($existing_user) {
-            // El usuario ya existe, omitimos esta fila
-            return null;
-        } else {
-            // Creamos una nueva instancia de User
-            $fecna = Carbon::parse($row[4])->format('Y-m-d');
-            $fecin = Carbon::parse($row[5])->format('Y-m-d');
-            $user = new User([
-                'name' => $row[0],
-                'apellido' => $row[1],
-                'direccion' => $row[2],
-                'telefono' => $row[3],
-                'fecna' => $fecna,
-                'fecingreso' => $fecin,
-                'id_rol' => $row[6],
-                'id_cargo' => $row[7],
-                'email' => $email,
-                'password' => Hash::make($row[9]),
-                'id_estado' => 1,
-                'imagen' => 'perfil_no_borrar.jpeg',
-            ]);
-    
-            return $user;
+        if (empty($row['name']) || empty($row['apellido']) || empty($row['direccion']) || 
+            empty($row['telefono']) || empty($row['fecna']) || empty($row['fecingreso']) ||
+            empty($row['id_rol']) || empty($row['id_cargo']) || empty($row['email']) || 
+            empty($row['password'])) {
+            throw new \Exception('Revisa el archivo: hay datos vacíos.');
         }
+
+        if (User::where('email', $row['email'])->exists()) {
+            $this->duplicatedEmails[] = $row['email'];
+            return null; // ya existe, no se cuenta
+        }
+
+        $this->count++;
+        $this->importedEmails[] = $row['email']; 
+
+        return new User([
+            'name' => $row['name'],
+            'apellido' => $row['apellido'],
+            'direccion' => $row['direccion'],
+            'telefono' => $row['telefono'],
+            'fecna' => Carbon::parse($row['fecna'])->format('Y-m-d'),
+            'fecingreso' => Carbon::parse($row['fecingreso'])->format('Y-m-d'),
+            'id_rol' => $row['id_rol'],
+            'id_cargo' => $row['id_cargo'],
+            'email' => $row['email'],
+            'password' => Hash::make($row['password']),
+            'id_estado' => 1,
+            'imagen' => 'perfil_no_borrar.jpeg',
+        ]);
+
     }
 
     public function limit(): int
     {
-        return $this->limit;
+        return 10000; /*importar hasta 10000 usuarios */
+    }
+
+    public function getImportedCount(): int
+    {
+        return $this->count;
+    }
+
+    public function getDuplicatedEmails(): array
+    {
+        return $this->duplicatedEmails;
+    }
+
+    public function getImportedEmails(): array
+    {
+        return $this->importedEmails;
     }
 }

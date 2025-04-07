@@ -96,7 +96,8 @@
             @if(isset($usupuntos))
 							<p class="m-0">Top Colaborador:  </p>
 							<h5>{{ $usupuntos->nomusu }} {{ $usupuntos->apeusu }}</h5>
-							<p class="m-0">con {{ $usupuntos->ptotal }} puntos</p>
+							<p class="m-0"> {{ $usupuntos->ptotal }} puntos acumulados</p>
+              <p class="m-0"> {{ $usupuntos->total }} reconocimientos recibidos</p>
 						</div>
 						<div class="icon">
 							<i class="ion ion-person-add"></i>
@@ -112,9 +113,11 @@
 			</div>
 			<!-- /.row -->
 		</div>
+    
 		<div class="col-lg-9 col-12">
 			<!-- Gráficos -->
 			<div class="row">
+      @if(count($ptime) > 0)
 				<div class="col-md-6">
 					<div class="card card-primary">
 						<div class="card-header">
@@ -129,16 +132,21 @@
                     </button>
 							</div>
 						</div>
+          
 						<div class="card-body">
 							<p>La evolución de los puntos del grupo en el tiempo.</p>
 							<div class="chart-container">
 								<canvas id="trendChart"></canvas>
 							</div>
 						</div>
+            
 						<!-- /.card-body -->
 					</div>
 
 				</div>
+      @endif
+
+      @if(count($pcat) > 0)
 				<div class="col-md-6">
 
 					<div class="card card-primary">
@@ -164,29 +172,21 @@
 						<!-- /.card-body -->
 					</div>
 				</div>
-				
+			@endif	
 			</div>
             <div class="row">
   <div class="col-12">
   <div class="card">
 
-                    <div class="card-body">
+    <div class="card-body">
    <!--tabla para ver los valores-->
-   @if(Session::has('exito'))
-        <div id="exito-alert" class="alert alert-info alert-dismissible fade show letraform" role="alert">
-        <strong>{{Session::get('exito')}}</strong> 
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        </div>
-    @endif
    <div class="container mt-5 letraform">
    @foreach($cate as $cat)
         @php
             //validar la division por cero y limitar el porcentaje al 100 por ciento, tambien el valor 2000 debe ser ajustable en categorias
             $anchoBarra = min(100, ($cat->ptotal * 100) / max(2000, 1));
         @endphp
-        <li class="mt-2">Categoría: {{ $cat->nomcat }}, Total de puntos: {{ $cat->ptotal }}</li>
+        <li class="mt-2">Categoría: {{ $cat->nomcat }}, Total de puntos: {{ $cat->ptotal }}, Total de reconocimientos: {{ $cat->total }}</li>
         <div class="progress mt-2">
             <div class="progress-bar bg-success" style="width: {{ number_format($anchoBarra, 2) }}%">
                 {{ number_format($anchoBarra, 1) }} %
@@ -200,7 +200,8 @@
             <tr>
                 <th scope="col">Colaborador</th>
                 <th scope="col">Categoría</th>
-                <th scope="col">Puntaje Total</th>
+                <th scope="col">Reconocimientos obtenidos</th>
+                <th scope="col">Puntaje</th>
             </tr>
         </thead>
         <tbody>
@@ -214,6 +215,7 @@
                         @php $usuario_actual = $dato['idusu']; @endphp
                     @endif
                     <td>{{ $dato['nomcat'] }}</td>
+                    <td>{{ $dato['total'] }}</td>
                     <td>{{ $dato['ptotal'] }}</td>
                 </tr>
             @endforeach
@@ -229,6 +231,7 @@
    </div>
 
 		</div>
+    
 		<!-- /.row -->
 	</div>
 

@@ -288,6 +288,24 @@ class Inicio extends Controller
             ];
        return $data;
     }
+
+    //encontrar la fecha del ultimo reconocimiento
+
+    public function ultimoReconocimiento($idlog){
+
+        $ultimo = RecibirCat::where('id_user_envia', $idlog)
+                    ->latest('created_at')
+                    ->first();
+        
+        if ($ultimo) {
+            $diasPasados = Carbon::parse($ultimo->created_at)->diffInDays(Carbon::now());
+        } else {
+            $diasPasados = null;
+        }
+        
+        return $diasPasados;
+    }
+
     // dashboard principal
     public function dash()
     {
@@ -316,11 +334,22 @@ class Inicio extends Controller
             $valorpun = RecibirCat::where('id_user_recibe', '=', $userlog)->selectRaw('SUM(puntos) as p')->get(); //puntos obtenidos
             $totenviados = RecibirCat::where('id_user_envia', '=', $userlog)->count(); // total de reconocmientos enviados
             
-            //total comentarios holidays
-            /*$totcomholy = ComentarHolidayModel::select('comentarholiday.iduser', DB::raw('COUNT(comentarholiday.id) as totalcomentarios'))
-                          ->groupBy('iduser')
-                          ->get();*/
-        
+            //total comentarios holidays 1 es cumpeanios y 2 es aniversario
+            $totcomholy = ComentarHolidayModel::where('comentarholiday.tipo', 1)
+                        ->whereYear('comentarholiday.created_at', Carbon::now()->year) // Filtrar solo el año actual
+                        ->select('comentarholiday.iduser', DB::raw('COUNT(comentarholiday.id) as totalcomentarios'))
+                        ->groupBy('comentarholiday.iduser')
+                        ->get();
+
+            $totcomaniver = ComentarHolidayModel::where('comentarholiday.tipo', 2)
+                        ->whereYear('comentarholiday.created_at', Carbon::now()->year) // Filtrar solo el año actual
+                        ->select('comentarholiday.iduser', DB::raw('COUNT(comentarholiday.id) as totalcomentarios'))
+                        ->groupBy('comentarholiday.iduser')
+                        ->get();
+
+            //verificar la feha del ultimo reconocimiento enviado
+            $timerec = $this->ultimoReconocimiento($userlog);
+            
             return view('usuario.inicio', [
                 'detalle' => $detalle,
                 'emoticonCounts' => $emoticones,
@@ -346,7 +375,10 @@ class Inicio extends Controller
                 'totreconocimiento' => $totreconocimiento,
                 'totrecom' => $totrecom,
                 'valorpun' => $valorpun,
-                'totenviados' => $totenviados
+                'totenviados' => $totenviados,
+                'totcomholy' => $totcomholy,
+                'totcomaniver' => $totcomaniver,
+                'timerec' => $timerec
 
             ]);
         } else {
@@ -611,7 +643,10 @@ class Inicio extends Controller
     public function metricas($id)
     {
         $grupo = GrupoModel::find($id);
-
+        //validar si existen usuarios en el grupo
+        $cont = UserGrupoModel::where('idgrupo', $grupo->id)->count();
+       
+        if($cont > 0){
         //categoria mas votada por grupos
         $datos = UserGrupoModel::where('usugrupos.idgrupo', '=', $id)
                        ->join('catrecibida', 'usugrupos.idusu', '=', 'catrecibida.id_user_recibe')
@@ -640,10 +675,13 @@ class Inicio extends Controller
         $ptime = $this->puntosTiempo($id);
         //puntos por categoria para graficar 
         $pcat = $this->puntosCat($id);
-        //return $pcat;
-        return view('grupos.metricas', compact('grupo', 'cate', 'datos', 'usupuntos', 'ptime', 'pcat'));
        
+        return view('grupos.metricas', compact('grupo', 'cate', 'datos', 'usupuntos', 'ptime', 'pcat'));
+    }else{
+        Session::flash('exito', 'Aún no hay usuarios vinculados. ¡Añade el primero!');
+        return back(); 
     }
+}
     //==================== registrar user====================
     public function addUser(Request $request)
     {
@@ -1017,8 +1055,16 @@ class Inicio extends Controller
                ->get();
         
         $usuarioCongratu = Usuarios::findOrFail($iduser);
-         // validar que el correo no sea de la misma persona que reacciona
-         $datos = [
+
+        //retornar los totales por comentario
+        $toth = ComentarHolidayModel::where('comentarholiday.tipo', $tipo)
+                        ->where('comentarholiday.iduser', $iduser)
+                        ->whereYear('comentarholiday.created_at', Carbon::now()->year) // Filtrar solo el año actual
+                        ->select( DB::raw('COUNT(comentarholiday.id) as total'))
+                        ->get();
+
+        // validar que el correo no sea de la misma persona que reacciona
+        $datos = [
             'nombre' => auth()->user()->name,
             'apellido' => auth()->user()->apellido,
             'detalle' => $descrip,
@@ -1027,11 +1073,13 @@ class Inicio extends Controller
             'tipo' => '2',
             'fecha' => $Comentario->created_at,
         ];
+
         if (strtolower($emailusulog) != strtolower($usuarioCongratu->email)) {
             $descrip = "Nueva notificación";
             $respuesta = $this->sendMailHolidays($usuarioCongratu->email, $datos, $descrip);
         }
-        return response()->json(['data' => $data, 'tipo' => $tipo], 200);
+        
+        return response()->json(['data' => $data, 'tipo' => $tipo, 'toth' => $toth], 200);
     }
 
     //comentarios de history 

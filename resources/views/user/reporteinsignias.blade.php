@@ -66,125 +66,123 @@
 <!-- /.content-header -->
 
 <div class="container">
-    <div class="row">
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                @if(isset($morecat['morecat']->nomcat))
-                  <p class="m-0">Tu categoría más <br>reconocida es:</p>
-                  <h5> {{ $morecat['morecat']->nomcat }}</h5>
-                  <p class="m-0">¡Sigue brillando!</p>  
-                @else
-                  <p class="m-0">Aún no tienes una categoría destacada.</p>
-                  <br>
-                  <p class="m-0">¡Pronto lo lograrás! </p>  
-                @endif
+  <div class="row mb-3">
+      <div class="col-lg-3 col-6">
+          <div class="small-box bg-info h-100 d-flex flex-column">
+              <div class="inner flex-grow-1 d-flex flex-column mt-2">
+                  @if(isset($morecat['morecat']->nomcat))
+                      <p class="m-0">Tu categoría más <br>reconocida es:</p>
+                      <h5> {{ $morecat['morecat']->nomcat }}</h5>
+                      <p class="m-0">¡Sigue brillando!</p>  
+                  @else
+                      <p class="m-0">Aún no tienes una categoría destacada.</p>
+                      <br>
+                      <p class="m-0">¡Pronto lo lograrás! </p>  
+                  @endif
               </div>
               <div class="icon">
-                <i class="fas fas fa-trophy"></i>
+                  <i class="fas fa-trophy"></i>
               </div>
-              <a href="#" class="small-box-footer">Ver más información <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
+              <a href="#" class="small-box-footer mt-auto">Ver más información <i class="fas fa-arrow-circle-right"></i></a>
           </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                @if(isset($morecat['percentil']))
-                 @if($morecat['percentil'] > 50) 
-                    <h3> {{ $morecat['percentil'] }} % </h3>
-                    <p class="m-0">Este 
-                    @if($fecini && $fecfin)
-                      periodo
-                    @else
-                      mes,
-                    @endif
-                      recibiste más reconocimientos que el {{ $morecat['percentil'] }}% de tus compañeros.</p>
-                 @else
-                    <h3> 0% </h3>
-                    <p class="m-0">Aún no has recibido reconocimientos este mes. ¡Anímate!</p>
-                 @endif
-                @endif
+      </div>
+
+      <div class="col-lg-3 col-6">
+          <div class="small-box bg-warning h-100 d-flex flex-column">
+              <div class="inner flex-grow-1 d-flex flex-column">
+                  @if(isset($morecat['percentil']))
+                      @if($morecat['percentil'] > 50) 
+                          <h3> {{ $morecat['percentil'] }} % </h3>
+                          <p class="m-0">Este 
+                          @if($fecini && $fecfin)
+                              periodo
+                          @else
+                              mes,
+                          @endif
+                          recibiste más reconocimientos que el {{ $morecat['percentil'] }}% de tus compañeros.</p>
+                      @else
+                          <h3> 0% </h3>
+                          <p class="m-0">Aún no has recibido reconocimientos este mes. ¡Anímate!</p>
+                      @endif
+                  @endif
               </div>
               <div class="icon">
-                <i class="ion ion-stats-bars"></i>
+                  <i class="ion ion-stats-bars"></i>
               </div>
-              <a href="#" class="small-box-footer">Destaca tu tambien a los demás <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
+              <a href="/reconocimientos/usuario" class="small-box-footer mt-auto" target="_blank">Destaca a los demás <i class="fas fa-arrow-circle-right"></i></a>
           </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
+      </div>
+
+      <div class="col-lg-3 col-6">
+          <div class="small-box bg-warning h-100 d-flex flex-column">
+              <div class="inner flex-grow-1 d-flex flex-column mt-2">
+                  @if(isset($morecat['userenvia']->nombre)) 
+                      <p class="m-0">Tu mayor reconocimiento proviene de</p>
+                      <h5>{{ $morecat['userenvia']->nombre }} {{ $morecat['userenvia']->apellido }} </h5>
+                      <p class="m-0">¡valora esa conexión!</p>  
+                  @else
+                      <p class="m-0">Aún no tienes un reconocimiento destacado</p>
+                      <br>
+                      <p class="m-0">¡Sigue esforzándote, tu trabajo será valorado!</p>  
+                  @endif
+              </div>
+              <div class="icon">
+                  <i class="ion ion-person-add"></i>
+              </div>
               @if(isset($morecat['userenvia']->nombre)) 
-                <p class="m-0">Tu mayor reconocimiento proviene de</p>
-                <h5>{{ $morecat['userenvia']->nombre }} {{ $morecat['userenvia']->apellido }} </h5>
-                <p class="m-0">¡valora esa conexión!</p>  
-              @else
-                <p class="m-0">Aún no tienes un reconocimiento destacado</p>
-                <br>
-                <p class="m-0">¡Sigue esforzándote, tu trabajo será valorado!</p>  
+                <a href="{{ route('listareconocer', ['id' => $morecat['userenvia']->id_user_envia]) }}" class="small-box-footer mt-auto" target="_blank">Reconócelo ahora <i class="fas fa-arrow-circle-right"></i></a>
               @endif
+          </div>
+      </div>
+
+      <div class="col-lg-3 col-6">
+          <div class="small-box bg-danger h-100 d-flex flex-column">
+              <div class="inner flex-grow-1 d-flex flex-column">
+                  @if(isset($morecat['topx']))
+                      @if($morecat['topx'] > 50)
+                          <h3>0 %</h3>
+                          <p class="m-0">Aún no estás en el Top de colaboradores más reconocidos este trimestre.</p>  
+                      @else
+                          <h3>{{ $morecat['topx'] }}%</h3>
+                          <p class="m-0">Te encuentras en el Top {{ $morecat['topx'] }}% de colaboradores más reconocidos 
+                              este
+                              @if($fecini && $fecfin)
+                                  periodo
+                              @else
+                                  trimestre.
+                              @endif
+                          </p>  
+                      @endif
+                  @endif
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                  <i class="ion ion-pie-graph"></i>
               </div>
-              <a href="#" class="small-box-footer">Reconocelo ahora <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
+              <a href="#" class="small-box-footer mt-auto">Más información <i class="fas fa-arrow-circle-right"></i></a>
           </div>
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-              @if(isset($morecat['topx']))
-                @if($morecat['topx'] > 50)
-                  <h3>0 %</h3>
-                  <p class="m-0">Aún no estás en el Top de colaboradores más reconocidos este trimestre.</p>  
-                @else
-                  <h3>{{ $morecat['topx'] }}%</h3>
-                  <p class="m-0">Te encuentras en el Top {{ $morecat['topx'] }}% de colaboradores más reconocidos 
-                    este
-                    @if($fecini && $fecfin)
-                      periodo
-                    @else
-                      trimestre.
-                    @endif
-                   </p>  
-                @endif
-              @endif
-              </div>
-              <div class="icon">
-                <i class="ion ion-pie-graph"></i>
-              </div>
-              <a href="#" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-          <!-- ./col -->
-        </div>
-        <!-- /.row -->
+      </div>
+  </div>
+
+<!-- /.row -->
 
 		
     <div class="row mb-3">
-                        <div class="col-md-12">
-                        <!---filtros de busqueda -->
-                        <form action="{{route('filtrarReconocimientos')}}" method="POST">
-                          @csrf
-                          <div class="form-group row m-0" style="display: flex;align-items: center;">
-                            <label for="inputEmail3" class="col-sm-2 col-form-label">Fecha inicial y final</label>
-                            <div class="col-sm-10 filtro-fecha">
-                              <input type="date" aria-label="First name" class="form-control" name="fecini" id="fecini" max="{{ $fecha }}" value="{{ $fecini }}" required>
-                              <input type="date" aria-label="Last name" class="form-control" name="fecfin" id="fecfin" max="{{ $fecha }}" value="{{ $fecfin }}" required>
-                              <button class="btn btn-primary" role="button" type="submit"> <i class="fas fa-search"></i></button>
-                            </div>
-                            
-                          </div>
-                        </form>
-                        <!--end filtros-->
-                        </div>
+      <div class="col-md-12">
+      <!---filtros de busqueda -->
+      <form action="{{route('filtrarReconocimientos')}}" method="POST">
+        @csrf
+        <div class="form-group row m-0" style="display: flex;align-items: center;">
+          <label for="inputEmail3" class="col-sm-2 col-form-label">Fecha inicial y final</label>
+          <div class="col-sm-10 filtro-fecha">
+            <input type="date" aria-label="First name" class="form-control" name="fecini" id="fecini" max="{{ $fecha }}" value="{{ $fecini }}" required>
+            <input type="date" aria-label="Last name" class="form-control" name="fecfin" id="fecfin" max="{{ $fecha }}" value="{{ $fecfin }}" required>
+            <button class="btn btn-primary" role="button" type="submit"> <i class="fas fa-search"></i></button>
+          </div>
+          
+        </div>
+      </form>
+      <!--end filtros-->
+      </div>
 			<!-- /.col -->
 		</div>
 		<!-- /.row -->
@@ -325,10 +323,14 @@
                               <div class="tab-content p-0">
                                 <!-- Morris chart - Sales -->
                                 <div class="chart tab-pane  active" id="dona-chart">
-                                  <div class="row" style="align-items: center;">
-                                    <div class="col-md-4">   
-                                     <canvas id="donutChart" style="min-height: 200px; height: 200px; max-height: 200px; max-width: 100%;"></canvas>
-                                    </div>
+                                  <div class="row" style="align-items: center;"> 
+                                    @if(count($datosgraf) > 0)
+                                      <div class="col-md-4">   
+                                      <canvas id="donutChart" style="min-height: 200px; height: 200px; max-height: 200px; max-width: 100%;"></canvas>
+                                      </div>
+                                    @else
+                                      <p> &nbsp; &nbsp;😊 Aún no hay métricas disponibles, pero pronto las verás aquí.</p>
+                                    @endif
                                     <div class="col-md-8">  
                                       <!-- Tu Destacado y Tu Próximo Reto -->
                                       @php
@@ -362,9 +364,13 @@
                                   </div>  
                                 </div>
                                 <div class="chart tab-pane " id="linea-chart" style="">
+                                  @if(count($rectime) > 0)
                                   <div class="chart">
                                     <canvas id="timelineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                   </div>
+                                  @else
+                                  <p> &nbsp; &nbsp;😊 Aún no hay métricas disponibles, pero pronto las verás aquí.</p>
+                                  @endif
                                 </div>
                                 
                               </div>
@@ -379,10 +385,10 @@
                         </div>
                       </div>
 
-                      <div class="row card-group"> 
+                      <div class="row d-flex align-items-stretch card-group"> 
                       @foreach($detalle as $det)
                         <div class="col-md-4">
-                        <div class="card card-primary card-widget show" id="cards{{$det->idcat}}">
+                        <div class="card card-primary card-widget show h-100" id="cards{{$det->idcat}}">
                           <div class="card-header py-2 px-3">	
                             <div class="w-100 text-center">
                               <div class="user-block w-100">
@@ -391,16 +397,14 @@
                                 <span class="h6" style="color: #fff;">¡Te reconocio {{$det->nomenvia}} {{$det->apenvia}}!</span>
                               </div>
                               <!--foto medalla -->
-                              <!--<img class="medallas" src="/dist/img/medalla_1.png" alt="medallas">-->
                               <img data-src="{{asset('imgpremios/'.$det->img)}}" class="medallas-muro img-circle lazy-load" alt="User Image" style="padding-bottom:2px; width:50px; height: 50px;">
                               
                             </div>
                             <!-- /.user-block -->
                           </div>
                           <div class="card-body">
-                          
-                              
-                              <span class="nomcate letratarjeta1">🏆 En la categoría: </br><strong>{{$det->descat}}</strong></span></br> 
+                      
+                              <span class="nomcate letratarjeta1">🏆 En la categoría: </br><strong>{{$det->descat}}</strong></span></br>
                               <span class="nomcate letratarjeta1">
                                   <!-- validar que solamente aparezcan 15 palabras -->
                                   @php
@@ -419,7 +423,7 @@
                               </span>
                               📅 {{ \Carbon\Carbon::parse($det->fecha)->format('j/m/Y') }} </br> 
                               <i class="fas fa-star text-warning"></i><span> {{$nompuntos->descripcion}}: </span><span class="punto">{{$det->puntos}} </span>
-                              <a href="{{ route('listareconocer', ['id' => $det->id_user_envia]) }}"  type="button" class="btn btn-warning w-100">
+                              <a href="{{ route('listareconocer', ['id' => $det->id_user_envia]) }}"  type="button" class="btn btn-warning w-100 mt-3" style="color:white;">
                                     Reconoce a {{$det->nomenvia}}  
                               </a>
                           </div>
@@ -665,11 +669,15 @@
                             </div><!-- /.card-header -->
                             <div class="card-body">
                               <div class="tab-content p-0">
-                                <div class="chart tab-pane active" id="linea-chart1" style="">hola
+                              @if(count($grafinsig) > 0)
+                                <div class="chart tab-pane active" id="linea-chart1" style="">
                                   <div class="chart">
                                     <canvas id="timelineChart11" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                   </div>
+                                @else
+                                   <p> &nbsp; &nbsp;😊 Aún no hay métricas disponibles, pero pronto las verás aquí.</p>
                                 </div>
+                                @endif
                               </div>
                             </div><!-- /.card-body -->
                           </div>
@@ -788,5 +796,4 @@
 
     };
 </script>
-
 @endsection

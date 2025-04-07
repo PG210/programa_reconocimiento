@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reporte de reconocimientos recibidos PDF</title>
+    <title>Reporte de reconocimientos recibidos PDF</title> 
     <style>
         body {
             font-family: Arial, sans-serif;
             font-size: 12px;
         }
-        table {
+        .tabla2 {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
         }
-        table, th, td {
+        .tabla2, th, td {
             border: 1px solid black;
         }
         th, td {
@@ -25,36 +25,40 @@
     </style>
 </head>
 <body>
-    <h1>Reporte de Datos</h1>
-    <table>
+    <div style="width: 100%;">
+        <div style="display: inline-block; vertical-align: middle; text-align: left;">
+            <h2 style="margin: 0;">Reporte de reconocimientos obtenidos</h2>
+        </div>
+        <div style="display: inline-block; vertical-align: middle; float:right;">
+            <img src="{{ public_path('dist/img/logo-reconoser-icono.png') }}" width="80%">
+        </div>
+    </div>
+
+    <h3>Desde: {{ $fecmin }} </h3>
+    <h3>Hasta: {{ $fecmax }} </h3>
+    <table class="tabla2">
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Categoría 1</th>
-                <th>Categoría 2</th>
-                <th>Categoría 3</th>
-                <th>Categoría 4</th>
-                <th>Categoría 5</th>
+                <th>Nombre y Apellido</th>
+                <th>Cargo</th>
+                <th>Ärea</th>
+                @foreach ($ncat as $c)
+                  <th>{{ $c->descripcion }}</th>
+                @endforeach
                 <th>Total</th>
-                <th>Fecha Min</th>
-                <th>Fecha Max</th>
             </tr>
         </thead>
         <tbody>
         @foreach ($data as $subArray)
             @foreach($subArray as $item)
                 <tr>
-                    <td>{{ $item->nombre }}</td>
-                    <td>{{ $item->ape }}</td>
-                    <td>{{ $item->c1 ?? '0' }}</td>
-                    <td>{{ $item->c2 ?? '0' }}</td>
-                    <td>{{ $item->c3 ?? '0' }}</td>
-                    <td>{{ $item->c4 ?? '0' }}</td>
-                    <td>{{ $item->c5 ?? '0' }}</td>
+                    <td>{{ $item->nombre }} {{ $item->ape }}</td>
+                    <td>{{ $item->nomcar ?? 'N/A' }}</td>
+                    <td>{{ $item->nomarea ?? 'N/A' }}</td>
+                    @for ($i = 1; $i <= count($ncat); $i++)
+                        <td>{{ $item->{'c'.$i} ?? 0 }}</td>
+                    @endfor
                     <td>{{ $item->tot ?? '0' }}</td>
-                    <td>{{ $item->fecmin ?? 'N/A' }}</td>
-                    <td>{{ $item->fecmax ?? 'N/A' }}</td>
                 </tr>
             @endforeach
         @endforeach

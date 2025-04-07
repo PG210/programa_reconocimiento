@@ -20,20 +20,6 @@
     <!-- Custom styles for this template -->
   </head>
   <body>
-<!--navar
-<nav class="navbar-login navbar navbar-expand-lg navbar-light sticky-top ampliarnav">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-  <div class="container d-flex flex-column flex-md-row justify-content-between">
-    <a href="#" aria-label="Product">
-      <img src="{{asset('dist/img/logo-reconoser-2.png')}}" class="img-fluid imagenlogo" alt="Reconoser Logo">
-    </a>
-    
-  </div>
-  </div>
-</nav>-->
 
 @yield('content')
 
