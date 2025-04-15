@@ -77,7 +77,7 @@
                           <!--modal-->
                           <!-- Button trigger modal -->
                           @if($b!=2)
-                          <button type="button" class="btn confirmar" data-toggle="modal" data-target="#modalVot{{$c->idusu}}">
+                          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalVot{{$c->idusu}}">
                             Votar
                           </button>
                           @else
@@ -150,10 +150,10 @@
                                 <input value="{{$vot->idvot}}" name="idvot" id="idvot" hidden>
                                 <input value="{{$c->idusu}}" name="idpos" id="idpos" hidden>
                                 </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn salir" data-dismiss="modal">Salir</button>
+                                <div class="modal-footer justify-content-between">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
                                   @if($b!=2)
-                                  <button type="submit" class="btn confirmar">Votar</button>
+                                  <button type="submit" class="btn btn-success">Votar</button>
                                   @endif
                                 </div>
                               </div>

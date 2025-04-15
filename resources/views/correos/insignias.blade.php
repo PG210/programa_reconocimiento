@@ -155,7 +155,7 @@
                 <tr>
                   <td style="padding:0; width:50%;" align="left">
                     <a href="https://www.evolucion.co/" target="_blank" style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:white;">
-                      &reg; Evolución, 2024<br/>
+                      &reg; Evolución, 2025<br/>
                    </a>
                    <label style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:white;" >@if(isset($datosin)){{date ('Y-m-d', strtotime($datosin->fecha))}}@endif</label>
                   </td>

@@ -1,7 +1,7 @@
   /*tomamos la información del formulario y la enviamos a la ruta y de la ruta al controlador*/
   $('#formudatos').submit(function(e){
     e.preventDefault();
-    //valores de los checkbox
+    //valores de los checkbox 
     let usuariosSel = [];
     $('input[name="usuariosSel[]"]:checked').each(function() {
       usuariosSel.push($(this).val());

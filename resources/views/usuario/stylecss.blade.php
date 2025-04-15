@@ -29,5 +29,19 @@
  div.dataTables_wrapper div.dataTables_length select {
   width: 5em !important;
  }
+
+ .colorblue{
+   color: blue;
+ }
+
+ .cke_notifications_area{
+  display: none;
+ }
+
+ .btn-filtrar.active .card {
+    border: 2px solid #439a86 !important;
+    background-color: #d4edda; /* verde claro */
+    color: #439a86;
+  }
 </style>
 

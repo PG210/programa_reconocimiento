@@ -56,7 +56,7 @@
                 <tr>
                   <td style="padding:0;width:50%;" align="left">
                     <a href="https://www.evolucion.co/" style="margin:0;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:black; color:white;">
-                      &reg; Evolución, 2024<br/>
+                      &reg; Evolución, 2025<br/>
                    </a>
                    <label style="margin-top:2px;font-size:14px;line-height:16px;font-family:Arial,sans-serif;color:white;" > @if(isset($datos['fecha'])){{date ('Y-m-d', strtotime($datos['fecha']))}}@endif</label>
                   </td>

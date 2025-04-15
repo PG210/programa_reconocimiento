@@ -40,6 +40,7 @@ use App\Models\Eventos\AntiguedadModel; // para antiguedad
 use App\Models\Eventos\HolidaysModel;
 use App\Models\Eventos\ComentarHolidayModel; // guardar los comentarios de los usuarios
 use App\Models\Eventos\EstadoEventosModel;
+use App\Models\Comunicacion\Pildora;
 
 Carbon::setLocale('es');
 
@@ -349,6 +350,9 @@ class Inicio extends Controller
 
             //verificar la feha del ultimo reconocimiento enviado
             $timerec = $this->ultimoReconocimiento($userlog);
+
+            //informacion de pildoras reconoser
+            $pildoras = Pildora::all();
             
             return view('usuario.inicio', [
                 'detalle' => $detalle,
@@ -378,7 +382,8 @@ class Inicio extends Controller
                 'totenviados' => $totenviados,
                 'totcomholy' => $totcomholy,
                 'totcomaniver' => $totcomaniver,
-                'timerec' => $timerec
+                'timerec' => $timerec,
+                'pildoras' => $pildoras,
 
             ]);
         } else {

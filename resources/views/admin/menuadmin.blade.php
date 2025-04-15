@@ -109,6 +109,33 @@
       </a>
     </li>
     <!---end eventos--->
+    <!---notify-->
+    <li class="nav-item">
+      <a href="{{route('noty')}}" class="nav-link @if(Request::is('empresa/notify')) active @endif">
+        <i class="nav-icon fas fa-bell"></i>
+        <p>
+          Notificaciones
+        </p>
+      </a>
+    </li>
+    <!--pildoras-->
+    <li class="nav-item">
+      <a href="{{route('pildoras')}}" class="nav-link @if(Request::is('empresa/pildoras')) active @endif">
+        <i class="nav-icon fas fa-pills"></i>
+        <p>
+          Pildoras
+        </p>
+      </a>
+    </li>
+    <!---configuracion de colores--->
+    <li class="nav-item">
+      <a href="{{route('settings')}}" class="nav-link @if(Request::is('empresa/settings')) active @endif">
+        <i class="nav-icon fas fa-cog"></i>
+        <p>
+          Configuración
+        </p>
+      </a>
+    </li>
 
     <li class="nav-header">Metricas</li>
 

@@ -694,7 +694,7 @@
                             <div class="w-100 text-center">
                               <div class="user-block w-100">
                                 <!--foto de perfil -->
-                                <img data-src="{{asset('imgpremios/'.$r->imginsig)}}" class="profile-user-img img-circle loaded" alt="User Image" >
+                                <img src="{{asset('imgpremios/'.$r->imginsig)}}" class="profile-user-img img-circle loaded" alt="User Image" >
                                 
                                 <span class="h6" style="color: #fff;">{{$r->catinsign}}</span>
                                 <p>{{$r->nominsig}}</p>

@@ -15,6 +15,8 @@ use App\Models\Eventos\AntiguedadModel; // para antiguedad
 use App\Models\Eventos\CumpleModel; // cumpleanios
 use Intervention\Image\Facades\Image; // optimizar las imagenes
 use App\Models\Eventos\EstadoEventosModel;
+use App\Models\Eventos\Mensaje;
+use App\Models\Comunicacion\Pildora;
 
 
 class AreasController extends Controller
@@ -267,6 +269,109 @@ class AreasController extends Controller
      $createEstado->save();
 
      return response()->json(['message' => 'Estado actualizado correctamente']);
+  }
+
+  public function noty(){
+    $data = Mensaje::all();
+    return view('admin.notify', compact('data'));
+  }
+
+  public function recordatorio(Request $request){
+    try{
+        $mensaje = new Mensaje();
+        $mensaje->tipo = $request->tipo;
+        $mensaje->tiempo = $request->tem;
+        $mensaje->dia = $request->dia;
+        $mensaje->hora = $request->hora;
+        $mensaje->contenido = $request->contenido;
+        $mensaje->save();
+
+        return back()->with('success', 'Mensaje guardado correctamente.');
+
+    }catch(\Exception $e){
+
+      return back()->with('error', 'Hubo un problema al guardar el mensaje.');
+
+    }
+
+  }
+
+  // borrar mensajes
+  public function deleteMensaje(Request $request){
+    
+    $mensaje = Mensaje::find($request->idmen);
+    if ($mensaje) {
+        $mensaje->delete();
+        return back()->with('success', 'Mensaje eliminado correctamente.');
+    }
+    return back()->with('error', 'Hubo un problema al eliminar el mensaje.');
+  }
+
+  //activar o desacivar mensajes
+  public function activeMensaje(Request $request){
+     #== actualizar estado
+     $mensaje = Mensaje::find($request->id);
+     if ($mensaje) {
+        $mensaje->activo = $request->estado;
+        $mensaje->save();
+
+        return response()->json(['message' => 'Estado actualizado correctamente.']);
+    }
+
+    return response()->json(['message' => 'No se encontró la notificación.'], 404);
+  }
+
+  //funcion para actualizar los datos de mensajes
+  public function pildoras(){
+    $data = Pildora::all();
+    return view('admin.pildoras', compact('data'));
+  }
+  //registrar nueva pildoras 
+
+  public function newpildora(Request $request){
+    try{
+        $mensaje = new Pildora();
+        $mensaje->asunto = $request->asunto;
+        $mensaje->link = $request->link;
+        $mensaje->descrip = $request->descrip;
+        $mensaje->save();
+
+        return back()->with('success', 'Dato guardado correctamente.');
+
+    }catch(\Exception $e){
+
+      return back()->with('error', 'Hubo un problema al guardar los datos.');
+
+    }
+  }
+
+  //eliminar pildoras
+  public function deletePildora(Request $request){
+    
+    $pildora = Pildora::find($request->id);
+    if ($pildora) {
+        $pildora->delete();
+        return back()->with('success', 'Dato eliminado correctamente.');
+    }
+    return back()->with('error', 'Hubo un problema al eliminar el dato.');
+  }
+
+  //actualizar pildora
+  public function updatePildora(Request $request){
+    try{
+        $mensaje = Pildora::find($request->idup);
+        $mensaje->asunto = $request->asuntoup;
+        $mensaje->link = $request->linkup;
+        $mensaje->descrip = $request->descripup;
+        $mensaje->save();
+
+        return back()->with('success', 'Dato guardado correctamente.');
+
+    }catch(\Exception $e){
+
+      return back()->with('error', 'Hubo un problema al guardar los datos.');
+
+    }
   }
 
 }

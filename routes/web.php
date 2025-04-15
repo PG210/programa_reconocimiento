@@ -18,6 +18,7 @@ use App\Http\Controllers\ImportacionController\Importacion;
 use App\Http\Controllers\MensajesController\MensajesControl;
 use App\Http\Controllers\Comunicacion\ComunicacionController; //ruta para comunicacion
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\ColorsController\Colors;
 
 /*
 |--------------------------------------------------------------------------
@@ -261,6 +262,19 @@ Route::post('/empresa/eventos/happy', [AreasController::class, 'happybirthday'])
 Route::post('/empresa/eventos/antique', [AreasController::class, 'antique'])->middleware(['auth', 'admin'])->name('antique');
 Route::post('/empresa/eventos/delete', [AreasController::class, 'deletevento'])->middleware(['auth', 'admin'])->name('deletevento');
 Route::post('/empresa/eventos/active', [AreasController::class, 'activeCumple'])->middleware(['auth', 'admin'])->name('activeCumple');
+Route::get('/empresa/eventos/notify', [AreasController::class, 'noty'])->middleware(['auth', 'admin'])->name('noty');
+Route::post('/empresa/eventos/reg/notify', [AreasController::class, 'recordatorio'])->middleware(['auth', 'admin'])->name('recordatorio');
+Route::post('/empresa/eventos/noty/delete', [AreasController::class, 'deleteMensaje'])->middleware(['auth', 'admin'])->name('deleteMensaje');
+Route::post('/empresa/eventos/active/noty', [AreasController::class, 'activeMensaje'])->middleware(['auth', 'admin'])->name('activeMensaje');
+Route::get('/empresa/pildoras', [AreasController::class, 'pildoras'])->middleware(['auth', 'admin'])->name('pildoras');
+Route::post('/empresa/reg/pildoras', [AreasController::class, 'newpildora'])->middleware(['auth', 'admin'])->name('newpildora');
+Route::post('/empresa/del/pildoras', [AreasController::class, 'deletePildora'])->middleware(['auth', 'admin'])->name('deletePildora');
+Route::post('/empresa/up/pildoras', [AreasController::class, 'updatePildora'])->middleware(['auth', 'admin'])->name('updatePildora');
+//================= configuracion de los colores e imagenes ==================
+Route::get('/empresa/settings', [Colors::class, 'index'])->middleware(['auth', 'admin'])->name('settings');
+Route::post('/empresa/reg/settings', [Colors::class, 'register'])->middleware(['auth', 'admin'])->name('register');
+Route::post('/empresa/del/settings', [Colors::class, 'deleteConfig'])->middleware(['auth', 'admin'])->name('deleteConfig');
+Route::get('/empresa/up/settings', [Colors::class, 'updateConfig'])->middleware(['auth', 'admin'])->name('updateConfig');
 
 //======================== download excel ======
 Route::post('/download/excel/appreciation', [ReconocimientosController::class, 'downloadGet'])->middleware(['auth'])->name('downloadGet');
@@ -277,4 +291,8 @@ Route::post('/filter/puntos', [ReconocimientosController::class, 'filterPuntos']
 
 Route::get('/forprueba', function () {
     return view('formprueba');
+});
+
+Route::get('/vcorreo', function () {
+    return view('correos.ausencia');
 });

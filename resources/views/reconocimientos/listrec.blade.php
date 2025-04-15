@@ -1,5 +1,6 @@
 @extends('usuario.principa_usul')
 @section('content')
+
   <!-- Content Header (Page header) -->
   <!-- Token de seguridad de Laravel (debes incluirlo en la vista) -->
   <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -64,12 +65,12 @@
     @foreach($categoria as $cate)
       <a href="#" class="col-6 btn-filtrar" data-id="{{ $cate->id }}">
         <div class="card card-outline card-primary">
-        <div class="card-body">
-        <h3 class="titulo-reconocimiento">
-        {{ e($cate->descripcion) }}
-        </h3>
-        {{ $cate->especificacion }}
-        </div>
+          <div class="card-body">
+            <h3 class="titulo-reconocimiento">
+            {{ e($cate->descripcion) }}
+            </h3>
+            {{ $cate->especificacion }}
+          </div>
         </div>
       </a>
     @endforeach
@@ -234,7 +235,7 @@
       <div class="card-header py-4">
         <div class="w-100 text-center">
         <span class="text-center">
-          <h4>🎉 Buen trabajo Manuel Castrillón</h4>
+          <h4>🎉 Buen trabajo </h4>
         </span>
         </div>
         <!-- /.user-block -->
@@ -307,5 +308,4 @@
     }).start();
     });
   </script>
-
 @endsection

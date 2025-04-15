@@ -809,22 +809,21 @@ private function sendMail($destino, $data, $descrip, $valor){
     }
     //sacar un aleatorio para sugerencia
     $us = auth()->id();
-    foreach ($usurecibe as $k) {
-      $usuazar = Usuarios::where('id', '!=', $k)
-        ->where('id_rol', '!=', '1')
-        ->where('id', '!=', $us)   // Filtrar por roles diferentes de 1
-        ->inRandomOrder()
-        ->limit(2)
-        ->get();
-    }
+
+    $usuazar = Usuarios::whereNotIn('id', $usurecibe) // Excluir usuarios seleccionados
+              ->where('id_rol', '!=', 1)                    // Excluir admins (u otro rol)
+              ->where('id', '!=', $us)                      // Excluir al usuario autenticado
+              ->inRandomOrder()
+              ->limit(2)
+              ->get();
+
     return response()->json(
       [
         'usuazar' => $usuazar,
         'respuesta' => $respuesta
       ]
     );
-    // return response(json_decode(['usuazar' => $usuazar, 'respuesta' => $respuesta]),200)->header('Content-type', 'text/plain');
-    //return back();
+   
   }
 
   //================ metricas ===================================

@@ -398,4 +398,23 @@ var donutData        = {
 })
 
 </script>
+<!---cambiar color a las capsulas-->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const filtros = document.querySelectorAll('.btn-filtrar');
+
+  filtros.forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      // Quitar la clase "active" de todos
+      filtros.forEach(b => b.classList.remove('active'));
+
+      // Agregar la clase "active" al clicado
+      this.classList.add('active');
+    });
+  });
+});
+</script>
+
 

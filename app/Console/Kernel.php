@@ -19,6 +19,10 @@ class Kernel extends ConsoleKernel
             // $schedule->command('queue:work --daemon')->everyFiveMinutes();
              $schedule->command('queue:restart')->everyTenMinutes();
              $schedule->command('dispatch:birthday-emails')->daily(); //mensajes de felicitaciones
+             $schedule->command('recordatorios:enviar')->everyMinute(); //mensajes de recordatorios
+             $schedule->command('mensaje:uso')->everyMinute();
+             $schedule->command('votacion:enviar')->everyMinute();
+            
     }
 
     /**

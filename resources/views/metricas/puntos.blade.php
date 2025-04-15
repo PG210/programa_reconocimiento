@@ -150,11 +150,11 @@
         <p>⚡ Acciones Rápidas para Impulsar la Participación</p>
         <div class="row text-center">
           <div class="col-md-4">
-            <button class="btn btn-primary w-100 mb-2">📢 Enviar Recordatorios</button>
+            <button class="btn btn-primary w-100 mb-2" disabled>📢 Enviar Recordatorios</button>
             <p class="small m-0">Notificar a los equipos con baja participación.</p>
           </div>
           <div class="col-md-4">
-            <button class="btn btn-success w-100 mb-2">📊 Ver Tendencias por Equipo</button>
+            <button class="btn btn-success w-100 mb-2" disabled>📊 Ver Tendencias por Equipo</button>
             <p class="small m-0">Analizar qué equipos están participando más.</p>
           </div>
           <!---generar reportes-->

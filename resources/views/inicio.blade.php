@@ -70,6 +70,9 @@
 
 .button-circle-2xl i {
   line-height: 80px;
+  padding: 0px 10px 0px 10px;
+  font-size: smaller;
+  font-style: normal;
 }
 
 .button-circle-dark {
@@ -802,7 +805,7 @@ header-menu-extra:
                                 @auth
                                     <a class="button-circle button-circle-2xl button-circle-dark button-circle-animation-drop lightbox-media-link"  href="{{ url('/dashboard') }}"><b>Volver</b></a>
                                 @else
-                                <a class="button-circle button-circle-2xl button-circle-dark button-circle-animation-drop lightbox-media-link" href="{{url('/reg') }}" @if (Request::is('reg')) style="display:none;"  @endif><i class="bi bi-arrow-right-square-fill iconfont" style="color:white;"></i> Ingresar</a>
+                                <a class="button-circle button-circle-2xl button-circle-dark button-circle-animation-drop lightbox-media-link" href="{{url('/reg') }}" @if (Request::is('reg')) style="display:none;"  @endif><i class="bi bi-arrow-right-square-fill iconfont" style="color:white;"><span>&nbsp;Ingresar</span></i></a>
                                 @endauth
                                 @endif
 						</div>

@@ -23,7 +23,10 @@
       /* Opcional: Espaciado exterior */
     }
   </style>
-
+  @php
+    use App\Models\Comunicacion\Settings;
+    $imglogo = Settings::where('tipo', '3')->first();
+  @endphp
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
@@ -31,7 +34,7 @@
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
       <img class="animation__shake" src="{{ asset('dist/img/logo-reconoser-icono.png')}}"
-        alt="Logo Reconoser cargando..." height="59" width="85">
+        alt="Logo Reconoser cargando..." height="59" width="85"> 
     </div>
 
     <!-- Navbar -->
@@ -102,10 +105,12 @@
     <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="#" class="brand-link p-1">
-        <img src="{{ asset('dist/img/logo-reconoser-2.png')}}" alt="Reconoser Logo" class="text-center">
+       @if(!empty($imglogo->link))
+        <img src="{{ asset('dist/img/' .$imglogo->link)}}" alt="Reconoser Logo" class="text-center">
         <!--<span class="brand-text font-weight-light"><h3 style="color:white; font-weight: bold;">Reconoser</h3></span>-->
+       @endif
       </a>
-      <!-- Sidebar -->
+      <!-- Sidebar --> 
       <div
         class="sidebar os-host os-theme-light os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition os-host-overflow os-host-overflow-y">
         <!-- Sidebar user panel (optional) -->
@@ -160,7 +165,7 @@
 
     <!-- /.content-wrapper -->
     <footer class="main-footer letra1 text-left" style="background-color:#FFFFFF; color:black;">
-      <strong>Copyright &copy; 2024 <a href="https://evolucion.co/" target="_blank">Evolución</a>.</strong>
+      <strong>Copyright &copy; 2025 <a href="https://evolucion.co/" target="_blank">Evolución</a>.</strong>
       <span><b>Todos los derechos reservados</b></span>
       <div class="float-right d-none d-sm-inline-block">
         <span style="color:black;"><b>Version</b> 2.0.0</span>

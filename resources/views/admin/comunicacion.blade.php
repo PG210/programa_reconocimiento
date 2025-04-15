@@ -1,13 +1,5 @@
 @extends('usuario.principa_usul')
 @section('content')
-<style>
-  .placa {
-    background-color:#e0e0e0; /* Gris claro */
-    border: 1px solid #dee2e6; /* Borde gris claro */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
-    border-radius: 5px; /* Bordes redondeados (opcional) */
-}
-</style>
 
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -55,7 +47,7 @@
     @csrf
     <div class=" card card-body"><div class="form-row">
         <div class="col-md-12 mb-3">
-            <label for="validationCustom01">Imagen 1 (Imagen por defecto)</label>
+            <label for="validationCustom01">Imagen 1 (Dimensión 700 x 175px)</label>
             <input type="file" class="form-control" id="validationCustom01" name="imgone" accept="image/*" required>
         </div>
         <div class="col-md-11 mb-3">
@@ -83,7 +75,7 @@
   <!--- aqui imprimir la imagen 01 -->
   <div class="card card-body"><div class="row">
     <div class="col-lg-11">
-      <label for="validationCustom01">Imagen 1 (Imagen por defecto)</label><br>
+      <label for="validationCustom01">Imagen 1 (Dimensión 700 x 175px)</label><br>
       <img src="{{ asset('dist/carrucel/' . $imagen1->imagen) }}" class="img-thumbnail" alt="...">
     </div>
     <div class="col-lg-1 mt-5">
@@ -157,7 +149,7 @@
   @csrf
   <div class="card card-body"><div class="form-row">
       <div class="col-md-12 mb-3">
-        <label for="validationCustom03">Imagen 2</label>
+        <label for="validationCustom03">Imagen 2 (Dimensión 700 x 175px)</label>
         <input type="file" class="form-control" id="validationCustom03" name="imgone" accept="image/*" required @if(!empty($imagen2)) disabled @endif>
       </div>
       <div class="col-md-11 mb-3">
@@ -184,7 +176,7 @@
   @else
   <div class="card card-body"><div class="row">
     <div class="col-lg-11">
-    <label for="validationCustom01">Imagen 2</label><br>
+    <label for="validationCustom01">Imagen 2 (Dimensión 700 x 175px)</label><br>
     <img src="{{ asset('dist/carrucel/' . $imagen2->imagen) }}" class="img-thumbnail" alt="...">
     </div>
     <div class="col-lg-1 mt-5">
@@ -257,7 +249,7 @@
    @csrf
    <div class="card card-body"><div class="form-row">
         <div class="col-md-12 mb-3">
-            <label for="validationCustom05">Imagen 3</label>
+            <label for="validationCustom05">Imagen 3 (Dimensión 700 x 175px)</label>
             <input type="file" class="form-control" id="validationCustom05" accept="image/*" name="imgone" required @if(!empty($imagen3)) disabled @endif>
         </div>
         <div class="col-md-11 mb-3">
@@ -284,7 +276,7 @@
   <!--- aqui imprimir la imagen 03 -->
   <div class="card card-body"><div class="row">
     <div class="col-lg-11">
-    <label for="validationCustom01">Imagen 3</label><br>
+    <label for="validationCustom01">Imagen 3 (Dimensión 700 x 175px)</label><br>
     <img src="{{ asset('dist/carrucel/' . $imagen3->imagen) }}" class="img-thumbnail" alt="..." >
     </div>
     <div class="col-lg-1 mt-5">
@@ -357,7 +349,7 @@
    @csrf
    <div class="card card-body"><div class="form-row">
         <div class="col-md-12 mb-3">
-            <label for="validationCustom07">Imagen 4</label>
+            <label for="validationCustom07">Imagen 4 (Dimensión 700 x 175px)</label>
             <input type="file" class="form-control" id="validationCustom07" accept="image/*" name="imgone" required @if(!empty($imagen4)) disabled @endif>
         </div>
         <div class="col-md-11 mb-3">
@@ -383,7 +375,7 @@
   @else
   <div class="card card-body"><div class="row">
     <div class="col-lg-11">
-      <label for="validationCustom01">Imagen 4</label><br>
+      <label for="validationCustom01">Imagen 4 (Dimensión 700 x 175px)</label><br>
       <img src="{{ asset('dist/carrucel/' . $imagen4->imagen) }}" class="img-thumbnail" alt="...">
     </div>
     <div class="col-lg-1 mt-5">

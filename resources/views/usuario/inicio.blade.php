@@ -46,23 +46,25 @@
                         <p class="text-muted text-center">Cargo: {{ Auth::user()->cargo->nombre }} </p>
                         <ul class="list-group list-group-unbordered mb-3">
                             <li class="list-group-item">
-                                <b><i class="fas fa-paper-plane"></i> Enviados</b> <a class="float-right">{{$totenviados}}</a>
+                               <a href="/reconocimientos/enviados"> <b><i class="fas fa-paper-plane"></i> Enviados</b> <span class="float-right colorblue">{{$totenviados}}</span></a>
                             </li>
                             <li class="list-group-item">
-                                <b><i class="fas fa-award"></i> Recibidos</b> <a class="float-right">{{$totreconocimiento}}</a>
+                              <a href="/reporte/insignias"> <b><i class="fas fa-award"></i> Recibidos</b> <span class="float-right colorblue">{{$totreconocimiento}}</span> </a>
                             </li>
                             <li class="list-group-item">
-                                <b><i class="fas fa-trophy"></i> Recompensas</b> <a class="float-right">{{$totrecom}}</a>
+                              <a href="/reporte/insignias"> <b><i class="fas fa-trophy"></i> Recompensas</b> <span class="float-right colorblue">{{$totrecom}}</span></a>
                             </li>
                             <li class="list-group-item">
+                            <a href="/metricas/ranking/user">
                                 <b><i class="fas fa-star"></i> Puntos obtenidos</b> 
-                                <a class="float-right">
+                                <span class="float-right colorblue">
                                     @if(!empty($valorpun[0]->p))
                                       {{$valorpun[0]->p}}
                                     @else 
                                       <span>0</span> 
                                     @endif
-                                </a>
+                                </span>
+                            </a>
                             </li>
                         </ul>
                     </div>
@@ -85,13 +87,27 @@
                 <!-- Box -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title"><i class="far fa-file-alt mr-1"></i> Actualizaciones</h3>
+                        <h3 class="card-title"><i class="far fa-file-alt mr-1"></i> Pildoras de reconocimiento</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <p class="text-muted">Disfruta del nuevo diseño. ¿Te gusta?</p>
-                        <hr>
-                        <p class="text-muted">Nueva función: filtros para reportes por fecha.</p>
+                        @if(isset($pildoras))
+                            @foreach($pildoras as $pildora)
+                             <p class="text-muted">{{ $pildora->asunto }} 
+                                <a class="" data-toggle="collapse" href="#info{{ $pildora->id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    Ver mas ...
+                                </a>
+                                <div class="collapse" id="info{{ $pildora->id }}">
+                                <div class="card card-body">
+                                    {!! $pildora->descrip  !!}
+                                    <a href="{{ $pildora->link }}" target="_blank">Ver información adicional <i class="fas fa-hand-pointer"></i></a>
+                                </div>
+                                </div>
+                                
+                             </p>
+                            <hr>
+                            @endforeach
+                        @endif
                     </div>
                     <!-- /.card-body -->
                 </div>

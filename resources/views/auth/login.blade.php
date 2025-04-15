@@ -1,6 +1,9 @@
 @extends('principal')
 @section('content')
-
+@php
+  use App\Models\Comunicacion\Settings;
+  $imglogo = Settings::where('tipo', '2')->first();
+@endphp
 
 <div class="container-fluid vh-100">
     <div class="row h-100">
@@ -13,7 +16,9 @@
 <div class="col-md-5 d-none d-md-block p-0 fondologin" >
           <div class="frase-login">
             <a href="#" aria-label="Product">
-            <img src="{{asset('dist/img/logo-reconoser-2.png')}}" class="img-fluid imagenlogo" alt="Reconoser Logo">
+            @if(!empty($imglogo->link))
+            <img src="{{asset('dist/img/' .$imglogo->link)}}" class="img-fluid imagenlogo" alt="Reconoser Logo">
+            @endif
           </a>
           <blockquote class="blockquote">
             <p class="mb-0">Ninguno de nosotros es tan bueno como todos nosotros juntos.</p>
